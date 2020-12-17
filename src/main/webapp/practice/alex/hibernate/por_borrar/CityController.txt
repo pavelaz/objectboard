@@ -1,0 +1,19 @@
+package com.psg.objectboard.controller;
+
+import com.psg.objectboard.model.service.CityService;
+
+import java.util.Scanner;
+
+public class CityController {
+    private CityService cityService;
+
+    public CityController(){this.cityService = new CityService();}
+
+    public void sampleDetailCity(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Quel est l'identifiant de la langue dont vous voulez afficher les informations ?");
+        long identifier=scanner.nextLong();
+        CityDto cityDto= cityService.getCity(identifier);
+        System.out.println("La langue sélectionné s'applle "+ cityDto.getCiName());
+    }
+}

@@ -1,0 +1,15 @@
+package com.psg.objectboard.model.repository;
+
+import com.psg.objectboard.model.EntityManagerHolder;
+
+import javax.persistence.EntityManager;
+
+public class UserRoleRepositoryImpl {
+
+    public UserRoleEntity getById(Long id){
+        EntityManager entityManager =new EntityManagerHolder().getCurrentEntityManager();
+        UserRoleEntity userRoleEntity= entityManager.find(UserRoleEntity.class, id);
+        System.out.println("UserRoleEntityImpl Read");
+        return userRoleEntity;
+    }
+}

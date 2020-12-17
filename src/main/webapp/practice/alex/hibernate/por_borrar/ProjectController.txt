@@ -1,0 +1,19 @@
+package com.psg.objectboard.controller;
+
+import com.psg.objectboard.model.service.ProjectService;
+
+import java.util.Scanner;
+
+public class ProjectController {
+    private ProjectService projectService;
+
+    public ProjectController(){this.projectService = new ProjectService();}
+
+    public void sampleDetailProject(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Quel est l'identifiant de la langue dont vous voulez afficher les informations ?");
+        long identifier=scanner.nextLong();
+        ProjectDto projectDto= projectService.getProject(identifier);
+        System.out.println("La langue sélectionné s'applle "+ projectDto.getPrName());
+    }
+}

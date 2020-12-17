@@ -1,0 +1,47 @@
+package com.psg.objectboard.model.service;
+import com.psg.objectboard.model.EntityManagerHolder;
+import com.psg.objectboard.model.repository.ProjectRepositoryImpl;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+public class ProjectService {
+    private ProjectRepositoryImpl projectRepository;
+
+    public ProjectService() {
+        this.projectRepository = new ProjectRepositoryImpl();
+    }
+
+    public ProjectService(ProjectRepositoryImpl projectRepository) {
+        this.projectRepository = projectRepository;
+    }
+
+    public ProjectDto getProject(Long id){
+        EntityManager entityManager=null;
+        EntityTransaction transaction = null;
+        ProjectEntity projectEntity= null;
+        ProjectDto projectDto = null;
+        try{
+            entityManager = new EntityManagerHolder().getCurrentEntityManager();
+            transaction=entityManager.getTransaction();
+            transaction.begin();
+            projectEntity = projectRepository.getById(id);
+            projectDto = new ProjectDto();
+            projectDto.setPrIdProject(projectEntity.getPrIdProject());
+            projectDto.setPrName(projectEntity.getPrName());
+            projectDto.setPrNote(projectEntity.getPrNote());
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null)
+                transaction.rollback();
+            e.printStackTrace();
+            System.err.println("Project no funciona");
+        }
+        finally {
+            if (entityManager!=null)
+                entityManager.close();
+        }
+        return projectDto;
+    }
+}

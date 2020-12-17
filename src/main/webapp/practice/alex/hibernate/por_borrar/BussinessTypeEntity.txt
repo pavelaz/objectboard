@@ -1,0 +1,68 @@
+package com.psg.objectboard.model.entity;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Objects;
+
+@Entity
+@Table(name = "bussinessType", schema = "objectboard_db", catalog = "")
+public class BussinessTypeEntity {
+    private long btCodeType;
+    private String btDescription;
+    private String btNote;
+    private Collection<BussinessUnitEntity> bussinessUnitsByBtCodeType;
+
+    @Id
+    @Column(name = "bt_code_type")
+    public long getBtCodeType() {
+        return btCodeType;
+    }
+
+    public void setBtCodeType(long btCodeType) {
+        this.btCodeType = btCodeType;
+    }
+
+    @Basic
+    @Column(name = "bt_description")
+    public String getBtDescription() {
+        return btDescription;
+    }
+
+    public void setBtDescription(String btDescription) {
+        this.btDescription = btDescription;
+    }
+
+    @Basic
+    @Column(name = "bt_note")
+    public String getBtNote() {
+        return btNote;
+    }
+
+    public void setBtNote(String btNote) {
+        this.btNote = btNote;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BussinessTypeEntity that = (BussinessTypeEntity) o;
+        return btCodeType == that.btCodeType &&
+                Objects.equals(btDescription, that.btDescription) &&
+                Objects.equals(btNote, that.btNote);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(btCodeType, btDescription, btNote);
+    }
+
+    @OneToMany(mappedBy = "bussinessTypeByBussinessTypeBtCodeType")
+    public Collection<BussinessUnitEntity> getBussinessUnitsByBtCodeType() {
+        return bussinessUnitsByBtCodeType;
+    }
+
+    public void setBussinessUnitsByBtCodeType(Collection<BussinessUnitEntity> bussinessUnitsByBtCodeType) {
+        this.bussinessUnitsByBtCodeType = bussinessUnitsByBtCodeType;
+    }
+}

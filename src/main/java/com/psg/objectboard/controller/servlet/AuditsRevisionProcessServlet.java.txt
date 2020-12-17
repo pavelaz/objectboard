@@ -1,0 +1,172 @@
+package com.psg.objectboard.controller.servlet;
+
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BodyConductSurveyDAO;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.HeaderConductSurveyDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.HeaderConductSurveyVO;
+import com.psg.objectboard.model.service.Other.OtherConexion;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+@WebServlet(name = "AuditsRevisionProcessServlet", urlPatterns = "/auditsrevisionprocess")
+public class AuditsRevisionProcessServlet extends HttpServlet {
+    protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession objSesion = request.getSession();
+        String data_user = (String)objSesion.getAttribute("dataUser");
+        String data_pasword = (String)objSesion.getAttribute("dataPassword");
+        String company_number = (String)objSesion.getAttribute("companyNumber");
+        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+
+        String pantalla = " ";
+        if(request.getParameter("p_pantalla")!=null){
+            pantalla = request.getParameter("p_pantalla");
+        }
+        String poll_code = null;
+        if(request.getParameter("p_survey")!=null){
+            poll_code = request.getParameter("p_survey");
+        }
+        String email_assign = null;
+        if(request.getParameter("p_assign")!=null){
+            email_assign = request.getParameter("p_assign");
+        }
+
+        int questions_no = 0;
+        String none = null;
+        if(request.getParameter("p_questions")!=null){
+            none = request.getParameter("p_questions");
+            questions_no = Integer.parseInt(none);
+        }
+        Long conduct_id = null;
+        if(request.getParameter("p_conduct_id")!=null){
+            none = request.getParameter("p_conduct_id");
+            conduct_id = Long.parseLong(none);
+        }
+        Integer conform = null;
+        if(request.getParameter("p_conform")!=null){
+            none = request.getParameter("p_conform");
+            conform = Integer.parseInt(none);
+        }
+        Integer no_conform = null;
+        if(request.getParameter("p_no_conform")!=null){
+            none = request.getParameter("p_no_conform");
+            no_conform = Integer.parseInt(none);
+        }
+
+        Double ptos_acu = null;
+
+        ArrayList<Long> qs_code = new ArrayList<Long>();
+        ArrayList<String> qs_status = new ArrayList<String>();
+        ArrayList<String> qs_coment = new ArrayList<String>();
+
+        for(int f=1 ; f < (questions_no + 1);f++){
+                none = request.getParameter("p_status_"+f);
+                if (qs_status.isEmpty()){
+                    qs_status.add(0,none);
+                }else{
+                    qs_status.add(none);
+                }
+                if (none.equals("T")){
+                    none = request.getParameter("p_ptos_"+f);
+                    if (ptos_acu !=null){
+                        ptos_acu = ptos_acu + Double.parseDouble(none);
+                    }else{
+                        ptos_acu = Double.parseDouble(none);
+                    }
+                }
+                //
+                none = request.getParameter("p_question_n"+f);
+                if (qs_code.isEmpty()){
+                    qs_code.add(0,Long.parseLong(none));
+                }else{
+                    qs_code.add(Long.parseLong(none));
+                }
+                none = request.getParameter("p_comen_"+f);
+                if (qs_code.isEmpty()){
+                    qs_coment.add(0,none);
+                }else{
+                    qs_coment.add(none);
+                }
+        }
+
+        // Realizo las acciones solicitadas sobe la base de datos
+        HeaderConductSurveyVO cvo = new HeaderConductSurveyVO();
+        HeaderConductSurveyDAO cdo = new HeaderConductSurveyDAO();
+        OtherConexion ocn = new OtherConexion();
+        Connection con = null;
+        con=ocn.conectarse(data_user,data_pasword);
+
+        try{
+            // iniciar transacion
+            ocn.init_trans(con);
+            // crear header
+            cvo.setConduct_id(conduct_id);
+            cvo.setHeadersSurvey_survey_code(Long.parseLong(poll_code));
+            cvo.setHeadersSurvey_bussinessUnit_bu_bis_code(Long.parseLong(company_number));
+            cvo.setMasterUser_mu_email(email_assign);
+            cvo.setMasterUser_bussinessUnit_bu_bis_code(Long.parseLong(company_number));
+            cvo.setTo_audited("F");
+            cvo.setConformities(conform);
+            cvo.setNon_conformities(no_conform);
+            cvo.setTotalPointsAchieved(ptos_acu);
+
+            cdo.updateManualEvaluadionHeaderConductSurveyDAO(cvo,con);
+            BodyConductSurveyVO bvo = new BodyConductSurveyVO();
+            BodyConductSurveyDAO bdo = null;
+
+            if (cvo.getResult()){
+                bvo.setResult(true);
+                for (int x = 0; x< qs_code.size(); x++){
+                    if (bvo.getResult()) {
+                        bvo.setHeaderConductSurveyConductId(conduct_id);
+                        bvo.setBsaBodySurveyQuestionsQuestionCode(qs_code.get(x));
+                        bvo.setBsaBodySurveyQuestionsHeadersSurveySurveyCode(Long.parseLong(poll_code));
+                        bvo.setBsaBodySurveyQuestionsHeadersSurveyBussinessUnitBuBisCode(Long.parseLong(company_number));
+                        bvo.setStatusAudit("T"); //*
+                        bvo.setResultAudit(qs_status.get(x)); //*
+                        bvo.setAuditNote(qs_coment.get(x));
+
+                        bdo.updateManualEvaluationBodyConductSurvey(bvo, con);
+                    }
+                }
+                cvo.setResult(bvo.getResult());
+            }
+
+            // valida status de la transacion
+            ocn.valida_trans(con,cvo.getResult());
+            //
+            ocn.cierra_coneccion(con);
+        }catch (Exception es){
+            System.out.println(es.getMessage());
+        }
+
+        request.setAttribute("rq_result", cvo.getResult());
+        request.setAttribute("rq_pantalla", pantalla);
+        request.setAttribute("rq_companyLogoName", company_logo_name);
+        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+
+        request.getRequestDispatcher("/WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

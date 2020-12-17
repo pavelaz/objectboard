@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie-edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../bootstrap_4.4/css/bootstrap.min.css">
+
+    <title>Hello, world!</title>
+</head>
+<body>
+<div class="container-fluid" >
+    <div class="row">
+        <div class="col-2">
+            <p>&nbsp;</p>
+        </div>
+        <div class="col-8">
+            <p>&nbsp;</p>
+        </div>
+        <div class="col-2">
+            <p>&nbsp;</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+           <!-- <img src="../img/logo-green-small-1x1.png" alt=""> -->
+            <div class="footer__logo-box">
+
+                <picture class="footer__logo">
+                    <source srcset="../img/logo-green-small-1x1.png 1x, ../img/logo-green-small-2x1.png 2x" media="(max-width: 37.5em)">
+                    <img srcset="../img/logo-green-1x1.png 1x, ../img/logo-green-2x1.png 2x" alt="Full logo" src="../img/logo-green-2x1.png">
+                </picture>
+
+            </div>
+        </div>
+         <div class="col-8">
+            <form class="form-signin" role="form" id="paneles" name="paneles" method="post" action="../../php/comunes/entrada_gral.php" >
+                <p>&nbsp;</p>
+                <table border="0" align="center">
+                    <tbody>
+                    <tr>
+                        <td width="30%">&nbsp;</td>
+                        <td width="40%" colspan="2">
+                            <strong>Sing In</strong>
+                            <p>&nbsp;</p>
+                        </td>
+                        <td width="30%">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2">
+                            <input type="text" class="form-control" placeholder="User Name" name="p_usuario" required autofocus></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2">
+                            <input type="password" class="form-control" placeholder="Password"  name="p_clave" required>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <p>&nbsp;</p>
+                            <a href="#" onClick="valido()">I forgot the password</a>
+                            <p>&nbsp;</p>
+                        </td>
+                        <td align="right">
+                            <a href="#" onClick="registro()">Register</a>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2">
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Get in</button>
+                        </td>
+                        <td><input type="hidden" name="p_idioma" value="I"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p>&nbsp;</p>
+            </form>
+         </div>
+        <div class="col-2">
+            <p>&nbsp;</p>
+        </div>
+    </div>
+</div>
+<script src="../jsp/footer_building.jsp"></script>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../bootstrap_4.4/js/jquery-3.4.1.slim.min.js"></script>
+<script src="../bootstrap_4.4/js/popper.min.js"></script>
+<script src="../bootstrap_4.4/js/bootstrap.min.js"></script>
+</html>

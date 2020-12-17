@@ -1,0 +1,46 @@
+package com.psg.objectboard.model.service;
+import com.psg.objectboard.model.EntityManagerHolder;
+import com.psg.objectboard.model.repository.CountryRepositoryImpl;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+public class CountryService {
+    private CountryRepositoryImpl countryRepository;
+
+    public CountryService() {
+        this.countryRepository = new CountryRepositoryImpl();
+    }
+
+    public CountryService(CountryRepositoryImpl countryRepository) {
+        this.countryRepository = countryRepository;
+    }
+
+    public CountryDto getCountry(Long id){
+        EntityManager entityManager=null;
+        EntityTransaction transaction = null;
+        CountryEntity countryEntity= null;
+        CountryDto countryDto = null;
+        try{
+            entityManager = new EntityManagerHolder().getCurrentEntityManager();
+            transaction=entityManager.getTransaction();
+            transaction.begin();
+            countryEntity = countryRepository.getById(id);
+            countryDto = new CountryDto();
+            countryDto.setCoCountryCode(countryEntity.getCoCountryCode());
+            countryDto.setCoName(countryEntity.getCoName());
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null)
+                transaction.rollback();
+            e.printStackTrace();
+            System.err.println("Country no funciona");
+        }
+        finally {
+            if (entityManager!=null)
+                entityManager.close();
+        }
+        return countryDto;
+    }
+}

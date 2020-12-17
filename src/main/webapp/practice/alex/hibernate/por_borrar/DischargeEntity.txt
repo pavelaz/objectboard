@@ -1,0 +1,152 @@
+package com.psg.objectboard.model.entity;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.Objects;
+
+@Entity
+@Table(name = "discharge", schema = "objectboard_db", catalog = "")
+public class DischargeEntity {
+    private long diLicenseNum;
+    private Date diStartDate;
+    private Date diEndDate;
+    private Integer diNumberUser;
+    private String diPermanent;
+    private Integer diSalesCode;
+    private String diLicenseCode;
+    private long bussinessUnitBuBisCode;
+    private long projectPrIdProject;
+    private BussinessUnitEntity bussinessUnitByBussinessUnitBuBisCode;
+    private ProjectEntity projectByProjectPrIdProject;
+
+    @Id
+    @Column(name = "di_license_num")
+    public long getDiLicenseNum() {
+        return diLicenseNum;
+    }
+
+    public void setDiLicenseNum(long diLicenseNum) {
+        this.diLicenseNum = diLicenseNum;
+    }
+
+    @Basic
+    @Column(name = "di_start_date")
+    public Date getDiStartDate() {
+        return diStartDate;
+    }
+
+    public void setDiStartDate(Date diStartDate) {
+        this.diStartDate = diStartDate;
+    }
+
+    @Basic
+    @Column(name = "di_end_date")
+    public Date getDiEndDate() {
+        return diEndDate;
+    }
+
+    public void setDiEndDate(Date diEndDate) {
+        this.diEndDate = diEndDate;
+    }
+
+    @Basic
+    @Column(name = "di_number_user")
+    public Integer getDiNumberUser() {
+        return diNumberUser;
+    }
+
+    public void setDiNumberUser(Integer diNumberUser) {
+        this.diNumberUser = diNumberUser;
+    }
+
+    @Basic
+    @Column(name = "di_permanent")
+    public String getDiPermanent() {
+        return diPermanent;
+    }
+
+    public void setDiPermanent(String diPermanent) {
+        this.diPermanent = diPermanent;
+    }
+
+    @Basic
+    @Column(name = "di_sales_code")
+    public Integer getDiSalesCode() {
+        return diSalesCode;
+    }
+
+    public void setDiSalesCode(Integer diSalesCode) {
+        this.diSalesCode = diSalesCode;
+    }
+
+    @Basic
+    @Column(name = "di_license_code")
+    public String getDiLicenseCode() {
+        return diLicenseCode;
+    }
+
+    public void setDiLicenseCode(String diLicenseCode) {
+        this.diLicenseCode = diLicenseCode;
+    }
+
+    @Basic
+    @Column(name = "bussinessUnit_bu_bis_code")
+    public long getBussinessUnitBuBisCode() {
+        return bussinessUnitBuBisCode;
+    }
+
+    public void setBussinessUnitBuBisCode(long bussinessUnitBuBisCode) {
+        this.bussinessUnitBuBisCode = bussinessUnitBuBisCode;
+    }
+
+    @Basic
+    @Column(name = "project_pr_id_project")
+    public long getProjectPrIdProject() {
+        return projectPrIdProject;
+    }
+
+    public void setProjectPrIdProject(long projectPrIdProject) {
+        this.projectPrIdProject = projectPrIdProject;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DischargeEntity that = (DischargeEntity) o;
+        return diLicenseNum == that.diLicenseNum &&
+                bussinessUnitBuBisCode == that.bussinessUnitBuBisCode &&
+                projectPrIdProject == that.projectPrIdProject &&
+                Objects.equals(diStartDate, that.diStartDate) &&
+                Objects.equals(diEndDate, that.diEndDate) &&
+                Objects.equals(diNumberUser, that.diNumberUser) &&
+                Objects.equals(diPermanent, that.diPermanent) &&
+                Objects.equals(diSalesCode, that.diSalesCode) &&
+                Objects.equals(diLicenseCode, that.diLicenseCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(diLicenseNum, diStartDate, diEndDate, diNumberUser, diPermanent, diSalesCode, diLicenseCode, bussinessUnitBuBisCode, projectPrIdProject);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "bussinessUnit_bu_bis_code", referencedColumnName = "bu_bis_code", nullable = false)
+    public BussinessUnitEntity getBussinessUnitByBussinessUnitBuBisCode() {
+        return bussinessUnitByBussinessUnitBuBisCode;
+    }
+
+    public void setBussinessUnitByBussinessUnitBuBisCode(BussinessUnitEntity bussinessUnitByBussinessUnitBuBisCode) {
+        this.bussinessUnitByBussinessUnitBuBisCode = bussinessUnitByBussinessUnitBuBisCode;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "project_pr_id_project", referencedColumnName = "pr_id_project", nullable = false)
+    public ProjectEntity getProjectByProjectPrIdProject() {
+        return projectByProjectPrIdProject;
+    }
+
+    public void setProjectByProjectPrIdProject(ProjectEntity projectByProjectPrIdProject) {
+        this.projectByProjectPrIdProject = projectByProjectPrIdProject;
+    }
+}

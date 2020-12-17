@@ -1,0 +1,19 @@
+package com.psg.objectboard.controller;
+
+import com.psg.objectboard.model.service.DischargeService;
+
+import java.util.Scanner;
+
+public class DischargeController {
+    private DischargeService dischargeService;
+
+    public DischargeController(){this.dischargeService = new DischargeService();}
+
+    public void sampleDetailDischarge(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Quel est l'identifiant de la langue dont vous voulez afficher les informations ?");
+        long identifier=scanner.nextLong();
+        DischargeDto dischargeDto= dischargeService.getDischarge(identifier);
+        System.out.println("La langue sélectionné s'applle "+ dischargeDto.getDiLicenseNum());
+    }
+}

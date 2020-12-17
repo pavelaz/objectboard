@@ -1,0 +1,324 @@
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`city_ai` AFTER INSERT ON `city` FOR EACH ROW 
+INSERT INTO Log_city (ci_city_code,states_st_state_code,states_country_co_country_code,ci_name,action_type,action_who, action_time)
+VALUE (NEW.ci_city_code,new.states_st_state_code,new.states_country_co_country_code,new.ci_name,"INSERT",current_user(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`city_bu` BEFORE UPDATE ON `city` FOR EACH ROW
+INSERT INTO Log_city 
+(ci_city_code,states_st_state_code,
+states_country_co_country_code,ci_name,
+ci_name_ant,action_type,
+action_who, action_time)
+VALUES (old.ci_city_code,old.states_st_state_code,
+old.states_country_co_country_code,new.ci_name,
+old.ci_name,"UPDATE",
+CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`city_bd` BEFORE DELETE ON `city` FOR EACH ROW
+INSERT INTO Log_city (ci_city_code,states_st_state_code,
+states_country_co_country_code,ci_name_ant,
+action_type,action_who, 
+action_time)
+VALUES (old.ci_city_code,old.states_st_state_code,
+old.states_country_co_country_code,OLD.ci_name,
+"DELETE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`country_ai` AFTER INSERT ON `country` FOR EACH ROW 
+INSERT INTO Log_country (co_country_code,co_name,action_type,action_who, action_time)
+VALUE (NEW.co_country_code,new.co_name,"INSERT",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`country_bu` BEFORE UPDATE ON `country` FOR EACH ROW
+INSERT INTO Log_country (co_country_code,co_name,co_name_old,action_type,action_who, action_time)
+VALUES (old.co_country_code,new.co_name,OLD.co_name,"UPDATE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`country_bd` BEFORE DELETE ON `country` FOR EACH ROW
+INSERT INTO Log_country (co_country_code,co_name_old,action_type,action_who, action_time)
+VALUES (old.co_country_code,OLD.co_name,"DELETE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`states_ai` AFTER INSERT ON `states` FOR EACH ROW 
+INSERT INTO Log_state (st_state_code,country_co_country_code,st_name,
+action_type,action_who, action_time)
+VALUE (new.st_state_code,NEW.country_co_country_code,
+new.st_name,"INSERT",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`states_bu` BEFORE UPDATE ON `states` FOR EACH ROW
+INSERT INTO Log_state 
+(st_state_code,country_co_country_code,
+st_name,st_name_ant,action_type,
+action_who, action_time)
+VALUES (old.st_state_code,old.country_co_country_code,
+new.st_name,old.st_name,"UPDATE",
+CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`states_bd` BEFORE DELETE ON `states` FOR EACH ROW
+INSERT INTO Log_state (st_state_code,country_co_country_code,st_name_ant,action_type,action_who, action_time)
+VALUES (old.st_state_code,old.country_co_country_code,OLD.st_name,"DELETE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`project_ai` AFTER INSERT ON `project` FOR EACH ROW 
+INSERT INTO Log_project (pr_id_project,pr_name,pr_note,
+action_type,action_who, action_time)
+VALUE (new.pr_id_project,NEW.pr_name,
+new.pr_note,"INSERT",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`project_bu` BEFORE UPDATE ON `project` FOR EACH ROW
+INSERT INTO Log_project (pr_id_project,pr_name,pr_name_old,pr_note,pr_note_old,
+action_type,action_who, action_time)
+VALUES (old.pr_id_project,new.pr_name,OLD.pr_name,new.pr_note,old.pr_note,"UPDATE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`project_bd` BEFORE DELETE ON `project` FOR EACH ROW
+INSERT INTO Log_project (pr_id_project,pr_name_old,pr_note_old,action_type,action_who, action_time)
+VALUES (old.pr_id_project,OLD.pr_name,old.pr_note,"DELETE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`bussinessType_ai` AFTER INSERT ON `bussinessType` FOR EACH ROW 
+INSERT INTO Log_bussinessType (bt_code_type,bt_description,bt_note,
+action_type,action_who, action_time)
+VALUE (new.bt_code_type,NEW.bt_description,
+new.bt_note,"INSERT",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`bussinessType_bu` BEFORE UPDATE ON `bussinessType` FOR EACH ROW
+INSERT INTO Log_bussinessType (bt_code_type,bt_description,bt_description_old,
+bt_note,bt_note_old,
+action_type,action_who, action_time)
+VALUES (old.bt_code_type,new.bt_description,OLD.bt_description,new.bt_note,old.bt_note,"UPDATE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`bussinessType_bd` BEFORE DELETE ON `bussinessType` FOR EACH ROW
+INSERT INTO Log_bussinessType (bt_code_type,bt_description_old,bt_note_old,action_type,action_who, action_time)
+VALUES (old.bt_code_type,OLD.bt_description,old.bt_note,"DELETE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`masterUser_ai` AFTER INSERT ON `masterUser` FOR EACH ROW 
+INSERT INTO Log_masterUser (mu_email,bussinessUnit_bu_bis_code,mu_password,
+mu_password_old,mu_name,mu_section_time,
+mu_question,mu_start_date,mu_answer,
+mu_status,mu_date,mu_effective_days,
+mu_confirm_code,mu_email_confirm,mu_date_reset_pwd,
+mu_gender,mu_photo,mu_data_user,
+mu_data_password,mu_expires,mu_date_expires,
+city_ci_city_code,city_states_st_state_code,city_states_country_co_country_code,
+action_type,action_who, action_time)
+VALUE (new.mu_email,new.bussinessUnit_bu_bis_code,new.mu_password,
+new.mu_password_old,new.mu_name,new.mu_section_time,
+new.mu_question,new.mu_start_date,new.mu_answer,
+new.mu_status,new.mu_date,new.mu_effective_days,
+new.mu_confirm_code,new.mu_email_confirm,new.mu_date_reset_pwd,
+new.mu_gender,new.mu_photo,new.mu_data_user,
+new.mu_data_password,new.mu_expires,new.mu_date_expires,
+new.city_ci_city_code,new.city_states_st_state_code,new.city_states_country_co_country_code,
+"INSERT",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`masterUser_bd` BEFORE DELETE ON `masterUser` FOR EACH ROW
+INSERT INTO Log_masterUser (mu_email,bussinessUnit_bu_bis_code,mu_password_ant,
+mu_password_old_ant,mu_name_ant,mu_section_time_ant,
+mu_question_ant,mu_start_date_ant,mu_answer_ant,
+mu_status_ant,mu_date_ant,mu_effective_days_ant,
+mu_confirm_code_ant,mu_email_confirm_ant,mu_date_reset_pwd_ant,
+mu_gender_ant,mu_photo_ant,mu_data_user_ant,
+mu_data_password_ant,mu_expires_ant,mu_date_expires_ant,
+city_ci_city_code_ant,city_states_st_state_code_ant,city_states_country_co_country_code_ant,
+action_type,action_who, action_time)
+VALUES (old.mu_email,old.bussinessUnit_bu_bis_code,old.mu_password,
+old.mu_password_old,old.mu_name,old.mu_section_time,
+old.mu_question,old.mu_start_date,old.mu_answer,
+old.mu_status,old.mu_date,old.mu_effective_days,
+old.mu_confirm_code,old.mu_email_confirm,old.mu_date_reset_pwd,
+old.mu_gender,old.mu_photo,old.mu_data_user,
+old.mu_data_password,old.mu_expires,old.mu_date_expires,
+old.city_ci_city_code,old.city_states_st_state_code,old.city_states_country_co_country_code,
+"DELETE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`masterUser_bu` BEFORE UPDATE ON `masterUser` FOR EACH ROW
+INSERT INTO Log_masterUser (mu_email,bussinessUnit_bu_bis_code,mu_password_ant,
+mu_password_old_ant,mu_name_ant,mu_section_time_ant,
+mu_question_ant,mu_start_date_ant,mu_answer_ant,
+mu_status_ant,mu_date_ant,mu_effective_days_ant,
+mu_confirm_code_ant,mu_email_confirm_ant,mu_date_reset_pwd_ant,
+mu_gender_ant,mu_photo_ant,mu_data_user_ant,
+mu_data_password_ant,mu_expires_ant,mu_date_expires_ant,
+city_ci_city_code_ant,city_states_st_state_code_ant,city_states_country_co_country_code_ant,
+
+mu_password,
+mu_password_old,mu_name,mu_section_time,
+mu_question,mu_start_date,mu_answer,
+mu_status,mu_date,mu_effective_days,
+mu_confirm_code,mu_email_confirm,mu_date_reset_pwd,
+mu_gender,mu_photo,mu_data_user,
+mu_data_password,mu_expires,mu_date_expires,
+city_ci_city_code,city_states_st_state_code,city_states_country_co_country_code,
+action_type,action_who, action_time)
+VALUES (old.mu_email,old.bussinessUnit_bu_bis_code,old.mu_password,
+old.mu_password_old,old.mu_name,old.mu_section_time,
+old.mu_question,old.mu_start_date,old.mu_answer,
+old.mu_status,old.mu_date,old.mu_effective_days,
+old.mu_confirm_code,old.mu_email_confirm,old.mu_date_reset_pwd,
+old.mu_gender,old.mu_photo,old.mu_data_user,
+old.mu_data_password,old.mu_expires,old.mu_date_expires,
+old.city_ci_city_code,old.city_states_st_state_code,old.city_states_country_co_country_code,
+
+new.mu_password,
+new.mu_password_old,new.mu_name,new.mu_section_time,
+new.mu_question,new.mu_start_date,new.mu_answer,
+new.mu_status,new.mu_date,new.mu_effective_days,
+new.mu_confirm_code,new.mu_email_confirm,new.mu_date_reset_pwd,
+new.mu_gender,new.mu_photo,new.mu_data_user,
+new.mu_data_password,new.mu_expires,new.mu_date_expires,
+new.city_ci_city_code,new.city_states_st_state_code,new.city_states_country_co_country_code,
+"UPDATE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`bussinessUnit_ai` AFTER INSERT ON `bussinessUnit` FOR EACH ROW 
+INSERT INTO Log_bussinessUnit (bu_bis_code,bu_federal_number,
+bu_provincial_number,bu_email,
+bu_status,bu_super_code,
+bu_phone,bu_zipcode,bu_name,
+bu_address,bu_webpage,city_ci_city_code,
+city_states_st_state_code,city_states_country_co_country_code,
+bussinessType_bt_code_type,
+bu_admin_code,bu_user1_code,bu_user2_code,
+action_type,action_who, action_time)
+VALUE (new.bu_bis_code,new.bu_federal_number,
+new.bu_provincial_number,new.bu_email,
+new.bu_status,new.bu_super_code,
+new.bu_phone,new.bu_zipcode,new.bu_name,
+new.bu_address,new.bu_webpage,new.city_ci_city_code,
+new.city_states_st_state_code,new.city_states_country_co_country_code,
+new.bussinessType_bt_code_type,
+new.bu_admin_code,new.bu_user1_code,new.bu_user2_code,
+"INSERT",current_user(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`bussinessUnit_bu` BEFORE UPDATE ON `bussinessUnit` FOR EACH ROW
+INSERT INTO Log_bussinessUnit 
+(bu_bis_code,bu_federal_number,bu_federal_number_old,
+bu_provincial_number,bu_provincial_number_old,
+bu_email,bu_email_old,bu_status,bu_status_old,
+bu_super_code,bu_super_code_old,
+bu_phone, bu_phone_old,bu_zipcode,bu_zipcode_old,
+bu_name,bu_name_old,bu_address,bu_address_old,
+bu_webpage,bu_webpage_old,
+city_ci_city_code,city_ci_city_code_old,
+city_states_st_state_code,city_states_st_state_code_old,
+city_states_country_co_country_code,city_states_country_co_country_code_old,
+bussinessType_bt_code_type,bussinessType_bt_code_type_old,
+bu_admin_code,bu_user1_code,bu_user2_code,
+bu_admin_code_old,bu_user1_code_old,bu_user2_code_old,
+action_type,action_who, action_time)
+VALUES (old.bu_bis_code,new.bu_federal_number,old.bu_federal_number,
+new.bu_provincial_number,old.bu_provincial_number,
+new.bu_email,old.bu_email,new.bu_status,old.bu_status,
+new.bu_super_code,old.bu_super_code,
+new.bu_phone,old.bu_phone,new.bu_zipcode,old.bu_zipcode,
+new.bu_name,old.bu_name,new.bu_address,old.bu_address,
+new.bu_webpage,old.bu_webpage,
+new.city_ci_city_code,old.city_ci_city_code,
+new.city_states_st_state_code,old.city_states_st_state_code,
+new.city_states_country_co_country_code,old.city_states_country_co_country_code,
+new.bussinessType_bt_code_type,old.bussinessType_bt_code_type,
+new.bu_admin_code,new.bu_user1_code,new.bu_user2_code,
+old.bu_admin_code,old.bu_user1_code,old.bu_user2_code,
+"UPDATE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`bussinessUnit_bd` BEFORE DELETE ON `bussinessUnit` FOR EACH ROW
+INSERT INTO Log_bussinessUnit (bu_bis_code,
+bu_federal_number_old,bu_provincial_number_old,
+bu_email_old,bu_status_old,
+bu_super_code_old,bu_phone_old,
+bu_zipcode_old,bu_name_old,
+bu_address_old,bu_webpage_old,
+city_ci_city_code_old,city_states_st_state_code_old,
+city_states_country_co_country_code_old,
+bussinessType_bt_code_type_old,
+bu_admin_code_old,bu_user1_code_old,bu_user2_code_old,
+action_type,action_who, 
+action_time)
+VALUES (old.bu_bis_code,
+old.bu_federal_number,old.bu_provincial_number,
+old.bu_email,old.bu_status,
+old.bu_super_code,old.bu_phone,
+old.bu_zipcode,old.bu_name,
+old.bu_address,old.bu_webpage,
+old.city_ci_city_code,old.city_states_st_state_code,
+old.city_states_country_co_country_code,
+old.bussinessType_bt_code_type,
+old.bu_admin_code,old.bu_user1_code,old.bu_user2_code,
+"DELETE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`userRole_ai` AFTER INSERT ON `userRole` FOR EACH ROW 
+INSERT INTO Log_userRole (masterUser_mu_email,
+masterUser_bussinessUnit_bu_bis_code,
+project_pr_id_project,um_role,um_status,
+action_type,action_who, action_time)
+VALUE (new.masterUser_mu_email,
+new.masterUser_bussinessUnit_bu_bis_code,
+new.project_pr_id_project,new.um_role,new.um_status,
+"INSERT",current_user(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`userRole_bu` BEFORE UPDATE ON `userRole` FOR EACH ROW
+INSERT INTO Log_userRole 
+(masterUser_mu_email,
+masterUser_bussinessUnit_bu_bis_code,
+project_pr_id_project,um_role,um_role_old,
+um_status,um_status_old,
+action_type,action_who, action_time)
+VALUES (old.masterUser_mu_email,
+old.masterUser_bussinessUnit_bu_bis_code,
+old.project_pr_id_project,new.um_role,old.um_role,
+new.um_status,old.um_status,
+"UPDATE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`userRole_bd` BEFORE DELETE ON `userRole` FOR EACH ROW
+INSERT INTO Log_userRole (masterUser_mu_email,
+masterUser_bussinessUnit_bu_bis_code,
+project_pr_id_project,um_role_old,
+um_status_old,
+action_type,action_who,action_time)
+VALUES (old.masterUser_mu_email,
+old.masterUser_bussinessUnit_bu_bis_code,
+old.project_pr_id_project,old.um_role,old.um_status,
+"DELETE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`discharge_ai` AFTER INSERT ON `discharge` FOR EACH ROW 
+INSERT INTO Log_discharge (di_license_num,
+di_start_date,di_end_date,
+di_number_user,di_permanent,
+di_sales_code,di_license_code,
+bussinessUnit_bu_bis_code,project_pr_id_project,
+action_type,action_who, action_time)
+VALUE (new.di_license_num,
+new.di_start_date,new.di_end_date,
+new.di_number_user,new.di_permanent,
+new.di_sales_code,new.di_license_code,
+new.bussinessUnit_bu_bis_code,new.project_pr_id_project,
+"INSERT",current_user(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`discharge_bu` BEFORE UPDATE ON `discharge` FOR EACH ROW
+INSERT INTO Log_discharge 
+(di_license_num,
+di_start_date,di_end_date,
+di_start_date_old,di_end_date_old,
+di_number_user,di_permanent,
+di_number_user_old,di_permanent_old,
+di_sales_code,di_license_code,
+di_sales_code_old,di_license_code_old,
+bussinessUnit_bu_bis_code,project_pr_id_project,
+bussinessUnit_bu_bis_code_old,project_pr_id_project_old,
+action_type,action_who, action_time)
+VALUES (old.di_license_num,
+new.di_start_date,new.di_end_date,
+old.di_start_date,old.di_end_date,
+new.di_number_user,new.di_permanent,
+old.di_number_user,old.di_permanent,
+new.di_sales_code,new.di_license_code,
+old.di_sales_code,old.di_license_code,
+new.bussinessUnit_bu_bis_code,new.project_pr_id_project,
+old.bussinessUnit_bu_bis_code,old.project_pr_id_project,
+"UPDATE",CURRENT_USER(),NOW())
+
+CREATE DEFINER=`boarduser`@`%` TRIGGER `objectboard_db`.`discharge_bd` BEFORE DELETE ON `discharge` FOR EACH ROW
+INSERT INTO Log_discharge (di_license_num,
+di_start_date_old,di_end_date_old,
+di_number_user_old,di_permanent_old,
+di_sales_code_old,di_license_code_old,
+bussinessUnit_bu_bis_code_old,project_pr_id_project_old,
+action_type,action_who,action_time)
+VALUES (old.di_license_num,
+old.di_start_date,old.di_end_date,
+old.di_number_user,old.di_permanent,
+old.di_sales_code,old.di_license_code,
+old.bussinessUnit_bu_bis_code,old.project_pr_id_project,
+"DELETE",CURRENT_USER(),NOW())

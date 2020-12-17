@@ -1,0 +1,19 @@
+package com.psg.objectboard.controller;
+
+import com.psg.objectboard.model.service.BussinessUnitService;
+
+import java.util.Scanner;
+
+public class BussinessUnitController {
+    private BussinessUnitService bussinessUnitService;
+
+    public BussinessUnitController(){this.bussinessUnitService = new BussinessUnitService();}
+
+    public void sampleDetailBussinessUnit(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Quel est l'identifiant de la langue dont vous voulez afficher les informations ?");
+        long identifier=scanner.nextLong();
+        BussinessUnitDto bussinessUnitDto= bussinessUnitService.getBussinessUnit(identifier);
+        System.out.println("La langue sélectionné s'applle "+ bussinessUnitDto.getBuEmail());
+    }
+}

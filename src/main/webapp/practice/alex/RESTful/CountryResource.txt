@@ -1,0 +1,81 @@
+package com.psg.objectboard.controller.resourcesApiRESTful;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Path("/countryunit")
+public class CountryResource {
+
+    private static List<BussinessUnitEntity> catalogue = new ArrayList<>();
+
+    static {
+        BussinessUnitEntity bussinessUnit1 = new BussinessUnitEntity();
+        bussinessUnit1.setBuBisCode(1);
+        bussinessUnit1.setBuEmail("rodriquez.alex@gmail.com");
+        bussinessUnit1.setBuFederalNumber("12345");
+        bussinessUnit1.setBuProvincialNumber("54321");
+        bussinessUnit1.setBuEmail("54321");
+        //bussinessUnit1.setBuStatus();
+        bussinessUnit1.setBuSuperCode("54321");
+
+        BussinessUnitEntity bussinessUnit2 = new BussinessUnitEntity();
+        bussinessUnit1.setBuBisCode(1);
+        bussinessUnit1.setBuEmail("rodriquez.alex@gmail.com");
+        bussinessUnit1.setBuFederalNumber("12345");
+        bussinessUnit1.setBuProvincialNumber("54321");
+        bussinessUnit1.setBuEmail("54321");
+        //bussinessUnit1.setBuStatus();
+        bussinessUnit1.setBuSuperCode("54321");
+
+        catalogue.add(bussinessUnit1);
+        catalogue.add(bussinessUnit2);
+
+    }
+
+    @GET //regresa una lista de libros
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<BussinessUnitEntity> liste() {
+        return catalogue;
+    }
+
+    @GET//regresa un libro en particular
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{number}")
+    public BussinessUnitEntity get(@PathParam("number") int number) {
+        return catalogue.stream().filter(bussinessUnit -> bussinessUnit.getBuBisCode() == number).findFirst().get();//si no existe el libro arrojara una exception
+
+    }
+
+    @POST //Segun el standard RESTfull Crear un libro
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response add(@FormParam("nom") String nom) {
+        BussinessUnitEntity bussinessUnit = new BussinessUnitEntity();
+        bussinessUnit.setBuBisCode(catalogue.size() + 1);//no es la mejor practica solo el ejercicio
+        bussinessUnit.setBuEmail(nom);
+        catalogue.add(bussinessUnit);
+        return Response.status(Response.Status.CREATED).entity(bussinessUnit.getBuBisCode()).build();
+
+        //return Response.status(201).entity(livre.getNumeroLivre()).build();
+    }
+
+    @DELETE
+    @Path("/{number}")
+    public Response delete(@PathParam("number") int number) {
+        catalogue.removeIf(bussinessUnit -> bussinessUnit.getBuBisCode() == number);
+        return Response.status(Response.Status.OK).build();
+        //Status 200
+    }
+
+    @PUT //modifica un libro en particular
+    @Path("/{number}")
+    public Response modify(@PathParam("number") int number, @QueryParam("email") String email) {
+        BussinessUnitEntity bussinessUnitAModifier = catalogue.stream().filter(bussinessUnit -> bussinessUnit.getBuBisCode() == number).findFirst().get();
+        bussinessUnitAModifier.setBuEmail(email);
+        return Response.status(Response.Status.OK).build();
+        //Status 200
+    }
+}

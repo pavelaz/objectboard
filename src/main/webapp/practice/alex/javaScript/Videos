@@ -1,0 +1,207 @@
+switch (cells[i].cellIndex) {
+                    case (cells[i].cellIndex >= startingPositionCell && cells[i + 1].innerText == "up"):
+                        alert(cells[i].cellIndex + " - " + cells[i].innerText);
+                    break;
+                }
+
+ojo y password
+http://kodhus.com/kodnest/land/HmYtjcb
+
+manipulacion de archivos
+https://youtu.be/14Dky8hrx2o
+
+pagina oficial
+jquery
+api.jquery.com
+
+function inputButton(input) {
+        alert("dentro alex");
+        var save = document.getElementById("btSave");
+        //save.style.disable = false;  no funsiona
+        //save.style.visibility = false; no funsiona
+        save.style.cursor. = false; no funsiona
+}
+$("input").change (function(){
+    inputButton(this);
+});
+
+  Ejemplos de validaciones en atributos;
+  https://youtu.be/03ji9O6gWCM
+  <script>
+    const btSave = document.querySelector("#btSave");
+  </script>
+  ID= btSave.toggleAttribute("value", 2>1); // Esta propiedad tiene facilidad de cambiar atributos de manera boolean
+
+  ##################################
+  var x = document.querySelectorAll("#btSave li");
+  x.style.background = "#28B485";
+  x.style.color = "#fff";
+
+  <!--start ########################### Statement of Hidden ###########################-->
+  <!--<input name="p_firstPass" id="firstPass" type="hidden" value="" readonly>-->
+  <input name="p_firstPass" id="firstPass" type="hidden">
+  <!--end ########################### Statement of Hidden ###########################-->
+
+  <!--start ########################### Statement of Attibute ###########################-->
+  input1.setAttribute('type', 'password');
+  input2.setAttribute('type', 'password');
+  visibilityToggle.innerHTML = 'visibility_off';
+  <!--end ###########################  Statement of Attibute ###########################-->
+
+  <fmt:parseNumber var="j" integerOnly="true" type="number" value="${ i }"/>
+
+  https://stackoverflow.com/questions/39449307/submit-html-form-data-as-a-file-combine-form-data-file-and-send-as-single-fi
+
+  /*$(document).ready(function(){
+          function fetch_data()
+          {
+              var dataTable = $("#tabla").DataTable({
+                 "processing"     : true,
+                  "serverSide"    : true,
+                  "order"         :[],
+                  "ajax"          :
+                      {
+                          url   : "/bussinesstype",
+                          type  :"POST"
+                      }
+              });
+          }
+      });*/
+
+      if (isNaN(parseInt(cell.innerText))){ // valores solo numericos
+                          if (cell.cellIndex == 0) arrayUpdateTable.push(0);
+                          else arrayUpdateTable.push(cell.innerText);
+                      }
+                      if (typeof(cell.innerText)){ // valores solo texto
+                          if (cell.cellIndex == 0) arrayInsertTable.push(0);
+                          else arrayInsertTable.push(cell.innerText);
+                      }
+
+
+                      cells.forEach((cell=> {
+
+                                  if (cell.cellIndex == startingPosition && document.getElementById("table").rows[positionRows].cells[cell.cellIndex+1].innerText == "up"){
+                                      alert("cell : "+cell.cellIndex +" and "+"row: " + document.getElementById("table").rows[positionRows].cells[(cell.cellIndex)+1].innerText)
+                                      arrayUpdateTable.push((cell.innerText));
+                                  }
+                                  positionRows++;
+                                  if (cell.cellIndex == rows.length){
+                                      positionRows = 1;
+                                  }
+
+
+                                      /*iterator = startingPosition;
+                                      switch ((cells.item(cell.cellIndex+1)).innerText) {//indicar posicion exacta de la matriz
+                                          case ("up"):
+                                              //while (iterator < rowsTableHead.length) {
+                                                 for (var i=startingPosition;i < rowsTableHead.length; i++){
+                                                     //alert(iterator+"="+rowsTableHead.length);
+                                                     arrayUpdateTable.push((cells.item(i)).innerText);
+                                                 }*/
+                                              //}
+                                      //        break;
+                                          /*case ("+"):
+                                              while (iterator < rowsTableHead.length) {
+                                                  arrayUpdateTable.push((cells.item(iterator)).innerText);
+                                                  iterator+=iterator;
+                                              }
+                                          case ("-"):
+                                              while (iterator < rowsTableHead.length) {
+                                                  arrayUpdateTable.push((cells.item(iterator)).innerText);
+                                                  iterator+=iterator;
+                                              }*/
+                                              /*if (count == rows.length - 1) {
+                                                  break;
+                                              }*/
+                                      //}
+
+                                      /*if (cell.cellIndex+1 == "+"){
+                                          arrayInsertTable.push(cell.innerText);
+                                      }
+                                      if (cell.cellIndex+1 == "-"){
+                                          arrayDeleteTable.push(cell.innerText);
+                                      }*/
+
+
+
+                                  /*
+                                  switch (cell.cellIndex) {
+                                      case (2):
+                                          iterator = 1;
+                                          break;
+                                      case (cell.cellIndex > 2):
+                                          iterator = iterator + y;
+                                          count++;
+                                          if (count == rows.length - 1) {
+                                              break;
+                                          }
+                                  }
+                                  console.log(iterator);//indice correcto de iteration
+                                  alert(iterator);*/
+                                  /*switch (cell.innerText) {
+                                      case ('+'):
+                                          arrayInsertTable.push(cell.innerText);
+                                          break;
+                                      case ('-'):
+                                          arrayDeleteTable.push(cell.innerText);
+                                          break;
+                                      case ('up'):
+                                          arrayUpdateTable.push(cell.innerText);
+                                          break;
+
+                                  }*/
+
+                              }));
+                              //
+                              console.log(arrayUpdateTable);
+                              /*alert(arrayInsertTable);
+                              alert(arrayDeleteTable);*/
+                              /*document.getElementById("arrayUpdateTable[]").value = arrayUpdateTable;
+                              document.getElementById("arrayInsertTable[]").value = arrayInsertTable;
+                              document.getElementById("arrayDeleteTable[]").value = arrayDeleteTable;*/
+
+
+                              const x = cells[i].cellIndex;
+                                              switch(x) {
+                                                  case startingPositionCell:
+                                                      iterator = startingPositionCell;
+                                                      console.log("startingPositionCell: (iterator)= " + iterator);
+                                                      alert("check");
+                                                      break;
+                                                  case iterator+rowsTableHead.length:
+                                                      iterator = iterator + rowsTableHead.length;
+                                                      console.log("cellIndex: " + cells[i].cellIndex + " > startingPositionCell: (iterator) =" + iterator);
+                                                      alert("check");
+                                                      break;
+                                                  default:
+                                                      iterator = iterator + rowsTableHead.length;
+                                                      console.log("cellIndex: " + cells[i].cellIndex + " > startingPositionCell: (iterator) =" + iterator);
+                                                      alert("check");
+                                              }
+
+
+                                              //new function
+                                                  /*const insertBefore = (element, htmlString) => element.insertAdjacentHTML("beforeend", htmlString);
+                                                  const element = document.getElementById("beforeAction");
+                                                  const htmlString = ('<td'+
+                                                      '<select name="conditionType" id="conditionType" value="" class="form-control">' +
+                                                      '<option> value="Legend"</option>'  +
+                                                      '<option> value="Exception"</option>'  +
+                                                      '<option> value="Note"</option>'  +
+                                                      '<option> value="Terms"</option>'  +
+                                                      '</select>' +
+                                                      '</td>');
+                                                  insertBefore("beforeAction", htmlString);*/
+                                                  //new function
+                                                  /*var conditionType = "<%--${ commentsDto.conditionType }--%>";
+                                                  let arrayTable = new Array("<%--${ CommentsList }--%>");
+                                                  $('#beforeAction').before('<td'+
+                                                                            '<select name="conditionType" id="conditionType" value="'+ conditionType + '" class="form-control">' +
+                                                                              '<option> value="Legend"</option>'  +
+                                                                              '<option> value="Exception"</option>'  +
+                                                                              '<option> value="Note"</option>'  +
+                                                                              '<option> value="Terms"</option>'  +
+                                                                            '</select>' +
+                                                                            '</td>');*/
+
+                                                  //new function

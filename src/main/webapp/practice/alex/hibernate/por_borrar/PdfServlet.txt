@@ -1,0 +1,40 @@
+/**package com.psg.objectboard.controller;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.psg.objectboard.model.dto.Somme;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**Anotacion Java hacer a un metodo al momento de ejecutar o compilar una aplicaccion.
+ * urlPatterns ={"/hello"} Crea un url virtual al cual podemos acceder
+ */
+/**@WebServlet (name="PdfServlet",urlPatterns ={"/pdf"})
+public class PdfServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/pdf");
+        try{
+            Document document =new Document();
+            PdfWriter.getInstance(document, resp.getOutputStream());
+            Somme somme =new Somme();
+            somme.Somme(req);
+            document.open();
+            document.add(new Paragraph("La somme des 2 nombres fournis est " + somme.getSommeNumerique()));
+            document.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        PrintWriter out=resp.getWriter();
+        Personne alexRodriguez =new Personne("Rodriguez","Alex");
+        out.print("<HTML><BODY>Bonjour "+ alexRodriguez.getFullName() +" a resultado de la Servlet </BODY></HTML>");
+    }
+}*/

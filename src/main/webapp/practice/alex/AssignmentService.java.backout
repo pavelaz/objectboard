@@ -1,0 +1,41 @@
+package com.psg.objectboard.model.service;
+
+import com.psg.objectboard.model.own.ownsEntity.classDAO.AssignmentsDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.OtherVO.report.AdditionalDataReportVO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.OtherVO.AssignmentsConsultVO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.OtherVO.report.AssignmentReportVO;
+
+import java.util.ArrayList;
+
+public class AssignmentService2 {
+
+    public AssignmentsReportVO getAllAssignmentReport(String dataUser, String dataPassword, String companyNumber) {
+
+
+        String title_report = "Assignment Report";
+        String caption_table = "Information";
+        String footer_table = "Assignment processes pending to be executed.";
+        String path_logo = "src/main/webapp/complements/img/logos/02/";
+        String data_logo = path_logo + "logo-green-1x.png";
+
+        /*Traer valores de base de dato*/
+
+
+        String company_name = "company_name";
+        String user_name = "user_name";
+        String user_email = "user_email";
+
+        AdditionalDataReportVO additionalData = new AdditionalDataReportVO(company_name, user_name, user_email ,data_logo, title_report, caption_table, footer_table);
+
+        AssignmentsDAO cod = new AssignmentsDAO();
+        ArrayList<AssignmentsConsultVO> asigna = null;
+        cod.setDataUser(dataUser);
+        cod.setDataPassword(dataPassword);
+
+        asigna = cod.getListAssignmentsConsult("masterUser_bussinessUnit_bu_bis_code = " + Integer.parseInt(companyNumber));
+
+        AssignmentsReportVO assignmentsReport = new AssignmentsReportVO(additionalData, asigna);
+
+        return assignmentsReport;
+    }
+}

@@ -1,0 +1,15 @@
+package com.psg.objectboard.controller.resourcesApiRESTful;
+
+import javax.ws.rs.ext.Provider;
+
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+
+@Provider
+public class RequestFilter implements ContainerRequestFilter {
+
+    public ContainerRequest filter(ContainerRequest request) {
+        System.out.println("request filter");
+        return request;
+    }
+}

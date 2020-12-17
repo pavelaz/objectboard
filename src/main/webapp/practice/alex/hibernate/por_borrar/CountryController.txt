@@ -1,0 +1,21 @@
+package com.psg.objectboard.controller;
+
+import com.psg.objectboard.model.service.CountryService;
+
+import java.util.Scanner;
+
+public class CountryController {
+    private CountryService countryService;
+
+    public CountryController(){
+        this.countryService = new CountryService();
+    }
+
+    public void sampleDetailCountry(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Quel est l'identifiant de la langue dont vous voulez afficher les informations ?");
+        long identifier=scanner.nextLong();
+        CountryDto countryDto= countryService.getCountry(identifier);
+        System.out.println("La langue sélectionné s'applle "+ countryDto.getCoName());
+    }
+}

@@ -1,0 +1,212 @@
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO" %>
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: pavelaz
+  Date: 17/3/20
+  Time: 2:10 p. m.
+  To change this template use File | Settings | File Templates.
+  <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+--%>
+<%
+    // valores  que vienen por el post
+    String company_number=null;
+    if(request.getParameter("p_company_number")!=null){
+        company_number=request.getParameter("p_company_number");
+    }
+    String company_name=null;
+    if(request.getParameter("p_company_name")!=null){
+        company_name=request.getParameter("p_company_name");
+    }
+    String email=null;
+    if(request.getParameter("p_email")!=null){
+        email=request.getParameter("p_email");
+    }
+    String passwd=null;
+    if(request.getParameter("p_password")!=null){
+        passwd=request.getParameter("p_password");
+    }
+
+    MasterUserVO muv = null;
+    MasterUserDAO mud = new MasterUserDAO();
+    String nombre_user = null;
+    Boolean existe_usuario=null,        // para validar si el usuario existe o no
+            existe_status=null,         // para validar si el usuario esta activo o no
+            existe_passwd=null,         // para validar si passwor coincide o no
+            existe_email_confirm=null,  // para validar si el email a sido confirmado o no
+            existe_todo=null;           // para validar si todas las condiciones anteriores son ciertas o no
+    //        existe_master=null;        // para validar si el usuario pertenece a la compania 1 si o no
+
+    try {
+        muv = mud.serchMasterUserDAO(email,company_number);
+        // Usuario existe o no registrado en la Unidad de negocios.
+        existe_usuario= muv.getResult();
+        nombre_user = muv.getMuName();
+
+        String  falso = "F";
+        /*pas = muv.getMuPassword();
+        System.out.println("valores: "+muv.getMuEmail()+" , "+muv.getMuPassword()+" , "+muv.getMuDate()+" , "+pas);*/
+        if (existe_usuario) {
+            // verifica que el passsword registrado sea igual al introducido.
+            if (muv.getMuPassword().equals(passwd))
+                existe_passwd = true;
+            else
+                existe_passwd = false;
+            // verifica si el email puesto a la hora del registro del usuario
+            // Ya ha sido confirmado.  Por lo que le permite o no entrar por ello.
+            if (!muv.getMuEmailConfirm().equals(falso))
+                existe_email_confirm = true;
+            else
+                existe_email_confirm = false;
+            // verifica se el estatus del usuario es activo o no dentro del sistema
+            // y por ello les permite o no continuar.
+            if (!muv.getMuStatus().equals(falso))
+                existe_status = true;
+            else
+                existe_status = false;
+            /* verifica si el susuario que va a entrar pertenece a la compania Super usuaria.
+            assert company_number != null;
+            if (company_number.equals("1"))
+                existe_master = true;
+            else
+                existe_master = false;*/
+        }
+        if (existe_usuario && existe_passwd && existe_email_confirm && existe_status)
+            existe_todo=true;
+        else
+            existe_todo=false;
+    } catch (Exception ex) {
+        System.out.println(ex.getMessage());
+    }
+%>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Paul Velazquez">
+    <% if(!existe_todo){ %>
+        <title>General Admission</title>
+
+        <!-- Custom fonts for this template-->
+        <link href="../../../complements/bootstrap/bootstrap_4/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+        <!-- Custom styles for this template-->
+        <link href="../../../complements/bootstrap/bootstrap_4/css/sb-admin-2.min.css" rel="stylesheet">
+
+        <!-- Scripts propios -->
+        <link rel="stylesheet" href="../../../complements/css/own_style.css">
+        <script src="../../../complements/scripts/validaciones.js" type="text/javascript"></script>
+        <link rel="shortcut icon" type="image/png" href="../../../complements/img/favicon.png">
+
+        <script type="text/javascript">
+            function continar(){
+                document.forma.action="../sign_in.jsp";
+                document.forma.submit();
+            }
+        </script>
+    <%}else{%>
+        <script language="JavaScript" type="text/javascript">
+            <!--
+            function Salir(valor){
+                if(valor == 1 ) // continua a pagina que mustra modulos disponibles a ese usuario
+                    document.forma.action="/modulesusers"; // esto llama la serlet
+                document.forma.submit();
+            }
+            -->
+        </script>
+    <%}%>
+</head>
+<% if(!existe_todo){ %>
+    <body class="bg-gradient-success">
+    <div class="header__logo-box">
+        <br>
+        <a href="../../index.jsp">
+            &nbsp;&nbsp;&nbsp; <img src="../../../complements/img/logo-white1.png" alt="Logo" width="78" height="40" class="header__logo" href="../../index.jsp">
+        </a>
+    </div>
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <!--<div class="col-lg-6 d-none d-lg-block bg-password-image"></div>-->
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <% if(!existe_usuario){ %>
+                                            <h1 class="h4 text-gray-900 mb-2 alert-warning">Unregistered user</h1>
+                                            <p class="mb-4">This user is not registered for this company, please verify your details and try again.</p>
+                                        <%}else{%>
+                                            <% if(!existe_passwd){ %>
+                                                <h1 class="h4 text-gray-900 mb-2 alert-warning">Incorrect password</h1>
+                                                <p class="mb-4">The password you have provided does not match the one registered in our files for this user and company.</p>
+                                            <%}else{%>
+                                                <% if(!existe_email_confirm){ %>
+                                                    <h1 class="h4 text-gray-900 mb-2 alert-warning">Unconfirmed email address</h1>
+                                                    <p class="mb-4">The email address has not yet been confirmed, go to your mailbox and click on the link that appears there to validate the receipt of the confirmation email.</p>
+                                                <%}else{%>
+                                                    <% if(!existe_status){ %>
+                                                        <h1 class="h4 text-gray-900 mb-2 alert-warning">Deactivated User</h1>
+                                                        <p class="mb-4">This user is disabled, please contact your system administrator to correct the situation and try again.</p>
+                                                    <%}%>
+                                                <%}%>
+                                            <%}%>
+                                        <%}%>
+                                    </div>
+                                    <form class="user" id="forma" name="forma" method="post" action="">
+                                        <br>
+                                        <a href="#" onClick="continar()" class="btn btn-primary btn-user btn-block">
+                                            <% if(!existe_usuario || !existe_passwd || !existe_email_confirm || !existe_status){ %>
+                                            Continue
+                                            <%}else{%>
+                                            Go to Sign In
+                                            <%}%>
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../../../complements/bootstrap/bootstrap_4/vendor/jquery/jquery.min.js"></script>
+    <script src="../../../complements/bootstrap/bootstrap_4/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../../../complements/bootstrap/bootstrap_4/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../../../complements/bootstrap/bootstrap_4/js/sb-admin-2.min.js"></script>
+<%}else{%>
+    <body>
+    <form name="forma" method="post" action="" >
+        <input type="hidden" name="p_company_name" id="company_name" value="<% out.print(company_name);%>">
+        <input type="hidden" name="p_company_number" id="company_number" value="<% out.print(company_number);%>">
+        <input type="hidden" name="p_email" id="email" value="<% out.print(email);%>">
+        <input type="hidden" name="p_name" id="nombres" value="<% out.print(nombre_user);%>">
+        <!-- Posible validacion pendiente en el caso de cuando el usuario pertenezca a la la Super compania: variable existe_master -->
+		<SCRIPT LANGUAGE='JavaScript' type='text/javascript'>Salir(1);</SCRIPT>;
+    </form>
+<%}%>
+
+</body>
+
+</html>

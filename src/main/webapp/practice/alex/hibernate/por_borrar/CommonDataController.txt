@@ -1,0 +1,19 @@
+package com.psg.objectboard.controller;
+
+import com.psg.objectboard.model.service.CommonDataService;
+
+import java.util.Scanner;
+
+public class CommonDataController {
+    private CommonDataService commonDataService;
+
+    public CommonDataController(){this.commonDataService = new CommonDataService();}
+
+    public void sampleDetailCommonData(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Quel est l'identifiant de la langue dont vous voulez afficher les informations ?");
+        long identifier=scanner.nextLong();
+        CommonDataDto commonDataDto = commonDataService.getCommonData(identifier);
+        System.out.println("La langue sélectionné s'applle "+ commonDataDto.getCdName());
+    }
+}

@@ -1,0 +1,51 @@
+package com.psg.objectboard.model.service;
+import com.psg.objectboard.model.EntityManagerHolder;
+import com.psg.objectboard.model.repository.DischargeRepositoryImpl;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+public class DischargeService {
+    private DischargeRepositoryImpl dischargeRepository;
+
+    public DischargeService() {
+        this.dischargeRepository = new DischargeRepositoryImpl();
+    }
+
+    public DischargeService(DischargeRepositoryImpl dischargeRepository) {
+        this.dischargeRepository = dischargeRepository;
+    }
+
+    public DischargeDto getDischarge(Long id){
+        EntityManager entityManager=null;
+        EntityTransaction transaction = null;
+        DischargeEntity dischargeEntity= null;
+        DischargeDto dischargeDto = null;
+        try{
+            entityManager = new EntityManagerHolder().getCurrentEntityManager();
+            transaction=entityManager.getTransaction();
+            transaction.begin();
+            dischargeEntity = dischargeRepository.getById(id);
+            dischargeDto = new DischargeDto();
+            dischargeDto.setDiLicenseNum(dischargeEntity.getDiLicenseNum());
+            dischargeDto.setDiStartDate(dischargeEntity.getDiStartDate());
+            dischargeDto.setDiEndDate(dischargeEntity.getDiEndDate());
+            dischargeDto.setDiNumberUser(dischargeEntity.getDiNumberUser());
+            dischargeDto.setDiPermanent(dischargeEntity.getDiPermanent());
+            dischargeDto.setDiSalesCode(dischargeEntity.getDiSalesCode());
+            dischargeDto.setDiLicenseCode(dischargeEntity.getDiLicenseCode());
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null)
+                transaction.rollback();
+            e.printStackTrace();
+            System.err.println("Discharge no funciona");
+        }
+        finally {
+            if (entityManager!=null)
+                entityManager.close();
+        }
+        return dischargeDto;
+    }
+}

@@ -1,0 +1,39 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+    <id>archive-deploy</id>
+
+    <!-- Les formats d'archive à générer -->
+    <formats>
+        <format>tar.gz</format>
+        <format>zip</format>
+    </formats>
+
+    <!-- lib : dépendances + JAR ticket-batch -->
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory> <!--directorio a crear-->
+            <scope>runtime</scope> <!--Solo dependencias a produccion-->
+            <useProjectArtifact>true</useProjectArtifact>
+            <unpack>true</unpack>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <!-- Scripts shell de lancement -->
+        <fileSet>
+            <directory>src/data/scripts</directory><!--directorio donde se encuentran-->
+            <outputDirectory>bin</outputDirectory><!--directorio a crear-->
+            <!-- Droits UNIX sur les fichiers (-rwx-rx-rx) "Como es un archivo ejecutable fijamos los derechos" -->
+            <fileMode>0755</fileMode>
+            <useDefaultExcludes>true</useDefaultExcludes>
+        </fileSet>
+
+        <!-- Fichiers de configuration -->
+        <fileSet>
+            <directory>src/data/conf</directory>
+            <outputDirectory>conf</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+        </fileSet>
+    </fileSets>
+</assembly>

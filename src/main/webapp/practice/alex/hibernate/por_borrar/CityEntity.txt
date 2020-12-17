@@ -1,0 +1,92 @@
+package com.psg.objectboard.model.entity;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Objects;
+
+@Entity
+@Table(name = "city", schema = "objectboard_db", catalog = "")
+@IdClass(CityEntityPK.class)
+public class CityEntity {
+    private long ciCityCode;
+    private long statesStStateCode;
+    private long statesCountryCoCountryCode;
+    private String ciName;
+    private Collection<BussinessUnitEntity> bussinessUnits;
+    private StatesEntity states;
+
+    @Id
+    @Column(name = "ci_city_code")
+    public long getCiCityCode() {
+        return ciCityCode;
+    }
+
+    public void setCiCityCode(long ciCityCode) {
+        this.ciCityCode = ciCityCode;
+    }
+
+    @Id
+    @Column(name = "states_st_state_code")
+    public long getStatesStStateCode() {
+        return statesStStateCode;
+    }
+
+    public void setStatesStStateCode(long statesStStateCode) {
+        this.statesStStateCode = statesStStateCode;
+    }
+
+    @Id
+    @Column(name = "states_country_co_country_code")
+    public long getStatesCountryCoCountryCode() {
+        return statesCountryCoCountryCode;
+    }
+
+    public void setStatesCountryCoCountryCode(long statesCountryCoCountryCode) {
+        this.statesCountryCoCountryCode = statesCountryCoCountryCode;
+    }
+
+    @Basic
+    @Column(name = "ci_name")
+    public String getCiName() {
+        return ciName;
+    }
+
+    public void setCiName(String ciName) {
+        this.ciName = ciName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CityEntity that = (CityEntity) o;
+        return ciCityCode == that.ciCityCode &&
+                statesStStateCode == that.statesStStateCode &&
+                statesCountryCoCountryCode == that.statesCountryCoCountryCode &&
+                Objects.equals(ciName, that.ciName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ciCityCode, statesStStateCode, statesCountryCoCountryCode, ciName);
+    }
+
+    @OneToMany(mappedBy = "city")
+    public Collection<BussinessUnitEntity> getBussinessUnits() {
+        return bussinessUnits;
+    }
+
+    public void setBussinessUnits(Collection<BussinessUnitEntity> bussinessUnits) {
+        this.bussinessUnits = bussinessUnits;
+    }
+
+    @ManyToOne
+    @JoinColumns({@JoinColumn(name = "states_st_state_code", referencedColumnName = "st_state_code", nullable = false), @JoinColumn(name = "states_country_co_country_code", referencedColumnName = "country_co_country_code", nullable = false)})
+    public StatesEntity getStates() {
+        return states;
+    }
+
+    public void setStates(StatesEntity states) {
+        this.states = states;
+    }
+}

@@ -1,0 +1,104 @@
+package com.psg.objectboard.model.entity;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "userRole", schema = "objectboard_db", catalog = "")
+@IdClass(UserRoleEntityPK.class)
+public class UserRoleEntity {
+    private String masterUserMuEmail;
+    private long masterUserBussinessUnitBuBisCode;
+    private long projectPrIdProject;
+    private int umRole;
+    private String umStatus;
+    private MasterUserEntity masterUser;
+    private ProjectEntity projectByProjectPrIdProject;
+
+    @Id
+    @Column(name = "masterUser_mu_email")
+    public String getMasterUserMuEmail() {
+        return masterUserMuEmail;
+    }
+
+    public void setMasterUserMuEmail(String masterUserMuEmail) {
+        this.masterUserMuEmail = masterUserMuEmail;
+    }
+
+    @Id
+    @Column(name = "masterUser_bussinessUnit_bu_bis_code")
+    public long getMasterUserBussinessUnitBuBisCode() {
+        return masterUserBussinessUnitBuBisCode;
+    }
+
+    public void setMasterUserBussinessUnitBuBisCode(long masterUserBussinessUnitBuBisCode) {
+        this.masterUserBussinessUnitBuBisCode = masterUserBussinessUnitBuBisCode;
+    }
+
+    @Id
+    @Column(name = "project_pr_id_project")
+    public long getProjectPrIdProject() {
+        return projectPrIdProject;
+    }
+
+    public void setProjectPrIdProject(long projectPrIdProject) {
+        this.projectPrIdProject = projectPrIdProject;
+    }
+
+    @Basic
+    @Column(name = "um_role")
+    public int getUmRole() {
+        return umRole;
+    }
+
+    public void setUmRole(int umRole) {
+        this.umRole = umRole;
+    }
+
+    @Basic
+    @Column(name = "um_status")
+    public String getUmStatus() {
+        return umStatus;
+    }
+
+    public void setUmStatus(String umStatus) {
+        this.umStatus = umStatus;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRoleEntity that = (UserRoleEntity) o;
+        return masterUserBussinessUnitBuBisCode == that.masterUserBussinessUnitBuBisCode &&
+                projectPrIdProject == that.projectPrIdProject &&
+                umRole == that.umRole &&
+                Objects.equals(masterUserMuEmail, that.masterUserMuEmail) &&
+                Objects.equals(umStatus, that.umStatus);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(masterUserMuEmail, masterUserBussinessUnitBuBisCode, projectPrIdProject, umRole, umStatus);
+    }
+
+    @ManyToOne
+    @JoinColumns({@JoinColumn(name = "masterUser_mu_email", referencedColumnName = "mu_email", nullable = false), @JoinColumn(name = "masterUser_bussinessUnit_bu_bis_code", referencedColumnName = "bussinessUnit_bu_bis_code", nullable = false)})
+    public MasterUserEntity getMasterUser() {
+        return masterUser;
+    }
+
+    public void setMasterUser(MasterUserEntity masterUser) {
+        this.masterUser = masterUser;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "project_pr_id_project", referencedColumnName = "pr_id_project", nullable = false)
+    public ProjectEntity getProjectByProjectPrIdProject() {
+        return projectByProjectPrIdProject;
+    }
+
+    public void setProjectByProjectPrIdProject(ProjectEntity projectByProjectPrIdProject) {
+        this.projectByProjectPrIdProject = projectByProjectPrIdProject;
+    }
+}

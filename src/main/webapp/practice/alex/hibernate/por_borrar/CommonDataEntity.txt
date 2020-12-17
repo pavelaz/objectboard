@@ -1,0 +1,116 @@
+package com.psg.objectboard.model.entity;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Objects;
+
+@Entity
+@Table(name = "commonData", schema = "objectboard_db", catalog = "")
+public class CommonDataEntity {
+    private long cdCode;
+    private String cdName;
+    private String cdAddress;
+    private String cdPhone;
+    private String cdCelPhone;
+    private String cdWebpage;
+    private String cdZipcode;
+    private Collection<BussinessUnitHasCommonDataEntity> bussinessUnitHasCommonDataByCdCode;
+
+    @Id
+    @Column(name = "cd_code")
+    public long getCdCode() {
+        return cdCode;
+    }
+
+    public void setCdCode(long cdCode) {
+        this.cdCode = cdCode;
+    }
+
+    @Basic
+    @Column(name = "cd_name")
+    public String getCdName() {
+        return cdName;
+    }
+
+    public void setCdName(String cdName) {
+        this.cdName = cdName;
+    }
+
+    @Basic
+    @Column(name = "cd_address")
+    public String getCdAddress() {
+        return cdAddress;
+    }
+
+    public void setCdAddress(String cdAddress) {
+        this.cdAddress = cdAddress;
+    }
+
+    @Basic
+    @Column(name = "cd_phone")
+    public String getCdPhone() {
+        return cdPhone;
+    }
+
+    public void setCdPhone(String cdPhone) {
+        this.cdPhone = cdPhone;
+    }
+
+    @Basic
+    @Column(name = "cd_cel_phone")
+    public String getCdCelPhone() {
+        return cdCelPhone;
+    }
+
+    public void setCdCelPhone(String cdCelPhone) {
+        this.cdCelPhone = cdCelPhone;
+    }
+
+    @Basic
+    @Column(name = "cd_webpage")
+    public String getCdWebpage() {
+        return cdWebpage;
+    }
+
+    public void setCdWebpage(String cdWebpage) {
+        this.cdWebpage = cdWebpage;
+    }
+
+    @Basic
+    @Column(name = "cd_zipcode")
+    public String getCdZipcode() {
+        return cdZipcode;
+    }
+
+    public void setCdZipcode(String cdZipcode) {
+        this.cdZipcode = cdZipcode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommonDataEntity that = (CommonDataEntity) o;
+        return cdCode == that.cdCode &&
+                Objects.equals(cdName, that.cdName) &&
+                Objects.equals(cdAddress, that.cdAddress) &&
+                Objects.equals(cdPhone, that.cdPhone) &&
+                Objects.equals(cdCelPhone, that.cdCelPhone) &&
+                Objects.equals(cdWebpage, that.cdWebpage) &&
+                Objects.equals(cdZipcode, that.cdZipcode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cdCode, cdName, cdAddress, cdPhone, cdCelPhone, cdWebpage, cdZipcode);
+    }
+
+    @OneToMany(mappedBy = "commonDataByCommonDataCdCode")
+    public Collection<BussinessUnitHasCommonDataEntity> getBussinessUnitHasCommonDataByCdCode() {
+        return bussinessUnitHasCommonDataByCdCode;
+    }
+
+    public void setBussinessUnitHasCommonDataByCdCode(Collection<BussinessUnitHasCommonDataEntity> bussinessUnitHasCommonDataByCdCode) {
+        this.bussinessUnitHasCommonDataByCdCode = bussinessUnitHasCommonDataByCdCode;
+    }
+}

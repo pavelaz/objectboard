@@ -1,0 +1,51 @@
+package com.psg.objectboard.model.service;
+import com.psg.objectboard.model.EntityManagerHolder;
+import com.psg.objectboard.model.repository.BussinessUnitRepositoryImpl;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+public class BussinessUnitService {
+    private BussinessUnitRepositoryImpl bussinessUnitRepository;
+
+    public BussinessUnitService() {
+        this.bussinessUnitRepository = new BussinessUnitRepositoryImpl();
+    }
+
+    public BussinessUnitService(BussinessUnitRepositoryImpl bussinessUnitRepository) {
+        this.bussinessUnitRepository = bussinessUnitRepository;
+    }
+
+    public BussinessUnitDto getBussinessUnit(Long id){
+        EntityManager entityManager=null;
+        EntityTransaction transaction = null;
+        BussinessUnitEntity bussinessUnitEntity= null;
+        BussinessUnitDto bussinessUnitDto = null;
+        try{
+            entityManager = new EntityManagerHolder().getCurrentEntityManager();
+            transaction=entityManager.getTransaction();
+            transaction.begin();
+            bussinessUnitEntity = bussinessUnitRepository.getById(id);
+            bussinessUnitDto = new BussinessUnitDto();
+            bussinessUnitDto.setBuBisCode(bussinessUnitEntity.getBuBisCode());
+            bussinessUnitDto.setBuFederalNumber(bussinessUnitEntity.getBuFederalNumber());
+            bussinessUnitDto.setBuProvincialNumber(bussinessUnitEntity.getBuProvincialNumber());
+            bussinessUnitDto.setBuEmail(bussinessUnitEntity.getBuEmail());
+            bussinessUnitDto.setBuStatus(bussinessUnitEntity.getBuStatus());
+            bussinessUnitDto.setBuSuperCode(bussinessUnitEntity.getBuSuperCode());
+
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null)
+                transaction.rollback();
+            e.printStackTrace();
+            System.err.println("BussinessUnit no funciona");
+        }
+        finally {
+            if (entityManager!=null)
+                entityManager.close();
+        }
+        return bussinessUnitDto;
+    }
+}
