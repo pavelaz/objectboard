@@ -1,6 +1,9 @@
 package com.psg.objectboard.batch;
 
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Hello world!
@@ -13,18 +16,18 @@ public class App
         //ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
 
-        /*System.out.println( "Hello World!");
+        System.out.println( "Hello World!");
         Properties vProp = new Properties();
         InputStream vInputStream = null;
         try {
-            vInputStream = App.class.getResourceAsStream("/info.properties");
+            vInputStream = App.class.getResourceAsStream("/app.properties");
             vProp.load(vInputStream);
         } finally {
             if (vInputStream != null){
                 vInputStream.close();
             }
         }
-        System.out.println("Application version : " + vProp.getProperty("com.psg.objectboard.version", "?"));-->
+        System.out.println("Application version : " + vProp.getProperty("propert-name", "?"));
 
         /*BussinessTypeController controller = new BussinessTypeController();
 

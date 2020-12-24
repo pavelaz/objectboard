@@ -1,6 +1,7 @@
 package com.psg.objectboard.controller.common;
 
 import com.psg.objectboard.controller.servlet.MasterUserProfileServlet;
+import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -14,7 +15,8 @@ import java.nio.file.Paths;
 
 public class FilesController extends HttpServlet {
     public static final long serialVersionUID = 1L;
-    public static final String CHEMIN_FICHIERS = System.getProperty("user.home") + "src/main/webapp/complements/temporaryfiles";
+    //private String CHEMIN_FICHIERS = System.getProperty("user.home") + "src/main/webapp/complements/temporaryfiles";
+    private String CHEMIN_FICHIERS = "";
 
     public FilesController() {
         super();
@@ -71,6 +73,9 @@ public class FilesController extends HttpServlet {
                     // Corrige un bug du fonctionnement d'Internet Explorer
                     profile_photo = profile_photo.substring(profile_photo.lastIndexOf('/') + 1)
                             .substring(profile_photo.lastIndexOf('\\') + 1);
+                    OtherFunctions of = new OtherFunctions();
+                    this.CHEMIN_FICHIERS = of.searchLink("");
+
                     if (Files.exists(Paths.get(CHEMIN_FICHIERS))) {
                         // On écrit définitivement le fichier sur le disque
                         writerFile(part, profile_photo,CHEMIN_FICHIERS,TAILLE_TAMPON);

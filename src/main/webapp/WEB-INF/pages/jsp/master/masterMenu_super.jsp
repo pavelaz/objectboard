@@ -26,7 +26,7 @@
     <jstl:set var="jsp_ShowImage" scope="page" value="${ 'YES' }"/>
     <jstl:set var="jsp_dashbHome" scope="page" value="${ '/objectboard/logout' }"/>
     <jstl:set var="jsp_dashbName" scope="page" value="${ 'Dashboard Master' }"/>
-    <jstl:set var="jsp_dashbMsg1" scope="page" value="${ 'Welcome' }"/>
+    <jstl:set var="jsp_dashbMsg1" scope="page" value="Objectboard system."/>
     <jstl:set var="jsp_dashbBodyMsg" scope="page" value="${ 'Dashboard' }"/>
     <jstl:set var="jsp_menuOption" scope="page" value="${ '2,3' }"/>
     <div id="pcoded" class="pcoded">

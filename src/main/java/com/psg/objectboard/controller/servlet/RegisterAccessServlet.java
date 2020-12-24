@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.batch.App;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.DischargeDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
@@ -15,15 +16,18 @@ import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Properties;
 
 @WebServlet(name = "RegisterAccessServlet", urlPatterns = "/registeraccess")
 public class RegisterAccessServlet extends HttpServlet {
@@ -110,6 +114,7 @@ public class RegisterAccessServlet extends HttpServlet {
             OtherFunctions of = new OtherFunctions();
             DateFunctions df = new DateFunctions();
             // Crea usuario en tablas de base de datos
+            Properties vProp = new Properties();
             if(result){
                 // Inicializa Variable de control de transacion
                 muv.setResult(true);
@@ -131,14 +136,22 @@ public class RegisterAccessServlet extends HttpServlet {
                 ocn.init_trans(con);
                 // Crear campos para asignacion
                 String falso = "F",ruta=null,verdadero="T";
-                //String path = System.getProperty("user.home");
-                /*(Production)*/ String path ="/usr/share/apache/instance-production/webapps/";
+                InputStream vInputStream = null;
+                try {
+                    vInputStream = App.class.getResourceAsStream("/app.properties");
+                    vProp.load(vInputStream);
+                } finally {
+                    if (vInputStream != null){
+                        vInputStream.close();
+                    }
+                }
+                /*(Production)*/
+                String path = vProp.getProperty("propert-pathuserhome");
+
                 if(user_sexo.equals("M"))
-                    // ruta = path + "/IdeaProjects/objectboard/src/main/webapp/complements/img/photoProfileMen2.png";
-                    /*(Production)*/ ruta = path + "/objectboard/complements/img/photoProfileMen2.png";
+                    ruta = path + "photoProfileMen2.png";
                 else
-                    // ruta = path + "/IdeaProjects/objectboard/src/main/webapp/complements/img/photoProfileWomen.png";
-                    /*(Production)*/ ruta = path + "/objectboard/complements/img/photoProfileWomen.png";
+                    ruta = path + "photoProfileWomen.png";
                 // mueve valores al objeto
                 muv.setMuEmail(user_email);
                 muv.setBussinessUnitBuBisCode(Integer.parseInt(company_number));
@@ -183,9 +196,12 @@ public class RegisterAccessServlet extends HttpServlet {
             // Envio de Correo de verificacion
             if(result){
                 MailSendVO corre = new MailSendVO();
-                corre.setSMTP_SERVER("smtp.gmail.com");
-                corre.setUSERNAME("serviciospvsoft");
-                corre.setPASSWORD("Solitariop1");
+                //corre.setSMTP_SERVER("smtp.gmail.com");
+                //corre.setUSERNAME("serviciospvsoft");
+                //corre.setPASSWORD("Solitariop1");
+                corre.setSMTP_SERVER(vProp.getProperty("propert-smtpserver"));
+                corre.setUSERNAME(vProp.getProperty("propert-emailusrname"));
+                corre.setPASSWORD(vProp.getProperty("propert-emailpassword"));
                 corre.setEMAIL_FROM("serviciospvsoft@gmail.com");
                 corre.setEMAIL_TO(muv.getMuEmail().trim());
                 // Las direcciones de correo deben ir separadas por coma y luego espacio
@@ -198,7 +214,7 @@ public class RegisterAccessServlet extends HttpServlet {
                 corre.setEMAIL_TEXT(of.bodyConfirmRegister(muv,company_name));
                 corre.setEMAIL_RUTARCH("");
                 // Si funciona el envio de adjuntos
-                //corre.setEMAIL_RUTARCH(path + "/IdeaProjects/objectboard/src/main/webapp/complements/img/imagen_perfil.png");
+                //corre.setEMAIL_RUTARCH(path + "imagen_perfil.png");
 
                 MailUtilDAO codao = new MailUtilDAO();
                 muv.setResult(codao.sendMail(corre));

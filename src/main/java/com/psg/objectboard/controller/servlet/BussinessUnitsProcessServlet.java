@@ -43,9 +43,17 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                 file_name_ant = null,
                 file_name = null;
         Part file_imagen = null;
-        String path = System.getProperty("user.home");
-        String primaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/temporaryfiles/";
-        String secundaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/";
+
+        OtherFunctions of = new OtherFunctions();
+
+        //String path = System.getProperty("user.home");
+        String path = of.searchLink("0");
+        //String primaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/temporaryfiles/";
+        //String secundaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/";
+        String primaryDirectory = "temporaryfiles/";
+        String secundaryDirectory = "logos/";
+        System.out.println("############# -> "+path+primaryDirectory);
+        System.out.println("############# -> "+path+secundaryDirectory);
         ArrayList<Integer> cual_unit = new ArrayList<Integer>();
         ArrayList<String> cual_logo = new ArrayList<String>();
         BussinessUnitVO codo = new BussinessUnitVO();
@@ -173,7 +181,7 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
         BussinessUnitDAO.setDataUser(data_user);
         BussinessUnitDAO.setDataPassword(data_pasword);
         con=ocn.conectarse(data_user,data_pasword);
-        OtherFunctions of = new OtherFunctions();
+        //OtherFunctions of = new OtherFunctions();
         String directorio = null;
 
         try{

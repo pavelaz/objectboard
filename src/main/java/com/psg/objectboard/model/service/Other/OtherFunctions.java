@@ -1,5 +1,6 @@
 package com.psg.objectboard.model.service.Other;
 
+import com.psg.objectboard.batch.App;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 //import org.json.JSONObject;
@@ -22,9 +23,51 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Properties;
 
 public class OtherFunctions {
     private String answer="";
+    public String linkMedio="";
+
+    public void searchLink() throws IOException {
+        Properties vProp = new Properties();
+        InputStream vInputStream = null;
+        try {
+            vInputStream = App.class.getResourceAsStream("/app.properties");
+            vProp.load(vInputStream);
+        } finally {
+            if (vInputStream != null){
+                vInputStream.close();
+            }
+        }
+        this.linkMedio = vProp.getProperty("propert-ipapachetomcat");
+        System.out.println(" ######## - >" + this.linkMedio);
+    }
+
+    public String searchLink(String valor) throws IOException {
+        String none="";
+        Properties vProp = new Properties();
+        InputStream vInputStream = null;
+        try {
+            vInputStream = App.class.getResourceAsStream("/app.properties");
+            vProp.load(vInputStream);
+        } finally {
+            if (vInputStream != null){
+                vInputStream.close();
+            }
+        }
+        if (valor.equals("")){
+            none = vProp.getProperty("propert-pathuserhome");
+            none = none.substring(0,none.length()-4) + "temporaryfiles";
+            return none;
+        }
+        if (valor.equals("0")){
+            none = vProp.getProperty("propert-pathuserhome");
+            none = none.substring(0,none.length()-4);
+            return none;
+        }
+        return vProp.getProperty("propert-pathuserhome");
+    }
 
     // Relacionados a la subida de archivos, creacion de directorios y movidas de archivos
     // Subir archivo forma paul (funciona)
@@ -139,10 +182,12 @@ public class OtherFunctions {
     //
 
     // genera cuerpos de email predeterminados
-    public String bodyConfirmRegister(MasterUserVO muv,String company){
-         String link;
+    public String bodyConfirmRegister(MasterUserVO muv,String company) throws IOException{
+        String link;
+            this.searchLink();
             //link = "http://localhost:8084" // esta parte debe sustituirse al poner el sistema en produccion
-            link = "http://35.202.62.183:8080" // esta parte debe sustituirse al poner el sistema en produccion
+            //link = "http://35.202.62.183:8080" // esta parte debe sustituirse al poner el sistema en produccion
+            link = "http://" + this.linkMedio
                  + "/objectboard"
                  + "/confirmemail?pu="
                  + muv.getMuEmail()+ "&ps="+ muv.getMuConfirmCode()+"&pc="+muv.getBussinessUnitBuBisCode();
@@ -162,12 +207,13 @@ public class OtherFunctions {
             return answer;
     }
 
-    public String bodyResetPassword(MasterUserVO muv,String company){
+    public String bodyResetPassword(MasterUserVO muv,String company) throws IOException {
         String link,newPassword;
         LocalDateFunctions locDat = new LocalDateFunctions();
         LocalDate fecha = locDat.obtenerFechaActual();
         newPassword= generateRandomString(8);
-        link = "http://localhost:8084" // esta parte debe sustituirse al poner el sistema en produccion
+        this.searchLink();
+        link = "http://" + this.linkMedio // esta parte debe sustituirse al poner el sistema en produccion
                // + "/pages/jsp/process/confirm_reset.jsp?pu="
                 + "/objectboard"
                 + "/confirmreset?pu="

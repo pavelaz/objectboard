@@ -206,7 +206,9 @@
 
                 <!--start ############################### page-header ###############################-->
                 <jstl:set var="jsp_titleFrom" scope="page" value="Dash menu super"/>
-                <jstl:set var="jsp_funtionFrom" scope="page" value="Objectboard system."/>
+                <jstl:set var="jsp_funtionFrom" scope="page" value="${ 'Welcome Alex' }"/>
+                <!--<jstl:set var="jsp_funtionFrom" scope="page" value="${application.name}"/>-->
+                <!--<jstl:set var="jsp_funtionFrom" scope="page" value="Objectboard system."/>-->
                 <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/logout"/>
                 <jstl:set var="jsp_previousMsg" scope="page" value="Previous menu"/>
                 <%@include file="../../../../complements/jsp/page-header.jsp"%>

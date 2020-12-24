@@ -35,7 +35,6 @@
   </licenses>
 
   <properties>
-    <application.name>objectboard</application.name>
     <maven.build.timestamp.format>dd/MM/yyyy</maven.build.timestamp.format>
     <build.timestamp>${maven.build.timestamp}</build.timestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,6 +44,9 @@
     <catalina.base>${}</catalina.base>
   </properties>
 
+  <!-- =============================================================== -->
+  <!-- Module of Dependencies -->
+  <!-- =============================================================== -->
   <dependencies>
     <!-- ===== RESTfull, Jersey and CorsFilter ===== -->
     <dependency>
@@ -159,7 +161,187 @@
   </dependencies>
 
   <!-- =============================================================== -->
-  <!-- Build -->
+  <!-- Definicion de Profiles de compilacion del sistema -->
+  <!-- =============================================================== -->
+  <profiles> <!--Comando mvn clean package -P target-development-->
+    <profile>
+      <id>target-development</id>
+      <build>
+        <plugins>
+          <!-- Plugin responsable de la génération du fichier WAR -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <outputDirectory>/usr/share/apache/instance-development/webapps</outputDirectory><!--Port:8084-->
+              <webResources>
+                <resource>
+                  <filtering>true</filtering>
+                  <directory>src/main/webapp</directory>
+                  <includes>
+                    <include>complements/jsp/footer.jsp</include>
+                    <include>complements/jsp/footer_basic_script.jsp</include>
+                    <include>complements/jsp/footer_building.jsp</include>
+                    <include>complements/jsp/footer_index.jsp</include>
+                    <include>complements/jsp/head_basic_script.jsp</include>
+                    <include>complements/jsp/head_menBasic_script.jsp</include>
+                    <include>complements/jsp/header.jsp</include>
+                    <include>complements/jsp/header_blue_bar.jsp</include>
+                    <include>complements/jsp/header_building.jsp</include>
+                    <include>complements/jsp/header_green_bar.jsp</include>
+                    <include>complements/jsp/header_index.jsp</include>
+                    <include>complements/jsp/left_menu_master.jsp</include>
+                    <include>complements/jsp/navbar.jsp</include>
+                    <include>complements/jsp/navbar-header.jsp</include>
+                    <include>complements/jsp/page-header.jsp</include>
+                    <include>complements/jsp/pre-loader.jsp</include>
+                    <include>complements/jsp/script.jsp</include>
+                    <include>complements/jsp/taglibs.jsp</include>
+                    <include>complements/jsp/warning_section.jsp</include>
+                    <include>WEB-INF/pages/sign_in.jsp</include>
+                  </includes>
+                  <!--<exclusions>
+                    <! La dépendance vers a exclue>
+                    <exclusion>                  </exclusion>
+                  </exclusions>-->
+                </resource>
+              </webResources>
+            </configuration>
+          </plugin>
+        </plugins>
+        <filters>
+          <filter>
+            src/main/resources/conf-development/info.properties
+          </filter>
+        </filters>
+        <!-- Gestion des Resources .property -->
+        <resources>
+          <resource>
+            <directory>src/main/resources/conf-development</directory>
+            <filtering>true</filtering><!-- #Activando el filtraje de recurso desde el pom.xml, podemos recuperar valores.
+         app.properties: com.psg.objectboard.version=${project.version}-->
+          </resource>
+          <resource> <!--En el caso de no querer cargar un recurso.-->
+            <directory>src/main/resources/conf-test</directory>
+            <filtering>false</filtering>
+          </resource>
+          <resource> <!--En el caso de no querer cargar un recurso.-->
+            <directory>src/main/resources/conf-production</directory>
+            <filtering>false</filtering>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+    <profile>
+      <id>target-test</id>
+      <build>
+        <plugins>
+          <!-- Plugin responsable de la génération du fichier WAR -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <!--<warName>${project.artifactId}-${project.version}</warName>-->
+              <outputDirectory>/usr/share/apache/instance-test/webapps</outputDirectory><!--Port:8086-->
+              <webResources>
+                <resource>
+                  <filtering>true</filtering>
+                  <directory>src/main/webapp</directory>
+                  <includes>
+                    <include>complements/jsp/footer.jsp</include>
+                    <include>complements/jsp/footer_basic_script.jsp</include>
+                    <include>complements/jsp/footer_building.jsp</include>
+                    <include>complements/jsp/footer_index.jsp</include>
+                    <include>complements/jsp/head_basic_script.jsp</include>
+                    <include>complements/jsp/head_menBasic_script.jsp</include>
+                    <include>complements/jsp/header.jsp</include>
+                    <include>complements/jsp/header_blue_bar.jsp</include>
+                    <include>complements/jsp/header_building.jsp</include>
+                    <include>complements/jsp/header_green_bar.jsp</include>
+                    <include>complements/jsp/header_index.jsp</include>
+                    <include>complements/jsp/left_menu_master.jsp</include>
+                    <include>complements/jsp/navbar.jsp</include>
+                    <include>complements/jsp/navbar-header.jsp</include>
+                    <include>complements/jsp/page-header.jsp</include>
+                    <include>complements/jsp/pre-loader.jsp</include>
+                    <include>complements/jsp/script.jsp</include>
+                    <include>complements/jsp/taglibs.jsp</include>
+                    <include>complements/jsp/warning_section.jsp</include>
+                    <include>WEB-INF/pages/sign_in.jsp</include>
+                  </includes>
+                  <!--<exclusions>
+                    <! La dépendance vers a exclue>
+                    <exclusion>                  </exclusion>
+                  </exclusions>-->
+                </resource>
+              </webResources>
+            </configuration>
+          </plugin>
+        </plugins>
+        <filters>
+          <filter>
+            src/main/resources/conf-test/info.properties
+          </filter>
+        </filters>
+      </build>
+    </profile>
+    <profile>
+      <id>target-production</id>
+      <build>
+        <plugins>
+          <!-- Plugin responsable de la génération du fichier WAR -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <!--<warName>${project.artifactId}-${project.version}</warName>-->
+              <outputDirectory>/usr/share/apache/instance-production/webapps</outputDirectory><!--Port:8082-->
+              <webResources>
+                <resource>
+                  <filtering>true</filtering>
+                  <directory>src/main/webapp</directory>
+                  <includes>
+                    <include>complements/jsp/footer.jsp</include>
+                    <include>complements/jsp/footer_basic_script.jsp</include>
+                    <include>complements/jsp/footer_building.jsp</include>
+                    <include>complements/jsp/footer_index.jsp</include>
+                    <include>complements/jsp/head_basic_script.jsp</include>
+                    <include>complements/jsp/head_menBasic_script.jsp</include>
+                    <include>complements/jsp/header.jsp</include>
+                    <include>complements/jsp/header_blue_bar.jsp</include>
+                    <include>complements/jsp/header_building.jsp</include>
+                    <include>complements/jsp/header_green_bar.jsp</include>
+                    <include>complements/jsp/header_index.jsp</include>
+                    <include>complements/jsp/left_menu_master.jsp</include>
+                    <include>complements/jsp/navbar.jsp</include>
+                    <include>complements/jsp/navbar-header.jsp</include>
+                    <include>complements/jsp/page-header.jsp</include>
+                    <include>complements/jsp/pre-loader.jsp</include>
+                    <include>complements/jsp/script.jsp</include>
+                    <include>complements/jsp/taglibs.jsp</include>
+                    <include>complements/jsp/warning_section.jsp</include>
+                    <include>WEB-INF/pages/sign_in.jsp</include>
+                  </includes>
+                  <!--<exclusions>
+                    <! La dépendance vers a exclue>
+                    <exclusion>                  </exclusion>
+                  </exclusions>-->
+                </resource>
+              </webResources>
+            </configuration>
+          </plugin>
+        </plugins>
+        <filters>
+          <filter>
+            src/main/resources/conf-production/info.properties
+          </filter>
+        </filters>
+      </build>
+    </profile>
+  </profiles>
+
+  <!-- =============================================================== -->
+  <!-- Build Declaration de Plugins -->
   <!-- =============================================================== -->
   <build>
     <!--<directory>${project.basedir}/output</directory> si quiero cambiar la salida del target Maven-->
@@ -190,54 +372,22 @@
           <artifactId>maven-war-plugin</artifactId>
           <version>3.3.1</version>
         </plugin>
+        <!-- Declaracion de Plugin enforces (Organizar el Proyecto por Roles en acuerdo con perfiles) -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>1.4.1</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
+    <!-- =============================================================== -->
+    <!-- Configuration de diferentes Plugins -->
+    <!-- =============================================================== -->
     <finalName>${project.artifactId}</finalName> <!--Nombre definitivo del archivo .war -->
     <plugins>
-      <!-- Plugin responsable de la génération du fichier WAR -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <!--<warName>${project.artifactId}-${project.version}</warName>-->
-          <outputDirectory>/usr/share/apache/instance-production/webapps</outputDirectory><!--Port:8082-->
-          <!--<outputDirectory>/usr/share/apache/instance-development/webapps</outputDirectory>--><!--Port:8084-->
-          <!--<outputDirectory>/usr/share/apache/instance-test/webapps</outputDirectory>--><!--Port:8086-->
-          <webResources>
-            <resource>
-              <filtering>true</filtering>
-              <directory>src/main/webapp</directory>
-              <includes>
-                <include>complements/jsp/footer.jsp</include>
-                <include>complements/jsp/footer_basic_script.jsp</include>
-                <include>complements/jsp/footer_building.jsp</include>
-                <include>complements/jsp/footer_index.jsp</include>
-                <include>complements/jsp/head_basic_script.jsp</include>
-                <include>complements/jsp/head_menBasic_script.jsp</include>
-                <include>complements/jsp/header.jsp</include>
-                <include>complements/jsp/header_blue_bar.jsp</include>
-                <include>complements/jsp/header_building.jsp</include>
-                <include>complements/jsp/header_green_bar.jsp</include>
-                <include>complements/jsp/header_index.jsp</include>
-                <include>complements/jsp/left_menu_master.jsp</include>
-                <include>complements/jsp/navbar.jsp</include>
-                <include>complements/jsp/navbar-header.jsp</include>
-                <include>complements/jsp/page-header.jsp</include>
-                <include>complements/jsp/pre-loader.jsp</include>
-                <include>complements/jsp/script.jsp</include>
-                <include>complements/jsp/taglibs.jsp</include>
-                <include>complements/jsp/warning_section.jsp</include>
-                <include>WEB-INF/pages/sign_in.jsp</include>
-              </includes>
-              <!--<exclusions>
-                <! La dépendance vers a exclue>
-                <exclusion>                  </exclusion>
-              </exclusions>-->
-            </resource>
-          </webResources>
-        </configuration>
-      </plugin>
+
+
       <!--Affiner la configuration de la compilation-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -330,17 +480,40 @@
         </executions>
         -->
       </plugin>
+
+      <!-- Declaracion de Plugin enforces (Organizar el Proyecto por Roles en acuerdo con perfiles) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-profile-target</id> <!--Se debe declarar de manera unica ID -->
+            <phase>validate</phase>
+            <goals><!--Definimos los diferentes goal o tareas a ejecutar-->
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireActiveProfile><!--Regla si al menos uno pero de los perfiles y no todos estan activos-->
+                  <profiles>target-development,target-test,target-production</profiles>
+                  <all>false</all>
+                </requireActiveProfile>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <!-- Gestion des Resources -->
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
+        <directory>src/main/resources/</directory>
         <filtering>true</filtering><!-- #Activando el filtraje de recurso desde el pom.xml, podemos recuperar valores.
-         info.properties: com.psg.objectboard.version=${project.version}-->
+         app.properties: com.psg.objectboard.version=${project.version}-->
       </resource>
-      <!--<resource> <En el caso de no querer cargar un recurso.>
-        <directory>src/main/resources/raw</directory>
-        <filtering>false</filtering>
+      <!--<resource>
+        <directory>src/main/resources/META-INF</directory>
+        <filtering>false</filtering><!para retirar>
       </resource>-->
     </resources>
   </build>
