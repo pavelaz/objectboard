@@ -1,5 +1,0 @@
-Corregir cuando hacemos click en checkout master el replanteamiento de las acciones desde preacciones.boxmain
-
-gerenciar error con negocios asociados a typo de negocio.
-
-habilitar boton de borrado en checkboxmain.

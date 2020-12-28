@@ -24,6 +24,7 @@ public class MasterUserProfileService {
     }
 
     public MasterUserDto getMasterUser(long identifier, String email){
+        System.out.println("************** dentro getMasterUser");
         EntityManager entityManager = null;
         EntityTransaction transaction = null;
         MasterUserDto masterUserDto = null;
@@ -77,6 +78,7 @@ public class MasterUserProfileService {
     }
 
     public PhotoDto getShowPhoto(long identifier, String email){
+        System.out.println("##########  dentro getShowPhoto");
         EntityManager entityManager = null;
         PhotoDto photoDto = null;
         EntityTransaction transaction = null;
@@ -117,8 +119,10 @@ public class MasterUserProfileService {
             transaction = entityManager.getTransaction();
             transaction.begin();
 
-            MasterUserEntity masterUserEntity = masterUserRepository.getByIds(entityManager,masterUserDto.getBussinessUnitBuBisCode(), masterUserDto.getMuEmail(), '2');
+            System.out.println("datos para consulta: " + masterUserDto.getBussinessUnitBuBisCode() + " " + masterUserDto.getMuEmail());
 
+            MasterUserEntity masterUserEntity = masterUserRepository.getByIds(entityManager,masterUserDto.getBussinessUnitBuBisCode(), masterUserDto.getMuEmail(), '2');
+            System.out.println("dentro del cuerpo del servicio justo a invocar el update");
             if (masterUserDto.getBussinessUnitBuBisCode() == '1') {
                 masterUserEntity.setBussinessUnitBuBisCode(masterUserDto.getBussinessUnitBuBisCode());
                 masterUserEntity.setMuName(masterUserDto.getMuName());

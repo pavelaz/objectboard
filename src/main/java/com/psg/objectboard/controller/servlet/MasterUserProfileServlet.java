@@ -32,7 +32,6 @@ public class MasterUserProfileServlet extends HttpServlet {
         }
 
         if (request.getMethod().equals("GET")) {
-            /* Inicio ****************************     Solo para ejecutar Servlet directamente *****************************/
             if (company_number != null) {
                 MasterUserProfileController controller = new MasterUserProfileController();
                 masterUserDto = controller.DetailModuleProfileUser(Long.parseLong(company_number), user_email);
@@ -41,10 +40,6 @@ public class MasterUserProfileServlet extends HttpServlet {
                 request.setAttribute("rq_companyNumber", company_number);
                 request.setAttribute("rq_userName", user_name);
             }
-            /* Fin ****************************     Solo para ejecutar Servlet directamente ****************************
-             * Pendiente resolver el resultado de la consulta en cero, cuando no hay usuario reguistrado que hacemos?
-             * */
-
             System.out.println("MasterUserServlet metodo 'GET', muestra informacion de formulario");
         }
 
@@ -55,6 +50,7 @@ public class MasterUserProfileServlet extends HttpServlet {
             FilesController filesController = new FilesController();
 
             if (company_number.equals("1")) {/*Services PVSoft*/
+                System.out.println("dentro de servlet  Empresa Services PVSoft");
                 if ((request.getParameter("p_muName")) != null && /*ok*/
                     (request.getParameter("p_muRepeat")) != null && /*ok*/
                     (request.getParameter("p_muQuestion")) != null && /*ok*/
@@ -96,6 +92,7 @@ public class MasterUserProfileServlet extends HttpServlet {
 
             /*Start*********************AddPhoto to Object master_user_dto *********/
             String photo = filesController.updateFile(request, (1024 * 1024 * 1),"p_file"); // 1024 * 1024 * 1,= 1 MB
+            System.out.println("Dentro de la servlet en via al controlador photo: " + photo);
             master_user_dto.setRoutePhoto(photo);
             /*End*********************AddPhoto to Object master_user_dto *********/
 

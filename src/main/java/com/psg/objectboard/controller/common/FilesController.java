@@ -37,6 +37,7 @@ public class FilesController extends HttpServlet {
         BufferedOutputStream sortie = null;
         try {
             entree = new BufferedInputStream(part.getInputStream(), TAILLE_TAMPON);
+            System.out.println("chemin write " + chemin + nomFichier);
             sortie = new BufferedOutputStream(new FileOutputStream(new File(chemin + nomFichier)), TAILLE_TAMPON);
 
             byte[] tampon = new byte[TAILLE_TAMPON];
@@ -80,6 +81,7 @@ public class FilesController extends HttpServlet {
                         // On écrit définitivement le fichier sur le disque
                         writerFile(part, profile_photo,CHEMIN_FICHIERS,TAILLE_TAMPON);
                         route_file = (CHEMIN_FICHIERS.concat(profile_photo));
+                        System.out.println("On écrit définitivement le fichier sur le disque");
                     } else //if the folder not exists, we are creation a new
                     {
                         System.out.println("Folder does not exist");

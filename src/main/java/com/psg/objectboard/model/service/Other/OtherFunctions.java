@@ -57,8 +57,8 @@ public class OtherFunctions {
             }
         }
         if (valor.equals("")){
-            none = vProp.getProperty("propert-pathuserhome");
-            none = none.substring(0,none.length()-4) + "temporaryfiles";
+            none = vProp.getProperty("propert-pathcontainerfiles");
+            //none = none.substring(0,none.length()-4) + "temporaryfiles";
             return none;
         }
         if (valor.equals("0")){

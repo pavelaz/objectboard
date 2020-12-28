@@ -1,6 +1,0 @@
-Errorjavax.mail.AuthenticationFailedException: 534-5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbu
-534-5.7.14 KLLAD6-PmCFdcsUaM98YuOvLJyMR1v29p-4pBQ74xCz9fWAZIgfJRUAPvNW6abPYM8thy
-534-5.7.14 56rA3C-W7prE6Z1gzSKBGh59bC7F4sgEGXmumQvz4nVwE7qNZ8FedkGiTvkUadF->
-534-5.7.14 Please log in via your web browser and then try again.
-534-5.7.14  Learn more at
-534 5.7.14  https://support.google.com/mail/answer/78754 x68sm14814540qka.129 - gsmtp

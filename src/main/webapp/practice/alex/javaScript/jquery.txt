@@ -1,3 +1,0 @@
-$('a[href="/objectboard/dashmenusuper"]').on("click", function(){
-        <jstl:remove var="CommentsList"/>
-});

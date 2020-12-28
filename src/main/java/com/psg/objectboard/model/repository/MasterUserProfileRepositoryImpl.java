@@ -10,13 +10,16 @@ public class MasterUserProfileRepositoryImpl {
         TypedQuery<MasterUserEntity> query = entityManager.createNamedQuery("MasterUserDetails.byId", MasterUserEntity.class);
             query.setParameter("BusBisCode", identifier);
             query.setParameter("muEmail", email);
+
         MasterUserEntity masterUserEntity = query.getSingleResult();
+
         if (method == '0')
             System.out.println("Leido MasterUserRepositoryImpl getMasterUser");
         else if (method == '1')
             System.out.println("Leido MasterUserRepositoryImpl getShowPhoto");
         else
             System.out.println("Leido MasterUserRepositoryImpl updateMasterUser");
+
     return masterUserEntity;
     }
 }
