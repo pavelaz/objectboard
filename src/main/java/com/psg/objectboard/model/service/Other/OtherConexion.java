@@ -1,5 +1,6 @@
 package com.psg.objectboard.model.service.Other;
 
+import java.io.IOException;
 import java.sql.*;
 
 public class OtherConexion {
@@ -11,10 +12,14 @@ public class OtherConexion {
     public Connection conectarse(String dataUserLogin, String dataUserPassword){
         Connection con = null;
         String resto = "serverTimezone=UTC";
-        String url = "jdbc:mysql://35.193.196.120:3306/objectboard_db"+ "?" + resto;
-        //String url = "jdbc:mysql://localhost:3306/objectboard_db"+ "?" + resto;
-        //String url = "jdbc:mysql://mysqlcloud:3306/objectboard_db"+ "?" + resto;
+        OtherFunctions otherFunctions = new OtherFunctions();
+
         try{
+            String x = otherFunctions.searchLink("2");
+            String url = "jdbc:mysql://"+ x +"/objectboard_db"+ "?" + resto;
+            //String url = "jdbc:mysql://localhost:3306/objectboard_db"+ "?" + resto;
+            //String url = "jdbc:mysql://mysqlcloud:3306/objectboard_db"+ "?" + resto;
+
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url,dataUserLogin,dataUserPassword);
             System.out.println("Coneccion en Linea.");

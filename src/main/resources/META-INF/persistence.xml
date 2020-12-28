@@ -5,7 +5,7 @@
              version="2.2">
     <!--ORM Object Relational Mapping, convierte obj a datos relacionales es fundamento de FrameWork Hibernate-->
     <!--El Modelo Relacional ob java y el MR de BD no son compatibles y el MR DB  no son compatibles lo que se llama(Impedance mismatch, Paradigm mismatch)-->
-    <persistence-unit name="objectboard_unit"><!--Referenciamos en el EntityManagerHolder-->
+    <persistence-unit name="unit_development"><!--Referenciamos en el EntityManagerHolder-->
         <!--Persistence Context = Contexte  de Persistance-->
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
@@ -19,9 +19,7 @@
         <properties>
             <!--  Configuring JDBC properties  -->
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://35.193.196.120:3306/objectboard_db?useSSL=false&amp;serverTimezone=Europe/Paris"/>
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/objectboard_db?useSSL=false&amp;serverTimezone=Europe/Paris"/>-->
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysqlcloud/objectboard_db?useSSL=false&amp;serverTimezone=Europe/Paris"/>-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/objectboard_db?useSSL=false&amp;serverTimezone=Europe/Paris"/>
             <property name="javax.persistence.jdbc.user" value="boarduser"/>
             <property name="javax.persistence.jdbc.password" value="1#Object5Board*%"/>
 
@@ -37,4 +35,36 @@
         </properties>
 
     </persistence-unit>
+    <persistence-unit name="unit_production"><!--Referenciamos en el EntityManagerHolder-->
+        <!--Persistence Context = Contexte  de Persistance-->
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>com.psg.objectboard.model.entity.BussinessTypeEntity</class>
+        <class>com.psg.objectboard.model.entity.BussinessUnitEntity</class>
+        <class>com.psg.objectboard.model.entity.MasterUserEntity</class>
+        <class>com.psg.objectboard.model.entity.ProjectEntity</class>
+        <class>com.psg.objectboard.model.entity.CommentsEntity</class>
+
+        <properties>
+            <!--  Configuring JDBC properties  -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://35.193.196.120:3306/objectboard_db?useSSL=false&amp;serverTimezone=Europe/Paris"/>
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysqlcloud:3306/objectboard_db?useSSL=false&amp;serverTimezone=Europe/Paris"/>-->
+            <property name="javax.persistence.jdbc.user" value="boarduser"/>
+            <property name="javax.persistence.jdbc.password" value="1#Object5Board*%"/>
+
+            <!--  Hibernate properties  -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!--Nuevo-->
+            <property name="hibernate.format_sql" value="true"/> <!--Nuevo estructura de arbol-->
+
+            <!-- Set the cache provider -->
+            <!--<property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>-->
+
+        </properties>
+
+    </persistence-unit>
+
 </persistence>

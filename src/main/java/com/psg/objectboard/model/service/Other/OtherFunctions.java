@@ -58,12 +58,19 @@ public class OtherFunctions {
         }
         if (valor.equals("")){
             none = vProp.getProperty("propert-pathcontainerfiles");
-            //none = none.substring(0,none.length()-4) + "temporaryfiles";
             return none;
         }
         if (valor.equals("0")){
             none = vProp.getProperty("propert-pathuserhome");
             none = none.substring(0,none.length()-4);
+            return none;
+        }
+        if (valor.equals("1")){
+            none = vProp.getProperty("propert-persistencemysqldatabase");
+            return none;
+        }
+        if (valor.equals("2")){
+            none = vProp.getProperty("propert-ipmysqldatabase");
             return none;
         }
         return vProp.getProperty("propert-pathuserhome");
@@ -313,7 +320,7 @@ public class OtherFunctions {
     }
 
     // busca nomYbre y ubicacion del logo del cliente buscando en archivos
-    public String buscaLogoYDirCliente(String numCia,String dataUser,String dataPassword){
+    public String buscaLogoYDirCliente(String numCia,String dataUser,String dataPassword) throws Exception{
         String info = null;
         String nombre_logo = null;
         PreparedStatement pst = null;
