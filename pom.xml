@@ -283,6 +283,22 @@
             src/main/resources/conf-test/info.properties
           </filter>
         </filters>
+        <!-- Gestion des Resources .property -->
+        <resources>
+          <resource>
+            <directory>src/main/resources/conf-development</directory>
+            <filtering>false</filtering><!-- #Activando el filtraje de recurso desde el pom.xml, podemos recuperar valores.
+         app.properties: com.psg.objectboard.version=${project.version}-->
+          </resource>
+          <resource> <!--En el caso de no querer cargar un recurso.-->
+            <directory>src/main/resources/conf-test</directory>
+            <filtering>true</filtering>
+          </resource>
+          <resource> <!--En el caso de no querer cargar un recurso.-->
+            <directory>src/main/resources/conf-production</directory>
+            <filtering>false</filtering>
+          </resource>
+        </resources>
       </build>
     </profile>
     <profile>
@@ -295,7 +311,7 @@
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
               <!--<warName>${project.artifactId}-${project.version}</warName>-->
-              <outputDirectory>/usr/share/apache/instance-production/webapps</outputDirectory><!--Port:8082-->
+              <outputDirectory>/usr/share/apache/instance-production/webapps</outputDirectory><!--Port:8080-->
               <webResources>
                 <resource>
                   <filtering>true</filtering>
@@ -336,6 +352,21 @@
             src/main/resources/conf-production/info.properties
           </filter>
         </filters>
+        <resources>
+          <resource>
+            <directory>src/main/resources/conf-development</directory>
+            <filtering>false</filtering><!-- #Activando el filtraje de recurso desde el pom.xml, podemos recuperar valores.
+         app.properties: com.psg.objectboard.version=${project.version}-->
+          </resource>
+          <resource> <!--En el caso de no querer cargar un recurso.-->
+            <directory>src/main/resources/conf-test</directory>
+            <filtering>false</filtering>
+          </resource>
+          <resource> <!--En el caso de no querer cargar un recurso.-->
+            <directory>src/main/resources/conf-production</directory>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
       </build>
     </profile>
   </profiles>
