@@ -40,7 +40,7 @@ public class MasterUserProfileServlet extends HttpServlet {
                 request.setAttribute("rq_companyNumber", company_number);
                 request.setAttribute("rq_userName", user_name);
             }
-            System.out.println("MasterUserServlet metodo 'GET', muestra informacion de formulario");
+            System.out.println("MasterUserServlet metodo 'GET', muestra informacion del formulario");
         }
 
         else if (request.getMethod().equals("OPTIONS")) {//EL METODO OPCIONS, FUNCIONA PARA ENVIOS DE FORMULARIOS CON ARCHIVOS Y PARA EL ESTADO DE (MODIFICAR).

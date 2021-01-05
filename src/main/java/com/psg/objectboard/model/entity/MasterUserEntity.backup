@@ -10,7 +10,7 @@ import java.util.Objects;
         @NamedQuery(name="MasterUserPhoto.byId", query="select j.muPhoto from MasterUserEntity  j where j.bussinessUnitBuBisCode=:BusBisCode and j.muEmail=:muEmail")
 })
 @Table(name = "masterUser", schema = "objectboard_db", catalog = "")
-public class MasterUserEntity implements java.io.Serializable {
+public class MasterUserEntity2 {
     private String muEmail;
     private long bussinessUnitBuBisCode;//@Transient
     private String muPassword;
@@ -35,8 +35,6 @@ public class MasterUserEntity implements java.io.Serializable {
     private long cityCiCityCode;
     private long cityStatesStStateCode;
     private long cityStatesCountryCoCountryCode;
-    @Transient
-    private UserRoleEntity userRole;
 
     @Id
     @Basic(optional = false)
@@ -286,7 +284,7 @@ public class MasterUserEntity implements java.io.Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MasterUserEntity that = (MasterUserEntity) o;
+        MasterUserEntity2 that = (MasterUserEntity2) o;
         return bussinessUnitBuBisCode == that.bussinessUnitBuBisCode &&
                 muEffectiveDays == that.muEffectiveDays &&
                 cityCiCityCode == that.cityCiCityCode &&

@@ -26,6 +26,8 @@ public class MultipartConfigServlet extends HttpServlet {
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pantalla = " ";
+        //String pantalla = request.getParameter("p_pantalla");
+
         if(request.getParameter("p_pantalla")!=null){
             pantalla=request.getParameter("p_pantalla");
         }

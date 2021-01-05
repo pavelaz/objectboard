@@ -1,8 +1,79 @@
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.CountryDAO" %>
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.CountryVO" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.StateDAO" %>
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.StateVO" %>
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.CityDAO" %>
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.CityVO" %><%
+    Integer country_number = 0;
+    if(request.getParameter("p_country_number")!=null){
+        country_number=Integer.parseInt(request.getParameter("p_country_number"));
+    }
+    Integer state_number = 0;
+    if(request.getParameter("p_state_number")!=null){
+        state_number=Integer.parseInt(request.getParameter("p_state_number"));
+    }
+    Integer city_number = 0;
+    if(request.getParameter("p_city_number")!=null){
+        city_number=Integer.parseInt(request.getParameter("p_city_number"));
+    }
+    HttpSession objSesion = request.getSession();
+    String data_user = (String)objSesion.getAttribute("dataUser");
+    String data_pasword = (String)objSesion.getAttribute("dataPassword");
+
+    String condicion = null;
+    CountryDAO cod = new CountryDAO();
+    ArrayList<CountryVO> paises;
+    cod.setDataUser(data_user);
+    cod.setDataPassword(data_pasword);
+    StateDAO sod = new StateDAO();
+    ArrayList<StateVO> states = new ArrayList<StateVO>();
+    sod.setDataUser(data_user);
+    sod.setDataPassword(data_pasword);
+    CityDAO cid = new CityDAO();
+    ArrayList<CityVO> cities = new ArrayList<CityVO>();
+    cid.setDataUser(data_user);
+    cid.setDataPassword(data_pasword);
+    paises = cod.getListCountries("");
+
+    if (country_number == 0){
+        state_number=0;
+        city_number=0;
+        condicion = "country_co_country_code = 0";
+        states = sod.getListStates(condicion);
+        condicion = "states_st_state_code = 0 AND states_country_co_country_code = 0";
+        cities = cid.getListCities(condicion);
+    }else{
+        condicion = "country_co_country_code = " + country_number;
+        states = sod.getListStates(condicion);
+        if (state_number==0){
+            city_number=0;
+            condicion = "states_st_state_code = 0 AND states_country_co_country_code = " + country_number;
+            cities = cid.getListCities(condicion);
+        }else{
+            condicion = "states_st_state_code = " + state_number +" AND states_country_co_country_code = " + country_number;
+            cities = cid.getListCities(condicion);
+        }
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <!--start ############################### header ###############################-->
 <head>
     <%@include file="../../../../complements/jsp/header.jsp"%>
+    <script type="text/javascript">
+        function combo_country() {
+            document.formPhoto.p_metodo.value = 1;
+            document.formPhoto.action="/objectboard/masteruser";
+            document.formPhoto.submit();
+        }
+        function other_pdf(){
+            document.formPhoto.action = '/objectboard/generalpdf';
+            document.formPhoto.p_acciones.value = "user";
+            document.formPhoto.submit();
+        }
+    </script>
+
 </head>
 <!--end ############################### header ###############################-->
 <body>
@@ -60,14 +131,24 @@
 <!-- Pre-loader end -->
 <div id="pcoded" class="pcoded">
     <div class="pcoded-overlay-box">
-
     </div>
     <div class="pcoded-container navbar-wrapper">
         <!--start ############################### navbar ###############################-->
         <nav class="pcoded-navbar">
+            <jstl:set var="jsp_titleFrom" scope="page" value="User profile form"/>
+            <jstl:set var="jsp_funtionFrom" scope="page" value="Objectboard system, update your information..."/>
+            <jstl:choose>
+                <jstl:when test="${ rq_companyNumber == 1 }">
+                    <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/mastermenusuper"/>
+                </jstl:when>
+                <jstl:otherwise>
+                    <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/dashmenusuper"/>
+                </jstl:otherwise>
+            </jstl:choose>
+            <jstl:set var="jsp_previousMsg" scope="page" value="Previous menu"/>
             <!--Navegation = 1, Miscellaneous main files = 2,
              Properties Form = 8 {Save = 8.1, Plus = 8.2, Trash = 8.3, Printer = 8.4}-->
-            <jstl:set var="jsp_navBarOption" scope="page" value="1,2,8,8.1,8.4"/>
+            <jstl:set var="jsp_navBarOption" scope="page" value="1,8,8.1,8.4"/>
             <%@include file="../../../../complements/jsp/navbar.jsp"%>
         </nav>
         <!--end ############################### navbar ###############################-->
@@ -87,17 +168,6 @@
                 <div class="pcoded-content">
 
                     <!--start ############################### page-header ###############################-->
-                    <jstl:set var="jsp_titleFrom" scope="page" value="User profile form"/>
-                    <jstl:set var="jsp_funtionFrom" scope="page" value="Objectboard system, update your information..."/>
-                    <jstl:choose>
-                        <jstl:when test="${ rq_company_number == 1 }">
-                            <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/mastermenusuper"/>
-                        </jstl:when>
-                        <jstl:otherwise>
-                            <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/dashmenusuper"/>
-                        </jstl:otherwise>
-                    </jstl:choose>
-                    <jstl:set var="jsp_previousMsg" scope="page" value="Previous menu"/>
                     <%@include file="../../../../complements/jsp/page-header.jsp"%>
                     <!--end ############################### page-header ###############################-->
 
@@ -127,7 +197,7 @@
                                                 <div class="form-group row">
                                                     <label for="muEmail" class="col-sm-2 colform-label">Email Address:</label>
                                                     <div class="col-sm-8">
-                                                        <input name="p_muEmail" id="muEmail" type="text" maxlength="40" class="form-control" value="<jstl:out value="${ rq_masterUserDto.muEmail }">Lost Value</jstl:out>" disabled>
+                                                        <input name="p_muEmail" id="muEmail" type="text" maxlength="40" class="form-control" value="<jstl:out value="${ rq_masterUserDto.muEmail }">Lost Value</jstl:out>" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -202,23 +272,23 @@
                                                                 <label for="muDate" class="col-form-label">Register Date:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input id="muDate" type="text" class="form-control" value="<jstl:out value="${ rq_masterUserDto.muStartDate }">Lost Value</jstl:out>" disabled>
+                                                                <input id="muDate" type="text" class="form-control"  readonly value="<jstl:out value="${ rq_masterUserDto.muStartDate }">Lost Value</jstl:out>">
                                                             </div>
                                                             <div class="col-sm-2">
                                                                 <label class="col-form-label">User Status:</label>
                                                             </div>
-                                                            <div class="col-sm-2">
+                                                            <div class="col-sm-3">
                                                                 <jstl:choose>
                                                                     <jstl:when test="${ rq_masterUserDto.muStatus =='T' }">
-                                                                        <input type="radio" id="activeStatus" name="p_muStatus" value="T" checked>
+                                                                        <input type="radio" id="activeStatus" name="p_muStatus" value="T" checked disabled>
                                                                         <label for="activeStatus">&nbsp;&nbsp;&nbsp;Active</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <input type="radio" id="inactiveStatus" name="p_muStatus" value="F">
+                                                                        <input type="radio" id="inactiveStatus" name="p_muStatus" value="F" disabled>
                                                                         <label for="activeStatus">&nbsp;&nbsp;&nbsp;Inactive</label>
                                                                     </jstl:when>
                                                                     <jstl:otherwise>
-                                                                        <input type="radio" id="activeStatus" name="p_muStatus" value="T">
+                                                                        <input type="radio" id="activeStatus" name="p_muStatus" value="T" disabled>
                                                                         <label for="activeStatus">&nbsp;&nbsp;&nbsp;Active</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <input type="radio" id="inactiveStatus" name="p_muStatus" value="F" checked>
+                                                                        <input type="radio" id="inactiveStatus" name="p_muStatus" value="F" checked disabled>
                                                                         <label for="activeStatus">&nbsp;&nbsp;&nbsp;Inactive</label>
                                                                     </jstl:otherwise>
                                                                 </jstl:choose>
@@ -226,20 +296,20 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-sm-2">
-                                                                <label for="muStartDate">Enable Stard Day:</label>
+                                                                <label for="muStartDate">Enable Start Day:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input id="muStartDate" type="text" class="form-control" value="<jstl:out value="${ rq_masterUserDto.muDate }">Lost Value</jstl:out>" disabled>
+                                                                <input id="muStartDate" type="text" class="form-control" value="<jstl:out value="${ rq_masterUserDto.muDate }">Lost Value</jstl:out>" readonly>
                                                             </div>
                                                             <div class="col-sm-2">
                                                                 <label for="controle_muSectionTime" class="col-form-label">Session time:</label>
                                                             </div>
                                                             <div class="col-sm-2">
-                                                                <fmt:parseNumber var="i" integerOnly="true" type="number" value="${ rq_masterUserDto.muSectionTime /60 }"/>
-                                                                <input name="p_muSectionTime" id="controle_muSectionTime" oninput="muSectionTime.value = (this.value +' min.')" value="<jstl:out value="${ i }">0</jstl:out>"step="10" min="10" max="60" type="range" class="form-control">
+                                                                <fmt:parseNumber var="i" integerOnly="true" type="number" value="${ rq_masterUserDto.muSectionTime }"/>
+                                                                <input name="p_muSectionTime" id="controle_muSectionTime" oninput="muSectionTime.value = (this.value +' seg.')" value="<jstl:out value="${ i }">0</jstl:out>"step="60" min="60" max="3600" type="range" class="form-control">
                                                             </div>
                                                             <div class="col-sm-1">
-                                                                <input name="muSectionTime" type="text" class="form-control" placeholder="<jstl:out value="${ i }">0</jstl:out> min." disabled>
+                                                                <input name="muSectionTime" type="text" class="form-control" placeholder="<jstl:out value="${ i }">0</jstl:out> min." readonly>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -249,38 +319,141 @@
                                                             <div class="col-sm-2">
                                                                 <input name="p_muEffectiveDays" id="controle_muEffectiveDays" oninput="muEffectiveDays.value = (this.value +' Days.')" value="<jstl:out value="${ rq_masterUserDto.muEffectiveDays }">0</jstl:out>"step="30" min="30" max="365" type="range" class="form-control">
                                                             </div>
-                                                            <div class="col-sm-1">
-                                                                <input name="muEffectiveDays" type="text" class="form-control" placeholder="<jstl:out value="${ rq_masterUserDto.muEffectiveDays }">0</jstl:out> Days." disabled>
+                                                            <div class="col-sm-2">
+                                                                <input name="muEffectiveDays" type="text" class="form-control" placeholder="<jstl:out value="${ rq_masterUserDto.muEffectiveDays }">0</jstl:out> Days." readonly>
                                                             </div>
                                                             <div class="col-sm-2">
                                                                 <label class="col-form-label">Confirm Email:</label>
                                                             </div>
-                                                            <div class="col-sm-2">
+                                                            <div class="col-sm-3">
                                                                 <jstl:choose>
                                                                     <jstl:when test="${ rq_masterUserDto.muEmailConfirm =='T' }">
-                                                                        <input type="radio" id="activeEmail" name="p_muEmailConfirm" value="T" checked>
-                                                                        <label for="activeEmail">&nbsp;&nbsp;&nbsp;Active</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <input type="radio" id="inactiveEmail" name="p_muEmailConfirm" value="F">
-                                                                        <label for="activeEmail">&nbsp;&nbsp;&nbsp;Inactive</label>
+                                                                        <input type="radio" id="activeEmail" name="p_muEmailConfirm" value="T" checked disabled>
+                                                                        <label for="activeEmail">&nbsp;&nbsp;Confirm</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <input type="radio" id="inactiveEmail" name="p_muEmailConfirm" value="F" disabled>
+                                                                        <label for="activeEmail">&nbsp;&nbsp;Not Confirm</label>
                                                                     </jstl:when>
                                                                     <jstl:otherwise>
-                                                                        <input type="radio" id="activeEmail" name="p_muEmailConfirm" value="T">
-                                                                        <label for="activeEmail">&nbsp;&nbsp;&nbsp;Active</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <input type="radio" id="inactiveEmail" name="p_muEmailConfirm" value="F" checked>
-                                                                        <label for="activeEmail">&nbsp;&nbsp;&nbsp;Inactive</label>
+                                                                        <input type="radio" id="activeEmail" name="p_muEmailConfirm" value="T" disabled>
+                                                                        <label for="activeEmail">&nbsp;&nbsp;&nbsp;Confim</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <input type="radio" id="inactiveEmail" name="p_muEmailConfirm" value="F" checked disabled>
+                                                                        <label for="activeEmail">&nbsp;&nbsp;&nbsp;Not Confim</label>
                                                                     </jstl:otherwise>
                                                                 </jstl:choose>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-2">
+                                                                <label for="controle_muEffectiveDays" class="col-form-label">Data User:</label>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input name="p_mudatauser" id="mudatauser"
+                                                                       value="<jstl:out value="${ rq_masterUserDto.muDataUser }">Lost Value</jstl:out>"
+                                                                       maxlength="12" readonly>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <label class="col-form-label">Data Password:</label>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input name="p_mudatapassword" id="mudatapassword"
+                                                                       value="<jstl:out value="${ rq_masterUserDto.muDataPassword }">Lost Value</jstl:out>"
+                                                                       maxlength="12" readonly>
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                                <label class="col-form-label">Expires:</label>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <jstl:choose>
+                                                                    <jstl:when test="${ rq_masterUserDto.muExpires =='T' }">
+                                                                        <input type="radio" id="activeStatus" name="p_muexpires" value="T" checked disabled>
+                                                                        <label for="activeStatus">&nbsp;&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <input type="radio" id="inactiveStatus" name="p_muexpires" value="F" disabled>
+                                                                        <label for="activeStatus">&nbsp;&nbsp;&nbsp;No</label>
+                                                                    </jstl:when>
+                                                                    <jstl:otherwise>
+                                                                        <input type="radio" id="activeStatus" name="p_muexpires" value="T" disabled>
+                                                                        <label for="activeStatus">&nbsp;&nbsp;&nbsp;Yes</label>
+                                                                        <input type="radio" id="inactiveStatus" name="p_muexpires" value="F" checked disabled>
+                                                                        <label for="activeStatus">&nbsp;&nbsp;&nbsp;No</label>
+                                                                    </jstl:otherwise>
+                                                                </jstl:choose>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-2">
+                                                                <label for="controle_muEffectiveDays" class="col-form-label">Date Expires:</label>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input  name="p_datexpires" id="datepicker" width="276" value="${ rq_masterUserDto.muDateExpires }" readonly/>
+                                                                <input type="hidden" value="${ rq_hora }" name="p_hora">
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <select name="p_country_number" id="i_country" class="form-control" onchange="combo_country()">
+                                                                    <% if(country_number == 0 ){ %>
+                                                                    <option value="0" selected>Select Country</option>
+                                                                    <% for(int x=0; x < paises.size(); x++){ %>
+                                                                    <option value="<%= paises.get(x).getCoCountryCode()%>"><%=paises.get(x).getCoName() %></option>
+                                                                    <% } %>
+                                                                    <%}else{%>
+                                                                    <option value="0">Select Country</option>
+                                                                    <% for(int x=0; x < paises.size(); x++){ %>
+                                                                    <% if (paises.get(x).getCoCountryCode() == country_number){ %>
+                                                                    <option value="<%=paises.get(x).getCoCountryCode()%>" selected><%=paises.get(x).getCoName() %></option>
+                                                                    <%}else{%>
+                                                                    <option value="<%=paises.get(x).getCoCountryCode()%>"><%=paises.get(x).getCoName() %></option>
+                                                                    <%}%>
+                                                                    <% } %>
+                                                                    <%}%>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <select name="p_state_number" id="i_state" class="form-control" onchange="combo_country()">
+                                                                    <% if(state_number == 0 ){ %>
+                                                                    <option value="0" selected>Select State</option>
+                                                                    <% for(int x=0; x < states.size(); x++){ %>
+                                                                    <option value="<%= states.get(x).getStStateCode()%>"><%=states.get(x).getStName() %></option>
+                                                                    <% } %>
+                                                                    <%}else{%>
+                                                                    <option value="0">Select State</option>
+                                                                    <% for(int x=0; x < states.size(); x++){ %>
+                                                                    <% if (states.get(x).getStStateCode() == state_number){ %>
+                                                                    <option value="<%=states.get(x).getStStateCode()%>" selected><%=states.get(x).getStName() %></option>
+                                                                    <%}else{%>
+                                                                    <option value="<%=states.get(x).getStStateCode()%>"><%=states.get(x).getStName() %></option>
+                                                                    <%}%>
+                                                                    <% } %>
+                                                                    <%}%>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <select name="p_city_number" id="i_city" class="form-control">
+                                                                    <% if(city_number == 0 ){ %>
+                                                                    <option value="0" selected>Select City</option>
+                                                                    <% for(int x=0; x < cities.size(); x++){ %>
+                                                                    <option value="<%= cities.get(x).getCiCityCode()%>"><%=cities.get(x).getCiName() %></option>
+                                                                    <% } %>
+                                                                    <%}else{%>
+                                                                    <option value="0">Select City</option>
+                                                                    <% for(int x=0; x < cities.size(); x++){ %>
+                                                                    <% if (cities.get(x).getCiCityCode() == city_number){ %>
+                                                                    <option value="<%=cities.get(x).getCiCityCode()%>" selected><%=cities.get(x).getCiName() %></option>
+                                                                    <%}else{%>
+                                                                    <option value="<%=cities.get(x).getCiCityCode()%>"><%=cities.get(x).getCiName() %></option>
+                                                                    <%}%>
+                                                                    <% } %>
+                                                                    <%}%>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input type="hidden" name="p_acciones" value="${ rq_acciones }">
+                                                                <input type="hidden" name="p_email" value="${ rq_masterUserDto.muEmail }">
+                                                                <input type="hidden" name="p_unit" value="${ rq_companyNumber }">
+                                                                <input type="hidden" name="p_metodo" value="0">
+                                                                <input name="p_pantalla" id="p_pantalla" type="hidden" class="form-control" value="users">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </jstl:if>
-                                                <div class="col-sm-2">
-                                                    <input type="hidden" name="p_acciones" value="${ rq_acciones }">
-                                                    <input type="hidden" name="p_email" value="${ rq_masterUserDto.muEmail }">
-                                                    <input type="hidden" name="p_unit" value="${ rq_companyNumber }">
-                                                    <input type="hidden" name="p_metodo" value="0">
-                                                    <input type="hidden" name="p_pantalla" value="users">
-                                                </div>
                                             </form>
                                             <!--END##########################################CUERPO PRINCIPAL#####################################################-->
 
@@ -340,11 +513,14 @@
     $("#muAnswer").focusout(function(){
         valida_largos(document.getElementById("muAnswer").value.length,"Answer to the question",3);
     });
+
     $("input").change (function(){
         document.getElementById("textSave").innerHTML = "(On) Save";
         document.getElementById("buttonSave").disabled = false;
         $("#buttonSave").addClass("btn-primary");
     });
+
+
     document.getElementById("buttonEye").onclick = (function () {
         const image = document.getElementById('imageEye');
         var passe = false;
@@ -363,13 +539,14 @@
         }
     });
     function updateMasterUser() {
-        const x = confirm("Are you sure to save the changes?")
+        const x = confirm("Are you sure to save the changes?");
         if (x){
             $("#formPhoto").submit();
         }
-    };
+    }
     $("#formPhoto").submit(function(){
         const formData = new FormData($(this)[0]);
+        alert("dentro del formPhoto");
         $.ajax({
             url: '/objectboard/multipartconfigservlet',
             type: 'OPTIONS',

@@ -154,7 +154,7 @@ public class MasterUserProfileService {
             System.out.println("Leido update MasterUserService");
 
             /*Delete Photo to Server*/
-            filesController.deleteFile(masterUserDto.getRoutePhoto());
+            //filesController.deleteFile(masterUserDto.getRoutePhoto());
 
         } catch (Exception e){
             if (transaction!=null)
