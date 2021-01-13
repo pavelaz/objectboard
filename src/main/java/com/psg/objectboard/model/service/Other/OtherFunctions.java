@@ -62,7 +62,7 @@ public class OtherFunctions {
         }
         if (valor.equals("0")){
             none = vProp.getProperty("propert-pathuserhome");
-            none = none.substring(0,none.length()-4);
+                none = none.substring(0,none.length()-4);
             return none;
         }
         if (valor.equals("1")){
@@ -71,6 +71,10 @@ public class OtherFunctions {
         }
         if (valor.equals("2")){
             none = vProp.getProperty("propert-ipmysqldatabase");
+            return none;
+        }
+        if (valor.equals("3")){
+            none = vProp.getProperty("propert-pahtcontainerimglogos");
             return none;
         }
         return vProp.getProperty("propert-pathuserhome");
@@ -338,7 +342,10 @@ public class OtherFunctions {
             }
 
             System.out.println("Busqueda exitosa");
+
             if (Long.parseLong(numCia) == 1){
+                /*info = System.getProperty("user.home") +
+                        "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";*/
                 info = System.getProperty("user.home") +
                         "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";
             }else {

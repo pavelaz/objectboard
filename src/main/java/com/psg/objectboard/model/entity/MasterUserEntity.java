@@ -5,16 +5,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name="MasterUserDetails.byId", query="select j from MasterUserEntity  j where j.bussinessUnitBuBisCode=:BusBisCode and j.muEmail=:muEmail"),
-        @NamedQuery(name="MasterUserPhoto.byId", query="select j.muPhoto from MasterUserEntity  j where j.bussinessUnitBuBisCode=:BusBisCode and j.muEmail=:muEmail")
-})
+@NamedQuery(name="MasterUserDetails.byId", query="select j from MasterUserEntity  j where j.bussinessUnitBuBisCode=:BusBisCode and j.muEmail=:muEmail")
 @Table(name = "masterUser", schema = "objectboard_db", catalog = "")
-public class MasterUserEntity implements java.io.Serializable {
+public class MasterUserEntity {
     private String muEmail;
-    private long bussinessUnitBuBisCode;//@Transient
+    private long bussinessUnitBuBisCode;
     private String muPassword;
-    private String muPasswordOld;//@Transient
+    private String muPasswordOld;
     private String muName;
     private Integer muSectionTime;
     private String muQuestion;
@@ -35,13 +32,33 @@ public class MasterUserEntity implements java.io.Serializable {
     private long cityCiCityCode;
     private long cityStatesStStateCode;
     private long cityStatesCountryCoCountryCode;
-    @Transient
     private UserRoleEntity userRole;
+    private BussinessUnitEntity bussinessUnit;
+
+    @ManyToOne
+    @JoinColumn(name = "bu_bis_code")
+    public BussinessUnitEntity getBussinessUnit() {
+        return bussinessUnit;
+    }
+
+    public void setBussinessUnit(BussinessUnitEntity bussinessUnit) {
+        this.bussinessUnit = bussinessUnit;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "fk_userRole_masterUser1")
+    public UserRoleEntity getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRoleEntity userRole) {
+        this.userRole = userRole;
+    }
 
     @Id
     @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mu_email")
+    @Column(name = "mu_email", updatable = false, nullable= true, length = 40)
     public String getMuEmail() {
         return muEmail;
     }
@@ -51,7 +68,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "bussinessUnit_bu_bis_code")
+    @Column(name = "bussinessUnit_bu_bis_code", nullable= true, length = 20)
     public long getBussinessUnitBuBisCode() {
         return bussinessUnitBuBisCode;
     }
@@ -61,7 +78,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_password")
+    @Column(name = "mu_password", nullable= true, length = 20)
     public String getMuPassword() {
         return muPassword;
     }
@@ -71,9 +88,8 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
 
-    /*@Basic
-    @Column(name = "mu_password_old")*/
-    @Transient
+    @Basic
+    @Column(name = "mu_password_old", nullable= false, length = 20)
     public String getMuPasswordOld() {
         return muPasswordOld;
     }
@@ -83,7 +99,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_name")
+    @Column(name = "mu_name", nullable= false, length = 45)
     public String getMuName() {
         return muName;
     }
@@ -93,7 +109,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_section_time")
+    @Column(name = "mu_section_time", nullable= false, length = 11)
     public Integer getMuSectionTime() {
         return muSectionTime;
     }
@@ -103,7 +119,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_question")
+    @Column(name = "mu_question", nullable= false, length = 60)
     public String getMuQuestion() {
         return muQuestion;
     }
@@ -113,7 +129,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_start_date")
+    @Column(name = "mu_start_date", nullable= true, length = 19)
     public String getMuStartDate() {
         return muStartDate;
     }
@@ -123,7 +139,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_answer")
+    @Column(name = "mu_answer", nullable= false, length = 35)
     public String getMuAnswer() {
         return muAnswer;
     }
@@ -133,7 +149,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_status")
+    @Column(name = "mu_status", nullable= true, length = 1)
     public String getMuStatus() {
         return muStatus;
     }
@@ -143,7 +159,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_date")
+    @Column(name = "mu_date", nullable= true, length = 19)
     public String getMuDate() {
         return muDate;
     }
@@ -153,7 +169,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_effective_days")
+    @Column(name = "mu_effective_days", nullable= true, length = 11)
     public int getMuEffectiveDays() {
         return muEffectiveDays;
     }
@@ -163,7 +179,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_confirm_code")
+    @Column(name = "mu_confirm_code", nullable= false, length = 45)
     public String getMuConfirmCode() {
         return muConfirmCode;
     }
@@ -173,7 +189,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_email_confirm")
+    @Column(name = "mu_email_confirm", nullable= false, length = 1)
     public String getMuEmailConfirm() {
         return muEmailConfirm;
     }
@@ -183,7 +199,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_date_reset_pwd")
+    @Column(name = "mu_date_reset_pwd", nullable= false, length = 19)
     public String getMuDateResetPwd() {
         return muDateResetPwd;
     }
@@ -193,7 +209,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_gender")
+    @Column(name = "mu_gender", nullable= false, length = 1)
     public String getMuGender() {
         return muGender;
     }
@@ -203,7 +219,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic(fetch=FetchType.LAZY)
-    @Column(name="mu_Photo",length = 10000)
+    @Column(name="mu_Photo", nullable= false, length = 1000)
     public byte[] getMuPhoto() {
         return muPhoto;
     }
@@ -213,7 +229,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_data_user")
+    @Column(name = "mu_data_user", nullable= false, length = 12)
     public String getMuDataUser() {
         return muDataUser;
     }
@@ -223,7 +239,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_data_password")
+    @Column(name = "mu_data_password", nullable= false, length = 16)
     public String getMuDataPassword() {
         return muDataPassword;
     }
@@ -233,7 +249,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_expires")
+    @Column(name = "mu_expires", nullable= false, length = 1)
     public String getMuExpires() {
         return muExpires;
     }
@@ -243,7 +259,7 @@ public class MasterUserEntity implements java.io.Serializable {
     }
 
     @Basic
-    @Column(name = "mu_date_expires")
+    @Column(name = "mu_date_expires", nullable= false, length = 19)
     public String getMuDateExpires() {
         return muDateExpires;
     }
@@ -252,8 +268,9 @@ public class MasterUserEntity implements java.io.Serializable {
         this.muDateExpires = muDateExpires;
     }
 
+    @Transient
     @Basic
-    @Column(name = "city_ci_city_code")
+    @Column(name = "city_ci_city_code", nullable= true, length = 20)
     public long getCityCiCityCode() {
         return cityCiCityCode;
     }
@@ -262,8 +279,9 @@ public class MasterUserEntity implements java.io.Serializable {
         this.cityCiCityCode = cityCiCityCode;
     }
 
+    @Transient
     @Basic
-    @Column(name = "city_states_st_state_code")
+    @Column(name = "city_states_st_state_code", nullable= true, length = 20)
     public long getCityStatesStStateCode() {
         return cityStatesStStateCode;
     }
@@ -272,8 +290,9 @@ public class MasterUserEntity implements java.io.Serializable {
         this.cityStatesStStateCode = cityStatesStStateCode;
     }
 
+    @Transient
     @Basic
-    @Column(name = "city_states_country_co_country_code")
+    @Column(name = "city_states_country_co_country_code", nullable= true, length = 20)
     public long getCityStatesCountryCoCountryCode() {
         return cityStatesCountryCoCountryCode;
     }
@@ -287,35 +306,12 @@ public class MasterUserEntity implements java.io.Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MasterUserEntity that = (MasterUserEntity) o;
-        return bussinessUnitBuBisCode == that.bussinessUnitBuBisCode &&
-                muEffectiveDays == that.muEffectiveDays &&
-                cityCiCityCode == that.cityCiCityCode &&
-                cityStatesStStateCode == that.cityStatesStStateCode &&
-                cityStatesCountryCoCountryCode == that.cityStatesCountryCoCountryCode &&
-                Objects.equals(muEmail, that.muEmail) &&
-                Objects.equals(muPassword, that.muPassword) &&
-                Objects.equals(muPasswordOld, that.muPasswordOld) &&
-                Objects.equals(muName, that.muName) &&
-                Objects.equals(muSectionTime, that.muSectionTime) &&
-                Objects.equals(muQuestion, that.muQuestion) &&
-                Objects.equals(muStartDate, that.muStartDate) &&
-                Objects.equals(muAnswer, that.muAnswer) &&
-                Objects.equals(muStatus, that.muStatus) &&
-                Objects.equals(muDate, that.muDate) &&
-                Objects.equals(muConfirmCode, that.muConfirmCode) &&
-                Objects.equals(muEmailConfirm, that.muEmailConfirm) &&
-                Objects.equals(muDateResetPwd, that.muDateResetPwd) &&
-                Objects.equals(muGender, that.muGender) &&
-                Arrays.equals(muPhoto, that.muPhoto) &&
-                Objects.equals(muDataUser, that.muDataUser) &&
-                Objects.equals(muDataPassword, that.muDataPassword) &&
-                Objects.equals(muExpires, that.muExpires) &&
-                Objects.equals(muDateExpires, that.muDateExpires);
+        return bussinessUnitBuBisCode == that.bussinessUnitBuBisCode && muEffectiveDays == that.muEffectiveDays && cityCiCityCode == that.cityCiCityCode && cityStatesStStateCode == that.cityStatesStStateCode && cityStatesCountryCoCountryCode == that.cityStatesCountryCoCountryCode && Objects.equals(muEmail, that.muEmail) && Objects.equals(muPassword, that.muPassword) && Objects.equals(muPasswordOld, that.muPasswordOld) && Objects.equals(muName, that.muName) && Objects.equals(muSectionTime, that.muSectionTime) && Objects.equals(muQuestion, that.muQuestion) && Objects.equals(muStartDate, that.muStartDate) && Objects.equals(muAnswer, that.muAnswer) && Objects.equals(muStatus, that.muStatus) && Objects.equals(muDate, that.muDate) && Objects.equals(muConfirmCode, that.muConfirmCode) && Objects.equals(muEmailConfirm, that.muEmailConfirm) && Objects.equals(muDateResetPwd, that.muDateResetPwd) && Objects.equals(muGender, that.muGender) && Arrays.equals(muPhoto, that.muPhoto) && Objects.equals(muDataUser, that.muDataUser) && Objects.equals(muDataPassword, that.muDataPassword) && Objects.equals(muExpires, that.muExpires) && Objects.equals(muDateExpires, that.muDateExpires) && Objects.equals(userRole, that.userRole);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(muEmail, bussinessUnitBuBisCode, muPassword, muPasswordOld, muName, muSectionTime, muQuestion, muStartDate, muAnswer, muStatus, muDate, muEffectiveDays, muConfirmCode, muEmailConfirm, muDateResetPwd, muGender, muDataUser, muDataPassword, muExpires, muDateExpires, cityCiCityCode, cityStatesStStateCode, cityStatesCountryCoCountryCode);
+        int result = Objects.hash(muEmail, bussinessUnitBuBisCode, muPassword, muPasswordOld, muName, muSectionTime, muQuestion, muStartDate, muAnswer, muStatus, muDate, muEffectiveDays, muConfirmCode, muEmailConfirm, muDateResetPwd, muGender, muDataUser, muDataPassword, muExpires, muDateExpires, cityCiCityCode, cityStatesStStateCode, cityStatesCountryCoCountryCode, userRole);
         result = 31 * result + Arrays.hashCode(muPhoto);
         return result;
     }

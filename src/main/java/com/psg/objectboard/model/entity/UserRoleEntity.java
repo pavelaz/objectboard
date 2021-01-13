@@ -1,8 +1,16 @@
 package com.psg.objectboard.model.entity;
 
-import javax.persistence.*;
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import javax.persistence.*;
+
+/*@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString*/
 @Entity
 @Table(name = "userRole", schema = "objectboard_db", catalog = "")
 public class UserRoleEntity {
@@ -11,9 +19,20 @@ public class UserRoleEntity {
     private long projectPrIdProject;
     private int umRole;
     private String umStatus;
+    private MasterUserEntity masterUser;
+
+    @OneToOne(mappedBy = "userRole")
+    public MasterUserEntity getMasterUser() {
+        return masterUser;
+    }
+
+    public void setMasterUser(MasterUserEntity masterUser) {
+        this.masterUser = masterUser;
+    }
 
     @Id
-    @Column(name = "masterUser_mu_email")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "masterUser_mu_email", updatable = false, nullable = true, length = 40)
     public String getMasterUserMuEmail() {
         return masterUserMuEmail;
     }
@@ -23,7 +42,7 @@ public class UserRoleEntity {
     }
 
     @Basic
-    @Column(name = "masterUser_bussinessUnit_bu_bis_code")
+    @Column(name = "masterUser_bussinessUnit_bu_bis_code", nullable = true, length = 20)
     public long getMasterUserBussinessUnitBuBisCode() {
         return masterUserBussinessUnitBuBisCode;
     }
@@ -33,7 +52,7 @@ public class UserRoleEntity {
     }
 
     @Basic
-    @Column(name = "project_pr_id_project")
+    @Column(name = "project_pr_id_project", nullable = true, length = 20)
     public long getProjectPrIdProject() {
         return projectPrIdProject;
     }
@@ -43,7 +62,7 @@ public class UserRoleEntity {
     }
 
     @Basic
-    @Column(name = "um_role")
+    @Column(name = "um_role", nullable = true, length = 11)
     public int getUmRole() {
         return umRole;
     }
@@ -53,7 +72,7 @@ public class UserRoleEntity {
     }
 
     @Basic
-    @Column(name = "um_status")
+    @Column(name = "um_status", nullable = false, length = 1)
     public String getUmStatus() {
         return umStatus;
     }
@@ -62,16 +81,4 @@ public class UserRoleEntity {
         this.umStatus = umStatus;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserRoleEntity that = (UserRoleEntity) o;
-        return masterUserBussinessUnitBuBisCode == that.masterUserBussinessUnitBuBisCode && projectPrIdProject == that.projectPrIdProject && umRole == that.umRole && Objects.equals(masterUserMuEmail, that.masterUserMuEmail) && Objects.equals(umStatus, that.umStatus);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(masterUserMuEmail, masterUserBussinessUnitBuBisCode, projectPrIdProject, umRole, umStatus);
-    }
 }

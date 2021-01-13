@@ -18,9 +18,111 @@ public class BussinessUnitEntity {
     private String buName;
     private String buAddress;
     private String buWebpage;
+    private String buAdminCode;
+    private String buUser1Code;
+    private String buUser2Code;
+    private long cityCiCityCode;
+    private long cityStatesStStateCode;
+    private long cityStatesCountryCoCountryCode;
+    private long bussinessTypeBtCodeType;
+    private String buLogoName;
+    /*private MasterUserEntity masterUser;
+
+    @OneToMany
+    public MasterUserEntity getMasterUser() {
+        return masterUser;
+    }
+
+    public void setMasterUser(MasterUserEntity masterUser) {
+        this.masterUser = masterUser;
+    }*/
+
+    @Basic
+    @Column(name = "bu_logo_name", nullable = true, length = 45)
+    public String getBuLogoName() {
+        return buLogoName;
+    }
+
+    public void setBuLogoName(String buLogoName) {
+        this.buLogoName = buLogoName;
+    }
+
+    @Transient
+    @Column(name = "bussinessType_bt_code_type", nullable = true, length = 20)
+    public long getBussinessTypeBtCodeType() {
+        return bussinessTypeBtCodeType;
+    }
+
+    public void setBussinessTypeBtCodeType(long bussinessTypeBtCodeType) {
+        this.bussinessTypeBtCodeType = bussinessTypeBtCodeType;
+    }
+
+    @Transient
+    @Basic
+    @Column(name = "city_ci_city_code", nullable= true, length = 20)
+    public long getCityCiCityCode() {
+        return cityCiCityCode;
+    }
+
+    public void setCityCiCityCode(long cityCiCityCode) {
+        this.cityCiCityCode = cityCiCityCode;
+    }
+
+    @Transient
+    @Basic
+    @Column(name = "city_states_st_state_code", nullable= true, length = 20)
+    public long getCityStatesStStateCode() {
+        return cityStatesStStateCode;
+    }
+
+    public void setCityStatesStStateCode(long cityStatesStStateCode) {
+        this.cityStatesStStateCode = cityStatesStStateCode;
+    }
+
+    @Transient
+    @Basic
+    @Column(name = "city_states_country_co_country_code", nullable= true, length = 20)
+    public long getCityStatesCountryCoCountryCode() {
+        return cityStatesCountryCoCountryCode;
+    }
+
+    public void setCityStatesCountryCoCountryCode(long cityStatesCountryCoCountryCode) {
+        this.cityStatesCountryCoCountryCode = cityStatesCountryCoCountryCode;
+    }
+
+    @Basic
+    @Column(name="bu_user2_code", nullable = false, length = 12)
+    public String getBuUser2Code() {
+        return buUser2Code;
+    }
+
+    public void setBuUser2Code(String buUser2Code) {
+        this.buUser2Code = buUser2Code;
+    }
+
+    @Basic
+    @Column(name = "bu_user1_code", nullable = false, length = 12)
+    public String getBuUser1Code() {
+        return buUser1Code;
+    }
+
+    public void setBuUser1Code(String buUser1Code) {
+        this.buUser1Code = buUser1Code;
+    }
+
+    @Basic
+    @Column(name ="bu_admin_code", nullable = false, length = 12)
+    public String getBuAdminCode() {
+        return buAdminCode;
+    }
+
+    public void setBuAdminCode(String buAdminCode) {
+        this.buAdminCode = buAdminCode;
+    }
 
     @Id
-    @Column(name = "bu_bis_code")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bu_bis_code", nullable = true, length = 20)
     public long getBuBisCode() {
         return buBisCode;
     }
@@ -29,7 +131,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_federal_number")
+    @Column(name = "bu_federal_number", nullable = false, length = 10)
     public String getBuFederalNumber() {
         return buFederalNumber;
     }
@@ -39,7 +141,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_provincial_number")
+    @Column(name = "bu_provincial_number", nullable = false, length = 16)
     public String getBuProvincialNumber() {
         return buProvincialNumber;
     }
@@ -49,7 +151,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_email")
+    @Column(name = "bu_email", nullable = false, length = 60)
     public String getBuEmail() {
         return buEmail;
     }
@@ -59,7 +161,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_status")
+    @Column(name = "bu_status", nullable = true, length = 1)
     public String getBuStatus() {
         return buStatus;
     }
@@ -69,7 +171,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_super_code")
+    @Column(name = "bu_super_code", nullable = false, length = 12)
     public String getBuSuperCode() {
         return buSuperCode;
     }
@@ -79,7 +181,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_phone")
+    @Column(name = "bu_phone", nullable = false, length = 13)
     public String getBuPhone() {
         return buPhone;
     }
@@ -89,7 +191,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_zipcode")
+    @Column(name = "bu_zipcode", nullable = false, length = 6)
     public String getBuZipcode() {
         return buZipcode;
     }
@@ -99,7 +201,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_name")
+    @Column(name = "bu_name", nullable = false, length = 35)
     public String getBuName() {
         return buName;
     }
@@ -109,7 +211,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_address")
+    @Column(name = "bu_address", nullable = false, length = 45)
     public String getBuAddress() {
         return buAddress;
     }
@@ -119,7 +221,7 @@ public class BussinessUnitEntity {
     }
 
     @Basic
-    @Column(name = "bu_webpage")
+    @Column(name = "bu_webpage", nullable = false, length = 50)
     public String getBuWebpage() {
         return buWebpage;
     }

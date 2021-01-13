@@ -9,6 +9,7 @@ import com.psg.objectboard.model.repository.MasterUserProfileRepositoryImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 public class MasterUserProfileService {
 
@@ -91,7 +92,7 @@ public class MasterUserProfileService {
             MasterUserEntity masterUserEntity = masterUserRepository.getByIds(entityManager, identifier, email, '1');
             photoDto = new PhotoDto();
             photoDto.setMuPhoto(masterUserEntity.getMuPhoto());
-
+            //entityManager.persist(photoDto);
             transaction.commit();
             System.out.println("Leido MasterUserService Photo");
         }
@@ -115,13 +116,15 @@ public class MasterUserProfileService {
         FilesController filesController = null;
 
         try {
+            //entityManager = new EntityManagerHolder().getCurrentEntityManager();
             entityManager = new EntityManagerHolder().getCurrentEntityManager();
             transaction = entityManager.getTransaction();
             transaction.begin();
 
             System.out.println("datos para consulta: " + masterUserDto.getBussinessUnitBuBisCode() + " " + masterUserDto.getMuEmail());
 
-            MasterUserEntity masterUserEntity = masterUserRepository.getByIds(entityManager,masterUserDto.getBussinessUnitBuBisCode(), masterUserDto.getMuEmail(), '2');
+            Query query = entityManager.createNamedQuery("SELECT * FROM MasterUser", MasterUserEntity.class);
+            /*MasterUserEntity masterUserEntity = masterUserRepository.getByIds(entityManager,masterUserDto.getBussinessUnitBuBisCode(), masterUserDto.getMuEmail(), '2');
             System.out.println("dentro del cuerpo del servicio justo a invocar el update");
             if (masterUserDto.getBussinessUnitBuBisCode() == '1') {
                 masterUserEntity.setBussinessUnitBuBisCode(masterUserDto.getBussinessUnitBuBisCode());
@@ -143,12 +146,12 @@ public class MasterUserProfileService {
                 masterUserEntity.setMuGender(masterUserDto.getMuGender());
             }
 
-            /*Tranformation of byte[] to Blob of Photo*/
+            /Tranformation of byte[] to Blob of Photo/
             if (masterUserDto.getRoutePhoto()!= null){
                 filesController = new FilesController();
                 byte[] blobPhoto = filesController.byteToBlobTransformation(masterUserDto.getRoutePhoto());
                 masterUserEntity.setMuPhoto(blobPhoto);
-            }
+            }*/
 
             transaction.commit();
             System.out.println("Leido update MasterUserService");
