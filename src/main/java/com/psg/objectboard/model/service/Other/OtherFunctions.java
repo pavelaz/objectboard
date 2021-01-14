@@ -3,6 +3,8 @@ package com.psg.objectboard.model.service.Other;
 import com.psg.objectboard.batch.App;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
+
+import javax.print.attribute.standard.MediaSize;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -56,7 +58,7 @@ public class OtherFunctions {
         }
         if (valor.equals("0")){
             none = vProp.getProperty("propert-pathcomplements");
-                none = none.substring(0,none.length()-4);
+                //none = none.substring(0,none.length()-4);
             return none;
         }
         if (valor.equals("1")){
@@ -337,24 +339,33 @@ public class OtherFunctions {
 
             System.out.println("Busqueda exitosa");
 
+            OtherFunctions of = new OtherFunctions();
             if (Long.parseLong(numCia) == 1){
                 /*info = System.getProperty("user.home") +
                         "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";*/
-                info = System.getProperty("user.home") +
-                        "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";
+                info =  of.searchLink("0") +
+                        "img/favicon2.png";
             }else {
                 if (nombre_logo.equals("favicon2.png")){
-                    info = System.getProperty("user.home") +
-                            "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";
+                    /*info = System.getProperty("user.home") +
+                            "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";*/
+                    info = of.searchLink("0") +
+                            "img/favicon2.png";
                 }else {
                     if (Long.parseLong(numCia) != 0) {
                         if (Long.parseLong(numCia) < 10) {
-                            info = System.getProperty("user.home") +
+                            /*info = System.getProperty("user.home") +
                                     "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/"
+                                    + "0" + Long.parseLong(numCia) + "/" + nombre_logo;*/
+                            info = of.searchLink("0") +
+                                    "img/logos/"
                                     + "0" + Long.parseLong(numCia) + "/" + nombre_logo;
                         } else {
-                            info = System.getProperty("user.home") +
+                            /*info = System.getProperty("user.home") +
                                     "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/"
+                                    + Long.parseLong(numCia) + "/" + nombre_logo;*/
+                            info = of.searchLink("0") +
+                                    "img/logos/"
                                     + Long.parseLong(numCia) + "/" + nombre_logo;
                         }
                     }

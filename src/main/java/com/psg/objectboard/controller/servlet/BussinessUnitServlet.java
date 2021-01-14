@@ -142,7 +142,7 @@ public class BussinessUnitServlet extends HttpServlet {
                         unit_logo_dir = "/" + of.searchLink("3") + "/img/logos/0" + unit_number + "/";
                         //unit_logo_dir = "/complements/img/logos/0" + unit_number + "/";
                     } else {
-                        unit_logo_dir = "/" + of.searchLink("3") + "/img/logos/0" + unit_number + "/";
+                        unit_logo_dir = "/" + of.searchLink("3") + "/img/logos/" + unit_number + "/";
                         //unit_logo_dir = "/complements/img/logos/" + unit_number + "/";
                     }
                 }
