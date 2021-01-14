@@ -33,9 +33,9 @@ public class MasterUserEntity {
     private long cityStatesStStateCode;
     private long cityStatesCountryCoCountryCode;
     private UserRoleEntity userRole;
-    private BussinessUnitEntity bussinessUnit;
+    //private BussinessUnitEntity bussinessUnit;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "bu_bis_code")
     public BussinessUnitEntity getBussinessUnit() {
         return bussinessUnit;
@@ -53,7 +53,7 @@ public class MasterUserEntity {
 
     public void setUserRole(UserRoleEntity userRole) {
         this.userRole = userRole;
-    }
+    }*/
 
     @Id
     @Basic(optional = false)

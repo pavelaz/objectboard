@@ -19,16 +19,16 @@ public class UserRoleEntity {
     private long projectPrIdProject;
     private int umRole;
     private String umStatus;
-    private MasterUserEntity masterUser;
+    //private MasterUserEntity masterUser;
 
-    @OneToOne(mappedBy = "userRole")
+    /*@OneToOne(mappedBy = "userRole")
     public MasterUserEntity getMasterUser() {
         return masterUser;
     }
 
     public void setMasterUser(MasterUserEntity masterUser) {
         this.masterUser = masterUser;
-    }
+    }*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
