@@ -60,6 +60,7 @@ public class BussinessUnitServlet extends HttpServlet {
              unit_logo_name = null,
              unit_logo_name_ant = null,
              unit_logo_dir = null;
+        OtherFunctions of = new OtherFunctions();
 
         if (acciones.equals("save")) {
             BussinessUnitVO buvo = new BussinessUnitVO();
@@ -130,15 +131,19 @@ public class BussinessUnitServlet extends HttpServlet {
                 unit_logo_name=buvo.getBuLogoName();
 
             if (Integer.parseInt(unit_number) == 1){
-                unit_logo_dir = "/complements/img/";
+                unit_logo_dir = "/" + of.searchLink("3") + "/img/";
+                //unit_logo_dir = "/complements/img/";
             }else{
                 if (unit_logo_name.equals("favicon2.png")){
-                    unit_logo_dir = "/complements/img/";
+                    unit_logo_dir = "/" + of.searchLink("3") + "/img/";
+                    //unit_logo_dir = "/complements/img/";
                 }else {
                     if (Integer.parseInt(unit_number) < 10) {
-                        unit_logo_dir = "/complements/img/logos/0" + unit_number + "/";
+                        unit_logo_dir = "/" + of.searchLink("3") + "/img/logos/0" + unit_number + "/";
+                        //unit_logo_dir = "/complements/img/logos/0" + unit_number + "/";
                     } else {
-                        unit_logo_dir = "/complements/img/logos/" + unit_number + "/";
+                        unit_logo_dir = "/" + of.searchLink("3") + "/img/logos/0" + unit_number + "/";
+                        //unit_logo_dir = "/complements/img/logos/" + unit_number + "/";
                     }
                 }
             }

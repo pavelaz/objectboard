@@ -3,12 +3,6 @@ package com.psg.objectboard.model.service.Other;
 import com.psg.objectboard.batch.App;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
-//import org.json.JSONObject;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -61,7 +55,7 @@ public class OtherFunctions {
             return none;
         }
         if (valor.equals("0")){
-            none = vProp.getProperty("propert-pathuserhome");
+            none = vProp.getProperty("propert-pathcomplements");
                 none = none.substring(0,none.length()-4);
             return none;
         }
@@ -74,7 +68,7 @@ public class OtherFunctions {
             return none;
         }
         if (valor.equals("3")){
-            none = vProp.getProperty("propert-pahtcontainerimglogos");
+            none = vProp.getProperty("propert-complements");
             return none;
         }
         return vProp.getProperty("propert-pathuserhome");

@@ -146,8 +146,7 @@ public class RegisterAccessServlet extends HttpServlet {
                     }
                 }
                 /*(Production)*/
-                //String path = vProp.getProperty("propert-pathuserhome");
-                String path = vProp.getProperty("propert-pathcontainerfiles");
+                String path = vProp.getProperty("propert-pathcomplements");
 
                 if(user_sexo.equals("M"))
                     ruta = path + "img/photoProfileMen2.png";

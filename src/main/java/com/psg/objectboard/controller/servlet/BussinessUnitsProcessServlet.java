@@ -48,12 +48,10 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
 
         //String path = System.getProperty("user.home");
         String path = of.searchLink("0");
+        String primaryDirectory = path + "temporaryfiles/";
+        String secundaryDirectory = path + "img/logos/";
         //String primaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/temporaryfiles/";
         //String secundaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/";
-        String primaryDirectory = "temporaryfiles/";
-        String secundaryDirectory = "logos/";
-        System.out.println("############# -> "+path+primaryDirectory);
-        System.out.println("############# -> "+path+secundaryDirectory);
         ArrayList<Integer> cual_unit = new ArrayList<Integer>();
         ArrayList<String> cual_logo = new ArrayList<String>();
         BussinessUnitVO codo = new BussinessUnitVO();
