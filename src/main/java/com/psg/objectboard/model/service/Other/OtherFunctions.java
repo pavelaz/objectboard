@@ -4,7 +4,6 @@ import com.psg.objectboard.batch.App;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 
-import javax.print.attribute.standard.MediaSize;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -71,6 +70,18 @@ public class OtherFunctions {
         }
         if (valor.equals("3")){
             none = vProp.getProperty("propert-complements");
+            return none;
+        }
+        if (valor.equals("4")){
+            none = vProp.getProperty("propert-pathfiles");
+            return none;
+        }
+        if (valor.equals("5")){
+            none = vProp.getProperty("propert-pathimglogos");
+            return none;
+        }
+        if (valor.equals("6")){
+            none = vProp.getProperty("propert-environment");
             return none;
         }
         return vProp.getProperty("propert-pathuserhome");
