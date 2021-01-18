@@ -1,8 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
-import com.psg.objectboard.controller.MasterUserProfileController;
 import com.psg.objectboard.controller.common.FilesController;
-import com.psg.objectboard.model.datatransferobject.MasterUserDto;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
@@ -41,8 +39,6 @@ public class MasterUserProfileServlet extends HttpServlet {
 
         if (request.getMethod().equals("GET")) {
             if (company_number != null) {
-                //MasterUserProfileController controller = new MasterUserProfileController();
-                //masterUserDto = controller.DetailModuleProfileUser(Long.parseLong(company_number), user_email);
                 masterUserDto = mud.serchMasterUserDAO(user_email,company_number);
                 request.setAttribute("rq_masterUserDto", masterUserDto);
                 request.setAttribute("rq_companyName", company_name);
@@ -79,6 +75,10 @@ public class MasterUserProfileServlet extends HttpServlet {
                     master_user_dto.setMuEffectiveDays(Integer.parseInt(request.getParameter("p_muEffectiveDays")));
                     master_user_dto.setMuEmailConfirm(request.getParameter("p_muEmailConfirm"));
                     master_user_dto.setMuGender(request.getParameter("p_muGender"));
+
+                    master_user_dto.setCityStatesCountryCoCountryCode(Integer.parseInt(request.getParameter("p_country")));
+                    master_user_dto.setCityStatesStStateCode(Integer.parseInt(request.getParameter("p_state")));
+                    master_user_dto.setCityCiCityCode(Integer.parseInt(request.getParameter("p_city")));
                 }
             }else { /*Client Companies*/
                 if ((request.getParameter("p_muName")) != null && /*ok*/
@@ -94,6 +94,10 @@ public class MasterUserProfileServlet extends HttpServlet {
                     master_user_dto.setMuQuestion(request.getParameter("p_muQuestion"));
                     master_user_dto.setMuAnswer(request.getParameter("p_muAnswer"));
                     master_user_dto.setMuGender(request.getParameter("p_muGender"));
+
+                    master_user_dto.setCityStatesCountryCoCountryCode(Integer.parseInt(request.getParameter("p_country")));
+                    master_user_dto.setCityStatesStStateCode(Integer.parseInt(request.getParameter("p_state")));
+                    master_user_dto.setCityCiCityCode(Integer.parseInt(request.getParameter("p_city")));
                 }
             }
 
@@ -105,9 +109,8 @@ public class MasterUserProfileServlet extends HttpServlet {
             // iniciar transacion
             ocn.init_trans(con);
             mud.updateMasterUserDAO(master_user_dto, con);
-            //MasterUserProfileController masterUserProfileController = new MasterUserProfileController();
             if (master_user_dto.getResult()) {
-                FilesController filesController = new FilesController();
+                FilesController filesController = null;
                 if (request.getPart("p_file") != null) {
                     filesController = new FilesController();
                     String file_name = filesController.getNameFile(request.getPart("p_file"));
@@ -120,16 +123,13 @@ public class MasterUserProfileServlet extends HttpServlet {
                         of.subirArchivos(is, f);
                         master_user_dto.setRuta_imagen(ruta_archivo);
                         mud.updateMasterUserImage(master_user_dto,con);
+                        if (master_user_dto.getResult()){
+                            master_user_dto.setResult(of.eliminarFichero(f));
+                        }
                     }
                 }
             }
             /*Start*********************AddPhoto to Object master_user_dto *********/
-            //String photo = filesController.updateFile(request, (1024 * 1024 * 1),"p_file"); // 1024 * 1024 * 1,= 1 MB
-            //System.out.println("Dentro de la servlet en via al controlador photo: " + photo);
-            //master_user_dto.setRoutePhoto(photo);
-            /*End*********************AddPhoto to Object master_user_dto *********/
-
-           // masterUserProfileController.updateMasterUser(master_user_dto);
             // valida status de la transacion
             ocn.valida_trans(con,master_user_dto.getResult());
             //
@@ -140,6 +140,7 @@ public class MasterUserProfileServlet extends HttpServlet {
         if (!metodo.equals("0"))
             request.getRequestDispatcher("WEB-INF/pages/jsp/customers/masterUserProfile.jsp").forward(request, response);
         else {
+            assert masterUserDto != null;
             String none = "?p_country_number=" +
                     masterUserDto.getCityStatesCountryCoCountryCode() + "&p_state_number=" +
                     masterUserDto.getCityStatesStStateCode() + "&p_city_number=" +

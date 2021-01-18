@@ -280,6 +280,10 @@
                                                     <input type="hidden" name="p_unit" value="${ rq_companyNumber }">
                                                     <input type="hidden" name="p_metodo" value="0">
                                                     <input type="hidden" name="p_pantalla" value="users">
+
+                                                    <input type="hidden" name="p_country" value="${ rq_masterUserDto.cityStatesCountryCoCountryCode }">
+                                                    <input type="hidden" name="p_state" value="${ rq_masterUserDto.cityStatesStStateCode }">
+                                                    <input type="hidden" name="p_city" value="${  rq_masterUserDto.cityCiCityCode  }">
                                                 </div>
                                             </form>
                                             <!--END##########################################CUERPO PRINCIPAL#####################################################-->

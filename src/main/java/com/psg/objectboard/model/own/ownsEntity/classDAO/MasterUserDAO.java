@@ -227,7 +227,7 @@ public class MasterUserDAO {
     public static void updateMasterUserImage(MasterUserVO muv, Connection cone) {
         FileInputStream fi = null;
         String sql = "UPDATE masterUser SET " +
-                "muPhoto=?" +
+                "mu_photo=?" +
                 " WHERE (mu_email=? AND bussinessUnit_bu_bis_code=?)";
         try{
             File file = new File(muv.getRuta_imagen());
@@ -249,7 +249,6 @@ public class MasterUserDAO {
             pst.setInt(12,muv.getCityCiCityCode());
             pst.setInt(13,muv.getCityStatesStStateCode());
             pst.setInt(14,muv.getCityStatesCountryCoCountryCode());*/
-
             pst.setBinaryStream(1,fi, (int) file.length());
             pst.setString(2,muv.getMuEmail());
             pst.setLong(3, muv.getBussinessUnitBuBisCode());
