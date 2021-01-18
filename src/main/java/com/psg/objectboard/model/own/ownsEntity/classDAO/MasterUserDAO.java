@@ -224,6 +224,45 @@ public class MasterUserDAO {
         }
     }
 
+    public static void updateMasterUserImage(MasterUserVO muv, Connection cone) {
+        FileInputStream fi = null;
+        String sql = "UPDATE masterUser SET " +
+                "muPhoto=?" +
+                " WHERE (mu_email=? AND bussinessUnit_bu_bis_code=?)";
+        try{
+            File file = new File(muv.getRuta_imagen());
+            fi = new FileInputStream(file);
+            pst = cone.prepareStatement(sql);
+            /*pst.setString(1,muv.getMuPassword());
+            pst.setString(2,muv.getMuName());
+            pst.setInt(3,muv.getMuSectionTime());
+            pst.setString(4,muv.getMuQuestion());
+            pst.setString(5,muv.getMuAnswer());
+            pst.setString(6,muv.getMuStatus());
+            pst.setInt(7,muv.getMuEffectiveDays());
+
+            pst.setString(8,muv.getMuEmailConfirm());
+            pst.setString(9,muv.getMuGender());
+            pst.setString(10,muv.getMuExpires());
+            pst.setString(11,muv.getMuDateExpires());
+
+            pst.setInt(12,muv.getCityCiCityCode());
+            pst.setInt(13,muv.getCityStatesStStateCode());
+            pst.setInt(14,muv.getCityStatesCountryCoCountryCode());*/
+
+            pst.setBinaryStream(1,fi, (int) file.length());
+            pst.setString(2,muv.getMuEmail());
+            pst.setLong(3, muv.getBussinessUnitBuBisCode());
+            pst.execute();
+            System.out.println("Image Master User actualizada con exito, ID: "+muv.getMuEmail()+
+                    " , "+muv.getBussinessUnitBuBisCode());
+            muv.setResult(true);
+        }catch (SQLException | FileNotFoundException ex){
+            System.out.println("Error en la actualizacion Imagen: "+ex.getMessage());
+            muv.setResult(false);
+        }
+    }
+
     public MasterUserVO serchMasterUserDAO(String clave1,String clave2){
         MasterUserVO com = new MasterUserVO();
         cc = new OtherConexion();

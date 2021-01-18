@@ -3,11 +3,16 @@ package com.psg.objectboard.controller.servlet;
 import com.psg.objectboard.controller.MasterUserProfileController;
 import com.psg.objectboard.controller.common.FilesController;
 import com.psg.objectboard.model.datatransferobject.MasterUserDto;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
+import com.psg.objectboard.model.service.Other.OtherConexion;
+import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 @WebServlet (name="MasterUserProfileServlet", urlPatterns = "/masteruser")
@@ -24,7 +29,10 @@ public class MasterUserProfileServlet extends HttpServlet {
         final String company_number = (String) objSesion.getAttribute("companyNumber");
         final String user_email = (String) objSesion.getAttribute("userEmail");
         final String user_name = (String) objSesion.getAttribute("userName");
-        MasterUserDto masterUserDto = null;
+        String data_user = (String)objSesion.getAttribute("dataUser");
+        String data_pasword = (String)objSesion.getAttribute("dataPassword");
+        MasterUserVO masterUserDto = null;
+        MasterUserDAO mud = new MasterUserDAO();
 
         String metodo = "0";
         if(request.getParameter("p_metodo")!=null){
@@ -33,8 +41,9 @@ public class MasterUserProfileServlet extends HttpServlet {
 
         if (request.getMethod().equals("GET")) {
             if (company_number != null) {
-                MasterUserProfileController controller = new MasterUserProfileController();
-                masterUserDto = controller.DetailModuleProfileUser(Long.parseLong(company_number), user_email);
+                //MasterUserProfileController controller = new MasterUserProfileController();
+                //masterUserDto = controller.DetailModuleProfileUser(Long.parseLong(company_number), user_email);
+                masterUserDto = mud.serchMasterUserDAO(user_email,company_number);
                 request.setAttribute("rq_masterUserDto", masterUserDto);
                 request.setAttribute("rq_companyName", company_name);
                 request.setAttribute("rq_companyNumber", company_number);
@@ -43,11 +52,9 @@ public class MasterUserProfileServlet extends HttpServlet {
             System.out.println("MasterUserServlet metodo 'GET', muestra informacion del formulario");
         }
 
-        else if (request.getMethod().equals("OPTIONS")) {//EL METODO OPCIONS, FUNCIONA PARA ENVIOS DE FORMULARIOS CON ARCHIVOS Y PARA EL ESTADO DE (MODIFICAR).
+        if (request.getMethod().equals("OPTIONS")) {//EL METODO OPCIONS, FUNCIONA PARA ENVIOS DE FORMULARIOS CON ARCHIVOS Y PARA EL ESTADO DE (MODIFICAR).
 
-            MasterUserDto master_user_dto = new MasterUserDto();
-            MasterUserProfileController masterUserProfileController = new MasterUserProfileController();
-            FilesController filesController = new FilesController();
+            MasterUserVO master_user_dto = new MasterUserVO();
 
             if (company_number.equals("1")) {/*Services PVSoft*/
                 System.out.println("dentro de servlet  Empresa Services PVSoft");
@@ -90,14 +97,43 @@ public class MasterUserProfileServlet extends HttpServlet {
                 }
             }
 
+            OtherConexion ocn = new OtherConexion();
+            Connection con = null;
+            mud.setDataUser(data_user);
+            mud.setDataPassword(data_pasword);
+            con=ocn.conectarse(data_user,data_pasword);
+            // iniciar transacion
+            ocn.init_trans(con);
+            mud.updateMasterUserDAO(master_user_dto, con);
+            //MasterUserProfileController masterUserProfileController = new MasterUserProfileController();
+            if (master_user_dto.getResult()) {
+                FilesController filesController = new FilesController();
+                if (request.getPart("p_file") != null) {
+                    filesController = new FilesController();
+                    String file_name = filesController.getNameFile(request.getPart("p_file"));
+                    if (!file_name.equals("")) {
+                        OtherFunctions of = new OtherFunctions();
+                        Part file_imagen = request.getPart("p_file");
+                        InputStream is = file_imagen.getInputStream();
+                        String ruta_archivo = of.searchLink("4") + file_name;
+                        File f = new File(ruta_archivo);
+                        of.subirArchivos(is, f);
+                        master_user_dto.setRuta_imagen(ruta_archivo);
+                        mud.updateMasterUserImage(master_user_dto,con);
+                    }
+                }
+            }
             /*Start*********************AddPhoto to Object master_user_dto *********/
-            String photo = filesController.updateFile(request, (1024 * 1024 * 1),"p_file"); // 1024 * 1024 * 1,= 1 MB
-            System.out.println("Dentro de la servlet en via al controlador photo: " + photo);
-            master_user_dto.setRoutePhoto(photo);
+            //String photo = filesController.updateFile(request, (1024 * 1024 * 1),"p_file"); // 1024 * 1024 * 1,= 1 MB
+            //System.out.println("Dentro de la servlet en via al controlador photo: " + photo);
+            //master_user_dto.setRoutePhoto(photo);
             /*End*********************AddPhoto to Object master_user_dto *********/
 
-            masterUserProfileController.updateMasterUser(master_user_dto);
-
+           // masterUserProfileController.updateMasterUser(master_user_dto);
+            // valida status de la transacion
+            ocn.valida_trans(con,master_user_dto.getResult());
+            //
+            ocn.cierra_coneccion(con);
             System.out.println("MasterUserServlet metodo 'OPTIONS', recibe objeto de JSP");
         }
 

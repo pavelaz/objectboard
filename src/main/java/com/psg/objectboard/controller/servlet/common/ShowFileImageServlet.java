@@ -1,8 +1,9 @@
 package com.psg.objectboard.controller.servlet.common;
 
-import com.psg.objectboard.controller.MasterUserProfileController;
 import com.psg.objectboard.controller.common.FilesController;
-import com.psg.objectboard.model.datatransferobject.PhotoDto;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -14,22 +15,21 @@ public class ShowFileImageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String bussiness_unit_busBisCode = null;
+        String bub = null;
         String mu_email = null;
 
-            HttpSession objSesion = request.getSession();
-            bussiness_unit_busBisCode = (String) objSesion.getAttribute("companyNumber");
-            mu_email = (String) objSesion.getAttribute("userEmail");
+        HttpSession objSesion = request.getSession();
+        bub = (String) objSesion.getAttribute("companyNumber");
+        mu_email = (String) objSesion.getAttribute("userEmail");
 
-        if (bussiness_unit_busBisCode != null && mu_email != null){
+        if (bub != null && mu_email != null){
 
-            MasterUserProfileController controller = new MasterUserProfileController();
-            PhotoDto photoDto = controller.getShowPhoto(Long.parseLong(bussiness_unit_busBisCode), mu_email);
-
-            FilesController filesController = new FilesController();
+            FilesController fco = new FilesController();
+            MasterUserDAO mud = new MasterUserDAO();
+            MasterUserVO muv = mud.serchMasterUserDAO(mu_email,bub);
 
             ServletOutputStream outputStream = null;
-            outputStream = filesController.blobToDifferentFormats(response,photoDto.getMuPhoto(),"image/png");
+            outputStream = fco.blobToDifferentFormats(response,muv.getMuPhotoByte(),"image/png");
 
             System.out.println("Foto puesta en HTML");
         }
