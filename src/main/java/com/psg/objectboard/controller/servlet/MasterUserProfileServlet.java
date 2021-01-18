@@ -79,6 +79,8 @@ public class MasterUserProfileServlet extends HttpServlet {
                     master_user_dto.setCityStatesCountryCoCountryCode(Integer.parseInt(request.getParameter("p_country")));
                     master_user_dto.setCityStatesStStateCode(Integer.parseInt(request.getParameter("p_state")));
                     master_user_dto.setCityCiCityCode(Integer.parseInt(request.getParameter("p_city")));
+                    master_user_dto.setMuExpires(request.getParameter("p_expires"));
+                    master_user_dto.setMuDateExpires(request.getParameter("p_date_expires"));
                 }
             }else { /*Client Companies*/
                 if ((request.getParameter("p_muName")) != null && /*ok*/
@@ -98,6 +100,8 @@ public class MasterUserProfileServlet extends HttpServlet {
                     master_user_dto.setCityStatesCountryCoCountryCode(Integer.parseInt(request.getParameter("p_country")));
                     master_user_dto.setCityStatesStStateCode(Integer.parseInt(request.getParameter("p_state")));
                     master_user_dto.setCityCiCityCode(Integer.parseInt(request.getParameter("p_city")));
+                    master_user_dto.setMuExpires(request.getParameter("p_expires"));
+                    master_user_dto.setMuDateExpires(request.getParameter("p_date_expires"));
                 }
             }
 
@@ -140,6 +144,10 @@ public class MasterUserProfileServlet extends HttpServlet {
         if (!metodo.equals("0"))
             request.getRequestDispatcher("WEB-INF/pages/jsp/customers/masterUserProfile.jsp").forward(request, response);
         else {
+            MasterUserVO master_user_dto = new MasterUserVO();
+            master_user_dto.setCityStatesCountryCoCountryCode(Integer.parseInt(request.getParameter("p_country")));
+            master_user_dto.setCityStatesStStateCode(Integer.parseInt(request.getParameter("p_state")));
+            master_user_dto.setCityCiCityCode(Integer.parseInt(request.getParameter("p_city")));
             assert masterUserDto != null;
             String none = "?p_country_number=" +
                     masterUserDto.getCityStatesCountryCoCountryCode() + "&p_state_number=" +

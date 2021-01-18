@@ -283,7 +283,9 @@
 
                                                     <input type="hidden" name="p_country" value="${ rq_masterUserDto.cityStatesCountryCoCountryCode }">
                                                     <input type="hidden" name="p_state" value="${ rq_masterUserDto.cityStatesStStateCode }">
-                                                    <input type="hidden" name="p_city" value="${  rq_masterUserDto.cityCiCityCode  }">
+                                                    <input type="hidden" name="p_city" value="${  rq_masterUserDto.cityCiCityCode }">
+                                                    <input type="hidden" name="p_expires" value="${ rq_masterUserDto.muExpires }">
+                                                    <input type="hidden" name="p_date_expires" value="${ rq_masterUserDto.muDateExpires }">
                                                 </div>
                                             </form>
                                             <!--END##########################################CUERPO PRINCIPAL#####################################################-->
