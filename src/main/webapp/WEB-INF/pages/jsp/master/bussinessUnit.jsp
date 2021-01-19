@@ -4,7 +4,8 @@
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.StateVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.CityDAO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.CityVO" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%--
   Created by IntelliJ IDEA.
   User: pavelaz
   Date: 6/4/20
@@ -219,6 +220,34 @@ start ############################### Pre-loader ###############################
                         <div class="col-sm-8" align="right" name="div-photo" id="div-photo">
                             <jstl:choose>
                                 <jstl:when test="${ rq_unitLogoName != null }">
+
+                                    <img src="/objectboard/imagenshowfile.html?p_forma=${ rq_forma }
+                                    &p_unit=${ rq_profiles.get(x).getBussinessUnitBuBisCode() }
+                                    &p_email=${ rq_profiles.get(x).getMuEmail() }"
+                                    class="img-thumbnail"  alt="Logo Profile" width="120"
+                                    height="160" name="oldPhoto" title="preferably 216 x 216 pixels" id="oldPhoto">
+                                    <%-- <img name="oldPhoto" title="preferably 216 x 216 pixels" id="oldPhoto"
+                                         src="<%= request.getContextPath() %>${ rq_unitLogoDir }${ rq_unitLogoName }"
+                                         class="img-thumbnail" alt="Logo Profile" width="120" height="160"> --%>
+
+                                    <input type="file" name="p_file" id="file" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                           class="image-cropper-container" onchange="filePreview(this)">
+                                    <input type="hidden" name="p_file_sta" value="T" disabled>
+                                    <input type="hidden" name="p_file_ant" value="${ rq_unitLogoNameAnt }" >
+                                </jstl:when>
+                                <jstl:otherwise>
+                                    <img name="oldPhoto" title="preferably 216 x 216 pixels" id="oldPhoto"
+                                         src="<%= request.getContextPath() %>${ rq_unitLogoDir }/complements/img/no_logos.png"
+                                         class="img-thumbnail" alt="Logo Profile" width="120" height="160">
+                                    <input type="file" name="p_file" id="file" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                           class="image-cropper-container" onchange="filePreview(this)">
+                                    <input type="hidden" name="p_file_sta" value="T" disabled>
+                                </jstl:otherwise>
+                            </jstl:choose>
+                        </div>
+                        <%--<div class="col-sm-8" align="right" name="div-photo" id="div-photo">
+                            <jstl:choose>
+                                <jstl:when test="${ rq_unitLogoName != null }">
                                     <img name="oldPhoto" title="preferably 216 x 216 pixels" id="oldPhoto"
                                          src="<%= request.getContextPath() %>${ rq_unitLogoDir }${ rq_unitLogoName }"
                                          class="img-thumbnail" alt="Logo Profile" width="120" height="160">
@@ -236,7 +265,7 @@ start ############################### Pre-loader ###############################
                                     <input type="hidden" name="p_file_sta" value="T" disabled>
                                 </jstl:otherwise>
                             </jstl:choose>
-                        </div>
+                        </div> --%>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-1">
