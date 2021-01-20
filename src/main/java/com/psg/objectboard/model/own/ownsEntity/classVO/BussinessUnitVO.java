@@ -1,5 +1,8 @@
 package com.psg.objectboard.model.own.ownsEntity.classVO;
 
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class BussinessUnitVO {
     private long buBisCode;
     private String buFederalNumber;
@@ -21,6 +24,8 @@ public class BussinessUnitVO {
     private long bussinessTypeBtCodeType;
     private Boolean result;
     private String buLogoName;
+    private Blob buLogo;
+
 
     public long getBuBisCode() {
         return buBisCode;
@@ -181,4 +186,13 @@ public class BussinessUnitVO {
     public void setBuLogoName(String buLogoName) {
         this.buLogoName = buLogoName;
     }
+
+    public Blob getBuLogo() {
+        return buLogo;
+    }
+
+    public void setBuLogo(Blob buLogo) {
+        this.buLogo = buLogo;
+    }
+
 }
