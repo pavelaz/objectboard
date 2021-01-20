@@ -205,7 +205,7 @@ public class BussinessUnitDAO {
                 covo.setBuLogoName(rs.getString(19));
                 covo.setBuLogoImage(rs.getBlob(20));
                 // convierte campo tipo blob a byte[]
-                if (!covo.getBuLogoName().equals("favicon2.png")) {
+                if (!(covo.getBuLogoImage() == null)){
                     int blobLength = (int) rs.getBlob(20).length();
                     byte[] blobAsBytes = rs.getBlob(20).getBytes(1, blobLength);
                     covo.setBuLogoImageByte(blobAsBytes);

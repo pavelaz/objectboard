@@ -23,7 +23,7 @@
             <img class="img-fluid" src="<%= request.getContextPath() %>/complements/img/logos/01/favicon2.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;--%>
             <jstl:choose>
                 <jstl:when test="${ rq_companyNumber.equals('1')}">
-                    <img class="img-fluid" src="${pageContext.request.contextPath}/complements/img/favicon2.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;
+                    <img class="img-fluid" src="${pageContext.request.contextPath}/complements/img/favicon2old.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;
                 </jstl:when>
                 <jstl:otherwise>
                     <%-- <img class="img-fluid" src="/objectboard/complements/img/logos/02/logo_nasa.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp; --%>
