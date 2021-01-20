@@ -21,29 +21,26 @@ public class MasterUserProfileServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
-        final HttpSession objSesion = request.getSession();
+        HttpSession objSesion = request.getSession();
 
-        final String company_name = (String) objSesion.getAttribute("companyName");
-        final String company_number = (String) objSesion.getAttribute("companyNumber");
-        final String user_email = (String) objSesion.getAttribute("userEmail");
-        final String user_name = (String) objSesion.getAttribute("userName");
+        String company_name = (String) objSesion.getAttribute("companyName");
+        String company_number = (String) objSesion.getAttribute("companyNumber");
+        String user_email = (String) objSesion.getAttribute("userEmail");
+        String user_name = (String) objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
         MasterUserVO masterUserDto = null;
         MasterUserDAO mud = new MasterUserDAO();
 
-        String metodo = "0";
+        /*String metodo = "0";
         if(request.getParameter("p_metodo")!=null){
             metodo=request.getParameter("p_metodo");
-        }
+        }*/
 
         if (request.getMethod().equals("GET")) {
             if (company_number != null) {
                 masterUserDto = mud.serchMasterUserDAO(user_email,company_number);
                 request.setAttribute("rq_masterUserDto", masterUserDto);
-                request.setAttribute("rq_companyName", company_name);
-                request.setAttribute("rq_companyNumber", company_number);
-                request.setAttribute("rq_userName", user_name);
             }
             System.out.println("MasterUserServlet metodo 'GET', muestra informacion del formulario");
         }
@@ -139,9 +136,14 @@ public class MasterUserProfileServlet extends HttpServlet {
             //
             ocn.cierra_coneccion(con);
             System.out.println("MasterUserServlet metodo 'OPTIONS', recibe objeto de JSP");
+            //request.setAttribute("rq_companyNumber", company_number);
         }
 
-        if (!metodo.equals("0"))
+        request.setAttribute("rq_companyName", company_name);
+        request.setAttribute("rq_company_number",company_number);
+        request.setAttribute("rq_userName", user_name);
+
+        /*if (!metodo.equals("0"))
             request.getRequestDispatcher("WEB-INF/pages/jsp/customers/masterUserProfile.jsp").forward(request, response);
         else {
             MasterUserVO master_user_dto = new MasterUserVO();
@@ -154,11 +156,21 @@ public class MasterUserProfileServlet extends HttpServlet {
                     masterUserDto.getCityStatesStStateCode() + "&p_city_number=" +
                     masterUserDto.getCityCiCityCode();
             request.getRequestDispatcher("WEB-INF/pages/jsp/customers/masterUserProfile.jsp" + none).forward(request, response);
-        }
+        }*/
+        request.getRequestDispatcher("WEB-INF/pages/jsp/customers/masterUserProfile.jsp").forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {

@@ -1,13 +1,18 @@
 package com.psg.objectboard.model.own.ownsEntity.classDAO;
 
 import com.psg.objectboard.model.service.Other.OtherConexion;
+import com.psg.objectboard.model.service.Other.OtherFunctions;
 import com.psg.objectboard.model.service.Other.SqlFunctions;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessUnitVO;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class BussinessUnitDAO {
+    private static OtherFunctions of = null;
     private static OtherConexion cc = null;
     private static BussinessUnitVO covo = null;
     private static Connection cn = null;
@@ -27,9 +32,12 @@ public class BussinessUnitDAO {
     }
     //
     public void insertBussinessUnitDAO(BussinessUnitVO sovo, Connection cone){
-        String sql = "INSERT INTO bussinessUnit values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        of = new OtherFunctions();
+        String sql = "INSERT INTO bussinessUnit values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         sovo.setResult(false);
         try{
+            File file = new File(sovo.getRuta_imagen());
+            FileInputStream fi = new FileInputStream(file);
             pst = cone.prepareStatement(sql);
             pst.setString(1,sovo.getBuFederalNumber());
             pst.setString(2,sovo.getBuProvincialNumber());
@@ -49,10 +57,11 @@ public class BussinessUnitDAO {
             pst.setLong(16,sovo.getCityStatesCountryCoCountryCode());
             pst.setLong(17,sovo.getBussinessTypeBtCodeType());
             pst.setString(18,sovo.getBuLogoName());
+            pst.setBinaryStream(19, fi, (int) file.length());
             pst.executeUpdate();
             System.out.println("Operacion de Insert bussinessUnit Exitosa.");
             sovo.setResult(true);
-        }catch (SQLException ex){
+        }catch (SQLException | FileNotFoundException ex){
             sovo.setResult(false);
             System.out.println("Error en la consulta de insert bussinessUnit: "+ex.getMessage());
         }
@@ -92,8 +101,8 @@ public class BussinessUnitDAO {
                 "city_ci_city_code=?," +
                 "city_states_st_state_code=?," +
                 "city_states_country_co_country_code=?," +
-                "bussinessType_bt_code_type=?," +
-                "bu_logo_name=?" +
+                "bussinessType_bt_code_type=?" +
+                //"bu_logo_name=?" +
                 " WHERE (bu_bis_code=?)";
         try{
             pst = cone.prepareStatement(sql);
@@ -114,8 +123,8 @@ public class BussinessUnitDAO {
             pst.setLong(15, cov.getCityStatesStStateCode());
             pst.setLong(16, cov.getCityStatesCountryCoCountryCode());
             pst.setLong(17, cov.getBussinessTypeBtCodeType());
-            pst.setString(18, cov.getBuLogoName());
-            pst.setLong(19, cov.getBuBisCode());
+            //pst.setString(18, cov.getBuLogoName());
+            pst.setLong(18, cov.getBuBisCode());
             pst.execute();
             System.out.println("Bussiness Unit actualizado con exito, ID: "+ cov.getBuName());
             cov.setResult(true);
@@ -125,6 +134,45 @@ public class BussinessUnitDAO {
             cov.setResult(false);
         }
     }
+
+    public static void updateBussinessUnitImage(BussinessUnitVO muv, Connection cone) {
+        FileInputStream fi = null;
+        String sql = "UPDATE bussinessUnit SET " +
+                "bu_logo_name=?, " +
+                "bu_logo_image=?" +
+                " WHERE bu_bis_code=?";
+        try{
+            File file = new File(muv.getRuta_imagen());
+            fi = new FileInputStream(file);
+            pst = cone.prepareStatement(sql);
+            /*pst.setString(1,muv.getMuPassword());
+            pst.setString(2,muv.getMuName());
+            pst.setInt(3,muv.getMuSectionTime());
+            pst.setString(4,muv.getMuQuestion());
+            pst.setString(5,muv.getMuAnswer());
+            pst.setString(6,muv.getMuStatus());
+            pst.setInt(7,muv.getMuEffectiveDays());
+
+            pst.setString(8,muv.getMuEmailConfirm());
+            pst.setString(9,muv.getMuGender());
+            pst.setString(10,muv.getMuExpires());
+            pst.setString(11,muv.getMuDateExpires());
+
+            pst.setInt(12,muv.getCityCiCityCode());
+            pst.setInt(13,muv.getCityStatesStStateCode());
+            pst.setInt(14,muv.getCityStatesCountryCoCountryCode());*/
+            pst.setString(1,muv.getBuLogoName());
+            pst.setBinaryStream(2,fi, (int) file.length());
+            pst.setLong(3, muv.getBuBisCode());
+            pst.execute();
+            System.out.println("Image BussinessUnit actualizada con exito, ID: "+muv.getBuBisCode());
+            muv.setResult(true);
+        }catch (SQLException | FileNotFoundException ex){
+            System.out.println("Error en la actualizacion Imagen: "+ex.getMessage());
+            muv.setResult(false);
+        }
+    }
+
     // Consutas simples y mixtas varias
     public static BussinessUnitVO serchBussinessUnitDAO(String clave){
         covo = new BussinessUnitVO();
@@ -155,6 +203,13 @@ public class BussinessUnitDAO {
                 covo.setCityStatesCountryCoCountryCode(Integer.parseInt(rs.getString(17)));
                 covo.setBussinessTypeBtCodeType(Integer.parseInt(rs.getString(18)));
                 covo.setBuLogoName(rs.getString(19));
+                covo.setBuLogoImage(rs.getBlob(20));
+                // convierte campo tipo blob a byte[]
+                if (!covo.getBuLogoName().equals("favicon2.png")) {
+                    int blobLength = (int) rs.getBlob(20).length();
+                    byte[] blobAsBytes = rs.getBlob(20).getBytes(1, blobLength);
+                    covo.setBuLogoImageByte(blobAsBytes);
+                }
             }
             covo.setResult(true);
             System.out.println("Busqueda exitosa");
@@ -213,6 +268,12 @@ public class BussinessUnitDAO {
                 covo.setCityStatesCountryCoCountryCode(rs.getLong(17));
                 covo.setBussinessTypeBtCodeType(rs.getLong(18));
                 covo.setBuLogoName(rs.getString(19));
+                covo.setBuLogoImage(rs.getBlob(20));
+                if (!covo.getBuLogoName().equals("favicon2.png")) {
+                    int blobLength = (int) rs.getBlob(20).length();
+                    byte[] blobAsBytes = rs.getBlob(20).getBytes(1, blobLength);
+                    covo.setBuLogoImageByte(blobAsBytes);
+                }
                 if (arrcom.isEmpty()){
                     arrcom.add(0,covo);
                 }else{
@@ -236,7 +297,7 @@ public class BussinessUnitDAO {
         return arrcom;
     }
 
-    public String getLastBussinessUnitCreate(String condi,Connection cone){
+    /*public String getLastBussinessUnitCreate(String condi,Connection cone){
         //cc = new OtherConexion();
         //cn = cc.conectarse(dataUser,dataPassword);
         sqls = new SqlFunctions();
@@ -255,5 +316,5 @@ public class BussinessUnitDAO {
             System.out.println("Error en la consulta contador: "+ex.getMessage());
         }
         return String.valueOf(contador);
-    }
+    }*/
 }

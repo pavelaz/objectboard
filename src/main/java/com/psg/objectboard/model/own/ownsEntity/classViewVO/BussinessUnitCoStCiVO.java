@@ -1,5 +1,8 @@
 package com.psg.objectboard.model.own.ownsEntity.classViewVO;
 
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class BussinessUnitCoStCiVO {
     private Long buBisCode;
     private String buFederalNumber;
@@ -24,6 +27,42 @@ public class BussinessUnitCoStCiVO {
     private String countryName;
     private String typeName;
     private String buLogoName;
+    private Blob buLogoImage;
+    private String ruta_imagen;
+    private byte[] buLogoImageByte;
+    private InputStream buLogoImageInput;
+
+    public Blob getBuLogoImage() {
+        return buLogoImage;
+    }
+
+    public void setBuLogoImage(Blob buLogoImage) {
+        this.buLogoImage = buLogoImage;
+    }
+
+    public String getRuta_imagen() {
+        return ruta_imagen;
+    }
+
+    public void setRuta_imagen(String ruta_imagen) {
+        this.ruta_imagen = ruta_imagen;
+    }
+
+    public byte[] getBuLogoImageByte() {
+        return buLogoImageByte;
+    }
+
+    public void setBuLogoImageByte(byte[] buLogoImageByte) {
+        this.buLogoImageByte = buLogoImageByte;
+    }
+
+    public InputStream getBuLogoImageInput() {
+        return buLogoImageInput;
+    }
+
+    public void setBuLogoImageInput(InputStream buLogoImageInput) {
+        this.buLogoImageInput = buLogoImageInput;
+    }
 
     public String getBuLogoName() {
         return buLogoName;

@@ -90,7 +90,7 @@
                     <jstl:set var="jsp_titleFrom" scope="page" value="User profile form"/>
                     <jstl:set var="jsp_funtionFrom" scope="page" value="Objectboard system, update your information..."/>
                     <jstl:choose>
-                        <jstl:when test="${ rq_company_number == 1 }">
+                        <jstl:when test="${ rq_company_number.equal('1') }">
                             <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/mastermenusuper"/>
                         </jstl:when>
                         <jstl:otherwise>
@@ -278,7 +278,7 @@
                                                     <input type="hidden" name="p_acciones" value="${ rq_acciones }">
                                                     <input type="hidden" name="p_email" value="${ rq_masterUserDto.muEmail }">
                                                     <input type="hidden" name="p_unit" value="${ rq_companyNumber }">
-                                                    <input type="hidden" name="p_metodo" value="0">
+                                                    <!-- <input type="hidden" name="p_metodo" value="0"> -->
                                                     <input type="hidden" name="p_pantalla" value="users">
 
                                                     <input type="hidden" name="p_country" value="${ rq_masterUserDto.cityStatesCountryCoCountryCode }">

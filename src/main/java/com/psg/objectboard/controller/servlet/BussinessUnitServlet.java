@@ -51,6 +51,7 @@ public class BussinessUnitServlet extends HttpServlet {
              unit_phone = null,
              unit_zipcode = null,
              unit_supercode = null,
+             unit_img_format = null,
              unit_type = null,
              unit_address = null,
              unit_webpage = null,
@@ -58,8 +59,8 @@ public class BussinessUnitServlet extends HttpServlet {
              unit_user1code = null,
              unit_user2code = null,
              unit_logo_name = null,
-             unit_logo_name_ant = null,
-             unit_logo_dir = null;
+             unit_logo_name_ant = null;
+             //unit_logo_dir = null;
         OtherFunctions of = new OtherFunctions();
 
         if (acciones.equals("save")) {
@@ -131,22 +132,34 @@ public class BussinessUnitServlet extends HttpServlet {
                 unit_logo_name=buvo.getBuLogoName();
 
             if (Integer.parseInt(unit_number) == 1){
-                unit_logo_dir = "/" + of.searchLink("3") + "/img/";
+                //unit_logo_dir = "/" + of.searchLink("3") + "/img/";
+                unit_img_format = "png";
                 //unit_logo_dir = "/complements/img/";
             }else{
                 if (unit_logo_name.equals("favicon2.png")){
-                    unit_logo_dir = "/" + of.searchLink("3") + "/img/";
+                    //unit_logo_dir = "/" + of.searchLink("3") + "/img/";
+                    unit_img_format = "png";
                     //unit_logo_dir = "/complements/img/";
                 }else {
-                    if (Integer.parseInt(unit_number) < 10) {
+                    //unit_img_format = unit_logo_name.;
+                    String buscar = ".";
+                    if (!unit_logo_name.contains(buscar)) {
+                        unit_img_format = "png";
+                    }else{
+                        int position = unit_logo_name.indexOf(buscar) + 1;
+                        int largo = unit_logo_name.length();
+                        unit_img_format = unit_logo_name.substring(position,largo);
+                    }
+                    /*if (Integer.parseInt(unit_number) < 10) {
                         unit_logo_dir = of.searchLink("5") + "0" + unit_number + "/";
+                        unit_img_format = "png";
                         //unit_logo_dir = "/" + of.searchLink("3") + "/img/logos/0" + unit_number + "/";
                         //unit_logo_dir = "/complements/img/logos/0" + unit_number + "/";
                     } else {
-                        unit_logo_dir = of.searchLink("5") + unit_number + "/";
+                        //unit_logo_dir = of.searchLink("5") + unit_number + "/";
                         //unit_logo_dir = "/" + of.searchLink("5") + "/img/logos/" + unit_number + "/";
                         //unit_logo_dir = "/complements/img/logos/" + unit_number + "/";
-                    }
+                    }*/
                 }
             }
             if(request.getParameter("p_file_ant")!=null)
@@ -232,7 +245,8 @@ public class BussinessUnitServlet extends HttpServlet {
         request.setAttribute("rq_unitUser1Code", unit_user1code);
         request.setAttribute("rq_unitUser2Code", unit_user2code);
         request.setAttribute("rq_unitLogoName", unit_logo_name);
-        request.setAttribute("rq_unitLogoDir", unit_logo_dir);
+        //request.setAttribute("rq_unitLogoDir", unit_logo_dir);
+        request.setAttribute("rq_format", unit_img_format);
         request.setAttribute("rq_unitLogoNameAnt", unit_logo_name_ant);
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/master/bussinessUnit.jsp").forward(request, response);

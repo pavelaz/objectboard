@@ -59,11 +59,18 @@ public class BussinessUnitCoStCiDAO {
                 sovo.setCityStatesCountryCoCountryCode(rs.getInt(17));
                 sovo.setBussinessTypeBtCodeType(rs.getInt(18));
                 sovo.setBuLogoName(rs.getString(19));
+                sovo.setBuLogoImage(rs.getBlob(20));
 
-                sovo.setCityName(rs.getString(20));
-                sovo.setStateName(rs.getString(21));
-                sovo.setCountryName(rs.getString(22));
-                sovo.setTypeName(rs.getString(23));
+                sovo.setCityName(rs.getString(21));
+                sovo.setStateName(rs.getString(22));
+                sovo.setCountryName(rs.getString(23));
+                sovo.setTypeName(rs.getString(24));
+
+                if (!sovo.getBuLogoName().equals("favicon2.png")) {
+                    int blobLength = (int) rs.getBlob(20).length();
+                    byte[] blobAsBytes = rs.getBlob(20).getBytes(1, blobLength);
+                    sovo.setBuLogoImageByte(blobAsBytes);
+                }
 
                 if (arrcom.isEmpty()){
                     arrcom.add(0,sovo);

@@ -22,10 +22,12 @@ public class BussinessUnitVO {
     private long cityStatesStStateCode;
     private long cityStatesCountryCoCountryCode;
     private long bussinessTypeBtCodeType;
-    private Boolean result;
     private String buLogoName;
-    private Blob buLogo;
-
+    private Blob buLogoImage;
+    private String ruta_imagen;
+    private byte[] buLogoImageByte;
+    private InputStream buLogoImageInput;
+    private Boolean result;
 
     public long getBuBisCode() {
         return buBisCode;
@@ -171,14 +173,6 @@ public class BussinessUnitVO {
         this.bussinessTypeBtCodeType = bussinessTypeBtCodeType;
     }
 
-    public Boolean getResult() {
-        return result;
-    }
-
-    public void setResult(Boolean result) {
-        this.result = result;
-    }
-
     public String getBuLogoName() {
         return buLogoName;
     }
@@ -187,12 +181,44 @@ public class BussinessUnitVO {
         this.buLogoName = buLogoName;
     }
 
-    public Blob getBuLogo() {
-        return buLogo;
+    public Blob getBuLogoImage() {
+        return buLogoImage;
     }
 
-    public void setBuLogo(Blob buLogo) {
-        this.buLogo = buLogo;
+    public void setBuLogoImage(Blob buLogoImage) {
+        this.buLogoImage = buLogoImage;
+    }
+
+    public String getRuta_imagen() {
+        return ruta_imagen;
+    }
+
+    public void setRuta_imagen(String ruta_imagen) {
+        this.ruta_imagen = ruta_imagen;
+    }
+
+    public byte[] getBuLogoImageByte() {
+        return buLogoImageByte;
+    }
+
+    public void setBuLogoImageByte(byte[] buLogoImageByte) {
+        this.buLogoImageByte = buLogoImageByte;
+    }
+
+    public InputStream getBuLogoImageInput() {
+        return buLogoImageInput;
+    }
+
+    public void setBuLogoImageInput(InputStream buLogoImageInput) {
+        this.buLogoImageInput = buLogoImageInput;
+    }
+
+    public Boolean getResult() {
+        return result;
+    }
+
+    public void setResult(Boolean result) {
+        this.result = result;
     }
 
 }

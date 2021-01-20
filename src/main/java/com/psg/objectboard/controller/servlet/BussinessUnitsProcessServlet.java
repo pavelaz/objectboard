@@ -38,20 +38,21 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
             pantalla=request.getParameter("p_pantalla");
         }
 
-        Integer cual_u = null;
+        //Integer cual_u = null;
         String none= null,
-                file_name_ant = null,
+        //        file_name_ant = null,
                 file_name = null;
         Part file_imagen = null;
 
         OtherFunctions of = new OtherFunctions();
+        File f = null;
 
-        //String path = System.getProperty("user.home");
-        String path = of.searchLink("0");
+        // String path = of.searchLink("0");
         //String primaryDirectory = path + "temporaryfiles/";
         //String secundaryDirectory = path + "img/logos/";
-        String primaryDirectory = "temporaryfiles/";
-        String secundaryDirectory = "img/logos/";
+        //String tempDirectory = of.searchLink("4");
+        //String primaryDirectory = "temporaryfiles/";
+        //String secundaryDirectory = "img/logos/";
         //String primaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/temporaryfiles/";
         //String secundaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/";
         ArrayList<Integer> cual_unit = new ArrayList<Integer>();
@@ -65,15 +66,15 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                     none = request.getParameter("p_cuantos");
                     num_filas = Integer.parseInt(none);
                 }
-                for(int f=1 ; f < (num_filas + 1);f++){
-                    if(request.getParameter("p_selec_"+f)!=null) {
-                        none = request.getParameter("p_cual_u"+f);
+                for(int x=1 ; x < (num_filas + 1);x++){
+                    if(request.getParameter("p_selec_"+x)!=null) {
+                        none = request.getParameter("p_cual_u"+x);
                         if (cual_unit.isEmpty()){
                             cual_unit.add(0,Integer.parseInt(none));
                         }else{
                             cual_unit.add(Integer.parseInt(none));
                         }
-                        none = request.getParameter("p_cual_l"+f);
+                        none = request.getParameter("p_cual_l"+x);
                         if (cual_logo.isEmpty()){
                             cual_logo.add(0,none);
                         }else{
@@ -142,9 +143,9 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                 if(request.getParameter("p_user2code")!=null){
                     codo.setBuUser2Code(request.getParameter("p_user2code"));
                 }
-                if(request.getParameter("p_file_ant")!=null){
+                /*if(request.getParameter("p_file_ant")!=null){
                     file_name_ant=(request.getParameter("p_file_ant"));
-                }
+                }*/
 
                 /*Start*********************AddPhoto to Object master_user_dto *********/
                 /*if (request.getPart("p_file") != null){
@@ -157,17 +158,21 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                 if(request.getPart("p_file")!=null){
                     FilesController filesController = new FilesController();
                     file_name = filesController.getNameFile(request.getPart("p_file"));
-                    if (file_name.equals(""))
+                    if (file_name.equals("")) {
                         codo.setBuLogoName("favicon2.png");
-                    else {
+                        codo.setRuta_imagen(of.searchLink("0") + "img/" + codo.getBuLogoName());
+                    }else {
                         codo.setBuLogoName(file_name);
                         file_imagen = request.getPart("p_file");
                         InputStream is = file_imagen.getInputStream();
-                        File f = new File(path + primaryDirectory + codo.getBuLogoName());
+                        //File f = new File(path + primaryDirectory + codo.getBuLogoName());
+                        f = new File(of.searchLink("4") + codo.getBuLogoName());
                         OtherFunctions.subirArchivos(is, f);
+                        codo.setRuta_imagen(of.searchLink("4") + file_name);
                     }
                 }else{
                     codo.setBuLogoName("favicon2.png");
+                    codo.setRuta_imagen(of.searchLink("0") + "img/" + codo.getBuLogoName());
                 }
                 break;
             default :
@@ -182,14 +187,19 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
         BussinessUnitDAO.setDataPassword(data_pasword);
         con=ocn.conectarse(data_user,data_pasword);
         //OtherFunctions of = new OtherFunctions();
-        String directorio = null;
+        //String directorio = null;
 
         try{
             // iniciar transacion
             ocn.init_trans(con);
             if (acciones.equals("create")){
                 cdo.insertBussinessUnitDAO(codo,con);
-                String new_company_number = "0";
+                if (codo.getResult()){
+                    if (!codo.getBuLogoName().equals("favicon2.png")) {
+                        codo.setResult(of.eliminarFichero(f));
+                    }
+                }
+                /*String new_company_number = "0";
                 if (codo.getResult()){
                     if (!codo.getBuLogoName().equals("favicon2.png")) {
                         none = "bu_federal_number = '" + codo.getBuFederalNumber() + "' AND bu_provincial_number = '" + codo.getBuProvincialNumber() +
@@ -199,8 +209,8 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                         if (new_company_number.equals("0"))
                             codo.setResult(false);
                     }
-                }
-                if (codo.getResult()){
+                }*/
+               /* if (codo.getResult()){
                     if (!codo.getBuLogoName().equals("favicon2.png")) {
                         if (Long.parseLong(new_company_number) < 10)
                             directorio = "0" + Long.parseLong(new_company_number);
@@ -209,16 +219,16 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                         of.CrearDirectorio(path + secundaryDirectory + directorio);
                         of.moverArchivos(path + primaryDirectory, path + secundaryDirectory + directorio + "/", file_name);
                     }
-                }
+                }*/
             }else{
                 if (acciones.equals("delete")){
                     codo.setResult(true);
                     for(int x=0 ; x < cual_unit.size();x++){
                         if (codo.getResult()){
-                            System.out.println("Bussiness Unit: " +cual_unit.get(x));
+                            System.out.println("Bussiness Unit: " + cual_unit.get(x));
                             codo.setResult(cdo.deleteBussinessUnitDAO(cual_unit.get(x),con));
                         }
-                        if (codo.getResult()) {
+                        /*if (codo.getResult()) {
                             if (!cual_logo.get(x).equals("favicon2.png")){
                                 if (cual_unit.get(x) < 10)
                                     directorio = "0" + cual_unit.get(x);
@@ -228,13 +238,22 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                                 // borra carpeta con ficheros internos
                                 codo.setResult(of.borrarDirectorio(ficheroAnt));
                             }
-                        }
+                        }*/
                     }
                 }else{
                     cdo.updateBussinessUnittDAO(codo,con);
                     if (codo.getResult()){
                         if (!codo.getBuLogoName().equals("favicon2.png")) {
-                            if (codo.getBuBisCode() < 10)
+                            cdo.updateBussinessUnitImage(codo, con);
+                        }
+                    }
+                    if (codo.getResult()){
+                        if (!codo.getBuLogoName().equals("favicon2.png")) {
+                            codo.setResult(of.eliminarFichero(f));
+                        }
+                        /*if (!codo.getBuLogoName().equals("favicon2.png")) {
+
+                            /*if (codo.getBuBisCode() < 10)
                                 directorio = "0" + codo.getBuBisCode();
                             else
                                 directorio = "" + codo.getBuBisCode();
@@ -244,7 +263,7 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                                 File ficheroAnt = new File(path + secundaryDirectory + directorio + "/", file_name_ant);
                                 codo.setResult(of.eliminarFichero(ficheroAnt));
                             }
-                        }
+                        }*/
                     }
                 }
             }
