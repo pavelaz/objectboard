@@ -131,17 +131,13 @@ public class BussinessUnitServlet extends HttpServlet {
             else
                 unit_logo_name=buvo.getBuLogoName();
 
-            if (Integer.parseInt(unit_number) == 1){
-                //unit_logo_dir = "/" + of.searchLink("3") + "/img/";
+            unit_img_format = of.buscaExtencionFiles(unit_logo_name,unit_number);
+            /*if (Integer.parseInt(unit_number) == 1){
                 unit_img_format = "png";
-                //unit_logo_dir = "/complements/img/";
             }else{
                 if (unit_logo_name.equals("favicon2.png")){
-                    //unit_logo_dir = "/" + of.searchLink("3") + "/img/";
                     unit_img_format = "png";
-                    //unit_logo_dir = "/complements/img/";
                 }else {
-                    //unit_img_format = unit_logo_name.;
                     String buscar = ".";
                     if (!unit_logo_name.contains(buscar)) {
                         unit_img_format = "png";
@@ -160,8 +156,8 @@ public class BussinessUnitServlet extends HttpServlet {
                         //unit_logo_dir = "/" + of.searchLink("5") + "/img/logos/" + unit_number + "/";
                         //unit_logo_dir = "/complements/img/logos/" + unit_number + "/";
                     }*/
-                }
-            }
+                /*}
+            }*/
             if(request.getParameter("p_file_ant")!=null)
                 unit_logo_name_ant=request.getParameter("p_file_ant");
             else

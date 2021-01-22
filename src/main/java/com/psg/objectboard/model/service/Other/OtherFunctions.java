@@ -24,6 +24,28 @@ public class OtherFunctions {
     private String answer="";
     public String linkMedio="";
 
+    public String buscaExtencionFiles(String nombre,String unidad) throws IOException {
+        String unit_img_format;
+        OtherFunctions of = new OtherFunctions();
+        if (Integer.parseInt(unidad) == 1){
+            unit_img_format = "png";
+        }else{
+            if (nombre.equals(of.searchLink("7"))){
+                unit_img_format = "png";
+            }else {
+                String buscar = ".";
+                if (!nombre.contains(buscar)) {
+                    unit_img_format = "png";
+                }else{
+                    int position = nombre.indexOf(buscar) + 1;
+                    int largo = nombre.length();
+                    unit_img_format = nombre.substring(position,largo);
+                }
+            }
+        }
+        return unit_img_format;
+    }
+
     public void searchLink() throws IOException {
         Properties vProp = new Properties();
         InputStream vInputStream = null;
@@ -82,6 +104,11 @@ public class OtherFunctions {
         }
         if (valor.equals("6")){
             none = vProp.getProperty("propert-environment");
+            return none;
+        }
+        // nombre del logo por defecto del sistemas
+        if (valor.equals("7")){
+            none = vProp.getProperty("propert-defaultlogoname");
             return none;
         }
         return vProp.getProperty("propert-pathuserhome");
@@ -354,29 +381,25 @@ public class OtherFunctions {
             if (Long.parseLong(numCia) == 1){
                 /*info = System.getProperty("user.home") +
                         "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";*/
-                info =  of.searchLink("0") +
-                        "img/favicon2.png";
+                info =  of.searchLink("0") + "img/" + of.searchLink("7") ;
             }else {
-                if (nombre_logo.equals("favicon2.png")){
+                if (nombre_logo.equals(of.searchLink("7") )){
                     /*info = System.getProperty("user.home") +
                             "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";*/
-                    info = of.searchLink("0") +
-                            "img/favicon2.png";
+                    info = of.searchLink("0") + "img/" + of.searchLink("7") ;
                 }else {
                     if (Long.parseLong(numCia) != 0) {
                         if (Long.parseLong(numCia) < 10) {
                             /*info = System.getProperty("user.home") +
                                     "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/"
                                     + "0" + Long.parseLong(numCia) + "/" + nombre_logo;*/
-                            info = of.searchLink("0") +
-                                    "img/logos/"
+                            info = of.searchLink("0") + "img/logos/"
                                     + "0" + Long.parseLong(numCia) + "/" + nombre_logo;
                         } else {
                             /*info = System.getProperty("user.home") +
                                     "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/"
                                     + Long.parseLong(numCia) + "/" + nombre_logo;*/
-                            info = of.searchLink("0") +
-                                    "img/logos/"
+                            info = of.searchLink("0") + "img/logos/"
                                     + Long.parseLong(numCia) + "/" + nombre_logo;
                         }
                     }

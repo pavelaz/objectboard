@@ -1,7 +1,9 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.CountryDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.CountryVO;
+import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,6 +44,9 @@ public class CountryServlet extends HttpServlet {
             cod.setDataPassword(data_pasword);
             covo = cod.serchCountryDAO(Integer.parseInt(none));
         }
+
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword));
 
         request.setAttribute("rq_countryName", covo.getCoName());
         request.setAttribute("rq_countryNumber", Integer.parseInt(none));

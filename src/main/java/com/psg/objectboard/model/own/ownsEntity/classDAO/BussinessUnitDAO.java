@@ -8,6 +8,7 @@ import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessUnitVO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -269,7 +270,7 @@ public class BussinessUnitDAO {
                 covo.setBussinessTypeBtCodeType(rs.getLong(18));
                 covo.setBuLogoName(rs.getString(19));
                 covo.setBuLogoImage(rs.getBlob(20));
-                if (!covo.getBuLogoName().equals("favicon2.png")) {
+                if (!covo.getBuLogoName().equals(of.searchLink("7") )) {
                     int blobLength = (int) rs.getBlob(20).length();
                     byte[] blobAsBytes = rs.getBlob(20).getBytes(1, blobLength);
                     covo.setBuLogoImageByte(blobAsBytes);
@@ -281,7 +282,7 @@ public class BussinessUnitDAO {
                 }
             }
             System.out.println("Consulta array exitosa: ");
-        }catch (SQLException ex){
+        }catch (SQLException | IOException ex){
             System.out.println("Error en la consulta array: "+ex.getMessage());
         }finally {
             try{
@@ -295,6 +296,41 @@ public class BussinessUnitDAO {
             }
         }
         return arrcom;
+    }
+
+    // Busca el nombre de la imagen del logo
+    // Consutas simples y mixtas varias
+    public String searchLogoName(String unidad,String user,String pass){
+        OtherFunctions of = new OtherFunctions();
+        String none = null;
+        cc = new OtherConexion();
+        cn = cc.conectarse(user,pass);
+        String sql = "SELECT * FROM bussinessUnit WHERE bu_bis_code=?";
+        try{
+            pst = cn.prepareStatement(sql);
+            pst.setString(1,unidad);
+            rs = pst.executeQuery();
+            if (rs.next()){ // valida si trae algun registro
+                none = rs.getString(19);
+                none = of.buscaExtencionFiles(none,unidad);
+            }
+            System.out.println("Busqueda exitosa");
+        }catch (SQLException | IOException ex){
+            covo.setResult(false);
+            System.out.println("Error en la consulta: "+ex.getMessage());
+        }finally {
+            try{
+                if (cn != null){
+                    cn.close();
+                    pst.close();
+                    System.out.println("Conexion cerrada");
+                }
+            }catch (Exception e){
+                covo.setResult(false);
+                System.out.println("Error "+e);
+            }
+        }
+        return none;
     }
 
     /*public String getLastBussinessUnitCreate(String condi,Connection cone){

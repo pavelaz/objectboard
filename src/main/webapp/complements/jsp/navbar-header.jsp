@@ -21,15 +21,15 @@
             <img class="img-fluid" src="/objectboard/complements/img/logos/01/favicon2.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;
             <img class="img-fluid" src="<%= request.getContextPath() %>${ rq_companyLogoDirection }${ rq_companyLogoName }" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;
             <img class="img-fluid" src="<%= request.getContextPath() %>/complements/img/logos/01/favicon2.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;--%>
-            <jstl:choose>
-                <jstl:when test="${ rq_companyNumber.equals('1')}">
-                    <img class="img-fluid" src="${pageContext.request.contextPath}/complements/img/favicon2old.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;
-                </jstl:when>
+            <%--<jstl:choose>
+                <jstl:when test="${ rq_companyNumber.equals('1')}"> --%>
+                    <img src="/objectboard/imagenshowfile.html?p_forma=${ rq_format }&p_unit=${ rq_companyNumber }&p_archivo=1" class="img-fluid" alt="Theme-Logo" width="35" height="45">&nbsp;&nbsp;
+                    <%-- <img class="img-fluid" src="${propert-pathcomplements}img/${ propert-defaultlogoname }" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;--%>
+                <%--</jstl:when>
                 <jstl:otherwise>
-                    <%-- <img class="img-fluid" src="/objectboard/complements/img/logos/02/logo_nasa.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp; --%>
                     <img class="img-fluid" src="${ rq_companyLogoDirection }${ rq_companyLogoName }" alt="Theme-Logo" width="35" height="45">&nbsp;&nbsp;
                 </jstl:otherwise>
-            </jstl:choose>
+            </jstl:choose> --%>
             <a href="<%= request.getContextPath() %>/index.jsp">
                 <jstl:out value="${ rq_companyName }">Lost Value</jstl:out>
             </a>

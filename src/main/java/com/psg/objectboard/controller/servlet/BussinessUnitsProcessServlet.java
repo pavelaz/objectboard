@@ -159,7 +159,7 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                     FilesController filesController = new FilesController();
                     file_name = filesController.getNameFile(request.getPart("p_file"));
                     if (file_name.equals("")) {
-                        codo.setBuLogoName("favicon2.png");
+                        codo.setBuLogoName(of.searchLink("7") );
                         codo.setRuta_imagen(of.searchLink("0") + "img/" + codo.getBuLogoName());
                     }else {
                         codo.setBuLogoName(file_name);
@@ -171,7 +171,7 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                         codo.setRuta_imagen(of.searchLink("4") + file_name);
                     }
                 }else{
-                    codo.setBuLogoName("favicon2.png");
+                    codo.setBuLogoName(of.searchLink("7") );
                     codo.setRuta_imagen(of.searchLink("0") + "img/" + codo.getBuLogoName());
                 }
                 break;
@@ -195,7 +195,7 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
             if (acciones.equals("create")){
                 cdo.insertBussinessUnitDAO(codo,con);
                 if (codo.getResult()){
-                    if (!codo.getBuLogoName().equals("favicon2.png")) {
+                    if (!codo.getBuLogoName().equals(of.searchLink("7") )) {
                         codo.setResult(of.eliminarFichero(f));
                     }
                 }
@@ -228,42 +228,18 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                             System.out.println("Bussiness Unit: " + cual_unit.get(x));
                             codo.setResult(cdo.deleteBussinessUnitDAO(cual_unit.get(x),con));
                         }
-                        /*if (codo.getResult()) {
-                            if (!cual_logo.get(x).equals("favicon2.png")){
-                                if (cual_unit.get(x) < 10)
-                                    directorio = "0" + cual_unit.get(x);
-                                else
-                                    directorio = String.valueOf(cual_unit.get(x));
-                                File ficheroAnt = new File(path + secundaryDirectory + directorio);
-                                // borra carpeta con ficheros internos
-                                codo.setResult(of.borrarDirectorio(ficheroAnt));
-                            }
-                        }*/
                     }
                 }else{
                     cdo.updateBussinessUnittDAO(codo,con);
                     if (codo.getResult()){
-                        if (!codo.getBuLogoName().equals("favicon2.png")) {
+                        if (!codo.getBuLogoName().equals(of.searchLink("7") )) {
                             cdo.updateBussinessUnitImage(codo, con);
                         }
                     }
                     if (codo.getResult()){
-                        if (!codo.getBuLogoName().equals("favicon2.png")) {
+                        if (!codo.getBuLogoName().equals(of.searchLink("7") )) {
                             codo.setResult(of.eliminarFichero(f));
                         }
-                        /*if (!codo.getBuLogoName().equals("favicon2.png")) {
-
-                            /*if (codo.getBuBisCode() < 10)
-                                directorio = "0" + codo.getBuBisCode();
-                            else
-                                directorio = "" + codo.getBuBisCode();
-                            of.CrearDirectorio(path + secundaryDirectory + directorio);
-                            of.moverArchivos(path + primaryDirectory, path + secundaryDirectory + directorio + "/", file_name);
-                            if (file_name != file_name_ant && !file_name_ant.equals("favicon2.png")) {
-                                File ficheroAnt = new File(path + secundaryDirectory + directorio + "/", file_name_ant);
-                                codo.setResult(of.eliminarFichero(ficheroAnt));
-                            }
-                        }*/
                     }
                 }
             }

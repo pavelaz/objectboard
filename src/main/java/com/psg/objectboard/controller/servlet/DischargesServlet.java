@@ -16,14 +16,14 @@ public class DischargesServlet extends HttpServlet {
         String company_name = (String)objSesion.getAttribute("companyName");
         String company_number = (String) objSesion.getAttribute("companyNumber");
         String user_name = (String)objSesion.getAttribute("userName");
-        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_companyNumber",company_number);
         request.setAttribute("rq_userName", user_name);
-        request.setAttribute("rq_companyLogoName", company_logo_name);
-        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        //request.setAttribute("rq_companyLogoName", company_logo_name);
+        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/master/discharges.jsp").forward(request, response);
     }
