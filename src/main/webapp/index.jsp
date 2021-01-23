@@ -77,19 +77,19 @@
             <div class="col-1-of-2">
                 <div class="composition">
 
-                    <img srcset="complements/img/nat-1.jpg 300w, complements/img/nat-1-large.jpg 1000w"
+                    <img srcset="complements/img/Template1-300x200.jpg 300w, complements/img/nat-1-large.jpg 1000w"
                          sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
                          alt="Photo 1"
                          class="composition__photo composition__photo--p1"
                          src="complements/img/nat-1-large.jpg">
 
-                    <img srcset="complements/img/nat-2.jpg 300w, complements/img/nat-2-large.jpg 1000w"
+                    <img srcset="complements/img/Template2-300x200.jpg 300w, complements/img/nat-2-large.jpg 1000w"
                          sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
                          alt="Photo 2"
                          class="composition__photo composition__photo--p2"
                          src="complements/img/nat-2-large.jpg">
 
-                    <img srcset="complements/img/nat-3.jpg 300w, complements/img/nat-3-large.jpg 1000w"
+                    <img srcset="complements/img/Template3-300x200.jpg 300w, complements/img/nat-3-large.jpg 1000w"
                          sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
                          alt="Photo 3"
                          class="composition__photo composition__photo--p3"

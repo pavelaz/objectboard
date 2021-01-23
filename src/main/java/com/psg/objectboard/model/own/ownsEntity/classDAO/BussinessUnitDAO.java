@@ -215,7 +215,7 @@ public class BussinessUnitDAO {
             System.out.println("Busqueda exitosa");
         }catch (SQLException ex){
             covo.setResult(false);
-            System.out.println("Error en la consulta: "+ex.getMessage());
+            System.out.println("Error en la consulta: " + ex.getMessage());
         }finally {
             try{
                 if (cn != null){
