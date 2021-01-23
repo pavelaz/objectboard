@@ -4,10 +4,7 @@ import com.psg.objectboard.batch.App;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -358,7 +355,7 @@ public class OtherFunctions {
     }
 
     // busca nomYbre y ubicacion del logo del cliente buscando en archivos
-    public String buscaLogoYDirCliente(String numCia,String dataUser,String dataPassword) throws Exception{
+    /*public String buscaLogoYDirCliente(String numCia,String dataUser,String dataPassword) throws Exception{
         String info = null;
         String nombre_logo = null;
         PreparedStatement pst = null;
@@ -379,26 +376,16 @@ public class OtherFunctions {
 
             OtherFunctions of = new OtherFunctions();
             if (Long.parseLong(numCia) == 1){
-                /*info = System.getProperty("user.home") +
-                        "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";*/
                 info =  of.searchLink("0") + "img/" + of.searchLink("7") ;
             }else {
                 if (nombre_logo.equals(of.searchLink("7") )){
-                    /*info = System.getProperty("user.home") +
-                            "/IdeaProjects/objectboard/src/main/webapp/complements/img/favicon2.png";*/
                     info = of.searchLink("0") + "img/" + of.searchLink("7") ;
                 }else {
                     if (Long.parseLong(numCia) != 0) {
                         if (Long.parseLong(numCia) < 10) {
-                            /*info = System.getProperty("user.home") +
-                                    "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/"
-                                    + "0" + Long.parseLong(numCia) + "/" + nombre_logo;*/
                             info = of.searchLink("0") + "img/logos/"
                                     + "0" + Long.parseLong(numCia) + "/" + nombre_logo;
                         } else {
-                            /*info = System.getProperty("user.home") +
-                                    "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/"
-                                    + Long.parseLong(numCia) + "/" + nombre_logo;*/
                             info = of.searchLink("0") + "img/logos/"
                                     + Long.parseLong(numCia) + "/" + nombre_logo;
                         }
@@ -420,7 +407,7 @@ public class OtherFunctions {
         }
 
         return info;
-    }
+    }*/
 
     // convertir de string a hexagecimal
     public String toHex(String arg) {
@@ -867,5 +854,20 @@ public class OtherFunctions {
         //none = myObject.toString();
         //
         return none;
+    }
+
+    //
+    public  void pp(){
+        try {
+            File tempFile = File.createTempFile("JavaZonetemporal",null);
+            tempFile.deleteOnExit();
+            BufferedWriter out = new BufferedWriter(new FileWriter(tempFile));
+            out.write("Esto es un fichero temporal hecho por Java Zone");
+            out.close();
+            System.out.println("Se guardo en "+tempFile.getAbsolutePath());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

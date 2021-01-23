@@ -28,6 +28,7 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
         HttpSession objSesion = request.getSession();
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
+        String company_number = (String) objSesion.getAttribute("companyNumber");
 
         String acciones = "create";
         if(request.getParameter("p_acciones")!=null){
@@ -253,6 +254,8 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
 
         request.setAttribute("rq_result", codo.getResult());
         request.setAttribute("rq_pantalla", pantalla);
+
+        request.setAttribute("rq_format", cdo.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
     }

@@ -62,10 +62,10 @@ public class BussinessUnitServlet extends HttpServlet {
              unit_logo_name_ant = null;
              //unit_logo_dir = null;
         OtherFunctions of = new OtherFunctions();
+        BussinessUnitDAO budo = null;
 
         if (acciones.equals("save")) {
             BussinessUnitVO buvo = new BussinessUnitVO();
-            BussinessUnitDAO budo = null;
             budo.setDataUser(data_user);
             budo.setDataPassword(data_pasword);
             buvo = budo.serchBussinessUnitDAO(unit_number);

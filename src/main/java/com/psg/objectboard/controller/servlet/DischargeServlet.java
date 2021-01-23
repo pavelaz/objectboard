@@ -95,6 +95,9 @@ public class DischargeServlet extends HttpServlet {
         request.setAttribute("rq_unidad", unidad);
         request.setAttribute("rq_project", project);
 
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
+
         request.getRequestDispatcher("/WEB-INF/pages/jsp/master/discharge.jsp").forward(request, response);
     }
 
