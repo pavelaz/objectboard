@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.CountryDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.CountryVO;
 
@@ -35,6 +36,9 @@ public class CountriesServlet extends HttpServlet {
 
         paises= cod.getListCountries("");
         num_filas = paises.size();
+
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_companyNumber", company_number);

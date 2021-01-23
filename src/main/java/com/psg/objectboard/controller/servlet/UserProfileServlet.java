@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 import com.psg.objectboard.model.service.Other.DateFunctions;
@@ -100,6 +101,8 @@ public class UserProfileServlet extends HttpServlet {
                 request.setAttribute("rq_result", master_user_dto.getResult());
                 request.setAttribute("rq_pantalla", "userprofile");
                 request.setAttribute("rq_companyNumber", company_number);
+
+
                 request.getRequestDispatcher("WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
             }catch (Exception es){
                 System.out.println(es.getMessage());
@@ -183,6 +186,10 @@ public class UserProfileServlet extends HttpServlet {
                     request.setAttribute("rq_companyNumber", company_number);
                     request.setAttribute("rq_result", cvo.getResult());
                     request.setAttribute("rq_pantalla", "userprofile");
+
+                    BussinessUnitDAO bud = new BussinessUnitDAO();
+                    request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
+
                     request.getRequestDispatcher("WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
 
                 }catch (Exception es) {

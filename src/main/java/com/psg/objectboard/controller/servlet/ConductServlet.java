@@ -24,8 +24,8 @@ public class ConductServlet extends HttpServlet {
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
         String company_number = (String)objSesion.getAttribute("companyNumber");
-        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
         String user_email = (String)objSesion.getAttribute("userEmail");
         String user_board_role = (String)objSesion.getAttribute("userBoardRole");
 
@@ -95,8 +95,8 @@ public class ConductServlet extends HttpServlet {
         request.setAttribute("rq_userName", user_name);
         request.setAttribute("rq_acciones", acciones);
         request.setAttribute("rq_column", column);
-        request.setAttribute("rq_companyLogoName", company_logo_name);
-        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        //request.setAttribute("rq_companyLogoName", company_logo_name);
+        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/conduct.jsp").forward(request, response);
     }

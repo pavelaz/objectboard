@@ -22,8 +22,8 @@ public class TypifiedsServlet extends HttpServlet {
         String user_name = (String)objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
-        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         String acciones = "consult";
         if(request.getParameter("p_acciones")!=null) {
@@ -61,8 +61,8 @@ public class TypifiedsServlet extends HttpServlet {
         request.setAttribute("rq_acciones", acciones);
 
         request.setAttribute("rq_orga", type);
-        request.setAttribute("rq_companyLogoName", company_logo_name);
-        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        //request.setAttribute("rq_companyLogoName", company_logo_name);
+        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/typifieds.jsp").forward(request, response);
     }

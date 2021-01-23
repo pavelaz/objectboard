@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.DischargeDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.DischargeVO;
 import com.psg.objectboard.model.service.Other.DateFunctions;
@@ -22,6 +23,7 @@ public class DischargesProcessServlet extends HttpServlet {
         HttpSession objSesion = request.getSession();
         String company_name = (String) objSesion.getAttribute("companyName");
         String user_name = (String) objSesion.getAttribute("userName");
+        String company_number = (String) objSesion.getAttribute("companyNumber");
         String data_user = (String) objSesion.getAttribute("dataUser");
         String data_pasword = (String) objSesion.getAttribute("dataPassword");
 
@@ -137,6 +139,9 @@ public class DischargesProcessServlet extends HttpServlet {
 
         request.setAttribute("rq_result", cvo.getResult());
         request.setAttribute("rq_pantalla", pantalla);
+
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
     }

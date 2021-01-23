@@ -119,6 +119,9 @@ public class UserRoleServlet extends HttpServlet {
         request.setAttribute("rq_rolNum", rol_num);
         request.setAttribute("rq_rolNom", rol_nom);
 
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
+
         request.getRequestDispatcher("/WEB-INF/pages/jsp/master/userRole.jsp").forward(request, response);
     }
 

@@ -2,7 +2,9 @@ package com.psg.objectboard.model.own.ownsEntity.classViewDAO;
 
 import com.psg.objectboard.model.own.ownsEntity.classViewVO.BussinessUnitCoStCiVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
+import com.psg.objectboard.model.service.Other.OtherFunctions;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ public class BussinessUnitCoStCiDAO {
     private static PreparedStatement pst = null;
     private static String dataUser;
     private static String dataPassword;
+    private static OtherFunctions of = null;
 
     public static void setDataUser(String dataUser) {
         BussinessUnitCoStCiDAO.dataUser = dataUser;
@@ -27,6 +30,7 @@ public class BussinessUnitCoStCiDAO {
     public static ArrayList<BussinessUnitCoStCiVO> getListBussinessUnitCoStCi(){
         ArrayList<BussinessUnitCoStCiVO> arrcom = new ArrayList<BussinessUnitCoStCiVO>();
         cc = new OtherConexion();
+        of = new OtherFunctions();
         cn = cc.conectarse(dataUser,dataPassword);
         //sqls = new SqlFunctions();
         String sql = null;
@@ -66,7 +70,7 @@ public class BussinessUnitCoStCiDAO {
                 sovo.setCountryName(rs.getString(23));
                 sovo.setTypeName(rs.getString(24));
 
-                if (!sovo.getBuLogoName().equals("favicon2.png")) {
+                if (!sovo.getBuLogoName().equals(of.searchLink("7"))){
                     int blobLength = (int) rs.getBlob(20).length();
                     byte[] blobAsBytes = rs.getBlob(20).getBytes(1, blobLength);
                     sovo.setBuLogoImageByte(blobAsBytes);
@@ -79,7 +83,7 @@ public class BussinessUnitCoStCiDAO {
                 }
             }
             System.out.println("Consulta array exitosa: ");
-        }catch (SQLException ex){
+        }catch (SQLException | IOException ex){
             System.out.println("Error en la consulta array: "+ex.getMessage());
         }finally {
             try{

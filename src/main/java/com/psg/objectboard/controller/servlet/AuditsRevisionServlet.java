@@ -16,14 +16,14 @@ public class AuditsRevisionServlet extends HttpServlet {
         String company_name = (String)objSesion.getAttribute("companyName");
         String user_name = (String)objSesion.getAttribute("userName");
         String user_email = (String)objSesion.getAttribute("userEmail");
-        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_userName", user_name);
         request.setAttribute("rq_userEmail", user_email);
-        request.setAttribute("rq_companyLogoName", company_logo_name);
-        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        //request.setAttribute("rq_companyLogoName", company_logo_name);
+        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/auditsRevision.jsp").forward(request, response);
     }

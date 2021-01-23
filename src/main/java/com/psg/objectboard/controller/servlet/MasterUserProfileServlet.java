@@ -32,10 +32,10 @@ public class MasterUserProfileServlet extends HttpServlet {
         MasterUserVO masterUserDto = null;
         MasterUserDAO mud = new MasterUserDAO();
 
-        /*String metodo = "0";
+        String metodo = "0";
         if(request.getParameter("p_metodo")!=null){
             metodo=request.getParameter("p_metodo");
-        }*/
+        }
 
         if (request.getMethod().equals("GET")) {
             if (company_number != null) {
