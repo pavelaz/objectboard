@@ -17,8 +17,8 @@ public class CommentServlet extends HttpServlet {
         HttpSession objSesion = request.getSession();
         String company_name = (String)objSesion.getAttribute("companyName");
         String user_name = (String)objSesion.getAttribute("userName");
-        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         String acciones = "consult";
         if(request.getParameter("p_acciones")!=null) {
@@ -35,8 +35,8 @@ public class CommentServlet extends HttpServlet {
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_userName", user_name);
         request.setAttribute("rq_acciones", acciones);
-        request.setAttribute("rq_companyLogoName", company_logo_name);
-        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        //request.setAttribute("rq_companyLogoName", company_logo_name);
+        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/comment.jsp").forward(request, response);
     }

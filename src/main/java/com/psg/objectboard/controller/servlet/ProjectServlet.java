@@ -3,6 +3,7 @@ package com.psg.objectboard.controller.servlet;
 import com.psg.objectboard.controller.ProjectController;
 import com.psg.objectboard.model.datatransferobject.ProjectInsertUpdateDto;
 import com.psg.objectboard.model.datatransferobject.ProjectGetDto;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,9 +24,12 @@ public class ProjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         final HttpSession objSesion = request.getSession();
 
-        final String company_name = (String) objSesion.getAttribute("companyName");
-        final String company_number = (String) objSesion.getAttribute("companyNumber");
-        final String user_name = (String) objSesion.getAttribute("userName");
+        String company_name = (String) objSesion.getAttribute("companyName");
+        String company_number = (String) objSesion.getAttribute("companyNumber");
+        String user_name = (String) objSesion.getAttribute("userName");
+        String data_user = (String)objSesion.getAttribute("dataUser");
+        String data_pasword = (String)objSesion.getAttribute("dataPassword");
+
         ProjectController controller = null;
 
         if (request.getMethod().equals("GET")) {
@@ -74,6 +78,9 @@ public class ProjectServlet extends HttpServlet {
 
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_companyNumber",company_number);
+
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
         request.getRequestDispatcher("WEB-INF/pages/jsp/master/project.jsp").forward(request, response);
     }
 

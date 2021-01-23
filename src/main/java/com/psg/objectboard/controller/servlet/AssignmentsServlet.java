@@ -28,8 +28,8 @@ public class AssignmentsServlet extends HttpServlet {
         String user_name = (String)objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
-        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         String condicion =  null;
         String acciones = "consult";
@@ -145,8 +145,8 @@ public class AssignmentsServlet extends HttpServlet {
         request.setAttribute("rq_acciones", acciones);
         request.setAttribute("rq_asigna", asigna);
         request.setAttribute("rq_column", column);
-        request.setAttribute("rq_companyLogoName", company_logo_name);
-        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        //request.setAttribute("rq_companyLogoName", company_logo_name);
+        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/assignments.jsp").forward(request, response);
     }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 import com.psg.objectboard.model.own.ownsEntity.classViewDAO.BussinessUnitCoStCiDAO;
@@ -68,6 +69,9 @@ public class GeneralPdfServlet extends HttpServlet {
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
                 String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
+                //String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
+                //BussinessUnitDAO bud = new BussinessUnitDAO();
+                //request.setAttribute("rq_format", bud.searchLogoName(cia_number,data_user,data_pasword,1));
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(50, 60);
                 header.setAlignment(Chunk.ALIGN_LEFT);

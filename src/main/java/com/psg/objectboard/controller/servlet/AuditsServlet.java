@@ -24,8 +24,8 @@ public class AuditsServlet extends HttpServlet {
         String user_email = (String)objSesion.getAttribute("userEmail");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
-        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         HeaderConductSurveyDAO cod= new HeaderConductSurveyDAO();
         ArrayList<HeaderConductSurveyVO> polls = null;
@@ -46,8 +46,8 @@ public class AuditsServlet extends HttpServlet {
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_userName", user_name);
         request.setAttribute("rq_numFilas", polls.size());
-        request.setAttribute("rq_companyLogoName", company_logo_name);
-        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        //request.setAttribute("rq_companyLogoName", company_logo_name);
+        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
 
         request.setAttribute("rq_polls", polls);
 

@@ -20,8 +20,8 @@ public class DashMenuSuperServlet extends HttpServlet {
         String user_boardrole = (String) objSesion.getAttribute("userBoardRole");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
-        String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
+        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         System.out.println("DashMenuSuperServlet Usuario en sesion: " + user_email);
 
@@ -51,10 +51,10 @@ public class DashMenuSuperServlet extends HttpServlet {
         request.setAttribute("rq_userBoardRole", Integer.parseInt(user_boardrole));
         request.setAttribute("rq_dataUser", data_user);
         request.setAttribute("rq_dataPassword", data_pasword);
-        request.setAttribute("rq_companyLogoName", company_logo_name);
-        request.setAttribute("rq_companyLogoDirection", company_logo_dir);
-        String  none = company_logo_dir + company_logo_name;
-        request.setAttribute("rq_data_logo", none.replace("/","*"));
+        //request.setAttribute("rq_companyLogoName", company_logo_name);
+        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        //String  none = company_logo_dir + company_logo_name;
+        //request.setAttribute("rq_data_logo", none.replace("/","*"));
 
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/dashMenu_super.jsp").forward(request, response);

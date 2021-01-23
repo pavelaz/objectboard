@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classViewDAO.StateCountryDAO;
 import com.psg.objectboard.model.own.ownsEntity.classViewVO.StateCountryVO;
 
@@ -40,6 +41,9 @@ public class StatesServlet extends HttpServlet {
         request.setAttribute("rq_userName", user_name);
         request.setAttribute("rq_numFilas", num_filas);
         request.setAttribute("rq_states", states);
+
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/master/states.jsp").forward(request, response);
     }

@@ -48,10 +48,10 @@ public class GeneralAdminsServlet extends HttpServlet {
                data_password = "1#Object5Board*%",
                logo_direction = " ";
 
-        if (Integer.parseInt(company_number) == 1){
+        /*if (Integer.parseInt(company_number) == 1){
            logo_direction = "/complements/img/";
         }else{
-            if (logo_name.equals("favicon2.png")){
+            if (logo_name.equals(of.searchLink("7") )){
                 logo_direction = "/objectboard/complements/img/";
             }else {
                 if (Integer.parseInt(company_number) < 10) {
@@ -60,7 +60,7 @@ public class GeneralAdminsServlet extends HttpServlet {
                     logo_direction = "/objectboard/complements/img/logos/" + company_number + "/";
                 }
             }
-        }
+        }*/
 
         Boolean existe_usuario=null,        // para validar si el usuario existe o no
                 existe_status=null,         // para validar si el usuario esta activo o no
