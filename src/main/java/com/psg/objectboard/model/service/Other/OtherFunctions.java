@@ -354,8 +354,8 @@ public class OtherFunctions {
         return new String(new BigInteger(hex, 16).toByteArray());
     }
 
-    // busca nomYbre y ubicacion del logo del cliente buscando en archivos
-    /*public String buscaLogoYDirCliente(String numCia,String dataUser,String dataPassword) throws Exception{
+    // busca nomYbre y ubicacion del logo del cliente buscando en archivos -  eliminar este metodo
+    public String buscaLogoYDirCliente(String numCia,String dataUser,String dataPassword) throws Exception{
         String info = null;
         String nombre_logo = null;
         PreparedStatement pst = null;
@@ -407,7 +407,7 @@ public class OtherFunctions {
         }
 
         return info;
-    }*/
+    }
 
     // convertir de string a hexagecimal
     public String toHex(String arg) {
@@ -854,20 +854,5 @@ public class OtherFunctions {
         //none = myObject.toString();
         //
         return none;
-    }
-
-    //
-    public  void pp(){
-        try {
-            File tempFile = File.createTempFile("JavaZonetemporal",null);
-            tempFile.deleteOnExit();
-            BufferedWriter out = new BufferedWriter(new FileWriter(tempFile));
-            out.write("Esto es un fichero temporal hecho por Java Zone");
-            out.close();
-            System.out.println("Se guardo en "+tempFile.getAbsolutePath());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 }

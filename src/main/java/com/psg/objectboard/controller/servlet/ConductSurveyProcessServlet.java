@@ -1,9 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
-import com.psg.objectboard.model.own.ownsEntity.classDAO.BodyConductSurveyDAO;
-import com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyQuestionsDAO;
-import com.psg.objectboard.model.own.ownsEntity.classDAO.HeaderConductSurveyDAO;
-import com.psg.objectboard.model.own.ownsEntity.classDAO.HeadersSurveyDAO;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.*;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
@@ -411,6 +408,9 @@ public class ConductSurveyProcessServlet extends HttpServlet {
         request.setAttribute("rq_pantalla", pantalla);
         //request.setAttribute("rq_companyLogoName", company_logo_name);
         //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        request.setAttribute("rq_companyNumber", company_number);
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
     }

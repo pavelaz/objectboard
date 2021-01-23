@@ -173,7 +173,6 @@ public class BussinessUnitDAO {
             muv.setResult(false);
         }
     }
-
     // Consutas simples y mixtas varias
     public static BussinessUnitVO serchBussinessUnitDAO(String clave){
         covo = new BussinessUnitVO();
@@ -294,7 +293,6 @@ public class BussinessUnitDAO {
         }
         return arrcom;
     }
-
     // Busca el nombre de la imagen del logo si es 0 y la extension del mismo si es 1
     // Consutas simples y mixtas varias
     public String searchLogoName(String unidad,String user,String pass,Integer retorno){
@@ -330,7 +328,6 @@ public class BussinessUnitDAO {
         }
         return none;
     }
-
     /*public String getLastBussinessUnitCreate(String condi,Connection cone){
         //cc = new OtherConexion();
         //cn = cc.conectarse(dataUser,dataPassword);
