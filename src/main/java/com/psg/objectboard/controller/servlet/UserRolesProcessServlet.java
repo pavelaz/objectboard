@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.UserRoleDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.UserRoleVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
@@ -21,6 +22,7 @@ public class UserRolesProcessServlet extends HttpServlet {
         HttpSession objSesion = request.getSession();
         String data_user = (String) objSesion.getAttribute("dataUser");
         String data_pasword = (String) objSesion.getAttribute("dataPassword");
+        String company_number = (String) objSesion.getAttribute("companyNumber");
 
         String acciones = " ";
         if(request.getParameter("p_acciones")!=null){
@@ -129,6 +131,9 @@ public class UserRolesProcessServlet extends HttpServlet {
 
         request.setAttribute("rq_result", cvo.getResult());
         request.setAttribute("rq_pantalla", pantalla);
+
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
     }

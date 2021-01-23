@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Path("/test")
@@ -15,7 +16,7 @@ public class TestResources {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response sendDataReportTypified() {
+    public Response sendDataReportTypified() throws IOException {
 
         String data_user = "boarduser",
                 data_password = "1#Object5Board*%";

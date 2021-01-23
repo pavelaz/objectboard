@@ -232,7 +232,7 @@ public class BussinessUnitDAO {
         return covo;
     }
     //
-    public ArrayList<BussinessUnitVO> getListBussinessUnit(String condi){
+    public ArrayList<BussinessUnitVO> getListBussinessUnit(String condi) throws IOException {
         ArrayList<BussinessUnitVO> arrcom = new ArrayList<BussinessUnitVO>();
         cc = new OtherConexion();
         cn = cc.conectarse(dataUser,dataPassword);
@@ -244,7 +244,6 @@ public class BussinessUnitDAO {
         }else{
             sql = sqls.get_select("bussinessUnit", "*","","bu_bis_code","","");
         }
-
         try{
             pst = cn.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -270,11 +269,9 @@ public class BussinessUnitDAO {
                 covo.setBussinessTypeBtCodeType(rs.getLong(18));
                 covo.setBuLogoName(rs.getString(19));
                 covo.setBuLogoImage(rs.getBlob(20));
-                if (!covo.getBuLogoName().equals(of.searchLink("7") )) {
-                    int blobLength = (int) rs.getBlob(20).length();
-                    byte[] blobAsBytes = rs.getBlob(20).getBytes(1, blobLength);
-                    covo.setBuLogoImageByte(blobAsBytes);
-                }
+                int blobLength = (int) rs.getBlob(20).length();
+                byte[] blobAsBytes = rs.getBlob(20).getBytes(1, blobLength);
+                covo.setBuLogoImageByte(blobAsBytes);
                 if (arrcom.isEmpty()){
                     arrcom.add(0,covo);
                 }else{
@@ -282,7 +279,7 @@ public class BussinessUnitDAO {
                 }
             }
             System.out.println("Consulta array exitosa: ");
-        }catch (SQLException | IOException ex){
+        }catch (SQLException ex){
             System.out.println("Error en la consulta array: "+ex.getMessage());
         }finally {
             try{
@@ -298,9 +295,9 @@ public class BussinessUnitDAO {
         return arrcom;
     }
 
-    // Busca el nombre de la imagen del logo
+    // Busca el nombre de la imagen del logo si es 0 y la extension del mismo si es 1
     // Consutas simples y mixtas varias
-    public String searchLogoName(String unidad,String user,String pass){
+    public String searchLogoName(String unidad,String user,String pass,Integer retorno){
         OtherFunctions of = new OtherFunctions();
         String none = null;
         cc = new OtherConexion();
@@ -312,7 +309,8 @@ public class BussinessUnitDAO {
             rs = pst.executeQuery();
             if (rs.next()){ // valida si trae algun registro
                 none = rs.getString(19);
-                none = of.buscaExtencionFiles(none,unidad);
+                if (retorno == 1)
+                   none = of.buscaExtencionFiles(none,unidad);
             }
             System.out.println("Busqueda exitosa");
         }catch (SQLException | IOException ex){

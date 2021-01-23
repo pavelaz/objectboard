@@ -46,7 +46,7 @@ public class CountryServlet extends HttpServlet {
         }
 
         BussinessUnitDAO bud = new BussinessUnitDAO();
-        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword));
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.setAttribute("rq_countryName", covo.getCoName());
         request.setAttribute("rq_countryNumber", Integer.parseInt(none));

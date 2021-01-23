@@ -38,7 +38,7 @@ public class CountriesServlet extends HttpServlet {
         num_filas = paises.size();
 
         BussinessUnitDAO bud = new BussinessUnitDAO();
-        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword));
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_companyNumber", company_number);

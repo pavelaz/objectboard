@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classViewDAO.CityStateCountryDAO;
 import com.psg.objectboard.model.own.ownsEntity.classViewDAO.StateCountryDAO;
 import com.psg.objectboard.model.own.ownsEntity.classViewVO.CityStateCountryVO;
@@ -42,6 +43,9 @@ public class CitiesServlet extends HttpServlet {
         request.setAttribute("rq_numFilas", num_filas);
 
         request.setAttribute("rq_cities", cities);
+
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/master/cities.jsp").forward(request, response);
     }
