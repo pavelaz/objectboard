@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
@@ -13,8 +14,10 @@ import java.util.ArrayList;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import com.psg.objectboard.controller.common.FilesController;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessUnitVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 import com.psg.objectboard.model.own.ownsEntity.classViewDAO.BussinessUnitCoStCiDAO;
 import com.psg.objectboard.model.own.ownsEntity.classViewDAO.DischargeViewDAO;
@@ -68,7 +71,16 @@ public class GeneralPdfServlet extends HttpServlet {
                 //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
+                BussinessUnitVO buvo = null;
+                BussinessUnitDAO bud = new BussinessUnitDAO();
+                buvo = bud.serchBussinessUnitDAO(cia_number);
+
+
+
+                FilesController fc = new FilesController();
+                fc.writerFileInFolder((BufferedImage) buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName());
+
+                String fichero = of.searchLink("4")+ buvo.getBuLogoName();
                 //String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
                 //BussinessUnitDAO bud = new BussinessUnitDAO();
                 //request.setAttribute("rq_format", bud.searchLogoName(cia_number,data_user,data_pasword,1));
@@ -77,6 +89,8 @@ public class GeneralPdfServlet extends HttpServlet {
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
                 doc.open();
+
+                fc.deleteFile(of.searchLink("4")+ buvo.getBuLogoName());
 
                 try {
                     DischargeViewDAO cod = new DischargeViewDAO();
@@ -186,12 +200,12 @@ public class GeneralPdfServlet extends HttpServlet {
                 //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(50, 60);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();
+                doc.open();*/
 
                 try {
                     MasterUserDAO cod = new MasterUserDAO();
@@ -223,7 +237,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.add(company_name + "\n\n");
                     parrafo.add("User Profile \n\n");
 
-                    doc.add(header);
+                    //doc.add(header);
                     doc.add(parrafo);
 
                     Paragraph parrafo1 = new Paragraph();
@@ -311,12 +325,12 @@ public class GeneralPdfServlet extends HttpServlet {
                 //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(40, 50);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();
+                doc.open();*/
 
                 try {
                     ProfilesDAO pod= new ProfilesDAO();
@@ -332,7 +346,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
                     parrafo.add("Users List \n\n\n");
 
-                    doc.add(header);
+                    //doc.add(header);
                     doc.add(parrafo);
 
                     DateFunctions df = new DateFunctions();
@@ -425,12 +439,12 @@ public class GeneralPdfServlet extends HttpServlet {
                 //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(40, 50);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();
+                doc.open();*/
 
                 try {
                     DischargeViewDAO pod= new DischargeViewDAO();
@@ -446,7 +460,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
                     parrafo.add("Dischages List \n\n\n");
 
-                    doc.add(header);
+                    //doc.add(header);
                     doc.add(parrafo);
                     parrafo.setFont(FontFactory.getFont("Time", 10, Font.NORMAL, BaseColor.BLACK));
 
@@ -521,12 +535,12 @@ public class GeneralPdfServlet extends HttpServlet {
                 //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(40, 50);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();
+                doc.open();*/
 
                 try {
                     BussinessUnitCoStCiDAO pod= new BussinessUnitCoStCiDAO();
@@ -542,7 +556,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
                     parrafo.add("Bussiness Units List \n\n\n");
 
-                    doc.add(header);
+                    //doc.add(header);
                     doc.add(parrafo);
 
                     DateFunctions df = new DateFunctions();

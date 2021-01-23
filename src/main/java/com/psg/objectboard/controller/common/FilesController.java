@@ -3,12 +3,14 @@ package com.psg.objectboard.controller.common;
 import com.psg.objectboard.controller.servlet.MasterUserProfileServlet;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -54,6 +56,15 @@ public class FilesController extends HttpServlet {
                 entree.close();
             } catch (IOException ignore) {
             }
+        }
+    }
+
+    public void writerFileInFolder(BufferedImage ImageByte, String PathImage){
+        try {
+            File outputfile = new File(PathImage); // PathImage tiene que ser igual = "/web/temporaryfile/saved.png"
+            ImageIO.write(ImageByte, "png", outputfile);
+        } catch (IOException e) {
+            System.out.println("Foto no existe en base de datos " + e);
         }
     }
 
@@ -147,4 +158,7 @@ public class FilesController extends HttpServlet {
         masterUserProfileServlet.doOptions(request, response);
 
     }
+
+
+
 }
