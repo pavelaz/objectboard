@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.TypifiedDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.TypifiedVO;
 
@@ -61,8 +62,11 @@ public class TypifiedsServlet extends HttpServlet {
         request.setAttribute("rq_acciones", acciones);
 
         request.setAttribute("rq_orga", type);
+        request.setAttribute("rq_companyNumber", company_number);
         //request.setAttribute("rq_companyLogoName", company_logo_name);
         //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/typifieds.jsp").forward(request, response);
     }
