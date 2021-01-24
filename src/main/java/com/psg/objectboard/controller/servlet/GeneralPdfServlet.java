@@ -36,7 +36,6 @@ public class GeneralPdfServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession objSesion = request.getSession();
         String company_name = (String)objSesion.getAttribute("companyName");
-        //String company_number = (String) objSesion.getAttribute("companyNumber");
         String user_name = (String)objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
@@ -68,25 +67,17 @@ public class GeneralPdfServlet extends HttpServlet {
             doc.setMargins(15, 20, 15, 15);
 
             try {
-                //String ruta = System.getProperty("user.home");
-                //PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter pdfw = PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                BussinessUnitVO buvo = null;
                 BussinessUnitDAO bud = new BussinessUnitDAO();
-                buvo = bud.serchBussinessUnitDAO(cia_number);
+                BussinessUnitVO buvo = bud.serchBussinessUnitDAO(cia_number);
 
-                String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1);
+                String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
                 FilesController fc = new FilesController();
 
                 fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
-                //String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
-                //BussinessUnitDAO bud = new BussinessUnitDAO();
-                //request.setAttribute("rq_format", bud.searchLogoName(cia_number,data_user,data_pasword,1));
 
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(50, 60);
@@ -323,18 +314,24 @@ public class GeneralPdfServlet extends HttpServlet {
             doc.setMargins(15, 20, 15, 15);
 
             try {
-                //String ruta = System.getProperty("user.home");
-                //PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter pdfw = PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                BussinessUnitDAO bud = new BussinessUnitDAO();
+                BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
+
+                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                FilesController fc = new FilesController();
+
+                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+
+                String fichero = of.searchLink("4")+ buvo.getBuLogoName();
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(40, 50);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();*/
+                fc.deleteFile(of.searchLink("4")+ buvo.getBuLogoName());
+
+                doc.open();
 
                 try {
                     ProfilesDAO pod= new ProfilesDAO();
@@ -350,7 +347,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
                     parrafo.add("Users List \n\n\n");
 
-                    //doc.add(header);
+                    doc.add(header);
                     doc.add(parrafo);
 
                     DateFunctions df = new DateFunctions();
@@ -437,18 +434,25 @@ public class GeneralPdfServlet extends HttpServlet {
             doc.setMargins(15, 20, 15, 15);
 
             try {
-                //String ruta = System.getProperty("user.home");
-                //PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter pdfw = PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                BussinessUnitDAO bud = new BussinessUnitDAO();
+                BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
+
+                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                FilesController fc = new FilesController();
+
+                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+
+                String fichero = of.searchLink("4")+ buvo.getBuLogoName();
+
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(40, 50);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();*/
+                doc.open();
+
+                fc.deleteFile(of.searchLink("4")+ buvo.getBuLogoName());
 
                 try {
                     DischargeViewDAO pod= new DischargeViewDAO();
@@ -464,7 +468,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
                     parrafo.add("Dischages List \n\n\n");
 
-                    //doc.add(header);
+                    doc.add(header);
                     doc.add(parrafo);
                     parrafo.setFont(FontFactory.getFont("Time", 10, Font.NORMAL, BaseColor.BLACK));
 

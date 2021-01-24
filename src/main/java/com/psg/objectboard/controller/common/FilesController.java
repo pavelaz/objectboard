@@ -63,9 +63,9 @@ public class FilesController extends HttpServlet {
 
     /**
      * Metodo para escribir un archivo apartir de un campo tipo blob de base dato
-     * @param FileByte
-     * @param PathFile -> tiene que ser igual = "/web/temporaryfile/saved.png"
-     * @param extension
+     * @param blob --> imagen tipo blob
+     * @param PathImage -> tiene que ser igual = "/web/temporaryfile/saved.png"
+     * @param extension --> extension del archivo a crear sin el punto eje: png
      */
     public void writerFileInFolder(Blob blob, String PathImage, String extension){
         try {
