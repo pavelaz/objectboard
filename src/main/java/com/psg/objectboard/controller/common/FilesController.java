@@ -59,10 +59,12 @@ public class FilesController extends HttpServlet {
         }
     }
 
-    public void writerFileInFolder(BufferedImage ImageByte, String PathImage){
+    public void writerFileInFolder(BufferedImage FileByte, String PathFile, String extension){
         try {
-            File outputfile = new File(PathImage); // PathImage tiene que ser igual = "/web/temporaryfile/saved.png"
-            ImageIO.write(ImageByte, "png", outputfile);
+
+            File outputfile = new File(PathFile); // PathImage tiene que ser igual = "/web/temporaryfile/saved.png"
+            ImageIO.write(FileByte, extension, outputfile);
+
         } catch (IOException e) {
             System.out.println("Foto no existe en base de datos " + e);
         }
