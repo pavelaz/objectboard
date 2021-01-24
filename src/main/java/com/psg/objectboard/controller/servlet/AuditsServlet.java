@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.HeaderConductSurveyDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeaderConductSurveyVO;
 import com.psg.objectboard.model.service.Other.DateFunctions;
@@ -48,6 +49,9 @@ public class AuditsServlet extends HttpServlet {
         request.setAttribute("rq_numFilas", polls.size());
         //request.setAttribute("rq_companyLogoName", company_logo_name);
         //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
+        request.setAttribute("rq_companyNumber", company_number);
+        BussinessUnitDAO bud = new BussinessUnitDAO();
+        request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
         request.setAttribute("rq_polls", polls);
 

@@ -33,7 +33,7 @@
     cn = cc.conectarse(data_user,data_pasword);
     String sql = null;
 
-    if (company_number.equals(1))
+    if (company_number.equals("1"))
         sql = "SELECT * FROM DischargeView;";
     else
         sql = "SELECT * FROM DischargeView WHERE bussinessUnit_bu_bis_code = " + Long.parseLong(company_number) + ";";

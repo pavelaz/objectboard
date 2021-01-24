@@ -76,14 +76,14 @@ public class GeneralPdfServlet extends HttpServlet {
                 buvo = bud.serchBussinessUnitDAO(cia_number);
 
                 String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1);
-git
                 FilesController fc = new FilesController();
-                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+                fc.writerFileInFolder((BufferedImage) buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
                 //String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
                 //BussinessUnitDAO bud = new BussinessUnitDAO();
                 //request.setAttribute("rq_format", bud.searchLogoName(cia_number,data_user,data_pasword,1));
+
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(50, 60);
                 header.setAlignment(Chunk.ALIGN_LEFT);
