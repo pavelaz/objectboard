@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 public class FilesController extends HttpServlet {
     public static final long serialVersionUID = 1L;
@@ -65,11 +67,19 @@ public class FilesController extends HttpServlet {
      * @param PathFile -> tiene que ser igual = "/web/temporaryfile/saved.png"
      * @param extension
      */
-    public void writerFileInFolder(BufferedImage FileByte, String PathFile, String extension){
+    public void writerFileInFolder(Blob blob, String PathImage, String extension){
         try {
 
-            File outputfile = new File(PathFile); //
-            ImageIO.write(FileByte, extension, outputfile);
+            InputStream inputStream = null;
+            try {
+                inputStream = blob.getBinaryStream();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            BufferedImage image = ImageIO.read(inputStream);
+
+            File outputfile = new File(PathImage); //
+            ImageIO.write(image, extension, outputfile);
 
         } catch (IOException e) {
             System.out.println("Foto no existe en base de datos " + e);

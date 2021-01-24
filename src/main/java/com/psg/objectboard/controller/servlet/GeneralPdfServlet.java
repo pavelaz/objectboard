@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -77,7 +80,8 @@ public class GeneralPdfServlet extends HttpServlet {
 
                 String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1);
                 FilesController fc = new FilesController();
-                fc.writerFileInFolder((BufferedImage) buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+
+                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
                 //String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
