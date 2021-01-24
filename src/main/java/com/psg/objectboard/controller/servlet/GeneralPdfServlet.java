@@ -76,7 +76,7 @@ public class GeneralPdfServlet extends HttpServlet {
                 buvo = bud.serchBussinessUnitDAO(cia_number);
 
                 String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1);
-
+git
                 FilesController fc = new FilesController();
                 fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
 
