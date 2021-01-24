@@ -1,4 +1,4 @@
-package com.psg.objectboard.controller.servlet.common;
+package com.psg.objectboard.controller.servlet.borrar;
 
 import com.psg.objectboard.controller.common.FilesController;
 

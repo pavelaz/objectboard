@@ -59,10 +59,16 @@ public class FilesController extends HttpServlet {
         }
     }
 
+    /**
+     * Metodo para escribir un archivo apartir de un campo tipo blob de base dato
+     * @param FileByte
+     * @param PathFile -> tiene que ser igual = "/web/temporaryfile/saved.png"
+     * @param extension
+     */
     public void writerFileInFolder(BufferedImage FileByte, String PathFile, String extension){
         try {
 
-            File outputfile = new File(PathFile); // PathImage tiene que ser igual = "/web/temporaryfile/saved.png"
+            File outputfile = new File(PathFile); //
             ImageIO.write(FileByte, extension, outputfile);
 
         } catch (IOException e) {
