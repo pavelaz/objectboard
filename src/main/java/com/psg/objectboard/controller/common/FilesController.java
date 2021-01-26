@@ -1,6 +1,5 @@
 package com.psg.objectboard.controller.common;
 
-import com.psg.objectboard.controller.servlet.MasterUserProfileServlet;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.imageio.ImageIO;
@@ -70,7 +69,7 @@ public class FilesController extends HttpServlet {
      * @param blob
      * @param PathImage
      * @param extension
-     */
+     **/
     public void writerImageInFolder(Blob blob, String PathImage, String extension){
         try {
 
@@ -185,14 +184,4 @@ public class FilesController extends HttpServlet {
         System.out.println("Photo Delete the Server");
     }
 
-    @Override
-    protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        MasterUserProfileServlet masterUserProfileServlet = new MasterUserProfileServlet();
-        masterUserProfileServlet.doOptions(request, response);
-
-    }
-
-
-
-}
+ }

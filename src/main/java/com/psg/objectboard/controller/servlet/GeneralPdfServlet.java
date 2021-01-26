@@ -1,17 +1,13 @@
 package com.psg.objectboard.controller.servlet;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -36,7 +32,6 @@ public class GeneralPdfServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession objSesion = request.getSession();
         String company_name = (String)objSesion.getAttribute("companyName");
-        //String company_number = (String) objSesion.getAttribute("companyNumber");
         String user_name = (String)objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
@@ -68,25 +63,17 @@ public class GeneralPdfServlet extends HttpServlet {
             doc.setMargins(15, 20, 15, 15);
 
             try {
-                //String ruta = System.getProperty("user.home");
-                //PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter pdfw = PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                BussinessUnitVO buvo = null;
                 BussinessUnitDAO bud = new BussinessUnitDAO();
-                buvo = bud.serchBussinessUnitDAO(cia_number);
+                BussinessUnitVO buvo = bud.serchBussinessUnitDAO(cia_number);
 
-                String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1);
+                String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
                 FilesController fc = new FilesController();
 
                 fc.writerFileInFolder(buvo.getBuLogoImageByte(),of.searchLink("4")+ buvo.getBuLogoName());
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
-                //String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
-                //BussinessUnitDAO bud = new BussinessUnitDAO();
-                //request.setAttribute("rq_format", bud.searchLogoName(cia_number,data_user,data_pasword,1));
 
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(50, 60);
@@ -198,18 +185,24 @@ public class GeneralPdfServlet extends HttpServlet {
             doc.setMargins(20, 20, 20, 20);
 
             try {
-                //String ruta = System.getProperty("user.home");
-                //PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter pdfw = PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
+                BussinessUnitDAO bud = new BussinessUnitDAO();
+                BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
 
-                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                FilesController fc = new FilesController();
+
+                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+
+                String fichero = of.searchLink("4")+ buvo.getBuLogoName();
+
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(50, 60);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();*/
+                doc.open();
+
+                fc.deleteFile(of.searchLink("4")+ buvo.getBuLogoName());
 
                 try {
                     MasterUserDAO cod = new MasterUserDAO();
@@ -241,7 +234,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.add(company_name + "\n\n");
                     parrafo.add("User Profile \n\n");
 
-                    //doc.add(header);
+                    doc.add(header);
                     doc.add(parrafo);
 
                     Paragraph parrafo1 = new Paragraph();
@@ -323,18 +316,24 @@ public class GeneralPdfServlet extends HttpServlet {
             doc.setMargins(15, 20, 15, 15);
 
             try {
-                //String ruta = System.getProperty("user.home");
-                //PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter pdfw = PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                BussinessUnitDAO bud = new BussinessUnitDAO();
+                BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
+
+                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                FilesController fc = new FilesController();
+
+                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+
+                String fichero = of.searchLink("4")+ buvo.getBuLogoName();
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(40, 50);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();*/
+                fc.deleteFile(of.searchLink("4")+ buvo.getBuLogoName());
+
+                doc.open();
 
                 try {
                     ProfilesDAO pod= new ProfilesDAO();
@@ -350,7 +349,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
                     parrafo.add("Users List \n\n\n");
 
-                    //doc.add(header);
+                    doc.add(header);
                     doc.add(parrafo);
 
                     DateFunctions df = new DateFunctions();
@@ -437,18 +436,25 @@ public class GeneralPdfServlet extends HttpServlet {
             doc.setMargins(15, 20, 15, 15);
 
             try {
-                //String ruta = System.getProperty("user.home");
-                //PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter pdfw = PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                BussinessUnitDAO bud = new BussinessUnitDAO();
+                BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
+
+                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                FilesController fc = new FilesController();
+
+                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+
+                String fichero = of.searchLink("4")+ buvo.getBuLogoName();
+
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(40, 50);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();*/
+                doc.open();
+
+                fc.deleteFile(of.searchLink("4")+ buvo.getBuLogoName());
 
                 try {
                     DischargeViewDAO pod= new DischargeViewDAO();
@@ -464,7 +470,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
                     parrafo.add("Dischages List \n\n\n");
 
-                    //doc.add(header);
+                    doc.add(header);
                     doc.add(parrafo);
                     parrafo.setFont(FontFactory.getFont("Time", 10, Font.NORMAL, BaseColor.BLACK));
 
@@ -533,18 +539,24 @@ public class GeneralPdfServlet extends HttpServlet {
             doc.setMargins(15, 20, 15, 15);
 
             try {
-                //String ruta = System.getProperty("user.home");
-                //PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter pdfw = PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Escritorio/reporte.pdf"));
-                //PdfWriter.getInstance(doc, out);
                 PdfWriter pdfw = PdfWriter.getInstance(doc, out);
 
-                /*String fichero = of.buscaLogoYDirCliente(company_number,data_user,data_pasword);
+                BussinessUnitDAO bud = new BussinessUnitDAO();
+                BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
+
+                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                FilesController fc = new FilesController();
+
+                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+
+                String fichero = of.searchLink("4")+ buvo.getBuLogoName();
+
                 Image header = Image.getInstance(fichero);
                 header.scaleToFit(40, 50);
                 header.setAlignment(Chunk.ALIGN_LEFT);
 
-                doc.open();*/
+                doc.open();
+                fc.deleteFile(of.searchLink("4")+ buvo.getBuLogoName());
 
                 try {
                     BussinessUnitCoStCiDAO pod= new BussinessUnitCoStCiDAO();
@@ -560,7 +572,7 @@ public class GeneralPdfServlet extends HttpServlet {
                     parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
                     parrafo.add("Bussiness Units List \n\n\n");
 
-                    //doc.add(header);
+                    doc.add(header);
                     doc.add(parrafo);
 
                     DateFunctions df = new DateFunctions();

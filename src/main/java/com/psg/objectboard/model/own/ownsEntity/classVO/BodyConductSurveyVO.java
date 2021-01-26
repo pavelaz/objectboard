@@ -1,5 +1,8 @@
 package com.psg.objectboard.model.own.ownsEntity.classVO;
 
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class BodyConductSurveyVO {
     private Long headerConductSurveyConductId;
     private Long  bsaBodySurveyQuestionsQuestionCode;
@@ -22,6 +25,10 @@ public class BodyConductSurveyVO {
     private String statusRank;
     private Double rankMin;
     private Double rankMax;
+    private Blob bcsAnnexFile;
+    private String rutaAnnex;
+    private byte[] bcsAnnexFileByte;
+    private InputStream bcsAnnexFileInput;
     private Boolean result;
 
     public Long getHeaderConductSurveyConductId() {
@@ -190,6 +197,38 @@ public class BodyConductSurveyVO {
 
     public void setRankMax(Double rankMax) {
         this.rankMax = rankMax;
+    }
+
+    public Blob getBcsAnnexFile() {
+        return bcsAnnexFile;
+    }
+
+    public void setBcsAnnexFile(Blob bcsAnnexFile) {
+        this.bcsAnnexFile = bcsAnnexFile;
+    }
+
+    public String getRutaAnnex() {
+        return rutaAnnex;
+    }
+
+    public void setRutaAnnex(String rutaAnnex) {
+        this.rutaAnnex = rutaAnnex;
+    }
+
+    public byte[] getBcsAnnexFileByte() {
+        return bcsAnnexFileByte;
+    }
+
+    public void setBcsAnnexFileByte(byte[] bcsAnnexFileByte) {
+        this.bcsAnnexFileByte = bcsAnnexFileByte;
+    }
+
+    public InputStream getBcsAnnexFileInput() {
+        return bcsAnnexFileInput;
+    }
+
+    public void setBcsAnnexFileInput(InputStream bcsAnnexFileInput) {
+        this.bcsAnnexFileInput = bcsAnnexFileInput;
     }
 
     public Boolean getResult() {

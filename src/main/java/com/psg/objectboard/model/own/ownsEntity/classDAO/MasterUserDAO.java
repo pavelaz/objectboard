@@ -30,7 +30,7 @@ public class MasterUserDAO {
         of = new OtherFunctions();
         String last=null;
         FileInputStream fi = null;
-        String sql = "INSERT INTO masterUser values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO masterUser values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         mus.setResult(false);
         try{
             File file = new File(mus.getRuta_imagen());
@@ -61,6 +61,7 @@ public class MasterUserDAO {
             pst.setInt(22,mus.getCityCiCityCode());
             pst.setInt(23,mus.getCityStatesStStateCode());
             pst.setInt(24,mus.getCityStatesCountryCoCountryCode());
+            pst.setString(25,mus.getMuPhotoName());
             pst.executeUpdate();
             System.out.println("Operacion de Insert Exitosa.");
             //  busca para validar y mostrar en consola los datos del usuario registrado
@@ -227,31 +228,17 @@ public class MasterUserDAO {
     public static void updateMasterUserImage(MasterUserVO muv, Connection cone) {
         FileInputStream fi = null;
         String sql = "UPDATE masterUser SET " +
-                "mu_photo=?" +
+                "mu_photo=?, " +
+                "mu_photo_name=?" +
                 " WHERE (mu_email=? AND bussinessUnit_bu_bis_code=?)";
         try{
             File file = new File(muv.getRuta_imagen());
             fi = new FileInputStream(file);
             pst = cone.prepareStatement(sql);
-            /*pst.setString(1,muv.getMuPassword());
-            pst.setString(2,muv.getMuName());
-            pst.setInt(3,muv.getMuSectionTime());
-            pst.setString(4,muv.getMuQuestion());
-            pst.setString(5,muv.getMuAnswer());
-            pst.setString(6,muv.getMuStatus());
-            pst.setInt(7,muv.getMuEffectiveDays());
-
-            pst.setString(8,muv.getMuEmailConfirm());
-            pst.setString(9,muv.getMuGender());
-            pst.setString(10,muv.getMuExpires());
-            pst.setString(11,muv.getMuDateExpires());
-
-            pst.setInt(12,muv.getCityCiCityCode());
-            pst.setInt(13,muv.getCityStatesStStateCode());
-            pst.setInt(14,muv.getCityStatesCountryCoCountryCode());*/
             pst.setBinaryStream(1,fi, (int) file.length());
-            pst.setString(2,muv.getMuEmail());
-            pst.setLong(3, muv.getBussinessUnitBuBisCode());
+            pst.setString(2,muv.getMuPhotoName());
+            pst.setString(3,muv.getMuEmail());
+            pst.setLong(4, muv.getBussinessUnitBuBisCode());
             pst.execute();
             System.out.println("Image Master User actualizada con exito, ID: "+muv.getMuEmail()+
                     " , "+muv.getBussinessUnitBuBisCode());
@@ -299,6 +286,7 @@ public class MasterUserDAO {
                 com.setCityCiCityCode(rs.getInt(22));
                 com.setCityStatesStStateCode(rs.getInt(23));
                 com.setCityStatesCountryCoCountryCode(rs.getInt(24));
+                com.setMuPhotoName(rs.getString(25));
 
                 com.setResult(true);
                 // convierte campo tipo blob a byte[]
@@ -387,6 +375,7 @@ public class MasterUserDAO {
                 com.setCityCiCityCode(rs.getInt(22));
                 com.setCityStatesStStateCode(rs.getInt(23));
                 com.setCityStatesCountryCoCountryCode(rs.getInt(24));
+                com.setMuPhotoName(rs.getString(25));
 
                 int blobLength = (int) rs.getBlob(17).length();
                 byte[] blobAsBytes = rs.getBlob(17).getBytes(1, blobLength);

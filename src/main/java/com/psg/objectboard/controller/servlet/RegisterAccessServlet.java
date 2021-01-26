@@ -148,10 +148,13 @@ public class RegisterAccessServlet extends HttpServlet {
                 /*(Production)*/
                 String path = vProp.getProperty("propert-pathcomplements");
 
-                if(user_sexo.equals("M"))
+                if(user_sexo.equals("M")) {
                     ruta = path + "img/photoProfileMen2.png";
-                else
+                    muv.setMuPhotoName("photoProfileMen2.png");
+                }else {
                     ruta = path + "img/photoProfileWomen.png";
+                    muv.setMuPhotoName("photoProfileWomen.png");
+                }
                 // mueve valores al objeto
                 muv.setMuEmail(user_email);
                 muv.setBussinessUnitBuBisCode(Integer.parseInt(company_number));
