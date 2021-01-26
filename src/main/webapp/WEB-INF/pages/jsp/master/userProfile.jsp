@@ -97,7 +97,7 @@
             if(Validaciones()){
                 //alert("paso");
                 document.formPhoto.p_method.value = "1";
-                document.formPhoto.action="/objectboard/userprofile";
+                document.formPhoto.action="/objectboard/multipartconfigservlet";
                 //updateMasterUser();
                 document.formPhoto.submit();
             }
@@ -168,8 +168,9 @@
     <div class="pcoded-container navbar-wrapper">
 
         <!--start ############################### navbar ###############################-->
-        <jstl:set var="jsp_navBarOption" scope="page" value="${ '8' }"/>
-        <%@include file="../../../../complements/jsp/navbar.jsp"%>
+        <%--<jstl:set var="jsp_navBarOption" scope="page" value="${ '8' }"/>
+        <%@include file="../../../../complements/jsp/navbar.jsp"%> --%>
+        <%@include file="../../../../complements/jsp/head_basic_script.jsp"%>
         <!--end ############################### navbar ###############################-->
 
         <!--start ############################### navbar-header ###############################-->
@@ -205,12 +206,12 @@
 
                                             <!--START##########################################CUERPO PRINCIPAL#####################################################-->
 
-                                            <form name="formPhoto" id="formPhoto" method="options" action="#!" enctype="multipart/form-data">
+                                            <form name="formPhoto" id="formPhoto" method="post" action="#!" enctype="multipart/form-data">
                                                 <div class="form-group row">
-                                                    <!--<label for="file" class="col-sm-2 col-form-label">Upload Photo</label>-->
+                                                    <label for="file" class="col-sm-2 col-form-label">Upload Photo</label>
                                                     <div class="col-sm-8" align="right" name="div-photo" id="div-photo">
-                                                        <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfileimage.html" class="img-thumbnail" alt="Photo Profile" width="200" height="240">
-                                                        <!--<input name="file" id="file" type="file" accept="image/png, image/jpeg" class="image-cropper-container" align="center" onchange="filePreview(this)">-->
+                                                        <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfileimage.html" class="img-thumbnail" alt="Photo Profile" width="100" height="120">
+                                                        <input name="p_file" id="file" type="file" accept="image/png, image/jpeg" class="image-cropper-container" align="center" onchange="filePreview(this)">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">

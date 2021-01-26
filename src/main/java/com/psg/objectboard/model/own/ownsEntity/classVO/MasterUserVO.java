@@ -34,6 +34,15 @@ public class MasterUserVO {
     private String ruta_imagen;
     private byte[] muPhotoByte;
     private InputStream muPhotoInput;
+    private String muPhotoName;
+
+    public String getMuPhotoName() {
+        return muPhotoName;
+    }
+
+    public void setMuPhotoName(String muPhotoName) {
+        this.muPhotoName = muPhotoName;
+    }
 
     public InputStream getMuPhotoInput() {
         return muPhotoInput;

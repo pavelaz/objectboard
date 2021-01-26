@@ -79,7 +79,7 @@
             document.forma.submit();
         }
         function other_pdf(){
-            alert("paso54");
+            //alert("paso54");
             document.forma.action = '/objectboard/generalpdf';
             document.forma.p_acciones.value = "unidades";
             document.forma.submit();
