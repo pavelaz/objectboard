@@ -77,20 +77,19 @@
     </dependency>
 
     <!-- ===== Hibernate and MongoDB ===== -->
-    <dependency>
+    <!--<dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
       <version>5.4.0.Final</version>
-      <scope>compile</scope><!--Contexto de Desarrollo y Produccion-->
-    </dependency>
+      <scope>compile</scope><!Contexto de Desarrollo y Produccion>
+    </dependency>-->
 
-    <dependency>
+    <!--<dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.12</version>
-      <!--<scope>provided</scope>Contexto de Desarrollo-->
-      <scope>compile</scope><!--Contexto de Desarrollo y Produccion-->
-    </dependency>
+      <scope>compile</scope><!Contexto de Desarrollo y Produccion>
+    </dependency>-->
 
     <dependency>
       <groupId>mysql</groupId>
