@@ -81,7 +81,7 @@ public class GeneralPdfServlet extends HttpServlet {
                 String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1);
                 FilesController fc = new FilesController();
 
-                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+                fc.writerFileInFolder(buvo.getBuLogoImageByte(),of.searchLink("4")+ buvo.getBuLogoName());
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
                 //String fichero = of.buscaLogoYDirCliente(cia_number,data_user,data_pasword);
