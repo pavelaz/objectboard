@@ -69,7 +69,7 @@ public class FilesController extends HttpServlet {
      * @param blob
      * @param PathImage
      * @param extension
-     **/
+    **/
     public void writerImageInFolder(Blob blob, String PathImage, String extension){
         try {
 
@@ -88,6 +88,12 @@ public class FilesController extends HttpServlet {
             System.out.println("Foto no existe en base de datos " + e);
         }
     }
+
+    /**
+     * Metodo para escribir un archivo apartir de un campo tipo byte de base dato
+     * @param getFileByte
+     * @param PathAndFile
+     */
     public void writerFileInFolder(byte getFileByte[], String PathAndFile){
         String s = "Hello World! ";
         byte data[] = getFileByte;//s.getBytes();
