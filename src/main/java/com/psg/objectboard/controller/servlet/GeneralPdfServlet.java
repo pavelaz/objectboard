@@ -68,10 +68,10 @@ public class GeneralPdfServlet extends HttpServlet {
                 BussinessUnitDAO bud = new BussinessUnitDAO();
                 BussinessUnitVO buvo = bud.serchBussinessUnitDAO(cia_number);
 
-                String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                //String none1 = bud.searchLogoName(cia_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
                 FilesController fc = new FilesController();
 
-                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+                fc.writerFileInFolder(buvo.getBuLogoImageByte(),of.searchLink("4")+ buvo.getBuLogoName());
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
 
@@ -189,10 +189,10 @@ public class GeneralPdfServlet extends HttpServlet {
                 BussinessUnitDAO bud = new BussinessUnitDAO();
                 BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
 
-                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                //String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
                 FilesController fc = new FilesController();
 
-                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+                fc.writerFileInFolder(buvo.getBuLogoImageByte(),of.searchLink("4")+ buvo.getBuLogoName());
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
 
@@ -324,7 +324,7 @@ public class GeneralPdfServlet extends HttpServlet {
                 String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
                 FilesController fc = new FilesController();
 
-                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+                fc.writerImageInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
                 Image header = Image.getInstance(fichero);
@@ -441,10 +441,10 @@ public class GeneralPdfServlet extends HttpServlet {
                 BussinessUnitDAO bud = new BussinessUnitDAO();
                 BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
 
-                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                //String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
                 FilesController fc = new FilesController();
 
-                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+                fc.writerFileInFolder(buvo.getBuLogoImageByte(),of.searchLink("4")+ buvo.getBuLogoName());
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
 
@@ -544,10 +544,10 @@ public class GeneralPdfServlet extends HttpServlet {
                 BussinessUnitDAO bud = new BussinessUnitDAO();
                 BussinessUnitVO buvo = bud.serchBussinessUnitDAO(company_number);
 
-                String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
+                //String none1 = bud.searchLogoName(company_number,data_user,data_pasword,1); // buscamos extension del archivo a crear
                 FilesController fc = new FilesController();
 
-                fc.writerFileInFolder(buvo.getBuLogoImage(),of.searchLink("4")+ buvo.getBuLogoName(), none1);
+                fc.writerFileInFolder(buvo.getBuLogoImageByte(),of.searchLink("4")+ buvo.getBuLogoName());
 
                 String fichero = of.searchLink("4")+ buvo.getBuLogoName();
 

@@ -12,9 +12,13 @@ import javax.servlet.http.Part;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
+
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
 
 public class FilesController extends HttpServlet {
     public static final long serialVersionUID = 1L;
@@ -62,11 +66,11 @@ public class FilesController extends HttpServlet {
 
     /**
      * Metodo para escribir un archivo apartir de un campo tipo blob de base dato
-     * @param blob --> imagen tipo blob
-     * @param PathImage -> tiene que ser igual = "/web/temporaryfile/saved.png"
-     * @param extension --> extension del archivo a crear sin el punto eje: png
-     */
-    public void writerFileInFolder(Blob blob, String PathImage, String extension){
+     * @param blob
+     * @param PathImage
+     * @param extension
+    **/
+    public void writerImageInFolder(Blob blob, String PathImage, String extension){
         try {
 
             InputStream inputStream = null;
@@ -82,6 +86,24 @@ public class FilesController extends HttpServlet {
 
         } catch (IOException e) {
             System.out.println("Foto no existe en base de datos " + e);
+        }
+    }
+
+    /**
+     * Metodo para escribir un archivo apartir de un campo tipo byte de base dato
+     * @param getFileByte
+     * @param PathAndFile
+     */
+    public void writerFileInFolder(byte getFileByte[], String PathAndFile){
+        String s = "Hello World! ";
+        byte data[] = getFileByte;//s.getBytes();
+        Path p = Paths.get(PathAndFile);
+
+        try (OutputStream out = new BufferedOutputStream(
+                Files.newOutputStream(p, CREATE, APPEND))) {
+            out.write(data, 0, data.length);
+        } catch (IOException x) {
+            System.err.println(x);
         }
     }
 
