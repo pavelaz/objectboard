@@ -5,7 +5,9 @@ import com.psg.objectboard.model.service.Other.OtherFunctions;
 import com.psg.objectboard.model.service.Other.SqlFunctions;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,9 +37,11 @@ public class BodyConductSurveyDAO {
         String last=null;
         FileInputStream fi = null;
         String sql = "INSERT INTO bodyConductSurvey " +
-                     "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                     "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         mus.setResult(false);
         try{
+            File file = new File(mus.getRutaAnnex());
+            fi = new FileInputStream(file);
             pst = cone.prepareStatement(sql);
             pst.setLong(1,mus.getHeaderConductSurveyConductId());
             pst.setLong(2,mus.getBsaBodySurveyQuestionsQuestionCode());
@@ -60,10 +64,12 @@ public class BodyConductSurveyDAO {
             pst.setString(19,mus.getStatusRank());
             pst.setDouble(20,mus.getRankMin());
             pst.setDouble(21,mus.getRankMax());
+
+            pst.setBinaryStream(22, fi, (int) file.length());
             pst.executeUpdate();
             System.out.println("Operacion de Insert Exitosa.");
             mus.setResult(true);
-        }catch (SQLException ex){
+        }catch (SQLException | FileNotFoundException ex){
             mus.setResult(false);
             System.out.println("Error en la consulta de insert.: "+ex.getMessage());
         }
@@ -95,7 +101,6 @@ public class BodyConductSurveyDAO {
                 com.setBcsAnswerOnlyNumber(rs.getDouble(6));
                 com.setBcsAnswerOnlyDate(rs.getString(7));
                 com.setBcsAnswerOnlyTime(rs.getString(8));
-                //com.setBcsAnnexFile(rs.getBlob(9));
 
                 com.setBcsComment(rs.getString(9));
                 com.setBcsAnswer(rs.getString(10));
@@ -110,9 +115,10 @@ public class BodyConductSurveyDAO {
                 com.setStatusRank(rs.getString(19));
                 com.setRankMin(rs.getDouble(20));
                 com.setRankMax(rs.getDouble(21));
-                //int blobLength = (int) rs.getBlob(9).length();
-                //byte[] blobAsBytes = rs.getBlob(9).getBytes(1, blobLength);
-                //com.setBcsAnnexFileByte(blobAsBytes);
+                com.setBcsAnnexFile(rs.getBlob(22));
+                int blobLength = (int) rs.getBlob(22).length();
+                byte[] blobAsBytes = rs.getBlob(22).getBytes(1, blobLength);
+                com.setBcsAnnexFileByte(blobAsBytes);
 
                 if (arrcom.isEmpty()){
                     arrcom.add(0,com);

@@ -5,6 +5,7 @@ import com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeaderConductSurveyVO;
+import com.psg.objectboard.model.service.Other.DateFunctions;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 
@@ -97,6 +98,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                            " AND headersSurvey_bussinessUnit_bu_bis_code = " + Long.parseLong(company_number);
         questions = sdo.getListBodySurveyQuestions(condicion);
 
+        OtherFunctions of = new OtherFunctions();
         String none = null;
         String[] response_question_status_rank = new String[questions.size()];
         String[] response_question_min_rank = new String[questions.size()];
@@ -111,9 +113,11 @@ public class ConductSurveyProcessServlet extends HttpServlet {
         Integer[] response_question_type = new Integer[questions.size()];
         String[] response_question_annex_type = new String[questions.size()];
         String[] response_question_solution = new String[questions.size()];
-        String path = System.getProperty("user.home");
-        String primaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/temporaryfiles/";
-        String secundaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/files/";
+        String[] response_datetime_img = new String[questions.size()];
+        DateFunctions df = new DateFunctions();
+        //String path = System.getProperty("user.home");
+        //String primaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/temporaryfiles/";
+        //String secundaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/files/";
 
         for(int x = 0; x < questions.size(); x++) {
             response_question_status_rank[x] = "F";
@@ -165,17 +169,19 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_solution[x] = request.getParameter("p_as_" + questions.get(x).getQuestionCode());
                 }
                 if(request.getPart("p_d_" + questions.get(x).getQuestionCode())!=null){
+                    response_datetime_img[x] = df.fechaFull(9);
                     response_question_file_name[x]= request.getParameter("p_dn_" + questions.get(x).getQuestionCode());
                     response_question_document[x] = request.getPart("p_d_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_document[x].getInputStream();
-                    File f = new File(path + primaryDirectory + response_question_file_name[x]);
+                    File f = new File(of.searchLink("4") + response_datetime_img[x] + "-" + response_question_file_name[x]);
                     OtherFunctions.subirArchivos(is, f);
                 }
                 if(request.getParameter("p_in_" + questions.get(x).getQuestionCode())!=null){
+                    response_datetime_img[x] = df.fechaFull(9);
                     response_question_file_name[x] = request.getParameter("p_in_" + questions.get(x).getQuestionCode());
                     response_question_imagen[x] = request.getPart("p_i_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_imagen[x].getInputStream();
-                    File f = new File(path + primaryDirectory + response_question_file_name[x]);
+                    File f = new File(of.searchLink("4") + response_datetime_img[x] + "-" + response_question_file_name[x]);
                     OtherFunctions.subirArchivos(is, f);
                 }
             }
@@ -192,21 +198,24 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_solution[x] = request.getParameter("p_as_" + questions.get(x).getQuestionCode());
                 }
                 if(request.getParameter("p_d_" + questions.get(x).getQuestionCode())!=null){
+                    response_datetime_img[x] = df.fechaFull(9);
                     response_question_file_name[x] = request.getParameter("p_dn_" + questions.get(x).getQuestionCode());
                     response_question_document[x] = request.getPart("p_d_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_document[x].getInputStream();
-                    File f = new File(path + primaryDirectory + response_question_file_name[x]);
+                    File f = new File(of.searchLink("4") + response_datetime_img[x] + "-" + response_question_file_name[x]);
                     OtherFunctions.subirArchivos(is, f);
                 }
                 if(request.getParameter("p_in_" + questions.get(x).getQuestionCode())!=null){
+                    response_datetime_img[x] = df.fechaFull(9);
                     response_question_file_name[x] = request.getParameter("p_in_" + questions.get(x).getQuestionCode());
                     response_question_imagen[x] = request.getPart("p_i_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_imagen[x].getInputStream();
-                    File f = new File(path + primaryDirectory + response_question_file_name[x]);
+                    File f = new File(of.searchLink("4") + response_datetime_img[x] + "-" + response_question_file_name[x]);
                     OtherFunctions.subirArchivos(is, f);
                 }
             }
         }
+// falta anexar el datetime al nombre fisico de los archivos y luego eliminarlos
 
         // Realizo las acciones solicitadas sobe la base de datos
         HeaderConductSurveyVO cvo = new HeaderConductSurveyVO();
@@ -255,12 +264,12 @@ public class ConductSurveyProcessServlet extends HttpServlet {
 
             BodyConductSurveyVO bvo = new BodyConductSurveyVO();
             BodyConductSurveyDAO bdo = null;
-            OtherFunctions of = new OtherFunctions();
-            String directorio = email_assign.replace("@","_");
-                   directorio = directorio.replace(".","_") + "_" + Long.parseLong(company_number);
-            of.CrearDirectorio (path + secundaryDirectory + directorio);
-            of.CrearDirectorio (path + secundaryDirectory + directorio + "/document");
-            of.CrearDirectorio (path + secundaryDirectory + directorio + "/image");
+            //OtherFunctions of = new OtherFunctions();
+            //String directorio = email_assign.replace("@","_");
+            //       directorio = directorio.replace(".","_") + "_" + Long.parseLong(company_number);
+            //of.CrearDirectorio (path + secundaryDirectory + directorio);
+            //of.CrearDirectorio (path + secundaryDirectory + directorio + "/document");
+            //of.CrearDirectorio (path + secundaryDirectory + directorio + "/image");
 
             if (cvo.getResult()){
                 bvo.setResult(true);
@@ -292,10 +301,13 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                         bvo.setBcsAnswer(response_question_answer[x]);
                         bvo.setBcsAnnexType(response_question_annex_type[x]);
 
-                        if (!bvo.getBcsAnnexType().equals("0"))
-                                bvo.setBcsNameAnnexFile(response_question_file_name[x]);
-                        else
+                        if (!bvo.getBcsAnnexType().equals("0")) {
+                            bvo.setBcsNameAnnexFile(response_question_file_name[x]);
+                            bvo.setRutaAnnex(of.searchLink("4") + response_datetime_img[x] + "-" + bvo.getBcsNameAnnexFile());
+                        }else {
                             bvo.setBcsNameAnnexFile("no_image.jpeg");
+                            bvo.setRutaAnnex(of.searchLink("0") + "img/" + bvo.getBcsNameAnnexFile());
+                        }
 
                         bvo.setBcsAnswerSolution(response_question_solution[x]);
                         bvo.setStatusRank(response_question_status_rank[x]);
@@ -360,7 +372,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                 //String none = null;
                 for (int x = 0; x< response_question_type.length; x++) {
                     if (!response_question_file_name[x].equals("")) {
-                       if (response_question_annex_type[x].equals("1")){
+                       /*if (response_question_annex_type[x].equals("1")){
                           of.copiarArchivos(path + primaryDirectory,
                                   path + secundaryDirectory + directorio + "/document/",
                                    response_question_file_name[x]);
@@ -369,8 +381,8 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                             of.copiarArchivos(path + primaryDirectory,
                                     path + secundaryDirectory + directorio + "/image/",
                                     response_question_file_name[x]);
-                       }
-                       none = path + primaryDirectory + response_question_file_name[x];
+                       }*/
+                       none = of.searchLink("4") + response_datetime_img[x] + "-" + response_question_file_name[x];
                        File fichero = new File(none);
                        bvo.setResult(of.eliminarFichero(fichero)); // en este caso no hago nada si ha sido borrado previamente o no existe.
                     }
