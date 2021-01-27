@@ -316,7 +316,7 @@
                     <form action="pages/jsp/building.jsp" class="form" method="post">
                         <div class="u-margin-bottom-medium">
                             <h2 class="heading-secondary">
-                                Start booking now
+                                Contact us!
                             </h2>
                         </div>
 
@@ -330,8 +330,15 @@
                             <label for="email" class="form__label">Email address</label>
                         </div>
 
+                        <div class="form__group">
+                            <textarea name="message" rows="2.7" cols="47.5">
+                                Your comments are important to us!
+                            </textarea>
+                        </div>
+
+
                         <div class="form__group u-margin-bottom-medium">
-                            <div class="form__radio-group">
+                            <!--<div class="form__radio-group">
                                 <input type="radio" class="form__radio-input" id="small" name="size">
                                 <label for="small" class="form__radio-label">
                                     <span class="form__radio-button"></span>
@@ -345,7 +352,7 @@
                                     <span class="form__radio-button"></span>
                                     Large tour group
                                 </label>
-                            </div>
+                            </div>-->
                         </div>
 
                         <div class="form__group">
@@ -373,7 +380,7 @@
         </div>
         <div class="popup__right">
             <a href="#section-tours" class="popup__close">&times;</a>
-            <h2 class="heading-secondary u-margin-bottom-small">Start booking now</h2>
+            <h2 class="heading-secondary u-margin-bottom-small">Contact us!</h2>
             <h3 class="heading-tertiary u-margin-bottom-small">Important &ndash; Please read these terms before booking</h3>
             <p class="popup__text">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor and vitality, so that the labor and sorrow, some important things to do eiusmod.
