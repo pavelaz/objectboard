@@ -43,6 +43,20 @@ public class OtherFunctions {
         return unit_img_format;
     }
 
+    public String buscaRetornoUserProfile(String companyNumber,String viene){
+        String none = null;
+        if (companyNumber.equals("1")){
+            if (viene.equals("P")){
+                none = "userprofile1";
+            }else{
+                none = "userprofile";
+            }
+        }else{
+            none = "userprofile2";
+        }
+        return none;
+    }
+
     public void searchLink() throws IOException {
         Properties vProp = new Properties();
         InputStream vInputStream = null;

@@ -100,7 +100,7 @@
                             </jstl:if>
                             <jstl:if test="${ j.equals(2) }">
                                 <li class="waves-effect waves-light">
-                                    <a href="/objectboard/masteruser">
+                                    <a href="/objectboard/userprofile?p_email=${ rq_userEmail }&p_unit=${ rq_companyNumber }&p_acciones=save&p_viene=P">
                                         <i class="ti-user"></i> Profile
                                     </a>
                                 </li>

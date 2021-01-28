@@ -177,7 +177,22 @@
         <jstl:set var="jsp_ShowImage" scope="page" value="${ 'NOT' }"/>
         <jstl:set var="jsp_menuOption" scope="page" value="${ '2,6' }"/>
         <jstl:set var="jsp_previousMsg" scope="page" value="Previous page"/>
-        <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/userprofileconsult"/>
+        <jstl:choose>
+           <jstl:when test="${  rq_companyNumber == '1'  }">
+               <%--<jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/userprofileconsult"/>--%>
+                <jstl:choose>
+                   <jstl:when test="${ rq_viene == 'P' }">
+                       <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/mastermenusuper"/>
+                   </jstl:when>
+                   <jstl:otherwise>
+                       <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/userprofileconsult"/>
+                   </jstl:otherwise>
+               </jstl:choose>
+           </jstl:when>
+           <jstl:otherwise>
+               <jstl:set var="jsp_pagePrevious" scope="page" value="/objectboard/dashmenusuper"/>
+           </jstl:otherwise>
+        </jstl:choose>
         <%@include file="../../../../complements/jsp/navbar-header.jsp"%>
         <!--end ############################### navbar-header ###############################-->
 
@@ -473,6 +488,7 @@
                                                                 <input type="hidden" name="p_unit" value="${ rq_companyNumber }">
                                                                 <input type="hidden" name="p_method" value="0">
                                                                 <input name='p_pantalla' type='hidden' value='users' />
+                                                                <input name='p_viene' type='hidden' value='${ rq_viene }' />
                                                             </div>
                                                         </div>
                                                     </div>

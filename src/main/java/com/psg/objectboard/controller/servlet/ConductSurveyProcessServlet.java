@@ -215,7 +215,6 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                 }
             }
         }
-// falta anexar el datetime al nombre fisico de los archivos y luego eliminarlos
 
         // Realizo las acciones solicitadas sobe la base de datos
         HeaderConductSurveyVO cvo = new HeaderConductSurveyVO();

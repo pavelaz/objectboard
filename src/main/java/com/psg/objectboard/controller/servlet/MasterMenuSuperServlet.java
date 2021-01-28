@@ -24,6 +24,7 @@ public class MasterMenuSuperServlet extends HttpServlet {
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_companyNumber", company_number);
         request.setAttribute("rq_userName", user_name);
+        request.setAttribute("rq_userEmail", user_email);
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/master/masterMenu_super.jsp").forward(request, response);
     }

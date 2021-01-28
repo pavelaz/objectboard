@@ -24,6 +24,8 @@ l<%--
         <jstl:when test="${ rq_pantalla == 'discharges' }"><title>Discharges Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'bussinessunit' }"><title>Bussiness Unit Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'userprofile' }"><title>User Profile Process</title></jstl:when>
+        <jstl:when test="${ rq_pantalla == 'userprofile1' }"><title>User Profile Process</title></jstl:when>
+        <jstl:when test="${ rq_pantalla == 'userprofile2' }"><title>User Profile Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'organization' }"><title>Organizations Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'typifieds' }"><title>Typifieds Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'certifications' }"><title>Certifications Process</title></jstl:when>
@@ -74,7 +76,6 @@ l<%--
         </jstl:when>
         <jstl:otherwise>
             <script language="JavaScript" type="text/javascript">
-                <!--
                 function Salir(valor){
                     if(valor == 1 ) // continua a pagina que muestra modulos disponibles a ese usuario
                         <jstl:choose>
@@ -85,6 +86,8 @@ l<%--
                             <jstl:when test="${ rq_pantalla == 'discharges' }">document.forma.action="/objectboard/discharges";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'bussinessunit' }">document.forma.action="/objectboard/bussinessunits";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'userprofile' }">document.forma.action="/objectboard/userprofileconsult";</jstl:when>
+                            <jstl:when test="${ rq_pantalla == 'userprofile1' }">document.forma.action="/objectboard/mastermenusuper";</jstl:when>
+                            <jstl:when test="${ rq_pantalla == 'userprofile2' }">document.forma.action="/objectboard/dashmenusuper";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'organization' }">document.forma.action="/objectboard/organizations";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'typifieds' }">document.forma.action="/objectboard/typifieds";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'certifications' }">document.forma.action="/objectboard/certifications";</jstl:when>
@@ -98,7 +101,6 @@ l<%--
                         </jstl:choose>
                     document.forma.submit();
                 }
-                -->
             </script>
         </jstl:otherwise>
     </jstl:choose>

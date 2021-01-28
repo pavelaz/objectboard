@@ -151,13 +151,13 @@ start ############################### Pre-loader ###############################
                             <th data-field="state" data-sortable="false">
                                 <input type='checkbox' onclick='marcar(this);' />
                             </th>
+                            <th data-field="action" data-sortable="false">ACTION</th>
                             <th data-field="id" data-sortable="true" data-switchable="true">EMAIL</th>
                             <th data-field="email" data-sortable="true" data-switchable="true">UNIT NAME</th>
                             <th data-field="unit" data-sortable="true" data-switchable="true">USER NAME</th>
                             <th data-field="pass" data-sortable="true" data-switchable="true">START DATE</th>
                             <th data-field="status" data-sortable="true" data-switchable="true">STATUS</th>
                             <th data-field="unit" data-sortable="true" data-switchable="true">GENDER</th>
-                            <th data-field="action" data-sortable="false">ACTION</th>
                             <th data-field="time" data-sortable="true" data-switchable="true">TIME SECCION</th>
                             <th data-field="pass" data-sortable="true" data-switchable="true">CONFIRM EMAIL</th>
                             <th data-field="unit" data-sortable="true" data-switchable="true">VALID PASSWORD</th>
@@ -177,6 +177,11 @@ start ############################### Pre-loader ###############################
                             <tr>
                                 <td>
                                     <input type='checkbox' id="p_select" name='p_selec_<jstl:out value="${ f }"/>' />
+                                </td>
+                                <td>
+                                    <a href='#' title="Edit" onClick=valida('${ rq_profiles.get(x).getMuEmail() }',${ rq_profiles.get(x).getBussinessUnitBuBisCode() },${ rq_profiles.get(x).getCityCiCityCode() },${ rq_profiles.get(x).getCityStatesStStateCode() },${ rq_profiles.get(x).getCityStatesCountryCoCountryCode() })>
+                                        <i class='fa fa-edit fa-fw' ></i>
+                                    </a>
                                 </td>
                                 <td>
                                     <jstl:out value="${ rq_profiles.get(x).getMuEmail() }">Lost Value</jstl:out>
@@ -213,11 +218,6 @@ start ############################### Pre-loader ###############################
                                             Female
                                         </jstl:otherwise>
                                     </jstl:choose>
-                                </td>
-                                <td>
-                                    <a href='#' title="Edit" onClick=valida('${ rq_profiles.get(x).getMuEmail() }',${ rq_profiles.get(x).getBussinessUnitBuBisCode() },${ rq_profiles.get(x).getCityCiCityCode() },${ rq_profiles.get(x).getCityStatesStStateCode() },${ rq_profiles.get(x).getCityStatesCountryCoCountryCode() })>
-                                        <i class='fa fa-edit fa-fw' ></i>
-                                    </a>
                                 </td>
                                 <td>
                                     <jstl:out value="${ rq_profiles.get(x).getMuSectionTime() / 60 }">Lost Value</jstl:out> Minutes

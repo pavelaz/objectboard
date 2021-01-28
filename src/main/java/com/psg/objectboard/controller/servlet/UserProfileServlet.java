@@ -60,6 +60,11 @@ public class UserProfileServlet extends HttpServlet {
         if (request.getParameter("p_method") != null) {
             method = Integer.parseInt(request.getParameter("p_method"));
         }
+        String viene = "L";
+        if (request.getParameter("p_viene") != null) {
+            viene = request.getParameter("p_viene");
+        }
+        OtherFunctions of = new OtherFunctions();
 
         if (method == 1) {
             MasterUserDAO userdao = new MasterUserDAO();
@@ -90,10 +95,6 @@ public class UserProfileServlet extends HttpServlet {
             master_user_dto.setCityStatesCountryCoCountryCode(Integer.parseInt(request.getParameter("p_city_number")));
 
             /*Start*********************AddPhoto to Object master_user_dto *********/
-            //  String photo = filesController.updateFile(request, (1024 * 1024 * 1)); // 1024 * 1024 * 1,= 1 MB
-            //master_user_dto.setRoutePhoto(photo);
-            /*End*********************AddPhoto to Object master_user_dto *********/
-            //   masterUserProfileController.updateMasterUser(master_user_dto);
             try{
                 OtherConexion ocn = new OtherConexion();
                 Connection con = null;
@@ -109,8 +110,9 @@ public class UserProfileServlet extends HttpServlet {
                 ocn.cierra_coneccion(con);
 
                 request.setAttribute("rq_result", master_user_dto.getResult());
-                request.setAttribute("rq_pantalla", "userprofile");
+                request.setAttribute("rq_pantalla", of.buscaRetornoUserProfile(company_number,viene));
                 request.setAttribute("rq_companyNumber", company_number);
+                request.setAttribute("rq_viene", viene);
 
                 BussinessUnitDAO bud = new BussinessUnitDAO();
                 request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
@@ -143,6 +145,7 @@ public class UserProfileServlet extends HttpServlet {
                 }
                 request.setAttribute("rq_companyName", company_name);
                 request.setAttribute("rq_companyNumber", company_number);
+                request.setAttribute("rq_viene", viene);
 
                 BussinessUnitDAO bud = new BussinessUnitDAO();
                 request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
@@ -201,7 +204,8 @@ public class UserProfileServlet extends HttpServlet {
 
                     request.setAttribute("rq_companyNumber", company_number);
                     request.setAttribute("rq_result", cvo.getResult());
-                    request.setAttribute("rq_pantalla", "userprofile");
+                    request.setAttribute("rq_pantalla", of.buscaRetornoUserProfile(company_number,viene));
+                    request.setAttribute("rq_viene", viene);
 
                     BussinessUnitDAO bud = new BussinessUnitDAO();
                     request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
@@ -218,16 +222,10 @@ public class UserProfileServlet extends HttpServlet {
     @Override
     public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession objSesion = request.getSession();
-        //String company_name = (String) objSesion.getAttribute("companyName");
         String company_number = (String) objSesion.getAttribute("companyNumber");
-        //String user_name = (String) objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
 
-        /*String acciones = null;
-        if (request.getParameter("p_acciones") != null) {
-            acciones = request.getParameter("p_acciones");
-        }*/
         String user_email = null;
         if (request.getParameter("p_email") != null) {
             user_email = request.getParameter("p_email");
@@ -236,10 +234,10 @@ public class UserProfileServlet extends HttpServlet {
         if (request.getParameter("p_unit") != null) {
             number_company = request.getParameter("p_unit");
         }
-        /*String fecha_venc = null;
-        if (request.getParameter("p_datexpires") != null) {
-            fecha_venc = request.getParameter("p_datexpires");
-        }*/
+        String viene = "L";
+        if (request.getParameter("p_viene") != null) {
+            viene = request.getParameter("p_viene");
+        }
 
         MasterUserDAO userdao = new MasterUserDAO();
         userdao.setDataUser(data_user);
@@ -322,8 +320,9 @@ public class UserProfileServlet extends HttpServlet {
             ocn.cierra_coneccion(con);
 
             request.setAttribute("rq_result", master_user_dto.getResult());
-            request.setAttribute("rq_pantalla", "userprofile");
+            request.setAttribute("rq_pantalla", of.buscaRetornoUserProfile(company_number,viene));
             request.setAttribute("rq_companyNumber", company_number);
+            request.setAttribute("rq_viene", viene);
 
             BussinessUnitDAO bud = new BussinessUnitDAO();
             request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
