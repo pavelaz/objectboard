@@ -118,10 +118,12 @@ public class UserProfileServlet extends HttpServlet {
                 request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
                 request.getRequestDispatcher("WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
+
             }catch (Exception es){
                 System.out.println(es.getMessage());
             }
         }else{
+            String none = null;
             if (acciones.equals("save")) {
                 if (number_company != null) {
                     MasterUserDAO userdao = new MasterUserDAO();
@@ -142,6 +144,10 @@ public class UserProfileServlet extends HttpServlet {
                     request.setAttribute("rq_userName", user_name);
                     request.setAttribute("rq_acciones", acciones);
                     request.setAttribute("rq_hora", hora);
+                    none =  "WEB-INF/pages/jsp/master/userProfile.jsp" +
+                            "?p_country_number=" + masterUserDto.getCityStatesCountryCoCountryCode() +
+                            "&p_state_number=" + masterUserDto.getCityStatesStStateCode() +
+                            "&p_city_number=" + masterUserDto.getCityCiCityCode();
                 }
                 request.setAttribute("rq_companyName", company_name);
                 request.setAttribute("rq_companyNumber", company_number);
@@ -150,10 +156,16 @@ public class UserProfileServlet extends HttpServlet {
                 BussinessUnitDAO bud = new BussinessUnitDAO();
                 request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
-                request.getRequestDispatcher("WEB-INF/pages/jsp/master/userProfile.jsp").forward(request, response);
+                if (request.getParameter("p_country_number") == null &&
+                    request.getParameter("p_state_number") == null &&
+                    request.getParameter("p_city_number") == null) {
+                    request.getRequestDispatcher(none).forward(request, response);
+                }else{
+                    request.getRequestDispatcher("WEB-INF/pages/jsp/master/userProfile.jsp").forward(request, response);
+                }
+
             }else{
                 Integer num_filas = 0;
-                String none= null;
                 ArrayList<Integer> cual_unit = new ArrayList<Integer>();
                 ArrayList<String> cual_email = new ArrayList<String>();
                 if(request.getParameter("p_cuantos")!=null) {
