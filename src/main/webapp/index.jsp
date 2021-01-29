@@ -313,7 +313,7 @@
         <div class="row">
             <div class="book">
                 <div class="book__form">
-                    <form action="pages/jsp/building.jsp" class="form" method="post">
+                    <form name="formContactUs" id="formContactUs" method="post" action="#!">
                         <div class="u-margin-bottom-medium">
                             <h2 class="heading-secondary">
                                 Contact us!
@@ -321,19 +321,24 @@
                         </div>
 
                         <div class="form__group">
-                            <input type="text" class="form__input" placeholder="Full name" id="name" required>
+                            <input name="name" type="text" class="form__input" placeholder="Full name" id="name" required>
                             <label for="name" class="form__label">Full name</label>
                         </div>
 
                         <div class="form__group">
-                            <input type="email" class="form__input" placeholder="Email address" id="email" required>
+                            <input name="email" type="email" class="form__input" placeholder="Email address" id="email" required>
                             <label for="email" class="form__label">Email address</label>
                         </div>
 
                         <div class="form__group">
-                            <textarea name="message" rows="2.7" cols="47.5">
-                                Your comments are important to us!
+                            <input name="phone" type="text" class="form__input" placeholder="Intro Phone" id="phone" required>
+                            <label for="phone" class="form__label">Phone</label>
+                        </div>
+
+                        <div class="form__group">
+                            <textarea name="message" id="message" placeholder="Your comments are important to us!" class="form__input" rows="2.7" cols="47.5" required>
                             </textarea>
+                            <label for="message" class="form__label">Message</label>
                         </div>
 
 
@@ -355,9 +360,10 @@
                             </div>-->
                         </div>
 
-                        <div class="form__group">
-                            <button class="btn btn--green">Next step &rarr;</button>
+                        <div name ="buttonSend" id ="buttonSend" class="form__group">
+                            <button class="btn btn--green" onclick="sendInformationOfContact()">Send &rarr;</button>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -397,6 +403,28 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="<%= request.getContextPath() %>/complements/js/jquery-3.4.1.min.js"></script>
+<script>
+    function sendInformationOfContact() {
+        const x = confirm("Are you sure to send information?")
+        if (x){
+            $("#formContactUs").submit();
+        }
+    };
+    $("#formContactUs").submit(function(e) {
+        e.preventDefault();
+        var formTable = $(this);
+        $.ajax({
+            url: '/objectboard/contactusindex',
+            type: 'POST',
+            data: formTable.serialize(),
+            success: function (data) { //en data se encuentra toda la informacion del html.
+                alert.log("success" + data);
+            }
+        });
+        return false;
+    });
+    </script>
 
 </body>
 </html>
