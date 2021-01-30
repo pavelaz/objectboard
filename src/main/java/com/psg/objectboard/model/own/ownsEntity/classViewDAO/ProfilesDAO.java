@@ -64,10 +64,11 @@ public class ProfilesDAO {
                 sovo.setCityStatesStStateCode(rs.getInt(23));
                 sovo.setCityStatesCountryCoCountryCode(rs.getInt(24));
 
-                sovo.setContry_name(rs.getString(25));
-                sovo.setState_name(rs.getString(26));
-                sovo.setCity_name(rs.getString(27));
-                sovo.setBu_name(rs.getString(28));
+                sovo.setMuPhotoName(rs.getString(25));
+                sovo.setContry_name(rs.getString(26));
+                sovo.setState_name(rs.getString(27));
+                sovo.setCity_name(rs.getString(28));
+                sovo.setBu_name(rs.getString(29));
                 if (arrcom.isEmpty()){
                     arrcom.add(0,sovo);
                 }else{

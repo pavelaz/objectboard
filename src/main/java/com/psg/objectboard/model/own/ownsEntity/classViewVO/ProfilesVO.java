@@ -31,8 +31,17 @@ public class ProfilesVO {
     private String state_name;
     private String city_name;
     private String bu_name;
+    private String muPhotoName;
     private Boolean result;
     private byte[] muPhotoByte;
+
+    public String getMuPhotoName() {
+        return muPhotoName;
+    }
+
+    public void setMuPhotoName(String muPhotoName) {
+        this.muPhotoName = muPhotoName;
+    }
 
     public byte[] getMuPhotoByte() {
         return muPhotoByte;

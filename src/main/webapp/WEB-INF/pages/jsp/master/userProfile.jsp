@@ -21,6 +21,7 @@
     HttpSession objSesion = request.getSession();
     String data_user = (String)objSesion.getAttribute("dataUser");
     String data_pasword = (String)objSesion.getAttribute("dataPassword");
+    String user_board_role = (String)objSesion.getAttribute("userBoardRole");
 
     String condicion = null;
     CountryDAO cod = new CountryDAO();
@@ -70,35 +71,55 @@
     <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css />
     <script src="<%= request.getContextPath() %>/complements/scripts/validaciones.js" type="text/javascript"></script>
     <script type="text/javascript">
-        function Validaciones(){
-            if (!valida_textos(document.formPhoto.p_muName.value,"Name","")||
-                !valida_largos(document.formPhoto.p_muName.value.length,"Name",3)||
-                !valida_selects(document.formPhoto.p_country_number.value,"Country","")||
-                !valida_selects(document.formPhoto.p_state_number.value,"State","")||
-                !valida_selects(document.formPhoto.p_city_number.value,"City","")||
-                !valida_textos(document.formPhoto.p_muPassword.value,"Password","*$@#")||
-                !valida_largos(document.formPhoto.p_muPassword.value.length,"Password",6)||
-                !valida_textos(document.formPhoto.p_muRepeat.value,"Repeat","*$@#")||
-                !valida_largos(document.formPhoto.p_muRepeat.value.length,"Repeat",6)||
-                !valida_password_iguales(document.formPhoto.p_muPassword.value, document.formPhoto.p_muRepeat.value)||
-                !valida_textos(document.formPhoto.p_muQuestion.value,"Recovery question","?")||
-                !valida_largos(document.formPhoto.p_muQuestion.value.length,"Recovery question",3)||
-                !valida_largos(document.formPhoto.p_muAnswer.value.length,"Answer to the question",3)||
-                !valida_textos(document.formPhoto.p_mudatauser.value,"Data User","")||
-                !valida_largos(document.formPhoto.p_mudatauser.value.length,"Data User",8)||
-                !valida_textos(document.formPhoto.p_mudatapassword.value,"Data Password","*$@#%")||
-                !valida_largos(document.formPhoto.p_mudatapassword.value.length,"Data Password",12)
-            ){
-                return false;
+        <% if (user_board_role.equals("1") || user_board_role.equals("2") ){ %>
+            function Validaciones(){
+                if (!valida_textos(document.formPhoto.p_muName.value,"Name","")||
+                    !valida_largos(document.formPhoto.p_muName.value.length,"Name",3)||
+                    !valida_selects(document.formPhoto.p_country_number.value,"Country","")||
+                    !valida_selects(document.formPhoto.p_state_number.value,"State","")||
+                    !valida_selects(document.formPhoto.p_city_number.value,"City","")||
+                    !valida_textos(document.formPhoto.p_muPassword.value,"Password","*$@#")||
+                    !valida_largos(document.formPhoto.p_muPassword.value.length,"Password",6)||
+                    !valida_textos(document.formPhoto.p_muRepeat.value,"Repeat","*$@#")||
+                    !valida_largos(document.formPhoto.p_muRepeat.value.length,"Repeat",6)||
+                    !valida_password_iguales(document.formPhoto.p_muPassword.value, document.formPhoto.p_muRepeat.value)||
+                    !valida_textos(document.formPhoto.p_muQuestion.value,"Recovery question","?")||
+                    !valida_largos(document.formPhoto.p_muQuestion.value.length,"Recovery question",3)||
+                    !valida_largos(document.formPhoto.p_muAnswer.value.length,"Answer to the question",3)||
+                    !valida_textos(document.formPhoto.p_mudatauser.value,"Data User","")||
+                    !valida_largos(document.formPhoto.p_mudatauser.value.length,"Data User",8)||
+                    !valida_textos(document.formPhoto.p_mudatapassword.value,"Data Password","*$@#%")||
+                    !valida_largos(document.formPhoto.p_mudatapassword.value.length,"Data Password",12)
+                ){
+                    return false;
+                }
+                return true;
             }
-            return true;
-        }
+        <% } else { %>
+            function Validaciones(){
+                if (!valida_textos(document.formPhoto.p_muName.value,"Name","")||
+                    !valida_largos(document.formPhoto.p_muName.value.length,"Name",3)||
+                    !valida_textos(document.formPhoto.p_muPassword.value,"Password","*$@#")||
+                    !valida_largos(document.formPhoto.p_muPassword.value.length,"Password",6)||
+                    !valida_textos(document.formPhoto.p_muRepeat.value,"Repeat","*$@#")||
+                    !valida_largos(document.formPhoto.p_muRepeat.value.length,"Repeat",6)||
+                    !valida_password_iguales(document.formPhoto.p_muPassword.value, document.formPhoto.p_muRepeat.value)||
+                    !valida_textos(document.formPhoto.p_muQuestion.value,"Recovery question","?")||
+                    !valida_largos(document.formPhoto.p_muQuestion.value.length,"Recovery question",3)||
+                    !valida_largos(document.formPhoto.p_muAnswer.value.length,"Answer to the question",3)
+                ){
+                    return false;
+                }
+                return true;
+            }
+        <% } %>
         function registro(){
             if(Validaciones()){
                 //alert("paso");
                 document.formPhoto.p_method.value = "1";
+                //alert("paso 1");
                 document.formPhoto.action="/objectboard/multipartconfigservlet";
-                //updateMasterUser();
+                //alert("pasov2");
                 document.formPhoto.submit();
             }
         }
@@ -255,7 +276,7 @@
                                                     </div>
                                                     <div class="input-group col-sm-2">
                                                         <input name="p_muRepeat" id="muRepeat" maxlength="20" type="password"
-                                                               class="form-control" placeholder="Repeat Password" name="p_muRepeat"
+                                                               class="form-control" placeholder="Repeat Password"
                                                                value="<jstl:out value="${ rq_masterUserDto.muPassword }">Lost Value</jstl:out>" >
                                                         <div class="input-group-btn">
                                                             <button id="buttonEye" class="btn-sm" type="button">
@@ -270,13 +291,13 @@
                                                         <jstl:choose>
                                                             <jstl:when test="${ rq_masterUserDto.muGender =='M' }">
                                                                 <input type="radio" id="activeGender" name="p_muGender" value="M" checked>
-                                                                <label for="activeGender">&nbsp;&nbsp;&nbsp;Male</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <label for="activeGender">&nbsp;&nbsp;&nbsp;Male</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 <input type="radio" id="inactiveGender" name="p_muGender" value="F">
                                                                 <label for="activeGender">&nbsp;&nbsp;&nbsp;Female</label>
                                                             </jstl:when>
                                                             <jstl:otherwise>
                                                                 <input type="radio" id="activeGender" name="p_muGender" value="M">
-                                                                <label for="activeGender">&nbsp;&nbsp;&nbsp;Male</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <label for="activeGender">&nbsp;&nbsp;&nbsp;Male</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 <input type="radio" id="inactiveGender" name="p_muGender" value="F" checked>
                                                                 <label for="activeGender">&nbsp;&nbsp;&nbsp;Female</label>
                                                             </jstl:otherwise>
@@ -303,6 +324,7 @@
                                                 Status, Date, Email Confirm
                                                 rq_companyNumber == 1-->
                                                 <!--end ############## Form MAIN BODY ################-->
+                                                <% if (user_board_role.equals("1") || user_board_role.equals("2") ){ %>
                                                     <div class="card-block">
                                                         <h4 class="sub-title">Advanced configuration</h4>
                                                         <div class="form-group row">
@@ -492,6 +514,24 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                <% } else { %>
+                                                    <input type="hidden" name="p_datexpires" width="276" value="${ rq_fecha }">
+                                                    <input type="hidden" name="p_muStatus" id="inactiveStatus" value="${ rq_masterUserDto.muStatus }">
+                                                    <input type="hidden" name="p_muSectionTime" id="controle_muSectionTime"  value="${ rq_masterUserDto.muSectionTime }">
+                                                    <input type="hidden" name="p_muEmailConfirm" id="inactiveEmail" value="${ rq_masterUserDto.muEmailConfirm }">
+                                                    <input type="hidden" name="p_muexpires" id="inactiveStatus" value="${ rq_masterUserDto.muExpires }">
+                                                    <input type="hidden" name="p_country_number"  value="<%= country_number %>">
+                                                    <input type="hidden" name="p_state_number"  value="<%= state_number %>">
+                                                    <input type="hidden" name="p_city_number"  value="<%= city_number %>">
+                                                    <input type="hidden" name="p_muEffectiveDays" value="${ rq_masterUserDto.muEffectiveDays }">
+                                                    <input type="hidden" name="p_acciones" value="${ rq_acciones }">
+                                                    <input type="hidden" name="p_email" value="${ rq_masterUserDto.muEmail }">
+                                                    <input type="hidden" name="p_unit" value="${ rq_companyNumber }">
+                                                    <input type="hidden" value="${ rq_hora }" name="p_hora">
+                                                    <input type="hidden" name="p_method" value="0">
+                                                    <input name='p_pantalla' type='hidden' value='users' />
+                                                    <input name='p_viene' type='hidden' value='${ rq_viene }' />
+                                                <% } %>
                                                 <%--</jstl:if>--%>
                                             </form>
                                             <!--END##########################################CUERPO PRINCIPAL#####################################################-->
