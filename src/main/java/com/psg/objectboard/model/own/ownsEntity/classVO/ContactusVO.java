@@ -6,7 +6,16 @@ public class ContactusVO {
     private String ctNombre;
     private String ctMessage;
     private String ctDate;
+    private String ctEmail;
     private Boolean result;
+
+    public String getCtEmail() {
+        return ctEmail;
+    }
+
+    public void setCtEmail(String ctEmail) {
+        this.ctEmail = ctEmail;
+    }
 
     public long getCtId() {
         return ctId;

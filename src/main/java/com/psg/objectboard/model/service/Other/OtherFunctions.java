@@ -294,6 +294,23 @@ public class OtherFunctions {
         return answer;
     }
 
+    public String bodyInformationRequest(String nombre,String correo,String telefono,String mensaje, String fecha) throws IOException {
+        answer = "<h1>Our warmest regards</h1><p><br>"
+                + "We have received the following request for information under the following parameters: \n"
+                + "</p>"
+                + "<p>&nbsp;</p>"
+                + "<p>Name: "+ nombre.toUpperCase() + "</p>"
+                + "<p>Email: "+ correo + "</p>"
+                + "<p>Phone: "+ telefono +"</p>"
+                + "<p>Date  Request: "+fecha+"</p>"
+                + "<p>&nbsp;</p>"
+                + "<p>Message:</p>"
+                + "<p>Message: "+mensaje+"</p>"
+                + "<p>&nbsp;</p>"
+                + "<p>In a short period of time, our staff will contact you by any of the available channels.</p>";
+        return answer;
+    }
+
     //  Devulve un campo string con caracteres random del largo solicitado
     public String generateRandomString(long largo){
         int cont=1;

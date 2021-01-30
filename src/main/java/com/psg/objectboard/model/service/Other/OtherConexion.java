@@ -1,6 +1,5 @@
 package com.psg.objectboard.model.service.Other;
 
-import java.io.IOException;
 import java.sql.*;
 
 public class OtherConexion {

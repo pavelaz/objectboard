@@ -321,22 +321,22 @@
                         </div>
 
                         <div class="form__group">
-                            <input name="name" type="text" class="form__input" placeholder="Full name" id="name" required>
+                            <input name="p_name" type="text" class="form__input" placeholder="Full name" id="name" required>
                             <label for="name" class="form__label">Full name</label>
                         </div>
 
                         <div class="form__group">
-                            <input name="email" type="email" class="form__input" placeholder="Email address" id="email" required>
+                            <input name="p_email" type="email" class="form__input" placeholder="Email address" id="email" required>
                             <label for="email" class="form__label">Email address</label>
                         </div>
 
                         <div class="form__group">
-                            <input name="phone" type="text" class="form__input" placeholder="Intro Phone" id="phone" required>
+                            <input name="p_phone" type="text" class="form__input" placeholder="Intro Phone" id="phone" required>
                             <label for="phone" class="form__label">Phone</label>
                         </div>
 
                         <div class="form__group">
-                            <textarea name="message" id="message" placeholder="Your comments are important to us!" class="form__input" rows="2.7" cols="47.5" required>
+                            <textarea name="p_message" id="message" placeholder="Your comments are important to us!" class="form__input" rows="2.7" cols="47.5" required>
                             </textarea>
                             <label for="message" class="form__label">Message</label>
                         </div>

@@ -7,26 +7,26 @@ import com.psg.objectboard.model.service.Other.SqlFunctions;
 import java.sql.*;
 
 public class ContactusDAO {
-    private static OtherConexion cc = null;
+    //private static OtherConexion cc = null;
     private static ContactusVO sovo = null;
-    private static Connection cn = null;
-    private static SqlFunctions sqls = null;
-    private static ResultSet rs = null;
-    private static Statement cmd = null;
+    //private static Connection cn = null;
+    //private static SqlFunctions sqls = null;
+    //private static ResultSet rs = null;
+    //private static Statement cmd = null;
     private static PreparedStatement pst = null;
-    private static String dataUser;
-    private static String dataPassword;
+    //private static String dataUser;
+    //private static String dataPassword;
 
-    public static void setDataUser(String dataUser) {
+    /*public static void setDataUser(String dataUser) {
         ContactusDAO.dataUser = dataUser;
     }
 
     public static void setDataPassword(String dataPassword) {
         ContactusDAO.dataPassword = dataPassword;
-    }
+    }*/
 
     public void insertContactusDAO(ContactusVO sovo, Connection cone){
-        String sql = "INSERT INTO contactus values (null,?,?,?,?)";
+        String sql = "INSERT INTO contactus values (null,?,?,?,?,?)";
         sovo.setResult(false);
         try{
             pst = cone.prepareStatement(sql);
@@ -34,6 +34,7 @@ public class ContactusDAO {
             pst.setString(2,sovo.getCtPhone());
             pst.setString(3,sovo.getCtDate());
             pst.setString(4,sovo.getCtMessage());
+            pst.setString(5,sovo.getCtEmail());
             pst.executeUpdate();
             System.out.println("Operacion de Insert contactus Exitosa.");
             sovo.setResult(true);
