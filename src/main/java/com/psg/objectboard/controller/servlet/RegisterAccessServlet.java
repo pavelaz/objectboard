@@ -175,7 +175,7 @@ public class RegisterAccessServlet extends HttpServlet {
                 muv.setMuEmailConfirm(falso);
                 muv.setMuDateResetPwd(fecha);
                 muv.setMuGender(user_sexo);
-                muv.setRuta_imagen(ruta); // incluye la foto en mapa de bit en el campo de la estilos
+                muv.setRuta_imagen(ruta); // incluye la foto en mapa de bit en atributo de bd
 
                 muv.setMuDateExpires(fe_venc);
                 muv.setMuExpires(verdadero);
