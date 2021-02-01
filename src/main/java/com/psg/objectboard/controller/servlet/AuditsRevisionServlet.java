@@ -33,7 +33,6 @@ public class AuditsRevisionServlet extends HttpServlet {
         BussinessUnitDAO bud = new BussinessUnitDAO();
         request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
-
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/auditsRevision.jsp").forward(request, response);
     }
 

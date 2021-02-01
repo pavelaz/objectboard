@@ -1,6 +1,7 @@
 package com.psg.objectboard.model.service.Other;
 
 import com.psg.objectboard.batch.App;
+import com.psg.objectboard.controller.common.FilesController;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 
@@ -20,6 +21,15 @@ import java.util.Properties;
 public class OtherFunctions {
     private String answer="";
     public String linkMedio="";
+
+    public String buscaPrefijoToFiles(String company){
+        DateFunctions df = new DateFunctions();
+        answer =  df.fechaFull(9).replace("/","");
+        answer =  answer.replace(" ","_");
+        answer =  answer.replace(":","");
+        answer =  answer + "_" + company + "_";
+        return answer;
+    }
 
     public String buscaExtencionFiles(String nombre,String unidad) throws IOException {
         String unit_img_format;
@@ -705,7 +715,7 @@ public class OtherFunctions {
         return none;
     }
 
-    public String valida_tipoArchivo(Integer ctaLinea,String annexType, String nameAnnexFile,String dir_doc,String dir_img,String directorio_gral,Integer format){
+    /*public String valida_tipoArchivo(Integer ctaLinea,String annexType, String nameAnnexFile,String dir_doc,String dir_img,String directorio_gral,Integer format){
         String none = "";
         if (ctaLinea == 1){
             if (annexType.equals("1")){
@@ -737,6 +747,89 @@ public class OtherFunctions {
                 }
             }
         }
+        return none;
+    }*/
+    public String valida_tipoArchivo(Integer ctaLinea,String annexType, String nameAnnexFile,
+                                     String dir_doc,String dir_img,String directorio_gral,
+                                     Integer format,String company,byte archivo[]){
+        String none = "";
+        if (ctaLinea == 1){
+            if (annexType.equals("1")){
+                none = none + "Validate the document:\n";
+            }else{
+                none = none + "Validate the image:\n";
+            }
+        }
+        String prefijo = this.buscaPrefijoToFiles(company);
+        FilesController file = new FilesController();
+
+        if (ctaLinea == 2) {
+            if (annexType.equals("1")) {
+                if(format == 2) {
+                    // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                    file.writerFileInFolder(archivo,dir_doc + prefijo + nameAnnexFile);
+                    //
+                    none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile + "' title=\"View Document\" >\n";
+                    none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                    none = none + "</a>\n";
+                }else{
+                    none = none + "<a href='#!' title=\"View Document\" >\n";
+                    none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                    none = none + "</a>\n";
+                }
+            } else {
+                if(format == 2) {
+                    // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                    file.writerFileInFolder(archivo,dir_img + prefijo + nameAnnexFile);
+                    //
+                    none = none + "<a href='" + dir_img  + prefijo + nameAnnexFile + "' title=\"View Image\" >\n";
+                    none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                    none = none + "</a>\n";
+                }else{
+                    none = none + "<a href='#!' title=\"View Image\" >\n";
+                    none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                    none = none + "</a>\n";
+                }
+            }
+        }
+        return none;
+    }
+
+    public String validacionGral_tipoArchivo(Integer type_request,String nameAnnexFile,
+                                     String dir_doc,String dir_img,String directorio_gral,
+                                     Integer format,String company,byte archivo[]){
+        String none = "";
+        String prefijo = this.buscaPrefijoToFiles(company);
+        FilesController file = new FilesController();
+
+        if (type_request == 5) {
+            if (format == 2) {
+                // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                file.writerFileInFolder(archivo, dir_img + prefijo + nameAnnexFile);
+                //
+                none = none + "<a href='" + dir_img + prefijo + nameAnnexFile + "' title=\"View Image\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            } else {
+                none = none + "<a href='#!' title=\"View Image\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            }
+        }else{
+            if (format == 2) {
+                // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                file.writerFileInFolder(archivo, dir_doc + prefijo + nameAnnexFile);
+                //
+                none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile + "' title=\"View Document\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            } else {
+                none = none + "<a href='#!' title=\"View Document\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            }
+        }
+
         return none;
     }
 
