@@ -50,7 +50,7 @@ public class ContactUsIndexServlet extends HttpServlet {
         ContactusDAO mud = new ContactusDAO();
         Connection con = null;
 
-        try {
+        //try {
             // crea el objeto de coneccion
             OtherConexion ocn = new OtherConexion();
             //
@@ -58,11 +58,6 @@ public class ContactUsIndexServlet extends HttpServlet {
             // Inicializa Variable de control de transacion
             muv.setResult(true);
             Properties vProp = new Properties();
-            if(muv.getResult()){
-                // instancio y establesco coneccion
-                con=ocn.conectarse(data_user,data_password);
-                // iniciar transacion
-                ocn.init_trans(con);
                 // Crear campos para asignacion
                 InputStream vInputStream = null;
                 try {
@@ -84,10 +79,10 @@ public class ContactUsIndexServlet extends HttpServlet {
                 muv.setCtDate(fecha);
 
                 //  hace el insert del contacto
-                mud.insertContactusDAO(muv,con);
-            }
+                //mud.insertContactusDAO(muv,con);
+            //}
             // Envio de Correo de solicitud de informacion
-            if(muv.getResult()){
+            //if(muv.getResult()){
                 MailSendVO corre = new MailSendVO();
                 corre.setSMTP_SERVER(vProp.getProperty("propert-smtpserver"));
                 corre.setUSERNAME(vProp.getProperty("propert-emailusrname"));
@@ -104,16 +99,33 @@ public class ContactUsIndexServlet extends HttpServlet {
                 corre.setEMAIL_RUTARCH("");
 
                 MailUtilDAO codao = new MailUtilDAO();
-                muv.setResult(codao.sendMail(corre));
+                //muv.setResult(codao.sendMail(corre));
+            //}
+            try{
+                if (muv.getResult()){
+                    // instancio y establesco coneccion
+                    con=ocn.conectarse(data_user,data_password);
+                    // iniciar transacion
+                    ocn.init_trans(con);
+                    mud.insertContactusDAO(muv,con);
+                    if (muv.getResult()){
+                        muv.setResult(codao.sendMail(corre));
+                    }
+                    // valida status de la transacion
+                    ocn.valida_trans(con,muv.getResult());
+                    //
+                    ocn.cierra_coneccion(con);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            // valida status de la transacion
-            ocn.valida_trans(con,muv.getResult());
+        // valida status de la transacion
+            //ocn.valida_trans(con,muv.getResult());
             //
-            ocn.cierra_coneccion(con);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
+            //ocn.cierra_coneccion(con);
+        //} catch (Exception ex) {
+        //    System.out.println(ex.getMessage());
+        //}
 
         request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
     }
