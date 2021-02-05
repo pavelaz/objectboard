@@ -246,6 +246,32 @@ public class OtherFunctions {
         }
     }
     //
+    public byte[] toSaveDocumentInFile(String rutaYArchivo) throws IOException {
+        //File aSelected = new File("/ruta/del/fichero/a/subir");
+        File aSelected = new File(rutaYArchivo);
+
+        long length= aSelected.length();
+        InputStream is = new FileInputStream(aSelected);
+
+        byte[] data1 = new byte[(int)length];
+
+        int offset = 0;
+        int numRead = 0;
+        while (offset < data1.length
+                && (numRead=is.read(data1, offset, data1.length-offset)) >= 0) {
+            offset += numRead;
+        }
+
+        if (offset < data1.length) {
+            throw new IOException("No se pudo completar la lectura del fichero "+aSelected.getName());
+        }
+
+        //En este punto asignas la variable data1 al campo serializable (el que mapea con blob) de tu objeto a persistir.
+
+        is.close();
+
+        return data1;
+    }
 
     // genera cuerpos de email predeterminados
     public String bodyConfirmRegister(MasterUserVO muv,String company) throws IOException{

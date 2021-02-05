@@ -50,57 +50,47 @@ public class ContactUsIndexServlet extends HttpServlet {
         ContactusDAO mud = new ContactusDAO();
         Connection con = null;
 
-        //try {
-            // crea el objeto de coneccion
-            OtherConexion ocn = new OtherConexion();
+        // crea el objeto de coneccion
+        OtherConexion ocn = new OtherConexion();
+        //
+        OtherFunctions of = new OtherFunctions();
+        // Inicializa Variable de control de transacion
+        muv.setResult(true);
+        Properties vProp = new Properties();
+        // Crear campos para asignacion
+        InputStream vInputStream = null;
+        try {
+            vInputStream = App.class.getResourceAsStream("/app.properties");
+            vProp.load(vInputStream);
+        } finally {
+            if (vInputStream != null){
+               vInputStream.close();
+            }
+        }
+        // mueve valores al objeto
+        muv.setCtNombre(name_clte);
+        muv.setCtPhone(phone_clte);
+        muv.setCtEmail(correo_clte);
+        if (message_clte.length()< 160)
+            muv.setCtMessage(message_clte);
+        else
+            muv.setCtMessage(message_clte.substring(0,159));
+            muv.setCtDate(fecha);
+            MailSendVO corre = new MailSendVO();
+            corre.setSMTP_SERVER(vProp.getProperty("propert-smtpserver"));
+            corre.setUSERNAME(vProp.getProperty("propert-emailusrname"));
+            corre.setPASSWORD(vProp.getProperty("propert-emailpassword"));
+            corre.setEMAIL_FROM("serviciospvsoft@gmail.com");
+            corre.setEMAIL_TO(muv.getCtEmail().trim());
+            // Las direcciones de correo deben ir separadas por coma y luego espacio
+            corre.setEMAIL_TO_CC("");
+            corre.setEMAIL_TO_BCC("ContactUs@serviciospvsoft.com");
             //
-            OtherFunctions of = new OtherFunctions();
-            // Inicializa Variable de control de transacion
-            muv.setResult(true);
-            Properties vProp = new Properties();
-                // Crear campos para asignacion
-                InputStream vInputStream = null;
-                try {
-                    vInputStream = App.class.getResourceAsStream("/app.properties");
-                    vProp.load(vInputStream);
-                } finally {
-                    if (vInputStream != null){
-                        vInputStream.close();
-                    }
-                }
-                // mueve valores al objeto
-                muv.setCtNombre(name_clte);
-                muv.setCtPhone(phone_clte);
-                muv.setCtEmail(correo_clte);
-                if (message_clte.length()< 160)
-                    muv.setCtMessage(message_clte);
-                else
-                    muv.setCtMessage(message_clte.substring(0,159));
-                muv.setCtDate(fecha);
-
-                //  hace el insert del contacto
-                //mud.insertContactusDAO(muv,con);
-            //}
-            // Envio de Correo de solicitud de informacion
-            //if(muv.getResult()){
-                MailSendVO corre = new MailSendVO();
-                corre.setSMTP_SERVER(vProp.getProperty("propert-smtpserver"));
-                corre.setUSERNAME(vProp.getProperty("propert-emailusrname"));
-                corre.setPASSWORD(vProp.getProperty("propert-emailpassword"));
-                corre.setEMAIL_FROM("serviciospvsoft@gmail.com");
-                corre.setEMAIL_TO(muv.getCtEmail().trim());
-                // Las direcciones de correo deben ir separadas por coma y luego espacio
-                corre.setEMAIL_TO_CC("");
-                corre.setEMAIL_TO_BCC("ContactUs@serviciospvsoft.com");
-                //
-                corre.setEMAIL_SUBJECT("Information request");
-                // Busca cuerpo de email confirmacion
-                corre.setEMAIL_TEXT(of.bodyInformationRequest(name_clte, correo_clte, phone_clte, message_clte, fecha));
-                corre.setEMAIL_RUTARCH("");
-
-                MailUtilDAO codao = new MailUtilDAO();
-                //muv.setResult(codao.sendMail(corre));
-            //}
+            corre.setEMAIL_SUBJECT("Information request");
+            // Busca cuerpo de email confirmacion
+            corre.setEMAIL_TEXT(of.bodyInformationRequest(name_clte, correo_clte, phone_clte, message_clte, fecha));
+            corre.setEMAIL_RUTARCH("");
+            MailUtilDAO codao = new MailUtilDAO();
             try{
                 if (muv.getResult()){
                     // instancio y establesco coneccion
@@ -119,13 +109,6 @@ public class ContactUsIndexServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        // valida status de la transacion
-            //ocn.valida_trans(con,muv.getResult());
-            //
-            //ocn.cierra_coneccion(con);
-        //} catch (Exception ex) {
-        //    System.out.println(ex.getMessage());
-        //}
 
         request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
     }

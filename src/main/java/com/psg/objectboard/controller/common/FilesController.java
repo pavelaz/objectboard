@@ -189,5 +189,4 @@ public class FilesController extends HttpServlet {
         file.delete();
         System.out.println("Photo Delete the Server");
     }
-
  }

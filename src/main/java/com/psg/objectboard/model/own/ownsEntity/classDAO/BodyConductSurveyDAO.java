@@ -1,13 +1,12 @@
 package com.psg.objectboard.model.own.ownsEntity.classDAO;
 
+import com.psg.objectboard.controller.common.FilesController;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 import com.psg.objectboard.model.service.Other.SqlFunctions;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,15 +32,11 @@ public class BodyConductSurveyDAO {
     }
 
     public static void insertBodyConductSurveyDAO(BodyConductSurveyVO mus, Connection cone){
-        //of = new OtherFunctions();
-        String last=null;
-        FileInputStream fi = null;
+
         String sql = "INSERT INTO bodyConductSurvey " +
                      "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         mus.setResult(false);
         try{
-            File file = new File(mus.getRutaAnnex());
-            fi = new FileInputStream(file);
             pst = cone.prepareStatement(sql);
             pst.setLong(1,mus.getHeaderConductSurveyConductId());
             pst.setLong(2,mus.getBsaBodySurveyQuestionsQuestionCode());
@@ -64,14 +59,27 @@ public class BodyConductSurveyDAO {
             pst.setString(19,mus.getStatusRank());
             pst.setDouble(20,mus.getRankMin());
             pst.setDouble(21,mus.getRankMax());
+            if (mus.getBcsAnnexType().equals("0") || mus.getBcsAnnexType().equals("2")) {
+                FileInputStream fi = null;
+                File file = new File(mus.getRutaAnnex());
+                fi = new FileInputStream(file);
+                pst.setBinaryStream(22, fi, (int) file.length());
+            }else{
+                FilesController fc = new FilesController();
+                byte[] fi = fc.byteToBlobTransformation(mus.getRutaAnnex());
+                pst.setBlob(22, fi);
+                //byte[] dato = of.toSaveDocumentInFile(mus.getRutaAnnex());
+                //pst.setBlob(22,dato);
+            }
 
-            pst.setBinaryStream(22, fi, (int) file.length());
             pst.executeUpdate();
             System.out.println("Operacion de Insert Exitosa.");
             mus.setResult(true);
         }catch (SQLException | FileNotFoundException ex){
             mus.setResult(false);
             System.out.println("Error en la consulta de insert.: "+ex.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

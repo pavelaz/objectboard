@@ -60,10 +60,10 @@ public class ConductSurveyProcessServlet extends HttpServlet {
         if(request.getParameter("p_email_assign")!=null){
             email_assign = request.getParameter("p_email_assign");
         }
-        String name_assign = null;
+        /*String name_assign = null;
         if(request.getParameter("p_name_assign")!=null){
             name_assign = request.getParameter("p_name_assign");
-        }
+        }*/
         String auditor = null;
         if(request.getParameter("p_auditor")!=null){
             auditor = request.getParameter("p_auditor");
@@ -304,7 +304,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                             bvo.setBcsNameAnnexFile(response_question_file_name[x]);
                             bvo.setRutaAnnex(of.searchLink("4") + response_datetime_img[x] + bvo.getBcsNameAnnexFile());
                         }else {
-                            bvo.setBcsNameAnnexFile("no_image.jpeg");
+                            bvo.setBcsNameAnnexFile("no_images.jpeg");
                             bvo.setRutaAnnex(of.searchLink("0") + "img/" + bvo.getBcsNameAnnexFile());
                         }
 
