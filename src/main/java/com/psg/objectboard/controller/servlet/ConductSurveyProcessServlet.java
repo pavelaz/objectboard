@@ -368,21 +368,10 @@ public class ConductSurveyProcessServlet extends HttpServlet {
             }
 
             if (cvo.getResult()){
-                //String none = null;
                 for (int x = 0; x< response_question_type.length; x++) {
                     if (!response_question_file_name[x].equals("")) {
-                       /*if (response_question_annex_type[x].equals("1")){
-                          of.copiarArchivos(path + primaryDirectory,
-                                  path + secundaryDirectory + directorio + "/document/",
-                                   response_question_file_name[x]);
-                       }
-                       if (response_question_annex_type[x].equals("2")){
-                            of.copiarArchivos(path + primaryDirectory,
-                                    path + secundaryDirectory + directorio + "/image/",
-                                    response_question_file_name[x]);
-                       }*/
                        none = of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x];
-                       File fichero = new File(none);
+                       File fichero = new File(none.replace(" ","_"));
                        bvo.setResult(of.eliminarFichero(fichero)); // en este caso no hago nada si ha sido borrado previamente o no existe.
                     }
                 }
