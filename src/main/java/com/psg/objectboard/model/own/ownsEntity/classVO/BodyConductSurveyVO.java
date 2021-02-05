@@ -1,5 +1,6 @@
 package com.psg.objectboard.model.own.ownsEntity.classVO;
 
+import javax.persistence.Lob;
 import java.io.InputStream;
 import java.sql.Blob;
 

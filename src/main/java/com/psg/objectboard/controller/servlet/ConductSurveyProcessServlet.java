@@ -173,7 +173,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_file_name[x]= request.getParameter("p_dn_" + questions.get(x).getQuestionCode());
                     response_question_document[x] = request.getPart("p_d_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_document[x].getInputStream();
-                    File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x]);
+                    File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x].replace(" ","_"));
                     OtherFunctions.subirArchivos(is, f);
                 }
                 if(request.getParameter("p_in_" + questions.get(x).getQuestionCode())!=null){
@@ -181,7 +181,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_file_name[x] = request.getParameter("p_in_" + questions.get(x).getQuestionCode());
                     response_question_imagen[x] = request.getPart("p_i_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_imagen[x].getInputStream();
-                    File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x]);
+                    File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x].replace(" ","_"));
                     OtherFunctions.subirArchivos(is, f);
                 }
             }
@@ -202,7 +202,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_file_name[x] = request.getParameter("p_dn_" + questions.get(x).getQuestionCode());
                     response_question_document[x] = request.getPart("p_d_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_document[x].getInputStream();
-                    File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x]);
+                    File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x].replace(" ","_"));
                     OtherFunctions.subirArchivos(is, f);
                 }
                 if(request.getParameter("p_in_" + questions.get(x).getQuestionCode())!=null){
@@ -210,7 +210,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_file_name[x] = request.getParameter("p_in_" + questions.get(x).getQuestionCode());
                     response_question_imagen[x] = request.getPart("p_i_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_imagen[x].getInputStream();
-                    File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x]);
+                    File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x].replace(" ","_"));
                     OtherFunctions.subirArchivos(is, f);
                 }
             }

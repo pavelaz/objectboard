@@ -25,9 +25,9 @@ public class OtherFunctions {
     public String buscaPrefijoToFiles(String company){
         DateFunctions df = new DateFunctions();
         answer =  df.fechaFull(9).replace("/","");
-        answer =  answer.replace(" ","_");
+        answer =  answer.replace(" ","");
         answer =  answer.replace(":","");
-        answer =  answer + "_" + company + "_";
+        answer =  answer + "" + company + "_";
         return answer;
     }
 

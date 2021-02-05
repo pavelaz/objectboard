@@ -59,18 +59,46 @@ public class BodyConductSurveyDAO {
             pst.setString(19,mus.getStatusRank());
             pst.setDouble(20,mus.getRankMin());
             pst.setDouble(21,mus.getRankMax());
+
             if (mus.getBcsAnnexType().equals("0") || mus.getBcsAnnexType().equals("2")) {
+                File file = new File(mus.getRutaAnnex().replace(" ","_"));
+                FileInputStream fileInputStream = new FileInputStream(file);
+                pst.setBinaryStream(22,fileInputStream);
+                System.out.println("\n Reading input file " + file.getAbsolutePath());
+                System.out.println("\n Storing resumen in database " + file);
+                System.out.println(sql);
+                /*
+                 * BLOB Types Object type Value length that the object can hold TINYBLOB from 0 to 255 bytes BLOB from 0 to 65535 bytes MEDIUMBLOB from 0 to 16 777 215 bytes LONGBLOB from 0 to 4 294 967 295 bytes
+                 * */
+            }
+            /*if (mus.getBcsAnnexType().equals("0") || mus.getBcsAnnexType().equals("2")) {
+                FilesController filesController = new FilesController();
+                pst.setBytes (22,filesController.byteToBlobTransformation(mus.getRutaAnnex().replace(" ","_")));
+            }else{
+                File file = new File(mus.getRutaAnnex().replace(" ","_"));
+                FileInputStream fileInputStream = new FileInputStream(file);
+                pst.setBinaryStream(22,fileInputStream);
+                System.out.println("\n Reading input file " + file.getAbsolutePath());
+                System.out.println("\n Storing resumen in database " + file);
+                System.out.println(sql);
+                /*
+                * BLOB Types Object type Value length that the object can hold TINYBLOB from 0 to 255 bytes BLOB from 0 to 65535 bytes MEDIUMBLOB from 0 to 16 777 215 bytes LONGBLOB from 0 to 4 294 967 295 bytes
+                * /
+            }*/
+
+            /*if (mus.getBcsAnnexType().equals("0") || mus.getBcsAnnexType().equals("2")) {
                 FileInputStream fi = null;
-                File file = new File(mus.getRutaAnnex());
+                File file = new File(mus.getRutaAnnex().replace(" ","_"));
                 fi = new FileInputStream(file);
                 pst.setBinaryStream(22, fi, (int) file.length());
             }else{
-                FilesController fc = new FilesController();
-                byte[] fi = fc.byteToBlobTransformation(mus.getRutaAnnex());
-                pst.setBlob(22, fi);
-                //byte[] dato = of.toSaveDocumentInFile(mus.getRutaAnnex());
-                //pst.setBlob(22,dato);
-            }
+                File file = new File(mus.getRutaAnnex().replace(" ","_"));
+                FileInputStream fileInputStream = new FileInputStream(file);
+                pst.setBinaryStream(22,fileInputStream);
+                System.out.println("\n Reading input file " + file.getAbsolutePath());
+                System.out.println("\n Storing resumen in database " + file);
+                System.out.println(sql);
+            }*/
 
             pst.executeUpdate();
             System.out.println("Operacion de Insert Exitosa.");
@@ -78,9 +106,9 @@ public class BodyConductSurveyDAO {
         }catch (SQLException | FileNotFoundException ex){
             mus.setResult(false);
             System.out.println("Error en la consulta de insert.: "+ex.getMessage());
-        } catch (IOException e) {
+        }/* catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public static ArrayList<BodyConductSurveyVO> getListBodyConductSurvey(String condi){
