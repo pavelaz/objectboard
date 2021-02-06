@@ -145,13 +145,22 @@
     <link href="<%= request.getContextPath() %>/complements/css/bootstrap-table.min.css" rel="stylesheet">
     <link href="<%= request.getContextPath() %>/complements/css/bootstrap-table-filter-control.min.css" rel="stylesheet">
     <script type="text/javascript">
+        function document_view(ruta){
+            alert("paso");
+            document.forma.target = "_blank";
+            document.forma.action = ruta;
+            document.forma.submit();
+            document.forma.target = "";
+        }
+    </script>
+    <script type="text/javascript">
         function view_format(tip){
             document.forma.target = "";
             document.forma.action = '/objectboard/auditsrevision';
             document.forma.p_format.value = tip;
             document.forma.submit();
         }
-        <% if (format == 2){%>
+        <% if (format == 2){ %>
             function auditar(){
                 //alert("paso 0");
                 if(validaItems() && valida_comentarios()) {
