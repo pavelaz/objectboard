@@ -25,9 +25,9 @@ public class OtherFunctions {
     public String buscaPrefijoToFiles(String company){
         DateFunctions df = new DateFunctions();
         answer =  df.fechaFull(9).replace("/","");
-        answer =  answer.replace(" ","_");
+        answer =  answer.replace(" ","");
         answer =  answer.replace(":","");
-        answer =  answer + "_" + company + "_";
+        answer =  answer + "" + company + "_";
         return answer;
     }
 
@@ -149,7 +149,6 @@ public class OtherFunctions {
     }
 
     // Subir archivo forma alex (funciona y coloca el archivo en carpeta temporal fuera del proyecto)
-
     /*public String subirArchivo(int codigo, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Part filePart = request.getPart("archivo"); // Obtiene el archivo
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
@@ -777,7 +776,7 @@ public class OtherFunctions {
     }*/
     public String valida_tipoArchivo(Integer ctaLinea,String annexType, String nameAnnexFile,
                                      String dir_doc,String dir_img,String directorio_gral,
-                                     Integer format,String company,byte archivo[]){
+                                     Integer format,String company,byte archivo[]) throws Exception {
         String none = "";
         if (ctaLinea == 1){
             if (annexType.equals("1")){
@@ -787,15 +786,19 @@ public class OtherFunctions {
             }
         }
         String prefijo = this.buscaPrefijoToFiles(company);
-        FilesController file = new FilesController();
+        //FilesController file = new FilesController();
+        String ruta = null;
 
         if (ctaLinea == 2) {
             if (annexType.equals("1")) {
                 if(format == 2) {
                     // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                    file.writerFileInFolder(archivo,dir_doc + prefijo + nameAnnexFile);
+                    //file.writerFileInFolder(archivo,dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
+                    ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
+                    this.writerInFolderFiles( ruta,archivo);
                     //
-                    none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile + "' title=\"View Document\" >\n";
+                    none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
+                    //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" >\n";
                     none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
                     none = none + "</a>\n";
                 }else{
@@ -806,9 +809,12 @@ public class OtherFunctions {
             } else {
                 if(format == 2) {
                     // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                    file.writerFileInFolder(archivo,dir_img + prefijo + nameAnnexFile);
+                    //file.writerFileInFolder(archivo,dir_img + prefijo + nameAnnexFile.replace(" ","_"));
+                    ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
+                    this.writerInFolderFiles( ruta,archivo);
                     //
-                    none = none + "<a href='" + dir_img  + prefijo + nameAnnexFile + "' title=\"View Image\" >\n";
+                    none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
+                    //none = none + "<a href='" + dir_img  + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\" >\n";
                     none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
                     none = none + "</a>\n";
                 }else{
@@ -821,19 +827,57 @@ public class OtherFunctions {
         return none;
     }
 
+    public void writerInFolderFiles(String rutayarchivo,byte archivo[]) throws Exception {
+        InputStream input = null;
+        FileOutputStream output = null;
+
+        try {
+
+            File theFile = new File(rutayarchivo);
+            output = new FileOutputStream(theFile);
+
+
+            input = new ByteArrayInputStream(archivo);
+
+            byte[] buffer = new byte[1024];
+            while (input.read(buffer) > 0) {
+                    output.write(buffer);
+            }
+
+            System.out.println("\nSaved to file: " + theFile.getAbsolutePath());
+
+            System.out.println("\nCompleted successfully!");
+
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        } finally {
+            if (input != null) {
+                input.close();
+            }
+
+            if (output != null) {
+                output.close();
+            }
+        }
+    }
+
     public String validacionGral_tipoArchivo(Integer type_request,String nameAnnexFile,
                                      String dir_doc,String dir_img,String directorio_gral,
-                                     Integer format,String company,byte archivo[]){
+                                     Integer format,String company,byte archivo[]) throws Exception {
         String none = "";
         String prefijo = this.buscaPrefijoToFiles(company);
-        FilesController file = new FilesController();
+        String ruta = null;
+        //FilesController file = new FilesController();
 
         if (type_request == 5) {
             if (format == 2) {
                 // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                file.writerFileInFolder(archivo, dir_img + prefijo + nameAnnexFile);
+                //file.writerFileInFolder(archivo, dir_img + prefijo + nameAnnexFile.replace(" ","_"));
+                ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
+                this.writerInFolderFiles( ruta,archivo);
                 //
-                none = none + "<a href='" + dir_img + prefijo + nameAnnexFile + "' title=\"View Image\" >\n";
+                none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
+                //none = none + "<a href='" + dir_img + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\">\n";
                 none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
                 none = none + "</a>\n";
             } else {
@@ -844,9 +888,12 @@ public class OtherFunctions {
         }else{
             if (format == 2) {
                 // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                file.writerFileInFolder(archivo, dir_doc + prefijo + nameAnnexFile);
+                //file.writerFileInFolder(archivo, dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
+                ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
+                this.writerInFolderFiles( ruta,archivo);
                 //
-                none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile + "' title=\"View Document\" >\n";
+                //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" target=\"_blank\">\n"; -->
+                none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
                 none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
                 none = none + "</a>\n";
             } else {

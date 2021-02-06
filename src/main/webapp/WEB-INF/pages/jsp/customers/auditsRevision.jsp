@@ -6,6 +6,7 @@
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.BodyConductSurveyDAO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO" %>
 <%@ page import="com.psg.objectboard.model.service.Other.OtherFunctions" %>
+<%@ page import="java.io.File" %>
 <%--
   Created by IntelliJ IDEA.
   User: pavelaz
@@ -19,6 +20,7 @@
     String data_user = (String)objSesion.getAttribute("dataUser");
     String data_pasword = (String)objSesion.getAttribute("dataPassword");
     String company_number = (String)objSesion.getAttribute("companyNumber");
+    //String user_email = (String)objSesion.getAttribute("userEmail");
 
     String code = null;
     if(request.getParameter("p_survey")!=null) {
@@ -82,14 +84,25 @@
     condicion = condicion.replace(".","_") + "_" + Integer.parseInt(company_number);
     OtherFunctions of = new OtherFunctions();
 
-    //String dir_img = "/objectboard/complements/files/" + condicion + "/image/";
-    //String dir_doc = "/objectboard/complements/files/" + condicion + "/document/";
+    String dir_img = "";
+    String dir_doc = "";
+    String directorio_gral = "";
 
-    //String directorio_gral = "/objectboard/complements/img/";
-
-    String dir_img =  of.searchLink("4") ;
-    String dir_doc =  of.searchLink("4") ;
-    String directorio_gral = of.searchLink("3") + "/img/";
+    //String directorio_user = user_email.replace("@","_");
+    //directorio_user = directorio_user.replace(".","_");
+    if (format == 2) {
+        dir_img = of.searchLink("4") + condicion;
+        dir_doc = of.searchLink("4") + condicion;
+        directorio_gral = of.searchLink("3") + "/img/";
+        File diraborrar = new File(dir_img);
+        if (diraborrar.exists()) {
+            Boolean resultado = null;
+            resultado = of.borrarDirectorio(diraborrar);
+        }
+        of.CrearDirectorio(dir_img);
+        dir_img = dir_img + "/";
+        dir_doc = dir_doc + "/";
+    }
 
     String conduct_id = null;
     if(request.getParameter("p_conduct_id")!=null) {
@@ -132,13 +145,22 @@
     <link href="<%= request.getContextPath() %>/complements/css/bootstrap-table.min.css" rel="stylesheet">
     <link href="<%= request.getContextPath() %>/complements/css/bootstrap-table-filter-control.min.css" rel="stylesheet">
     <script type="text/javascript">
+        function document_view(ruta){
+            alert("paso");
+            document.forma.target = "_blank";
+            document.forma.action = ruta;
+            document.forma.submit();
+            document.forma.target = "";
+        }
+    </script>
+    <script type="text/javascript">
         function view_format(tip){
             document.forma.target = "";
             document.forma.action = '/objectboard/auditsrevision';
             document.forma.p_format.value = tip;
             document.forma.submit();
         }
-        <% if (format == 2){%>
+        <% if (format == 2){ %>
             function auditar(){
                 //alert("paso 0");
                 if(validaItems() && valida_comentarios()) {

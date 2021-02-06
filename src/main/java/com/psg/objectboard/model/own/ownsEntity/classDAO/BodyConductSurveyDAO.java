@@ -1,6 +1,5 @@
 package com.psg.objectboard.model.own.ownsEntity.classDAO;
 
-import com.psg.objectboard.controller.common.FilesController;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 import com.psg.objectboard.model.service.Other.SqlFunctions;
@@ -59,36 +58,23 @@ public class BodyConductSurveyDAO {
             pst.setString(19,mus.getStatusRank());
             pst.setDouble(20,mus.getRankMin());
             pst.setDouble(21,mus.getRankMax());
-            if (mus.getBcsAnnexType().equals("0") || mus.getBcsAnnexType().equals("2")) {
-                FileInputStream fi = null;
-                File file = new File(mus.getRutaAnnex());
-                fi = new FileInputStream(file);
-                pst.setBinaryStream(22, fi, (int) file.length());
-            }else{
 
-                File file = new File(mus.getRutaAnnex());
-                FileInputStream fileInputStream = new FileInputStream(file);
-                pst.setBinaryStream(22,fileInputStream);
-                System.out.println("\n Reading input file" + file.getAbsolutePath());
-                System.out.println("\n Storing resumen in database" + file);
+            File file = new File(mus.getRutaAnnex().replace(" ","_"));
+            FileInputStream fileInputStream = new FileInputStream(file);
+            pst.setBinaryStream(22,fileInputStream);
+            /*System.out.println("\n Reading input file " + file.getAbsolutePath());
+                System.out.println("\n Storing resumen in database " + file);
                 System.out.println(sql);
 
-                //si no funciona hay que cambiar insert por update.
+                 * BLOB Types Object type Value length that the object can hold TINYBLOB from 0 to 255 bytes BLOB from 0 to 65535 bytes MEDIUMBLOB from 0 to 16 777 215 bytes LONGBLOB from 0 to 4 294 967 295 bytes
+                 * */
 
-                //FilesController fc = new FilesController();
-                //byte[] fi = fc.byteToBlobTransformation(mus.getRutaAnnex());
-                //pst.setBlob(22, fi);
-                //byte[] dato = of.toSaveDocumentInFile(mus.getRutaAnnex());
-                //pst.setBlob(22,dato);
-            }
             pst.executeUpdate();
             System.out.println("Operacion de Insert Exitosa.");
             mus.setResult(true);
         }catch (SQLException | FileNotFoundException ex){
             mus.setResult(false);
             System.out.println("Error en la consulta de insert.: "+ex.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
