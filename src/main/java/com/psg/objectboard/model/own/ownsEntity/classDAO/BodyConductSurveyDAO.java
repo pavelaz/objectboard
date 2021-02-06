@@ -65,13 +65,22 @@ public class BodyConductSurveyDAO {
                 fi = new FileInputStream(file);
                 pst.setBinaryStream(22, fi, (int) file.length());
             }else{
-                FilesController fc = new FilesController();
-                byte[] fi = fc.byteToBlobTransformation(mus.getRutaAnnex());
-                pst.setBlob(22, fi);
+
+                File file = new File(mus.getRutaAnnex());
+                FileInputStream fileInputStream = new FileInputStream(file);
+                pst.setBinaryStream(22,fileInputStream);
+                System.out.println("\n Reading input file" + file.getAbsolutePath());
+                System.out.println("\n Storing resumen in database" + file);
+                System.out.println(sql);
+
+                //si no funciona hay que cambiar insert por update.
+
+                //FilesController fc = new FilesController();
+                //byte[] fi = fc.byteToBlobTransformation(mus.getRutaAnnex());
+                //pst.setBlob(22, fi);
                 //byte[] dato = of.toSaveDocumentInFile(mus.getRutaAnnex());
                 //pst.setBlob(22,dato);
             }
-
             pst.executeUpdate();
             System.out.println("Operacion de Insert Exitosa.");
             mus.setResult(true);
