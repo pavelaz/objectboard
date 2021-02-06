@@ -25,12 +25,9 @@ import java.util.ArrayList;
 public class ConductSurveyProcessServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession objSesion = request.getSession();
-        //String user_name = (String)objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
         String company_number = (String)objSesion.getAttribute("companyNumber");
-        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         String pantalla = " ";
         if(request.getParameter("p_pantalla")!=null){
@@ -60,10 +57,6 @@ public class ConductSurveyProcessServlet extends HttpServlet {
         if(request.getParameter("p_email_assign")!=null){
             email_assign = request.getParameter("p_email_assign");
         }
-        /*String name_assign = null;
-        if(request.getParameter("p_name_assign")!=null){
-            name_assign = request.getParameter("p_name_assign");
-        }*/
         String auditor = null;
         if(request.getParameter("p_auditor")!=null){
             auditor = request.getParameter("p_auditor");
@@ -115,9 +108,6 @@ public class ConductSurveyProcessServlet extends HttpServlet {
         String[] response_question_solution = new String[questions.size()];
         String[] response_datetime_img = new String[questions.size()];
         DateFunctions df = new DateFunctions();
-        //String path = System.getProperty("user.home");
-        //String primaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/temporaryfiles/";
-        //String secundaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/files/";
 
         for(int x = 0; x < questions.size(); x++) {
             response_question_status_rank[x] = "F";
@@ -263,12 +253,6 @@ public class ConductSurveyProcessServlet extends HttpServlet {
 
             BodyConductSurveyVO bvo = new BodyConductSurveyVO();
             BodyConductSurveyDAO bdo = null;
-            //OtherFunctions of = new OtherFunctions();
-            //String directorio = email_assign.replace("@","_");
-            //       directorio = directorio.replace(".","_") + "_" + Long.parseLong(company_number);
-            //of.CrearDirectorio (path + secundaryDirectory + directorio);
-            //of.CrearDirectorio (path + secundaryDirectory + directorio + "/document");
-            //of.CrearDirectorio (path + secundaryDirectory + directorio + "/image");
 
             if (cvo.getResult()){
                 bvo.setResult(true);
@@ -406,8 +390,6 @@ public class ConductSurveyProcessServlet extends HttpServlet {
 
         request.setAttribute("rq_result", cvo.getResult());
         request.setAttribute("rq_pantalla", pantalla);
-        //request.setAttribute("rq_companyLogoName", company_logo_name);
-        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
         request.setAttribute("rq_companyNumber", company_number);
         BussinessUnitDAO bud = new BussinessUnitDAO();
         request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
