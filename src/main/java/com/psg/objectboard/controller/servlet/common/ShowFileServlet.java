@@ -101,6 +101,7 @@ public class ShowFileServlet extends HttpServlet {
             FilesController filesController = new FilesController();
 
             ServletOutputStream outputStream = null;
+
             String presenta = "image/" + forma;
             outputStream = filesController.blobToDifferentFormats(response,photoVO.getBuLogoImageByte(),presenta);
 

@@ -1,0 +1,68 @@
+Abrir dos terminales una en el proyecto objectboard y otra apuntando al apache
+
+cd IdeaProjects/objectboard
+	compilamos la instancia que se quiera
+		mvn clean package -P target-development
+		mvn clean package -P target-test
+		mvn clean package -P target-production
+	
+Lado servidor servidor ubuntu
+
+ssh -i serviciospvsoft serviciospvsoft@serverubuntu
+password:Solitariop1
+
+
+cd /usr/share/apache
+
+En caso de no tener intellij ultimate.
+Levantar el apache o bajarlo  segun localhost
+./startup-development.sh
+./shutdown-development.sh
+http://localhost:8084/objectboard/signin
+		
+		./startup-test.sh
+		./shutdown-test.sh
+		http://localhost:8082/objectboard/signin
+		
+		./startup-production.sh
+		./shutdown-production.sh
+		http://localhost:8086/objectboard/signin
+			
+	Levantar el apache o bajarlo  segun Server Google Cloud
+		
+		./startup-test.sh
+		./shutdown-test.sh
+		http://servercloud:8082/objectboard/signin
+		
+		./startup-production.sh
+		./shutdown-production.sh
+		http://servercloud:8080/objectboard/signin
+		
+	Para escuchar logs de la instancia levantada de apache-tomcat	
+		tail -f instance-development/logs/catalina.out
+
+	sftp://serverubuntu/
+    Usuario: 	serviciospvsoft
+	Password:	Solitariop1
+	
+	
+	Para acceder a servidor cloud:
+	ssh serviciospvsoft@serverubuntu
+	password: Solitariop1
+	
+    servidor Git del cloud
+	Password:  servergit01
+	usuario: git@serverubuntu
+	
+	
+	
+	git pull serverubuntu-development-alex development-alex
+	git pull serverubuntu-development-paul development-paul
+	
+
+##########  Angular  #####################
+
+
+
+
+
