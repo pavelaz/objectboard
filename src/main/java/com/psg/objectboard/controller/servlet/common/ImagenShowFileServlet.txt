@@ -23,6 +23,12 @@ public class ImagenShowFileServlet extends HttpServlet {
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
 
+        // La consulta viene de Angular
+        if ((objSesion.getAttribute("dataUser") == null) && (objSesion.getAttribute("dataUser") == null)) {
+            data_user = request.getParameter("du");
+            data_pasword = request.getParameter("dp");
+        }
+
         //  si es png, jpeg, etc...
         String forma = null;
         if (request.getParameter("p_forma") != null) {
