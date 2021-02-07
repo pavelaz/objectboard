@@ -259,7 +259,7 @@ start ############################### Pre-loader ###############################
                                 </td>
                                 <td>
                                     <%--<SCRIPT LANGUAGE='JavaScript' type='text/javascript'>CambiaImagen(${ rq_profiles.get(x).getMuEmail() },${ rq_profiles.get(x).getBussinessUnitBuBisCode() })</SCRIPT>--%>
-                                    <img src="/objectboard/imagenshowfile.html?p_forma=${ rq_forma }&p_unit=${ rq_profiles.get(x).getBussinessUnitBuBisCode() }&p_email=${ rq_profiles.get(x).getMuEmail() }" class="img-radius" alt="User-Profile-Image" width="50" height="50">
+                                    <img src="/objectboard/showfile.html?p_forma=${ rq_forma }&p_unit=${ rq_profiles.get(x).getBussinessUnitBuBisCode() }&p_email=${ rq_profiles.get(x).getMuEmail() }" class="img-radius" alt="User-Profile-Image" width="50" height="50">
                                 </td>
                             </tr>
                         </jstl:forEach>

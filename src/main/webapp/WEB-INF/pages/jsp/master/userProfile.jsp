@@ -246,7 +246,7 @@
                                                 <div class="form-group row">
                                                     <label for="file" class="col-sm-2 col-form-label">Upload Photo</label>
                                                     <div class="col-sm-8" align="right" name="div-photo" id="div-photo">
-                                                        <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfileimage.html" class="img-thumbnail" alt="Photo Profile" width="100" height="120">
+                                                        <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html" class="img-thumbnail" alt="Photo Profile" width="100" height="120">
                                                         <input name="p_file" id="file" type="file" accept="image/png, image/jpeg" class="image-cropper-container" align="center" onchange="filePreview(this)">
                                                     </div>
                                                 </div>

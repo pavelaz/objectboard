@@ -774,7 +774,7 @@ public class OtherFunctions {
         }
         return none;
     }*/
-    public String valida_tipoArchivo(Integer ctaLinea,String annexType, String nameAnnexFile,
+    /*public String valida_tipoArchivo(Integer ctaLinea,String annexType, String nameAnnexFile,
                                      String dir_doc,String dir_img,String directorio_gral,
                                      Integer format,String company,byte archivo[]) throws Exception {
         String none = "";
@@ -825,6 +825,63 @@ public class OtherFunctions {
             }
         }
         return none;
+    }*/
+    public String valida_tipoArchivo(Integer ctaLinea,String annexType, String directorio_gral, Integer format,
+                                     String company,Long id,Long question,Long survey){
+        String none = "";
+        if (ctaLinea == 1){
+            if (annexType.equals("1")){
+                none = none + "Validate the document:\n";
+            }else{
+                none = none + "Validate the image:\n";
+            }
+        }
+        //String prefijo = this.buscaPrefijoToFiles(company);
+        //FilesController file = new FilesController();
+        String ruta = null;
+
+        if (ctaLinea == 2) {
+            if (annexType.equals("1")) {
+                if(format == 2) {
+                    // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                    //file.writerFileInFolder(archivo,dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
+                    //ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
+                    //this.writerInFolderFiles( ruta,archivo);
+                    //
+                    //none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
+                    //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" >\n";
+                    ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
+                           "&p_question=" + question + "&p_survey=" + survey;
+                    none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Document\" >\n";
+                    none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                    none = none + "</a>\n";
+                }else{
+                    none = none + "<a href='#!' title=\"View Document\" >\n";
+                    none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                    none = none + "</a>\n";
+                }
+            } else {
+                if(format == 2) {
+                    // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                    //file.writerFileInFolder(archivo,dir_img + prefijo + nameAnnexFile.replace(" ","_"));
+                    //ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
+                    //this.writerInFolderFiles( ruta,archivo);
+                    //
+                    //none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
+                    //none = none + "<a href='" + dir_img  + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\" >\n";
+                    ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
+                            "&p_question=" + question + "&p_survey=" + survey;
+                    none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Image\"  >\n";
+                    none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                    none = none + "</a>\n";
+                }else{
+                    none = none + "<a href='#!' title=\"View Image\" >\n";
+                    none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                    none = none + "</a>\n";
+                }
+            }
+        }
+        return none;
     }
 
     public void writerInFolderFiles(String rutayarchivo,byte archivo[]) throws Exception {
@@ -861,7 +918,7 @@ public class OtherFunctions {
         }
     }
 
-    public String validacionGral_tipoArchivo(Integer type_request,String nameAnnexFile,
+    /*public String validacionGral_tipoArchivo(Integer type_request,String nameAnnexFile,
                                      String dir_doc,String dir_img,String directorio_gral,
                                      Integer format,String company,byte archivo[]) throws Exception {
         String none = "";
@@ -894,6 +951,55 @@ public class OtherFunctions {
                 //
                 //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" target=\"_blank\">\n"; -->
                 none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
+                none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            } else {
+                none = none + "<a href='#!' title=\"View Document\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            }
+        }
+
+        return none;
+    }*/
+    public String validacionGral_tipoArchivo(Integer type_request,String directorio_gral,Integer format,
+                                             String company,Long id,Long question,Long survey)  {
+        String none = "";
+        String prefijo = this.buscaPrefijoToFiles(company);
+        String ruta = null;
+        //FilesController file = new FilesController();
+
+        if (type_request == 5) {
+            if (format == 2) {
+                // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                //file.writerFileInFolder(archivo, dir_img + prefijo + nameAnnexFile.replace(" ","_"));
+                /*ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
+                this.writerInFolderFiles( ruta,archivo);*/
+                //
+                ///none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
+                //none = none + "<a href='" + dir_img + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\">\n";
+                ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
+                        "&p_question=" + question + "&p_survey=" + survey;
+                none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Image\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            } else {
+                none = none + "<a href='#!' title=\"View Image\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            }
+        }else{
+            if (format == 2) {
+                // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                //file.writerFileInFolder(archivo, dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
+                //ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
+                //this.writerInFolderFiles( ruta,archivo);
+                //
+                //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" target=\"_blank\">\n"; -->
+                //none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
+                ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
+                        "&p_question=" + question + "&p_survey=" + survey;
+                none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Document\" >\n";
                 none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
                 none = none + "</a>\n";
             } else {

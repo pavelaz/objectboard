@@ -220,7 +220,7 @@ start ############################### Pre-loader ###############################
                         <div class="col-sm-8" align="right" name="div-photo" id="div-photo">
                             <jstl:choose>
                                 <jstl:when test="${ rq_unitLogoName != null }">
-                                    <img src="/objectboard/imagenshowfile.html?p_forma=${ rq_format }&p_unit=${ rq_unitNumber }&p_archivo=1"
+                                    <img src="/objectboard/showfile.html?p_forma=${ rq_format }&p_unit=${ rq_unitNumber }&p_archivo=1"
                                     class="img-thumbnail"  alt="Logo Profile" width="120"
                                     height="160" name="oldPhoto" title="preferably 216 x 216 pixels" id="oldPhoto">
                                     <input type="file" name="p_file" id="file" accept=".png,.jpeg,.jpg,.bmp,.gif"

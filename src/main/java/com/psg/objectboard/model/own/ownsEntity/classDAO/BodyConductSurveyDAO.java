@@ -1,5 +1,6 @@
 package com.psg.objectboard.model.own.ownsEntity.classDAO;
 
+import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessUnitVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 import com.psg.objectboard.model.service.Other.SqlFunctions;
@@ -145,7 +146,72 @@ public class BodyConductSurveyDAO {
         return arrcom;
     }
 
-    public static void updateManualEvaluationBodyConductSurvey(BodyConductSurveyVO cov, Connection cone) {
+    public static BodyConductSurveyVO serchBodyConductSurveyDAO(String unidad,String conduct,String question, String survey){
+        BodyConductSurveyVO covo = new BodyConductSurveyVO();
+        cc = new OtherConexion();
+        cn = cc.conectarse(dataUser,dataPassword);
+        String sql = "SELECT * FROM bodyConductSurvey WHERE " +
+                "headerConductSurvey_conduct_id=? AND bsa_bodySurveyQuestions_question_code=? AND " +
+                "bsa_bodySurveyQuestions_headersSurvey_survey_code=? AND " +
+                "bsa_bodySurveyQuestions_headersSurvey_bussinessUnit_bu_bis_code=?";
+        try{
+            pst = cn.prepareStatement(sql);
+            pst.setLong(1,Long.parseLong(conduct));
+            pst.setLong(2,Long.parseLong(question));
+            pst.setLong(3,Long.parseLong(survey));
+            pst.setLong(4,Long.parseLong(unidad));
+            rs = pst.executeQuery();
+            if (rs.next()){ // valida si trae algun registro
+                covo.setHeaderConductSurveyConductId(rs.getLong(1));
+                covo.setBsaBodySurveyQuestionsQuestionCode(rs.getLong(2));
+                covo.setBsaBodySurveyQuestionsHeadersSurveySurveyCode(rs.getLong(3));
+                covo.setBsaBodySurveyQuestionsHeadersSurveyBussinessUnitBuBisCode(rs.getLong(4));
+                covo.setBcsAnswerOnlyText(rs.getString(5));
+                covo.setBcsAnswerOnlyNumber(rs.getDouble(6));
+                covo.setBcsAnswerOnlyDate(rs.getString(7));
+                covo.setBcsAnswerOnlyTime(rs.getString(8));
+                covo.setBcsComment(rs.getString(9));
+                covo.setBcsAnswer(rs.getString(10));
+                covo.setBcsTypeRequest(rs.getInt(11));
+                covo.setBcsNameAnnexFile(rs.getString(12));
+                covo.setBcsAnnexType(rs.getString(13));
+                covo.setBcsAnswerSolution(rs.getString(14));
+                covo.setStatusAudit(rs.getString(15));
+                covo.setResultAudit(rs.getString(16));
+                covo.setPoints(rs.getDouble(17));
+                covo.setAuditNote(rs.getString(18));
+                covo.setStatusRank(rs.getString(19));
+                covo.setRankMin(rs.getDouble(20));
+                covo.setRankMax(rs.getDouble(21));
+
+                covo.setBcsAnnexFile(rs.getBlob(22));
+                if (!(covo.getBcsAnnexFile() == null)){
+                    int blobLength = (int) rs.getBlob(22).length();
+                    byte[] blobAsBytes = rs.getBlob(22).getBytes(1, blobLength);
+                    covo.setBcsAnnexFileByte(blobAsBytes);
+                }
+            }
+            covo.setResult(true);
+            System.out.println("Busqueda exitosa");
+        }catch (SQLException ex){
+            covo.setResult(false);
+            System.out.println("Error en la consulta: " + ex.getMessage());
+        }finally {
+            try{
+                if (cn != null){
+                    cn.close();
+                    pst.close();
+                    System.out.println("Conexion cerrada");
+                }
+            }catch (Exception e){
+                covo.setResult(false);
+                System.out.println("Error "+e);
+            }
+        }
+        return covo;
+    }
+
+    /*public static void updateManualEvaluationBodyConductSurvey(BodyConductSurveyVO cov, Connection cone) {
         String sql = "UPDATE  bodyConductSurvey SET " +
                 "status_audit = '" + cov.getStatusAudit() +
                 "', result_audit = '" + cov.getResultAudit() +
@@ -164,6 +230,6 @@ public class BodyConductSurveyDAO {
             System.out.println("sentencia: " + sql);
             cov.setResult(false);
         }
-    }
+    } */
 
 }

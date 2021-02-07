@@ -13,7 +13,7 @@
                 <i class="ti-menu"></i>
             </a>
             <!-- Aqui logo y nombre compania  izquierda-->
-            <img src="/objectboard/imagenshowfile.html?p_forma=${ rq_format }&p_unit=${ rq_companyNumber }&p_archivo=1" class="img-fluid" alt="Theme-Logo" width="35" height="45">&nbsp;&nbsp;
+            <img src="/objectboard/showfile.html?p_forma=${ rq_format }&p_unit=${ rq_companyNumber }&p_archivo=1" class="img-fluid" alt="Theme-Logo" width="35" height="45">&nbsp;&nbsp;
             <!--<img class="img-fluid" src="/objectboard/complements/img/favicon2.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;-->
             <%-- <a href="<%= request.getContextPath() %>${ rq_companyLogoDirection }${ rq_companyLogoName }"> --%>
             <a href="#">
@@ -83,7 +83,7 @@
                     <a href="#!" class="waves-effect waves-light">
                         <!-- Aqui submenu derecho -->
                         <jstl:if test="${ jsp_ShowImage.equals('YES') }">
-                            <img src="/objectboard/showfileimage.html" class="img-radius" alt="User-Profile-Image">
+                            <img src="/objectboard/showfile.html" class="img-radius" alt="User-Profile-Image">
                         </jstl:if>
                         <span><jstl:out value="${ rq_userName }">Lost Value</jstl:out></span>
                         <i class="ti-angle-down"></i>

@@ -23,7 +23,7 @@
             <img class="img-fluid" src="<%= request.getContextPath() %>/complements/img/logos/01/favicon2.png" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;--%>
             <%--<jstl:choose>
                 <jstl:when test="${ rq_companyNumber.equals('1')}"> --%>
-                    <img src="/objectboard/imagenshowfile.html?p_forma=${ rq_format }&p_unit=${ rq_companyNumber }&p_archivo=1" class="img-fluid" alt="Theme-Logo" width="35" height="45">&nbsp;&nbsp;
+                    <img src="/objectboard/showfile.html?p_forma=${ rq_format }&p_unit=${ rq_companyNumber }&p_archivo=1" class="img-fluid" alt="Theme-Logo" width="35" height="45">&nbsp;&nbsp;
                     <%-- <img class="img-fluid" src="${propert-pathcomplements}img/${ propert-defaultlogoname }" alt="Theme-Logo" width="35" height="45" />&nbsp;&nbsp;--%>
                 <%--</jstl:when>
                 <jstl:otherwise>
@@ -94,7 +94,7 @@
                 <li class="user-profile header-notification">
                     <a href="#!" class="waves-effect waves-light">
                         <jstl:if test="${ jsp_ShowImage.equals('YES') }">
-                            <img src="/objectboard/showfileimage.html" class="img-radius" alt="User-Profile-Image">
+                            <img src="/objectboard/showfile.html" class="img-radius" alt="User-Profile-Image">
                         </jstl:if>
                         <jstl:remove var="jsp_ShowImage"/>
                         <span><jstl:out value="${ rq_userName }">Lost Value</jstl:out></span>

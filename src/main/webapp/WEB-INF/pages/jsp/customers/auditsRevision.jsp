@@ -80,17 +80,19 @@
     if(request.getParameter("p_assign")!=null) {
         assign = request.getParameter("p_assign");
     }
-    condicion = assign.replace("@","_");
-    condicion = condicion.replace(".","_") + "_" + Integer.parseInt(company_number);
+    //condicion = assign.replace("@","_");
+    //condicion = condicion.replace(".","_") + "_" + Integer.parseInt(company_number);
     OtherFunctions of = new OtherFunctions();
 
-    String dir_img = "";
-    String dir_doc = "";
-    String directorio_gral = "";
+    //String dir_img = "";
+    //String dir_doc = "";
+    String dir_img = of.searchLink("4");
+    String dir_doc = of.searchLink("4");
+    String directorio_gral = of.searchLink("3") + "/img/";
 
     //String directorio_user = user_email.replace("@","_");
     //directorio_user = directorio_user.replace(".","_");
-    if (format == 2) {
+    /*if (format == 2) {
         dir_img = of.searchLink("4") + condicion;
         dir_doc = of.searchLink("4") + condicion;
         directorio_gral = of.searchLink("3") + "/img/";
@@ -102,7 +104,7 @@
         of.CrearDirectorio(dir_img);
         dir_img = dir_img + "/";
         dir_doc = dir_doc + "/";
-    }
+    }*/
 
     String conduct_id = null;
     if(request.getParameter("p_conduct_id")!=null) {
@@ -347,8 +349,11 @@ start ############################### Pre-loader ###############################
                                         <div class="col-sm-5">
                                             <%if (!questions.get(x).getAnnexType().equals("0")){
                                                 ctaLinea =  ctaLinea + 1; %>
-                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
-                                                    dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %>
+                                            <%--<% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
+                                                    dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %>--%>
+                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
+                                                    ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
+                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
                                             <%}%>
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -391,8 +396,11 @@ start ############################### Pre-loader ###############################
                                         <div class="col-sm-5">
                                             <%if (!questions.get(x).getAnnexType().equals("0")){
                                                 ctaLinea =  ctaLinea + 1; %>
-                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
-                                                    dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %>
+                                            <%--%><% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
+                                                    dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
+                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
+                                                    ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
+                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
                                             <%}%>
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -436,8 +444,11 @@ start ############################### Pre-loader ###############################
                                         <div class="col-sm-5">
                                             <%if (!questions.get(x).getAnnexType().equals("0")){
                                                 ctaLinea =  ctaLinea + 1; %>
-                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
-                                                    dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %>
+                                            <%-- <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
+                                                    dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
+                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
+                                                    ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
+                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
                                             <%}%>
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -599,8 +610,11 @@ start ############################### Pre-loader ###############################
                                             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                             <div class="custom-file mb-3">
                                                 Validate document file:
-                                                <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),ejecuciones.get(x).getBcsNameAnnexFile(),
-                                                        dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %>
+                                                <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),directorio_gral,format,company_number,
+                                                        ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
+                                                        ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
+                                                <%-- <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),ejecuciones.get(x).getBcsNameAnnexFile(),
+                                                        dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
                                                 <%-- <% if (format==2){%>
                                                 <a href='<%= dir_doc %><%= ejecuciones.get(x).getBcsNameAnnexFile() %>' title="View Document" >
                                                     <img src="<%= directorio_gral %>document_gral.png" alt="Profile-document" width="100" height="60" border="1">
@@ -623,8 +637,11 @@ start ############################### Pre-loader ###############################
                                             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                             <div class="custom-file mb-3">
                                                 Validate image file:
-                                                <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),ejecuciones.get(x).getBcsNameAnnexFile(),
-                                                        dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %>
+                                                <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),directorio_gral,format,company_number,
+                                                        ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
+                                                        ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
+                                                <%-- <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),ejecuciones.get(x).getBcsNameAnnexFile(),
+                                                        dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
                                                 <%-- <%if (format == 2){%>
                                                     <a href='<%= dir_img %><%= ejecuciones.get(x).getBcsNameAnnexFile() %>' title="View Image" >
                                                         <img src="<%= directorio_gral %>image_gral.jpg" alt="Profile-image" width="100" height="60" border="1">

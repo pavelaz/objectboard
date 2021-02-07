@@ -46,6 +46,7 @@ public class ImagenShowFileServlet extends HttpServlet {
             archivo = request.getParameter("p_archivo");
         }
 
+        // archivo = null  --> Archivo: MasterUser
         if (unidad != null && correo != null){
 
             MasterUserDAO photoDto = new MasterUserDAO();
@@ -63,8 +64,26 @@ public class ImagenShowFileServlet extends HttpServlet {
             System.out.println("Foto puesta en HTML");
         }
 
-        // archivo Bussiness unit
+        // archivo = "1"  --> Archivo: Bussiness unit
         if (archivo.equals("1")){
+
+            BussinessUnitDAO photoDto = new BussinessUnitDAO();
+            photoDto.setDataUser(data_user);
+            photoDto.setDataPassword(data_pasword);
+
+            BussinessUnitVO photoVO = photoDto.serchBussinessUnitDAO(unidad);
+
+            FilesController filesController = new FilesController();
+
+            ServletOutputStream outputStream = null;
+            String presenta = "image/" + forma;
+            outputStream = filesController.blobToDifferentFormats(response,photoVO.getBuLogoImageByte(),presenta);
+
+            System.out.println("Logo puesto en HTML");
+        }
+
+        // archivo = "2"  --> Archivo: Bussiness unit
+        if (archivo.equals("2")){
 
             BussinessUnitDAO photoDto = new BussinessUnitDAO();
             photoDto.setDataUser(data_user);
