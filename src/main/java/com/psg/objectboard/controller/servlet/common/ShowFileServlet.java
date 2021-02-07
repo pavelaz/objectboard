@@ -107,10 +107,12 @@ public class ShowFileServlet extends HttpServlet {
             FilesController filesController = new FilesController();
 
             ServletOutputStream outputStream = null;
+
             if (forma == null){
                 OtherFunctions of = new OtherFunctions();
                 forma = of.buscaExtencionFiles(photoVO.getBuLogoName(),unidad);
             }
+
             String presenta = "image/" + forma;
             outputStream = filesController.blobToDifferentFormats(response,photoVO.getBuLogoImageByte(),presenta);
 
