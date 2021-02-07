@@ -12,7 +12,7 @@
         function send_report(num){
             //alert("paso");
             // server_angular = "http://192.168.1.245:4200";
-            var server_angular = "http://192.168.1.245:4300";
+            var server_angular = "http://localhost:4300";
 
             var datos ="<jstl:out value='${ rq_dataUser }'>Lost Value</jstl:out>" + "/" +
                 "<jstl:out value='${ rq_dataPassword }'>Lost Value</jstl:out>" + "/" +
