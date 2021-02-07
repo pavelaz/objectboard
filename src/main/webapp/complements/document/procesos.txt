@@ -62,7 +62,25 @@ http://localhost:8084/objectboard/signin
 
 ##########  Angular  #####################
 
+como correr environment:
 
+Para someter en perfil desarrollo:
+ng serve --host 0.0.0.0 --port 4300
+
+Para someter el perfil de test:
+ng serve -c app_test --host 0.0.0.0 --port 4300
+
+Para someter el perfil de produccion:
+ng serve -c production --host 0.0.0.0 --port 4300
+
+
+Para generar compilado Nginx:
+
+Modo Produccion:
+ng build --prod --base-href "/objectboard/"
+
+Modo Produccion-Test
+ng build -c app_test --base-href "/objectboard/"
 
 
 
