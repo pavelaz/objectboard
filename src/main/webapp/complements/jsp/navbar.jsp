@@ -193,7 +193,7 @@
                                     <jstl:forTokens var="k" items="${ jsp_reposrt1Option }" delims=".">
                                         <jstl:if test="${ k.substring(0,1).equals('1') }">
                                             <li class=" ">
-                                            <a onclick="send_report(2.1, ${ propert-ipnodejsangular })" class="waves-effect waves-dark">
+                                            <a onclick="send_report(2.1)" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Organization</span>
                                                 <span class="pcoded-mcaret"></span>
@@ -202,7 +202,7 @@
                                         </jstl:if>
                                         <jstl:if test="${ k.substring(0,1).equals('2') }">
                                             <li class=" ">
-                                                <a onclick="send_report(2.2, ${ propert-ipnodejsangular })" class="waves-effect waves-dark">
+                                                <a onclick="send_report(2.2)" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                     <span class="pcoded-mtext">Typified</span>
                                                     <span class="pcoded-mcaret"></span>
@@ -211,7 +211,7 @@
                                         </jstl:if>
                                         <jstl:if test="${ k.substring(0,1).equals('3') }">
                                             <li class=" ">
-                                                <a onclick="send_report(2.3, ${ propert-ipnodejsangular })" class="waves-effect waves-dark">
+                                                <a onclick="send_report(2.3)" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                     <span class="pcoded-mtext">Certifications</span>
                                                     <span class="pcoded-mcaret"></span>
@@ -233,7 +233,7 @@
                                     <jstl:forTokens var="k" items="${ jsp_reposrt2Option }" delims=".">
                                         <jstl:if test="${ k.substring(0,1).equals('1') }">
                                             <li class=" ">
-                                                <a onclick="send_report(1.3, ${ propert-ipnodejsangular })" class="waves-effect waves-dark">
+                                                <a onclick="send_report(1.3)" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                     <span class="pcoded-mtext">Survey</span>
                                                     <span class="pcoded-mcaret"></span>
@@ -242,7 +242,7 @@
                                         </jstl:if>
                                         <jstl:if test="${ k.substring(0,1).equals('2') }">
                                             <li class=" ">
-                                            <a onclick="send_report(1.2, ${ propert-ipnodejsangular })" class="waves-effect waves-dark">
+                                            <a onclick="send_report(1.2)" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Assignment</span>
                                                 <span class="pcoded-mcaret"></span>
@@ -251,7 +251,7 @@
                                         </jstl:if>
                                         <jstl:if test="${ k.substring(0,1).equals('3') }">
                                             <li class=" ">
-                                            <a onclick="send_report(1.4, ${ propert-ipnodejsangular })" class="waves-effect waves-dark">
+                                            <a onclick="send_report(1.4)" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Consult Survey</span>
                                                 <span class="pcoded-mcaret"></span>
@@ -260,7 +260,7 @@
                                         </jstl:if>
                                         <jstl:if test="${ k.substring(0,1).equals('4') }">
                                             <li class="">
-                                            <a onclick="send_report(1.5, ${ propert-ipnodejsangular })" class="waves-effect waves-dark">
+                                            <a onclick="send_report(1.5)" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Audit</span>
                                                 <span class="pcoded-mcaret"></span>

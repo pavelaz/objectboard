@@ -9,10 +9,9 @@
             document.forma.action="/objectboard/logout"; // esto llama la serlet
             document.forma.submit();
         }
-        function send_report(num, host){
+        function send_report(num){
             //alert("paso");
-            // server_angular = "http://192.168.1.245:4200";
-            //var server_angular = "http://localhost:4300";
+            var server_angular = "http://localhost:4300";
 
             var datos ="<jstl:out value='${ rq_dataUser }'>Lost Value</jstl:out>" + "/" +
                 "<jstl:out value='${ rq_dataPassword }'>Lost Value</jstl:out>" + "/" +
@@ -26,7 +25,7 @@
                     var caption_table = "Information";
                     var footer_table = "Pdf processes pending to be executed.";
 
-                    document.form_send.action = host/*server_angular*/ + "/pdf/" + datos + "/" +
+                    document.form_send.action = server_angular + "/pdf/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                 }
                 if (num == 1.2){
@@ -34,7 +33,7 @@
                     var caption_table = "Information";
                     var footer_table = "Assignment processes pending to be executed.";
 
-                    document.form_send.action = host/*server_angular*/ + "/assignmentsReport/" + datos + "/" +
+                    document.form_send.action = server_angular + "/assignmentsReport/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                 }
                 if (num == 1.3){
@@ -42,7 +41,7 @@
                     var caption_table = "Information";
                     var footer_table = "Survey processes pending to be executed.";
 
-                    document.form_send.action = host/*server_angular*/ + "/headersPollsReport/" + datos + "/" +
+                    document.form_send.action = server_angular + "/headersPollsReport/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                 }
                 if (num == 1.4){
@@ -50,7 +49,7 @@
                     var caption_table = "Information";
                     var footer_table = "Conduct processes pending to be executed.";
 
-                    document.form_send.action = host/*server_angular*/ + "/conductsReport/" + datos + "/" +
+                    document.form_send.action = server_angular + "/conductsReport/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                 }
                 if (num == 1.5){
@@ -58,7 +57,7 @@
                     var caption_table = "Information";
                     var footer_table = "Audit processes pending to be executed.";
 
-                    document.form_send.action = host/*server_angular*/ + "/auditsReport/" + datos + "/" +
+                    document.form_send.action = server_angular + "/auditsReport/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                                     }
 
@@ -67,7 +66,7 @@
                     var caption_table = "Information";
                     var footer_table = "Organizations processes pending to be executed.";
 
-                    document.form_send.action = host/*server_angular*/ + "/organizationsReport/" + datos + "/" +
+                    document.form_send.action = server_angular + "/organizationsReport/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                 }
                 if (num == 2.2){
@@ -75,7 +74,7 @@
                     var caption_table = "Information";
                     var footer_table = "Typified processes pending to be executed.";
 
-                    document.form_send.action = host/*server_angular*/ + "/typifiedsReport/" + datos + "/" +
+                    document.form_send.action = server_angular + "/typifiedsReport/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                 }
                 if (num == 2.3){
@@ -83,7 +82,7 @@
                     var caption_table = "Information";
                     var footer_table = "Certification processes pending to be executed.";
 
-                    document.form_send.action = host/*server_angular*/ + "/certificationsReport/" + datos + "/" +
+                    document.form_send.action = server_angular + "/certificationsReport/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                 }
             document.form_send.submit();
