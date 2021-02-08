@@ -9,7 +9,7 @@
             document.forma.action="/objectboard/logout"; // esto llama la serlet
             document.forma.submit();
         }
-        function send_report(num){
+        function send_report(num, host){
             //alert("paso");
             // server_angular = "http://192.168.1.245:4200";
             var server_angular = "http://localhost:4300";
@@ -26,7 +26,7 @@
                     var caption_table = "Information";
                     var footer_table = "Pdf processes pending to be executed.";
 
-                    document.form_send.action = server_angular + "/pdf/" + datos + "/" +
+                    document.form_send.action = host/*server_angular*/ + "/pdf/" + datos + "/" +
                         title_report + "/" + caption_table + "/" + footer_table;
                 }
                 if (num == 1.2){

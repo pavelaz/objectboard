@@ -193,7 +193,7 @@
                                     <jstl:forTokens var="k" items="${ jsp_reposrt1Option }" delims=".">
                                         <jstl:if test="${ k.substring(0,1).equals('1') }">
                                             <li class=" ">
-                                            <a onclick="send_report(2.1)" class="waves-effect waves-dark">
+                                            <a onclick="send_report(2.1, ${ propert-ipnodejsangular })" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Organization</span>
                                                 <span class="pcoded-mcaret"></span>
