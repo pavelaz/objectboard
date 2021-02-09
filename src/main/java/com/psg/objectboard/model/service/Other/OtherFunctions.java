@@ -2,6 +2,9 @@ package com.psg.objectboard.model.service.Other;
 
 import com.psg.objectboard.batch.App;
 import com.psg.objectboard.controller.common.FilesController;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.HeaderConductSurveyDAO;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.HeaderConductSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 
@@ -832,7 +835,7 @@ public class OtherFunctions {
         return none;
     }*/
     public String valida_tipoArchivo(Integer ctaLinea,String annexType, String directorio_gral, Integer format,
-                                     String company,Long id,Long question,Long survey){
+                                     String company,Long id,Long question,Long survey,String userEmail,String sumario){
         String none = "";
         if (ctaLinea == 1){
             if (annexType.equals("1")){
@@ -848,13 +851,13 @@ public class OtherFunctions {
         if (ctaLinea == 2) {
             if (annexType.equals("1")) {
                 if(format == 2) {
-                    // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                    //file.writerFileInFolder(archivo,dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
-                    //ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
-                    //this.writerInFolderFiles( ruta,archivo);
+                    /* Crea el archivo fisicamente en la direccion y con el nombre indicado
+                    file.writerFileInFolder(archivo,dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
+                    ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
+                    this.writerInFolderFiles( ruta,archivo);
                     //
-                    //none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
-                    //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" >\n";
+                    none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
+                    none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" >\n";*/
                     ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
                            "&p_question=" + question + "&p_survey=" + survey;
                     none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Document\" >\n";
@@ -867,22 +870,30 @@ public class OtherFunctions {
                 }
             } else {
                 if(format == 2) {
-                    // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                    //file.writerFileInFolder(archivo,dir_img + prefijo + nameAnnexFile.replace(" ","_"));
-                    //ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
-                    //this.writerInFolderFiles( ruta,archivo);
+                    /* Crea el archivo fisicamente en la direccion y con el nombre indicado
+                    ile.writerFileInFolder(archivo,dir_img + prefijo + nameAnnexFile.replace(" ","_"));
+                    ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
+                    this.writerInFolderFiles( ruta,archivo);
                     //
-                    //none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
-                    //none = none + "<a href='" + dir_img  + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\" >\n";
-
+                    none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
+                    none = none + "<a href='" + dir_img  + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\" >\n";*/
+                    /*ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
+                            "&p_question=" + question + "&p_survey=" + survey;*/
                     try {
-                        ruta = this.searchLink("8") + "/cardImage/" + company + "&p_archivo=2&p_conduct=" + id +
-                                "&p_question=" + question + "&p_survey=" + survey;
+                        MasterUserVO muv = null;
+                        MasterUserDAO mud = new MasterUserDAO();
+                        muv = mud.serchMasterUserDAO(userEmail,company);
+                        //  Primer link
+                        ruta = this.searchLink("8") + "/cardImage/" + muv.getMuName() + "/Auditor/" + sumario + "/";
+                        ruta = ruta + "#objectboard#showfile.html?" + "p_unit=" + company + "&p_email=" + userEmail;
+                        ruta = ruta + "&p_dataUser=" + muv.getMuDataUser() + "&p_dataPassword=" + muv.getMuDataPassword() + "/";
+                        // Segundo link
+                        ruta = ruta + "#objectboard#showfile.html?p_unit=" + company + "&p_archivo=2&p_dataUser=" + muv.getMuDataUser();
+                        ruta = ruta + "&p_dataPassword=" + muv.getMuDataPassword() + "&p_survey=" + survey + "&p_question=" + question;
+                        ruta = ruta + "&p_conduct=" + id + "/";
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    /*ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
-                            "&p_question=" + question + "&p_survey=" + survey;*/
                     none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Image\"  >\n";
                     none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
                     none = none + "</a>\n";
@@ -897,23 +908,38 @@ public class OtherFunctions {
     }
 
     public String validacionGral_tipoArchivo(Integer type_request,String directorio_gral,Integer format,
-                                             String company,Long id,Long question,Long survey)  {
+                                             String company,Long id,Long question,Long survey,String userEmail,String sumario)  {
         String none = "";
-        String prefijo = this.buscaPrefijoToFiles(company);
         String ruta = null;
         //FilesController file = new FilesController();
+        //String prefijo = this.buscaPrefijoToFiles(company);
 
         if (type_request == 5) {
             if (format == 2) {
-                // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                //file.writerFileInFolder(archivo, dir_img + prefijo + nameAnnexFile.replace(" ","_"));
-                /*ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
-                this.writerInFolderFiles( ruta,archivo);*/
+                /* Crea el archivo fisicamente en la direccion y con el nombre indicado
+                file.writerFileInFolder(archivo, dir_img + prefijo + nameAnnexFile.replace(" ","_"));
+                ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
+                this.writerInFolderFiles( ruta,archivo);
                 //
-                ///none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
-                //none = none + "<a href='" + dir_img + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\">\n";
+                none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
+                none = none + "<a href='" + dir_img + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\">\n";
                 ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
-                        "&p_question=" + question + "&p_survey=" + survey;
+                        "&p_question=" + question + "&p_survey=" + survey;*/
+                try {
+                    MasterUserVO muv = null;
+                    MasterUserDAO mud = new MasterUserDAO();
+                    muv = mud.serchMasterUserDAO(userEmail,company);
+                    //  Primer link
+                    ruta = this.searchLink("8") + "/cardImage/" + muv.getMuName() + "/Auditor/" + sumario + "/";
+                    ruta = ruta + "#objectboard#showfile.html?" + "p_unit=" + company + "&p_email=" + userEmail;
+                    ruta = ruta + "&p_dataUser=" + muv.getMuDataUser() + "&p_dataPassword=" + muv.getMuDataPassword() + "/";
+                    // Segundo link
+                    ruta = ruta + "#objectboard#showfile.html?p_unit=" + company + "&p_archivo=2&p_dataUser=" + muv.getMuDataUser();
+                    ruta = ruta + "&p_dataPassword=" + muv.getMuDataPassword() + "&p_survey=" + survey + "&p_question=" + question;
+                    ruta = ruta + "&p_conduct=" + id + "/";
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Image\" >\n";
                 none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
                 none = none + "</a>\n";
@@ -924,13 +950,13 @@ public class OtherFunctions {
             }
         }else{
             if (format == 2) {
-                // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                //file.writerFileInFolder(archivo, dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
-                //ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
-                //this.writerInFolderFiles( ruta,archivo);
+                /* Crea el archivo fisicamente en la direccion y con el nombre indicado
+                file.writerFileInFolder(archivo, dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
+                ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
+                this.writerInFolderFiles( ruta,archivo);
                 //
-                //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" target=\"_blank\">\n"; -->
-                //none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
+                none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" target=\"_blank\">\n"; -->
+                none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";*/
                 ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
                         "&p_question=" + question + "&p_survey=" + survey;
                 none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Document\" >\n";

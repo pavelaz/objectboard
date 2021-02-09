@@ -20,7 +20,7 @@
     String data_user = (String)objSesion.getAttribute("dataUser");
     String data_pasword = (String)objSesion.getAttribute("dataPassword");
     String company_number = (String)objSesion.getAttribute("companyNumber");
-    //String user_email = (String)objSesion.getAttribute("userEmail");
+    String user_email = (String)objSesion.getAttribute("userEmail");
 
     String code = null;
     if(request.getParameter("p_survey")!=null) {
@@ -353,7 +353,7 @@ start ############################### Pre-loader ###############################
                                                     dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %>--%>
                                             <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
                                                     ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
-                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
+                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
                                             <%}%>
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -400,7 +400,7 @@ start ############################### Pre-loader ###############################
                                                     dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
                                             <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
                                                     ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
-                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
+                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
                                             <%}%>
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -448,7 +448,7 @@ start ############################### Pre-loader ###############################
                                                     dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
                                             <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
                                                     ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
-                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
+                                                    ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
                                             <%}%>
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -612,7 +612,7 @@ start ############################### Pre-loader ###############################
                                                 Validate document file:
                                                 <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),directorio_gral,format,company_number,
                                                         ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
-                                                        ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
+                                                        ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
                                                 <%-- <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),ejecuciones.get(x).getBcsNameAnnexFile(),
                                                         dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
                                                 <%-- <% if (format==2){%>
@@ -639,7 +639,7 @@ start ############################### Pre-loader ###############################
                                                 Validate image file:
                                                 <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),directorio_gral,format,company_number,
                                                         ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
-                                                        ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode())); %>
+                                                        ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
                                                 <%-- <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),ejecuciones.get(x).getBcsNameAnnexFile(),
                                                         dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
                                                 <%-- <%if (format == 2){%>
