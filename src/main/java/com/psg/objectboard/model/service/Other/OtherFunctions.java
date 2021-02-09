@@ -132,6 +132,11 @@ public class OtherFunctions {
             none = vProp.getProperty("propert-defaultlogoname");
             return none;
         }
+        // Servidor Angular
+        if (valor.equals("8")){
+            none = vProp.getProperty("propert-ipnodejsangular");
+            return none;
+        }
         return vProp.getProperty("propert-pathuserhome");
     }
 
@@ -869,8 +874,15 @@ public class OtherFunctions {
                     //
                     //none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
                     //none = none + "<a href='" + dir_img  + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\" >\n";
-                    ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
-                            "&p_question=" + question + "&p_survey=" + survey;
+
+                    try {
+                        ruta = this.searchLink("8") + "/cardImage/" + company + "&p_archivo=2&p_conduct=" + id +
+                                "&p_question=" + question + "&p_survey=" + survey;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    /*ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
+                            "&p_question=" + question + "&p_survey=" + survey;*/
                     none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Image\"  >\n";
                     none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
                     none = none + "</a>\n";
@@ -881,6 +893,56 @@ public class OtherFunctions {
                 }
             }
         }
+        return none;
+    }
+
+    public String validacionGral_tipoArchivo(Integer type_request,String directorio_gral,Integer format,
+                                             String company,Long id,Long question,Long survey)  {
+        String none = "";
+        String prefijo = this.buscaPrefijoToFiles(company);
+        String ruta = null;
+        //FilesController file = new FilesController();
+
+        if (type_request == 5) {
+            if (format == 2) {
+                // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                //file.writerFileInFolder(archivo, dir_img + prefijo + nameAnnexFile.replace(" ","_"));
+                /*ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
+                this.writerInFolderFiles( ruta,archivo);*/
+                //
+                ///none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
+                //none = none + "<a href='" + dir_img + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\">\n";
+                ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
+                        "&p_question=" + question + "&p_survey=" + survey;
+                none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Image\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            } else {
+                none = none + "<a href='#!' title=\"View Image\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            }
+        }else{
+            if (format == 2) {
+                // Crea el archivo fisicamente en la direccion y con el nombre indicado
+                //file.writerFileInFolder(archivo, dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
+                //ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
+                //this.writerInFolderFiles( ruta,archivo);
+                //
+                //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" target=\"_blank\">\n"; -->
+                //none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
+                ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
+                        "&p_question=" + question + "&p_survey=" + survey;
+                none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Document\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            } else {
+                none = none + "<a href='#!' title=\"View Document\" >\n";
+                none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
+                none = none + "</a>\n";
+            }
+        }
+
         return none;
     }
 
@@ -898,7 +960,7 @@ public class OtherFunctions {
 
             byte[] buffer = new byte[1024];
             while (input.read(buffer) > 0) {
-                    output.write(buffer);
+                output.write(buffer);
             }
 
             System.out.println("\nSaved to file: " + theFile.getAbsolutePath());
@@ -962,55 +1024,6 @@ public class OtherFunctions {
 
         return none;
     }*/
-    public String validacionGral_tipoArchivo(Integer type_request,String directorio_gral,Integer format,
-                                             String company,Long id,Long question,Long survey)  {
-        String none = "";
-        String prefijo = this.buscaPrefijoToFiles(company);
-        String ruta = null;
-        //FilesController file = new FilesController();
-
-        if (type_request == 5) {
-            if (format == 2) {
-                // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                //file.writerFileInFolder(archivo, dir_img + prefijo + nameAnnexFile.replace(" ","_"));
-                /*ruta = dir_img + prefijo + nameAnnexFile.replace(" ","_");
-                this.writerInFolderFiles( ruta,archivo);*/
-                //
-                ///none = none + "<a href='#!' title=\"View Image\" onClick=document_view('" + ruta + "') >\n";
-                //none = none + "<a href='" + dir_img + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Image\" target=\"_blank\">\n";
-                ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
-                        "&p_question=" + question + "&p_survey=" + survey;
-                none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Image\" >\n";
-                none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
-                none = none + "</a>\n";
-            } else {
-                none = none + "<a href='#!' title=\"View Image\" >\n";
-                none = none + "<img src=\"" + directorio_gral + "image_gral.jpg\" alt=\"Profile-image\" width=\"100\" height=\"60\" border=\"1\">\n";
-                none = none + "</a>\n";
-            }
-        }else{
-            if (format == 2) {
-                // Crea el archivo fisicamente en la direccion y con el nombre indicado
-                //file.writerFileInFolder(archivo, dir_doc + prefijo + nameAnnexFile.replace(" ","_"));
-                //ruta = dir_doc + prefijo + nameAnnexFile.replace(" ","_");
-                //this.writerInFolderFiles( ruta,archivo);
-                //
-                //none = none + "<a href='" + dir_doc + prefijo + nameAnnexFile.replace(" ","_") + "' title=\"View Document\" target=\"_blank\">\n"; -->
-                //none = none + "<a href='#!' title=\"View Document\" onClick=document_view('" + ruta + "') >\n";
-                ruta = "showfile.html?p_unit=" + company + "&p_archivo=2&p_conduct=" + id +
-                        "&p_question=" + question + "&p_survey=" + survey;
-                none = none + "<a  href='" + ruta + "' target='_blank' title=\"View Document\" >\n";
-                none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
-                none = none + "</a>\n";
-            } else {
-                none = none + "<a href='#!' title=\"View Document\" >\n";
-                none = none + "<img src=\"" + directorio_gral + "document_gral.png\" alt=\"Profile-document\" width=\"100\" height=\"60\" border=\"1\">\n";
-                none = none + "</a>\n";
-            }
-        }
-
-        return none;
-    }
 
     public String valida_mensaFiletype(String annexType){
         String none = "";
