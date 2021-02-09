@@ -27,9 +27,9 @@ public class ShowFileServlet extends HttpServlet {
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
 
         // Cuando invoco la servlet desde Angular, no estoy en session JAVA, debo pasar yo mismo.
-        if ((objSesion.getAttribute("dataUser") == null) && (objSesion.getAttribute("dataUser") == null)) {
-            data_user = request.getParameter("du");
-            data_pasword = request.getParameter("dp");
+        if (data_user == null && data_pasword == null) {
+            data_user = request.getParameter("p_dataUser");
+            data_pasword = request.getParameter("p_dataPassword");
         }
 
         //  si es png, jpeg, etc...
@@ -88,6 +88,10 @@ public class ShowFileServlet extends HttpServlet {
 
             FilesController filesController = new FilesController();
 
+            if (forma == null){
+                OtherFunctions of = new OtherFunctions();
+                forma = of.buscaExtencionFiles(photoVO.getMuPhotoName(),unidad);
+            }
             ServletOutputStream outputStream = null;
             String presenta = "image/" + forma;
             outputStream = filesController.blobToDifferentFormats(response,photoVO.getMuPhotoByte(),presenta);
