@@ -885,12 +885,11 @@ public class OtherFunctions {
                         muv = mud.serchMasterUserDAO(userEmail,company);
                         //  Primer link
                         ruta = this.searchLink("8") + "/cardImage/" + muv.getMuName() + "/Auditor/" + sumario + "/";
-                        ruta = ruta + "#objectboard#showfile.html?" + "p_unit=" + company + "&p_email=" + userEmail;
-                        ruta = ruta + "&p_dataUser=" + muv.getMuDataUser() + "&p_dataPassword=" + muv.getMuDataPassword() + "/";
+                        ruta = ruta + muv.getMuDataUser() + "/" + muv.getMuDataPassword() + "/";
+                        ruta = ruta + company + "/" + userEmail + "/";
+                        //ruta = ruta + "&p_dataUser=" + muv.getMuDataUser() + "&p_dataPassword=" + muv.getMuDataPassword() + "/";
                         // Segundo link
-                        ruta = ruta + "#objectboard#showfile.html?p_unit=" + company + "&p_archivo=2&p_dataUser=" + muv.getMuDataUser();
-                        ruta = ruta + "&p_dataPassword=" + muv.getMuDataPassword() + "&p_survey=" + survey + "&p_question=" + question;
-                        ruta = ruta + "&p_conduct=" + id + "/";
+                        ruta = ruta + "2" + "/" + survey + "/" + question + "/" + id + "/";
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -931,12 +930,11 @@ public class OtherFunctions {
                     muv = mud.serchMasterUserDAO(userEmail,company);
                     //  Primer link
                     ruta = this.searchLink("8") + "/cardImage/" + muv.getMuName() + "/Auditor/" + sumario + "/";
-                    ruta = ruta + "#objectboard#showfile.html?" + "p_unit=" + company + "&p_email=" + userEmail;
-                    ruta = ruta + "&p_dataUser=" + muv.getMuDataUser() + "&p_dataPassword=" + muv.getMuDataPassword() + "/";
+                    ruta = ruta + muv.getMuDataUser() + "/" + muv.getMuDataPassword() + "/";
+                    ruta = ruta + company + "/" + userEmail + "/";
+                    //ruta = ruta + "&p_dataUser=" + muv.getMuDataUser() + "&p_dataPassword=" + muv.getMuDataPassword() + "/";
                     // Segundo link
-                    ruta = ruta + "#objectboard#showfile.html?p_unit=" + company + "&p_archivo=2&p_dataUser=" + muv.getMuDataUser();
-                    ruta = ruta + "&p_dataPassword=" + muv.getMuDataPassword() + "&p_survey=" + survey + "&p_question=" + question;
-                    ruta = ruta + "&p_conduct=" + id + "/";
+                    ruta = ruta + "2" + "/" + survey + "/" + question + "/" + id + "/";
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
