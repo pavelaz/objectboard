@@ -2,5 +2,12 @@ Perfil de usuario:
 http://localhost:8084/objectboard/showfile.html?p_forma=png&p_unit=2&p_email=pavelaz1@gmail.com&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@
 http://localhost:8084/objectboard/showfile.html?p_unit=2&p_archivo=2&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@&p_survey=32&p_question=185&p_conduct=74
 
-http://localhost:8084/objectboard/showfile.html?p_forma=png&p_unit=2&p_email=rodriquez.alex@gmail.com&p_dataUser=NSKMA0E5&p_dataPassword=9s75JBvKMXamiF87
-http://localhost:8084/objectboard/showfile.html?p_unit=2&p_archivo=2&p_dataUser=NSKMA0E5&p_dataPassword=9s75JBvKMXamiF87&p_survey=36&p_question=195&p_conduct=62
+
+localhost:4300/cardImage/Alex/Ing./summary/
+#objectboard#showfile.html?p_forma=png&p_unit=2&p_email=pavelaz1@gmail.com&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@/
+#objectboard#showfile.html?p_unit=2&p_archivo=2&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@&p_survey=32&p_question=185&p_conduct=74/
+
+generado:
+localhost:4300/cardImage/Paul Velazquez Martinez Gala/Auditor/img/
+#objectboard#showfile.html?p_unit=2&p_email=pavelaz1@gmail.com&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@/
+#objectboard#showfile.html?p_unit=2&p_archivo=2&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@&p_survey=32&p_question=204&p_conduct=74/
