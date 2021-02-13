@@ -1,6 +1,7 @@
 package com.psg.objectboard.controller.servlet;
 
 import com.psg.objectboard.controller.common.FilesController;
+import com.psg.objectboard.controller.common.ImageResizer;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
@@ -306,7 +307,12 @@ public class UserProfileServlet extends HttpServlet {
                 file_imagen = request.getPart("p_file");
                 InputStream is = file_imagen.getInputStream();
                 f = new File(of.searchLink("4") + master_user_dto.getMuPhotoName());
-                OtherFunctions.subirArchivos(is, f);
+                File ff = new File(of.searchLink("4") + "copia_" + master_user_dto.getMuPhotoName());
+                OtherFunctions.subirArchivos(is, ff);
+                ImageResizer imarez = new ImageResizer();
+                imarez.copyImage(of.searchLink("4") + "copia_" + master_user_dto.getMuPhotoName(),
+                        of.searchLink("4") + master_user_dto.getMuPhotoName(),600,600);
+                of.eliminarFichero(ff);
                 master_user_dto.setRuta_imagen(of.searchLink("4") + file_name);
             }
         }

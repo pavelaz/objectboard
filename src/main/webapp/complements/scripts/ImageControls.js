@@ -5,18 +5,19 @@ etiqueta <img> con una nueva, Todo esto en funcion de si una etiqueta input tipo
 function filePreview(input) {
     var oldPhoto = document.getElementById('oldPhoto');
     var filePath = input.value;
-    var allowedExtensions = /(\.jpg|\.png)$/i;
+    var allowedExtensions = /(\.jpg|\.png|\.jpeg)$/i;
     if (!allowedExtensions.exec(filePath)) {
-        alert("Please upload file having extensions .jpg/ .png/ only.");
+        alert("Please upload file having extensions .jpg/ .png/ .jpeg/ only.");
         input.value = "";
         return false;
     }else{
         if (input.files[0].size > (1024 * 1024 * 1)){ // 1024 * 1024 * 1,= 1 MB)
-            alert("Please upload a photo not exceeding 1 Mb.");
-            input.value = "";
-            return false;
+            alert("Please upload a photo not exceeding 1 Mb.\n" +
+            "its dimensions will be changed to a 600 x 600 pixel image.");
+            //input.value = "";
+            //return false;
         }
-        else{
+        /*else{
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 var image = new Image();
@@ -26,18 +27,19 @@ function filePreview(input) {
                     image.onload = function (){
                         var height = this.height;
                         var width = this.width;
-                        if ( 500 > height &&  500 > width){
+                        if ( 600 > height &&  600 > width){
                             oldPhoto.remove();
                             //alert("Height and Width must not exceed a Photo the."+height+" "+width);
                             $('#file').before('<img id="oldPhoto" name="oldPhoto" class="img-thumbnail" alt="Photo Profile" src="' + e.target.result + '" width="100" height="120" /> &nbsp');
                             return false;
                         }
-                        alert("Uploaded image has valid Height and Width 500x500");
+                        alert("Uploaded image has valid Height and Width 600 x 600");
                         return true;
                     }
                 }
                 reader.readAsDataURL(input.files[0]);
             }
-        }
+        }*/
+        return true;
     }
 }

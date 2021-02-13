@@ -1,6 +1,7 @@
 package com.psg.objectboard.controller.servlet;
 
 import com.psg.objectboard.controller.common.FilesController;
+import com.psg.objectboard.controller.common.ImageResizer;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessUnitVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
@@ -146,14 +147,14 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                 }
                 /*if(request.getParameter("p_file_ant")!=null){
                     file_name_ant=(request.getParameter("p_file_ant"));
-                }*/
+                }
 
-                /*Start*********************AddPhoto to Object master_user_dto *********/
-                /*if (request.getPart("p_file") != null){
+                Start*********************AddPhoto to Object master_user_dto *********
+                if (request.getPart("p_file") != null){
                     FilesController filesController = new FilesController();
                     file_dir = filesController.updateFile(request, (1024 * 1024 * 10),"p_file"); // 1024 * 1024 * 1,= 1 MB
                     file_name = filesController.getNameFile(request.getPart("p_file"));
-                }*/
+                }
                 /*End*********************AddPhoto to Object master_user_dto *********/
 
                 if(request.getPart("p_file")!=null){
@@ -168,7 +169,12 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                         InputStream is = file_imagen.getInputStream();
                         //File f = new File(path + primaryDirectory + codo.getBuLogoName());
                         f = new File(of.searchLink("4") + codo.getBuLogoName());
-                        OtherFunctions.subirArchivos(is, f);
+                        File ff = new File(of.searchLink("4") + "copia_" + codo.getBuLogoName());
+                        OtherFunctions.subirArchivos(is, ff);
+                        ImageResizer imarez = new ImageResizer();
+                        imarez.copyImage(of.searchLink("4") + "copia_" + codo.getBuLogoName(),
+                                of.searchLink("4") + codo.getBuLogoName(),432,432);
+                        of.eliminarFichero(ff);
                         codo.setRuta_imagen(of.searchLink("4") + file_name);
                     }
                 }else{
