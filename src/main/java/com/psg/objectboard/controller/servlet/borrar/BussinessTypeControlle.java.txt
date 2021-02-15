@@ -6,11 +6,11 @@ import com.psg.objectboard.model.entity.BussinessTypeEntity;
 import com.psg.objectboard.model.service.BussinessTypeService;
 import java.util.HashSet;
 
-public class BussinessTypeController {
+public class BussinessTypeControlletxt {
 
     private BussinessTypeService bussinessTypeService;
 
-    public BussinessTypeController(){
+    public BussinessTypeControlletxt(){
         this.bussinessTypeService = new BussinessTypeService();
     }
 

@@ -8,6 +8,7 @@ import com.psg.objectboard.model.own.ownsEntity.classVO.OtherVO.MailSendVO;
 import com.psg.objectboard.model.service.Other.DateFunctions;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
+import com.psg.objectboard.model.service.Other.OtherInserts;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,7 +54,8 @@ public class ContactUsIndexServlet extends HttpServlet {
         // crea el objeto de coneccion
         OtherConexion ocn = new OtherConexion();
         //
-        OtherFunctions of = new OtherFunctions();
+        //OtherFunctions of = new OtherFunctions();
+        OtherInserts oi = new OtherInserts();
         // Inicializa Variable de control de transacion
         muv.setResult(true);
         Properties vProp = new Properties();
@@ -88,7 +90,7 @@ public class ContactUsIndexServlet extends HttpServlet {
             //
             corre.setEMAIL_SUBJECT("Information request");
             // Busca cuerpo de email confirmacion
-            corre.setEMAIL_TEXT(of.bodyInformationRequest(name_clte, correo_clte, phone_clte, message_clte, fecha));
+            corre.setEMAIL_TEXT(oi.bodyInformationRequest(name_clte, correo_clte, phone_clte, message_clte, fecha));
             corre.setEMAIL_RUTARCH("");
             MailUtilDAO codao = new MailUtilDAO();
             try{

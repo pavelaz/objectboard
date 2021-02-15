@@ -1,5 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.controller.common.FilesController;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.*;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO;
@@ -92,6 +93,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
         questions = sdo.getListBodySurveyQuestions(condicion);
 
         OtherFunctions of = new OtherFunctions();
+        FilesController fc = new FilesController();
         String none = null;
         String[] response_question_status_rank = new String[questions.size()];
         String[] response_question_min_rank = new String[questions.size()];
@@ -164,7 +166,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_document[x] = request.getPart("p_d_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_document[x].getInputStream();
                     File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x].replace(" ","_"));
-                    OtherFunctions.subirArchivos(is, f);
+                    fc.subirArchivos(is, f);
                 }
                 if(request.getParameter("p_in_" + questions.get(x).getQuestionCode())!=null){
                     response_datetime_img[x] = of.buscaPrefijoToFiles(company_number);
@@ -172,7 +174,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_imagen[x] = request.getPart("p_i_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_imagen[x].getInputStream();
                     File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x].replace(" ","_"));
-                    OtherFunctions.subirArchivos(is, f);
+                    fc.subirArchivos(is, f);
                 }
             }
             if (questions.get(x).getTypeRequest() == 4 || questions.get(x).getTypeRequest() == 5) {
@@ -193,7 +195,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_document[x] = request.getPart("p_d_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_document[x].getInputStream();
                     File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x].replace(" ","_"));
-                    OtherFunctions.subirArchivos(is, f);
+                    fc.subirArchivos(is, f);
                 }
                 if(request.getParameter("p_in_" + questions.get(x).getQuestionCode())!=null){
                     response_datetime_img[x] = of.buscaPrefijoToFiles(company_number);
@@ -201,7 +203,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     response_question_imagen[x] = request.getPart("p_i_" + questions.get(x).getQuestionCode());
                     InputStream is = response_question_imagen[x].getInputStream();
                     File f = new File(of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x].replace(" ","_"));
-                    OtherFunctions.subirArchivos(is, f);
+                    fc.subirArchivos(is, f);
                 }
             }
         }
@@ -312,6 +314,8 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                                         bvo.setResultAudit("F");
                                     }
                                 }else{
+                                    Boolean rank_result = null;
+                                    rank_result = of.evaluaRank(bvo.getRankMax(),bvo.getRankMin(),bvo.getBcsAnswer());
                                     if (Double.parseDouble(bvo.getBcsAnswer()) >= bvo.getRankMin() &&
                                         Double.parseDouble(bvo.getBcsAnswer()) <= bvo.getRankMax()){
                                             conformidades = conformidades + 1;
@@ -356,7 +360,7 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                     if (!response_question_file_name[x].equals("")) {
                        none = of.searchLink("4") + response_datetime_img[x] + response_question_file_name[x];
                        File fichero = new File(none.replace(" ","_"));
-                       bvo.setResult(of.eliminarFichero(fichero)); // en este caso no hago nada si ha sido borrado previamente o no existe.
+                       bvo.setResult(fc.eliminarFichero(fichero)); // en este caso no hago nada si ha sido borrado previamente o no existe.
                     }
                 }
             }

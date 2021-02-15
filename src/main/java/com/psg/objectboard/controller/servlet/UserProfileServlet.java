@@ -295,6 +295,7 @@ public class UserProfileServlet extends HttpServlet {
         Part file_imagen = null;
         String file_name = "";
         OtherFunctions of = new OtherFunctions();
+        FilesController fc = new FilesController();
         File f = null;
         FilesController filesController = new FilesController();
 
@@ -308,11 +309,11 @@ public class UserProfileServlet extends HttpServlet {
                 InputStream is = file_imagen.getInputStream();
                 f = new File(of.searchLink("4") + master_user_dto.getMuPhotoName());
                 File ff = new File(of.searchLink("4") + "copia_" + master_user_dto.getMuPhotoName());
-                OtherFunctions.subirArchivos(is, ff);
+                fc.subirArchivos(is, ff);
                 ImageResizer imarez = new ImageResizer();
                 imarez.copyImage(of.searchLink("4") + "copia_" + master_user_dto.getMuPhotoName(),
                         of.searchLink("4") + master_user_dto.getMuPhotoName(),499,498);
-                of.eliminarFichero(ff);
+                fc.eliminarFichero(ff);
                 master_user_dto.setRuta_imagen(of.searchLink("4") + file_name);
             }
         }

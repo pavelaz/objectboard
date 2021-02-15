@@ -6,6 +6,7 @@ import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.OtherVO.MailSendVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
+import com.psg.objectboard.model.service.Other.OtherInserts;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,7 +43,8 @@ public class ForgotProcessServlet extends HttpServlet {
         Boolean existe_usuario=null;
 
         try {
-            OtherFunctions of = new OtherFunctions();
+            //OtherFunctions of = new OtherFunctions();
+            OtherInserts oi = new OtherInserts();
             muv = mud.serchMasterUserDAO(user_email,company_number);
             // Usuario existe o no registrado en la Unidad de negocios.
             existe_usuario= muv.getResult();
@@ -62,7 +64,7 @@ public class ForgotProcessServlet extends HttpServlet {
                 corre.setEMAIL_SUBJECT("Email to reset the password");
                 // Busca cuerpo de email confirmacion
                 // corre.setEMAIL_TEXT("Hello Java Mail \n ABC123");
-                corre.setEMAIL_TEXT(of.bodyResetPassword(muv,company_name));
+                corre.setEMAIL_TEXT(oi.bodyResetPassword(muv,company_name));
                 //public String bodyResetPassword(MasterUserVO muv,String company)
                 corre.setEMAIL_RUTARCH("");
                 // Si funciona el envio de adjuntos

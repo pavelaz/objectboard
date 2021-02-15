@@ -1,11 +1,7 @@
 package com.psg.objectboard.controller.servlet;
 
-import com.psg.objectboard.controller.BussinessTypeController;
-import com.psg.objectboard.model.datatransferobject.BussinessTypeBasicDto;
-import com.psg.objectboard.model.datatransferobject.BussinessTypeDto;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessTypeDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
-import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessTypeVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

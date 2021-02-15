@@ -44,7 +44,7 @@
                                 </a>
                             </li>
                             <li class=" ">
-                                <a href="/objectboard/bussinesstype" class="waves-effect waves-dark">
+                                <a href="/objectboard/bussinesstypes" class="waves-effect waves-dark">
                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                     <span class="pcoded-mtext">Bussiness Type</span>
                                     <span class="pcoded-mcaret"></span>
