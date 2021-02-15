@@ -1,9 +1,8 @@
 package com.psg.objectboard.controller.servlet;
 
-import com.psg.objectboard.controller.ProjectController;
-import com.psg.objectboard.model.datatransferobject.ProjectInsertUpdateDto;
-import com.psg.objectboard.model.datatransferobject.ProjectGetDto;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.ProjectDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.ProjectVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,79 +12,83 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet (name="ProyectServlet", urlPatterns = "/project")
 public class ProjectServlet extends HttpServlet {
-
-    public ProjectServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
-        final HttpSession objSesion = request.getSession();
-
-        String company_name = (String) objSesion.getAttribute("companyName");
-        String company_number = (String) objSesion.getAttribute("companyNumber");
-        String user_name = (String) objSesion.getAttribute("userName");
+        HttpSession objSesion = request.getSession();
+        String company_name = (String)objSesion.getAttribute("companyName");
+        String company_number = (String)objSesion.getAttribute("companyNumber");
+        String user_name = (String)objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
 
-        ProjectController controller = null;
-
-        if (request.getMethod().equals("GET")) {
-            /* Inicio ****************************     Solo para ejecutar Servlet directamente *****************************/
-            if (company_number != null) {
-                controller = new ProjectController();
-                ProjectGetDto projectGetDto = controller.getProjectList();
-                request.setAttribute("rq_ProjectDto", projectGetDto);
-                request.setAttribute("rq_userName", user_name);
-            }
-            /* Fin ****************************     Solo para ejecutar Servlet directamente ****************************
-             * Pendiente resolver el resultado de la consulta en cero, cuando no hay usuario reguistrado que hacemos?
-             * */
-
-            System.out.println("MasterUserServlet metodo 'GET', muestra informacion de formulario");
+        String acciones = "consult";
+        if(request.getParameter("p_acciones")!=null) {
+            acciones = request.getParameter("p_acciones");
         }
-        else if (request.getMethod().equals("POST")) {// EL METODO POST SE UTILIZA PARA ENVIOS DE FORMULARIOS SIN ARCHIVOS Y PARA EL ESTADO DE (MODIFICAR).for ()
-            if (request.getParameter("arrayTable") != null &&
-                    request.getParameter("lengthTable") != null){
+        String pantalla = " ";
+        if(request.getParameter("p_pantalla")!=null){
+            pantalla=request.getParameter("p_pantalla");
+        }
+        ProjectDAO prodao= new ProjectDAO();
+        ProjectVO pvo = new ProjectVO();
 
-                controller = new ProjectController();
-
-                ProjectGetDto projectGetDto = controller.tableDataConversionToList(request.getParameter("arrayTable"), Integer.parseInt(request.getParameter("lengthTable")));
-
-                ProjectInsertUpdateDto projectInsertUpdateDto = controller.classificationOfDataTable(projectGetDto);
-
-                controller.updateProjectList(projectInsertUpdateDto);
-
-                controller.insertProjectList(projectInsertUpdateDto);
-
-
+        if (acciones.equals("create")){
+            String none = null;
+            if(request.getParameter("p_id")!=null) {
+                none = request.getParameter("p_id");
+                //pvo.setPrIdProject(Long.parseLong(none));
+                request.setAttribute("rq_id", none);
             }
-            if (request.getParameter("arrayDeleteTable") != null &&
-                    request.getParameter("lengthTable") != null){
-
-                controller = new ProjectController();
-
-                ProjectGetDto projectGetDto = controller.tableDataConversionToList(request.getParameter("arrayDeleteTable"), Integer.parseInt(request.getParameter("lengthTable")));
-
-                controller.deleteProjectList(projectGetDto);
+            if(request.getParameter("p_name")!=null) {
+                none = request.getParameter("p_name");
+                //pvo.setPrName(none);
+                request.setAttribute("rq_name", none);
+            }
+            if(request.getParameter("p_note")!=null) {
+                none = request.getParameter("p_note");
+                //pvo.setPrNote(none);
+                request.setAttribute("rq_note", none);
             }
         }
-        else if (request.getMethod().equals("DELETE")) {// EL METODO POST SE UTILIZA PARA ENVIOS DE FORMULARIOS SIN ARCHIVOS Y PARA EL ESTADO DE (MODIFICAR).for ()
 
+        ArrayList<ProjectVO> provo = null;
+        prodao.setDataUser(data_user);
+        prodao.setDataPassword(data_pasword);
+        String condicion = "";
+
+        if (acciones.equals("save")){
+            String none = null;
+            if(request.getParameter("p_id_1")!=null) {
+                none = request.getParameter("p_id_1");
+                //pvo.setPrIdProject(Long.parseLong(none));
+                request.setAttribute("rq_id", none);
+            }
+            condicion = "pr_id_project=" + Long.parseLong(none);
+            provo = prodao.getListProjects(condicion);
+            request.setAttribute("rq_name", provo.get(0).getPrName());
+            request.setAttribute("rq_note", provo.get(0).getPrNote());
+            condicion = "pr_id_project NOT IN (" + Long.parseLong(none) + ")";
         }
+        provo = prodao.getListProjects(condicion);
+        request.setAttribute("rq_provo", provo);
 
         request.setAttribute("rq_companyName", company_name);
-        request.setAttribute("rq_companyNumber",company_number);
+        request.setAttribute("rq_userName", user_name);
+        request.setAttribute("rq_pantalla", pantalla);
+        request.setAttribute("rq_acciones", acciones);
+        request.setAttribute("rq_companyNumber", company_number);
 
         BussinessUnitDAO bud = new BussinessUnitDAO();
         request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
-        request.getRequestDispatcher("WEB-INF/pages/jsp/master/project.jsp").forward(request, response);
+
+        request.getRequestDispatcher("/WEB-INF/pages/jsp/master/projects.jsp").forward(request, response);
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {
@@ -94,7 +97,7 @@ public class ProjectServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {

@@ -272,7 +272,7 @@ function SoloValida_numeros(valor){
 function valida_montos(valor,prefi,minimo){
 	var checkOK = "0123456789."; 
 	var checkStr = valor;
-	var checkMin = minimo.toString();
+	//var checkMin = minimo.toString();
 	if(valor=="")
 		var allValid = false; 
 	else
@@ -350,71 +350,94 @@ function valida_montos(valor,prefi,minimo){
 function valida_montosNegativos(valor,prefi,minimo){
 	var checkOK = "0123456789.-"; 
 	var checkStr = valor;
-	if(valor=="")
+	if(valor === "")
 		var allValid = false; 
 	else
 		var allValid = true;
-	var allNum = ""; 
+	var chrNoPer = 0;
+	var allChr = true;
+	var chrNeg = true;
 	var NumDec = 0; 
-	var NumSig = 0; 
+	var NumSig = 0;
+	// Proceso de chequeo de los factores de la cadena
 	if(allValid){
 		for (i = 0; i < checkStr.length; i++) { 
-			ch = checkStr.charAt(i); 
-			if((i != 0 && i != checkStr.lengthch -1) && ch  == "-"){
-				allValid = false;
-				break;	
-			}
-			if (ch == ".")
+			ch = checkStr.charAt(i);
+			if (ch === ".")   // cuenta la cantidad de puntos en la cadena
 				NumDec++;
-			if (ch == "-")
-				NumSig++;				
-			if (NumDec > 1){
-				allValid = false;
-				break;
+			if (ch === "-")   // cuenta la cantidade de signos negativos en la cadena
+				NumSig++;
+			if (i === 0){     // valida se el primer caracter de la cdena es un signo negativo
+				if(ch === "-")
+					chrNeg = true;
+				else
+					chrNeg = false;
 			}
-			if (NumSig > 1){
-				allValid = false;
-				break;
-			}			
-			for (j = 0; j < checkOK.length; j++) 
-				 if (ch == checkOK.charAt(j))
-					break; 
-				if (j == checkOK.length) { 
-					allValid = false; 
-					break; 
-				} 
-				allNum += ch; 
+			for (j = 0; j < checkOK.length; j++) {
+				if (ch === checkOK.charAt(j)){
+					allChr = true;
+					break;
+				}else{
+					allChr = false;
+				}
+			}
+			if (!allChr){
+				chrNoPer++;
+			}
 		}
-		if(NumSig == 0)
-			allValid = false; 
 	}
-	if (!allValid) { 
-		if(checkStr == 0){
-			allValid = true;
-		}else
-	    	alert("Type only digits in " + prefi + " and\n" +
-				" use the period (.) as the only decimal separator\n" +
-				"and the negative symbol (-) as the first character");
-	}else{
-		if(allNum.substring(0,1)=="0"){
-			allNum = allNum.substring(1,allNum.length);
+	// validaciones
+	// se sale sila cadena no trae valor
+	if (!allValid){
+		alert("Type some value in " + prefi);
+	}
+	// se sale si existen caracteres no permitidos dentro de la cadena
+	if (allValid) {
+		if (chrNoPer > 0) {
+			alert("Type <strong>ONLY</strong> characters allowed for " + prefi);
+			allValid = false;
 		}
-		var chkVal = allNum; 
-		var prsVal = parseInt(allNum);
-		if (chkVal == "") {
-			if(minimo != 0){
-				alert("Type some value in " + prefi);
-				allValid = false; 
+	}
+	// se sale si existe mas de un punto decimal
+	if (allValid) {
+		if (NumDec > 1) {
+			alert("Type only <strong>ONE</strong> point as a decimal point in " + prefi);
+			allValid = false;
+		}
+	}
+	// se sale si existe mas de un signo negativo
+	if (allValid) {
+		if (NumSig > 1) {
+			alert("Type only <strong>ONE</strong> the negative symbol (-)." + prefi);
+			allValid = false;
+		}
+	}
+	// se sale si el primer caracter no es un signo negativo
+	if (allValid) {
+		if (!chrNeg) {
+			alert("Type only digits in " + prefi + " and\n" +
+				"and the negative symbol (-) as the <strong>FIRST</strong> character");
+			allValid = false;
+		}
+	}
+	// se sale si no cumple con la validacion del minimo
+	if (allValid) { // se sale si no cumple con la validacion del minimo
+		var prsVal = parseFloat(valor);
+		if (valor === "") {
+			if(minimo !== 0){
+				alert("Type some value in " + prefi + "with minimun");
+				allValid = false;
 			}else
 				allValid = true;
 		}else{
 			if(prsVal > minimo ){
 				alert("Enter a value less than or equal\n" +
 					"what " + minimo + " in " + prefi);
-				allValid = false; 
+				allValid = false;
 			}
 		}
-	} 
+	}
+    //
 	return(allValid);
 }
 
@@ -424,73 +447,19 @@ function valida_montosNegativos(valor,prefi,minimo){
 // 2 nombre del campo
 // valor minimo del campo
 function valida_montosPosOrNeg(valor,prefi,minimo){
-	var checkOK = "0123456789.-";
 	var checkStr = valor;
-	if(valor=="")
-		var allValid = false;
-	else
-		var allValid = true;
-	var allNum = "";
-	var NumDec = 0;
+	var allValid = true;
 	var NumSig = 0;
-	if(allValid){
-		for (i = 0; i < checkStr.length; i++) {
-			ch = checkStr.charAt(i);
-			if((i != 0 && i != checkStr.lengthch -1) && ch  == "-"){
-				allValid = false;
-				break;
-			}
-			if (ch == ".")
-				NumDec++;
-			if (ch == "-")
-				NumSig++;
-			if (NumDec > 1){
-				allValid = false;
-				break;
-			}
-			if (NumSig > 1){
-				allValid = false;
-				break;
-			}
-			for (j = 0; j < checkOK.length; j++)
-				if (ch == checkOK.charAt(j))
-					break;
-			if (j == checkOK.length) {
-				allValid = false;
-				break;
-			}
-			allNum += ch;
-		}
-		if(NumSig == 0)
-			allValid = false;
+	for (i = 0; i < checkStr.length; i++) {
+		ch = checkStr.charAt(i);
+		if (ch === "-")
+			NumSig++;
 	}
-	if (!allValid) {
-		if(checkStr == 0){
-			allValid = true;
-		}else
-			alert("Type only digits in " + prefi + " and\n" +
-				" use the period (.) as the only decimal separator\n" +
-				"and the negative symbol (-) as the first character");
-	}else{
-		if(allNum.substring(0,1)=="0"){
-			allNum = allNum.substring(1,allNum.length);
-		}
-		var chkVal = allNum;
-		var prsVal = parseInt(allNum);
-		if (chkVal == "") {
-			if(minimo != 0){
-				alert("Type some value in " + prefi);
-				allValid = false;
-			}else
-				allValid = true;
-		}else{
-			if(prsVal > minimo ){
-				alert("Enter a value less than or equal\n" +
-					"what " + minimo + " in " + prefi);
-				allValid = false;
-			}
-		}
-	}
+	if(NumSig === 0)
+		allValid = valida_montos(valor,prefi,minimo);
+	else
+		allValid = valida_montosNegativos(valor,prefi,minimo);
+
 	return(allValid);
 }
 

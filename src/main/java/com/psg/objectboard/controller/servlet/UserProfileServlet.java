@@ -311,7 +311,7 @@ public class UserProfileServlet extends HttpServlet {
                 OtherFunctions.subirArchivos(is, ff);
                 ImageResizer imarez = new ImageResizer();
                 imarez.copyImage(of.searchLink("4") + "copia_" + master_user_dto.getMuPhotoName(),
-                        of.searchLink("4") + master_user_dto.getMuPhotoName(),600,600);
+                        of.searchLink("4") + master_user_dto.getMuPhotoName(),499,498);
                 of.eliminarFichero(ff);
                 master_user_dto.setRuta_imagen(of.searchLink("4") + file_name);
             }

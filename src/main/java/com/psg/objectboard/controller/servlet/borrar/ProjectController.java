@@ -1,4 +1,4 @@
-package com.psg.objectboard.controller;
+package com.psg.objectboard.controller.servlet.borrar;
 
 import com.psg.objectboard.model.datatransferobject.ProjectGetDto;
 import com.psg.objectboard.model.datatransferobject.ProjectInsertUpdateDto;

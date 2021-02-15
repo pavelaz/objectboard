@@ -131,63 +131,8 @@
                     if (document.forma.p_request_type.value == 7){
                         if (document.forma.p_audi_solu.value === "F"){
                             if (document.forma.p_status_rank.value === "T") {
-                                if (!valida_montos(document.forma.p_min.value, "Minimum range value", 0) ||
-                                    !valida_montos(document.forma.p_max.value, "Maximum range value", 0)) {
-                                    return false;
-                                }
 
-                                var maximo = parseFloat(document.forma.p_max.value);
-                                var minimo  = parseFloat(document.forma.p_min.value);
-
-                                alert(maximo);
-                                alert(minimo);
-
-                                // Ambos igual a cero
-                                if (maximo == 0 && minimo == 0){
-                                    alert("Under this figure, the maximum and minimum range cannot both be equal to zero.");
-                                    return false;
-                                }
-
-                                // Ambos positivos, diferentes de cero, iguales entre ellos
-                                if (maximo > 0 && minimo > 0 &&  maximo == minimo){
-                                    alert("In the case of a totally positive range, both values cannot be equal.");
-                                    return false;
-                                }
-
-                                // Ambos negativos, diferentes de cero, iguales entre ellos
-                                if (maximo < 0 && minimo < 0 &&  maximo == minimo){
-                                    alert("In the case of a totally negative range, both values cannot be equal.");
-                                    return false;
-                                }
-
-                                // Ambos positivos, diferentes de cero, diferentes entre ellos
-                                if (maximo > 0 && minimo > 0 &&  maximo < minimo){
-                                    alert("In the case of a totally positive range, the maximum value cannot be less than the minimum.");
-                                    return false;
-                                }
-
-                                // Ambos negativos, diferentes de cero, diferentes entre ellos
-                                if (maximo < 0 && minimo < 0 &&  maximo > minimo){
-                                    alert("In the case of a totally negative range, the minimum value cannot be less than the maximum.");
-                                    return false;
-                                }
-
-                                // en caso de un rango mixto, ambos diferentes de cero, maximo < 0
-                                if (maximo !=0 && minimo != 0 &&  maximo < 0){
-                                    alert("In the case of a mixed range, that is (between positive and negative), where both are different\n" +
-                                        "from zero, the maximum value cannot be negative. ");
-                                    return false;
-                                }
-
-                                // maximo igual a cero y minimo es mayor que cero
-                                if (maximo == 0 && minimo > 0){
-                                    alert("If the maximum is equal to zero, the minimum cannot be greater than zero.");
-                                    return false;
-                                }
-
-                                // minimo igual a cero y maximo es menor que cero
-                                if (maximo == 0 && minimo > 0){
-                                    alert("If the minimum is equal to zero, the maximum cannot be less than zero. ");
+                                if(!evalua_rango()) {
                                     return false;
                                 }
 
@@ -330,63 +275,8 @@
                     if (document.forma.p_request_type.value == 7){
                         if (document.forma.p_audi_solu.value === "F"){
                             if (document.forma.p_status_rank.value === "T") {
-                                if (!valida_montos(document.forma.p_min.value, "Minimum range value", 0) ||
-                                    !valida_montos(document.forma.p_max.value, "Maximum range value", 0)) {
-                                    return false;
-                                }
 
-                                var maximo = parseFloat(document.forma.p_max.value);
-                                var minimo  = parseFloat(document.forma.p_min.value);
-
-                                alert(maximo);
-                                alert(minimo);
-
-                                // Ambos igual a cero
-                                if (maximo == 0 && minimo == 0){
-                                    alert("Under this figure, the maximum and minimum range cannot both be equal to zero.");
-                                    return false;
-                                }
-
-                                // Ambos positivos, diferentes de cero, iguales entre ellos
-                                if (maximo > 0 && minimo > 0 &&  maximo == minimo){
-                                    alert("In the case of a totally positive range, both values cannot be equal.");
-                                    return false;
-                                }
-
-                                // Ambos negativos, diferentes de cero, iguales entre ellos
-                                if (maximo < 0 && minimo < 0 &&  maximo == minimo){
-                                    alert("In the case of a totally negative range, both values cannot be equal.");
-                                    return false;
-                                }
-
-                                // Ambos positivos, diferentes de cero, diferentes entre ellos
-                                if (maximo > 0 && minimo > 0 &&  maximo < minimo){
-                                    alert("In the case of a totally positive range, the maximum value cannot be less than the minimum.");
-                                    return false;
-                                }
-
-                                // Ambos negativos, diferentes de cero, diferentes entre ellos
-                                if (maximo < 0 && minimo < 0 &&  maximo > minimo){
-                                    alert("In the case of a totally negative range, the minimum value cannot be less than the maximum.");
-                                    return false;
-                                }
-
-                                // en caso de un rango mixto, ambos diferentes de cero, maximo < 0
-                                if (maximo !=0 && minimo != 0 &&  maximo < 0){
-                                    alert("In the case of a mixed range, that is (between positive and negative), where both are different\n" +
-                                        "from zero, the maximum value cannot be negative. ");
-                                    return false;
-                                }
-
-                                // maximo igual a cero y minimo es mayor que cero
-                                if (maximo == 0 && minimo > 0){
-                                    alert("If the maximum is equal to zero, the minimum cannot be greater than zero.");
-                                    return false;
-                                }
-
-                                // minimo igual a cero y maximo es menor que cero
-                                if (maximo == 0 && minimo > 0){
-                                    alert("If the minimum is equal to zero, the maximum cannot be less than zero. ");
+                                if(!evalua_rango()) {
                                     return false;
                                 }
 
@@ -484,6 +374,69 @@
             document.forma.p_acciones.value = "save";
             document.forma.action = "/objectboard/answerssurveyrequests";
             document.forma.submit();
+        }
+        function evalua_rango(){
+            if (!valida_montosPosOrNeg(document.forma.p_min.value, "Minimum range value", 0) ||
+                !valida_montosPosOrNeg(document.forma.p_max.value, "Maximum range value", 0)) {
+                return false;
+            }
+
+            var maximo = parseFloat(document.forma.p_max.value);
+            var minimo  = parseFloat(document.forma.p_min.value);
+
+            alert("Maximo: " + maximo);
+            alert("Minimo: " + minimo);
+
+            // Ambos igual a cero
+            if (maximo == 0 && minimo == 0){
+                alert("Under this figure, the maximum and minimum range cannot both be equal to zero.");
+                return false;
+            }
+
+            // Ambos positivos, diferentes de cero, iguales entre ellos
+            if (maximo > 0 && minimo > 0 &&  maximo == minimo){
+                alert("In the case of a totally positive range, both values cannot be equal.");
+                return false;
+            }
+
+            // Ambos negativos, diferentes de cero, iguales entre ellos
+            if (maximo < 0 && minimo < 0 &&  maximo == minimo){
+                alert("In the case of a totally negative range, both values cannot be equal.");
+                return false;
+            }
+
+            // Ambos positivos, diferentes de cero, diferentes entre ellos
+            if (maximo > 0 && minimo > 0 &&  maximo < minimo){
+                alert("In the case of a totally positive range, the maximum value cannot be less than the minimum.");
+                return false;
+            }
+
+            // Ambos negativos, diferentes de cero, diferentes entre ellos
+            if (maximo < 0 && minimo < 0 &&  maximo > minimo){
+                alert("In the case of a totally negative range, the minimum value cannot be less than the maximum.");
+                return false;
+            }
+
+            // en caso de un rango mixto, ambos diferentes de cero, maximo < 0
+            if (maximo !=0 && minimo != 0 &&  maximo < 0){
+                alert("In the case of a mixed range, that is (between positive and negative), where both are different\n" +
+                    "from zero, the maximum value cannot be negative. ");
+                return false;
+            }
+
+            // maximo igual a cero y minimo es mayor que cero
+            if (maximo == 0 && minimo > 0){
+                alert("If the maximum is equal to zero, the minimum cannot be greater than zero.");
+                return false;
+            }
+
+            // minimo igual a cero y maximo es menor que cero
+            if (maximo == 0 && minimo > 0){
+                alert("If the minimum is equal to zero, the maximum cannot be less than zero. ");
+                return false;
+            }
+
+            return true;
         }
     </script>
 </head>
