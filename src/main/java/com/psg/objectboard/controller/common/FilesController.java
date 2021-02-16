@@ -9,13 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -192,5 +191,128 @@ public class FilesController extends HttpServlet {
         System.out.println("Photo Delete the Server");
     }
 
+    // Relacionados a la subida de archivos, creacion de directorios y movidas de archivos
+    // Subir archivo forma paul (funciona)
+    public static void subirArchivos(InputStream is, File f) throws IOException {
+        FileOutputStream out = new FileOutputStream(f);
+        int dato = is.read();
+        while (dato != -1){
+            out.write(dato);
+            dato = is.read();
+        }
+        out.close();
+        is.close();
+    }
+
+    // crear un directorio o carpeta si este no existe
+    // recibe ruta completa con el nombre de la carpeta a crear
+    public void CrearDirectorio (String rutaYCarpeta){
+        File directorio = new File(rutaYCarpeta);
+        if (!directorio.exists()){
+            if(directorio.mkdirs()){
+                System.out.println("Directorio creado");
+            }else{
+                System.out.println("Error al crear directorio");
+            }
+        }
+    }
+
+    // Copiar un archivo de una carpeta a otra dejando el archivo original en su sitio
+    public void copiarArchivos(String pathOrigen,String pathDestino,String fichero){
+        try{
+            File ficheroCopiar = new File(pathOrigen, fichero);
+            File ficheroDestino = new File(pathDestino, fichero);
+            if (ficheroCopiar.exists()) {
+                Files.copy(Paths.get(ficheroCopiar.getAbsolutePath()), Paths.get(ficheroDestino.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+            } else {
+                System.out.println("El fichero " + fichero + " no existe en el directorio " + pathOrigen);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Mover un archivo de una carpeta a otra eliminando el original
+    public void moverArchivos(String pathOrigen,String pathDestino,String fichero){
+        try{
+            File ficheroCopiar = new File(pathOrigen, fichero);
+            File ficheroDestino = new File(pathDestino, fichero);
+            if (ficheroCopiar.exists()) {
+                Files.copy(Paths.get(ficheroCopiar.getAbsolutePath()), Paths.get(ficheroDestino.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+                eliminarFichero(ficheroCopiar);
+            } else {
+                System.out.println("El fichero " + fichero + " no existe en el directorio " + pathOrigen);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // eliminar archivos dentro de algun directorio
+    // si el fichero a borrar es un directorio solo lo borra si esta vacio
+    // en caso contrario devuelve true pero no lo borra
+    public Boolean eliminarFichero(File fichero){
+        if (!fichero.exists()){
+            System.out.println("El fichero por eliminar no existe");
+            return false;
+        }else{
+            fichero.delete(); // da mensaje de error cuendo el fichero no existe previamente
+            System.out.println("El fichero original fue eliminado");
+            return true;
+        }
+    }
+
+    // borrar carpeta de archivos de forma recursiva
+    // eliminando primero los ficheros internos
+    public void borrarDirectorio (File directorio){
+
+        File[] ficheros = directorio.listFiles();
+
+        for (int x=0;x < ficheros.length;x++){
+            if (ficheros[x].isDirectory()) {
+                borrarDirectorio(ficheros[x]);
+            }
+            ficheros[x].delete();
+        }
+        if (directorio.delete()) {
+            System.out.println("El directorio " + directorio + " ha sido borrado correctamente");
+        }else {
+            System.out.println("El directorio " + directorio + " no se ha podido borrar");
+        }
+    }
+
+    public void writerInFolderFiles(String rutayarchivo,byte archivo[]) throws Exception {
+        InputStream input = null;
+        FileOutputStream output = null;
+
+        try {
+
+            File theFile = new File(rutayarchivo);
+            output = new FileOutputStream(theFile);
+
+
+            input = new ByteArrayInputStream(archivo);
+
+            byte[] buffer = new byte[1024];
+            while (input.read(buffer) > 0) {
+                output.write(buffer);
+            }
+
+            System.out.println("\nSaved to file: " + theFile.getAbsolutePath());
+
+            System.out.println("\nCompleted successfully!");
+
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        } finally {
+            if (input != null) {
+                input.close();
+            }
+
+            if (output != null) {
+                output.close();
+            }
+        }
+    }
 
  }

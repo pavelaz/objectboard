@@ -4,15 +4,7 @@ public class BussinessTypeVO {
     private long btCodeType;
     private String btDescription;
     private String btNote;
-    private String result;
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
+    private Boolean result;
 
     public long getBtCodeType() {
         return btCodeType;
@@ -38,9 +30,11 @@ public class BussinessTypeVO {
         this.btNote = btNote;
     }
 
-    public String toString() {
-        return "BussinessTypeVO{" +
-                "btNote='" + btNote + '\'' +
-                '}';
+    public Boolean getResult() {
+        return result;
+    }
+
+    public void setResult(Boolean result) {
+        this.result = result;
     }
 }

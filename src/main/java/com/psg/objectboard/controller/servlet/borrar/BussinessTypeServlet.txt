@@ -1,8 +1,6 @@
 package com.psg.objectboard.controller.servlet;
 
-import com.psg.objectboard.controller.BussinessTypeController;
-import com.psg.objectboard.model.datatransferobject.BussinessTypeBasicDto;
-import com.psg.objectboard.model.datatransferobject.BussinessTypeDto;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessTypeDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 
 import javax.servlet.ServletException;
@@ -29,14 +27,14 @@ public class BussinessTypeServlet extends HttpServlet {
         String user_name = (String) objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
-        BussinessTypeController controller = null;
+        BussinessTypeDAO controller = null;
 
         if (request.getMethod().equals("GET")) {
             /* Inicio ****************************     Solo para ejecutar Servlet directamente *****************************/
             if (company_number != null) {
-                controller = new BussinessTypeController();
-                BussinessTypeDto bussinessTypeDto = controller.getBussinessTypeList();
-                request.setAttribute("rq_BussinessTypeDto", bussinessTypeDto);
+                controller = new BussinessTypeDAO();
+                //BussinessTypeVO bussinessTypeDto = controller.getBussinessTypeList();
+                //request.setAttribute("rq_BussinessTypeDto", bussinessTypeDto);
                 request.setAttribute("rq_userName", user_name);
             }
             /* Fin ****************************     Solo para ejecutar Servlet directamente ****************************
@@ -49,26 +47,26 @@ public class BussinessTypeServlet extends HttpServlet {
             if (request.getParameter("arrayTable") != null &&
                     request.getParameter("lengthTable") != null){
 
-                controller = new BussinessTypeController();
+                controller = new BussinessTypeDAO();
 
-                BussinessTypeDto bussinessTypeDto = controller.tableDataConversionToList(request.getParameter("arrayTable"), Integer.parseInt(request.getParameter("lengthTable")));
+                //BussinessTypeVO bussinessTypeDto = controller.tableDataConversionToList(request.getParameter("arrayTable"), Integer.parseInt(request.getParameter("lengthTable")));
 
-                BussinessTypeBasicDto bussinessTypeBasicDto = controller.classificationOfDataTable(bussinessTypeDto);
+               // BussinessTypeBasicDto bussinessTypeBasicDto = controller.classificationOfDataTable(bussinessTypeDto);
 
-                controller.updateBussinessTypeList(bussinessTypeBasicDto);
+               // controller.updateBussinessTypeList(bussinessTypeBasicDto);
 
-                controller.insertBussinessTypeList(bussinessTypeBasicDto);
+                //controller.insertBussinessTypeList(bussinessTypeBasicDto);
 
 
             }
             if (request.getParameter("arrayDeleteTable") != null &&
                     request.getParameter("lengthTable") != null){
 
-                controller = new BussinessTypeController();
+                controller = new BussinessTypeDAO();
 
-                BussinessTypeDto bussinessTypeDto = controller.tableDataConversionToList(request.getParameter("arrayDeleteTable"), Integer.parseInt(request.getParameter("lengthTable")));
+                //BussinessTypeVO bussinessTypeDto = controller.tableDataConversionToList(request.getParameter("arrayDeleteTable"), Integer.parseInt(request.getParameter("lengthTable")));
 
-                controller.deleteBussinessTypeList(bussinessTypeDto);
+                //controller.deleteBussinessTypeList(bussinessTypeDto);
             }
         }
         else if (request.getMethod().equals("DELETE")) {// EL METODO POST SE UTILIZA PARA ENVIOS DE FORMULARIOS SIN ARCHIVOS Y PARA EL ESTADO DE (MODIFICAR).for ()

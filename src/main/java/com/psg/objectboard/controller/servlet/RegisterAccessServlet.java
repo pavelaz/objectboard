@@ -14,9 +14,9 @@ import com.psg.objectboard.model.own.ownsEntity.classVO.UserRoleVO;
 import com.psg.objectboard.model.service.Other.DateFunctions;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
+import com.psg.objectboard.model.service.Other.OtherInserts;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -112,6 +112,7 @@ public class RegisterAccessServlet extends HttpServlet {
             OtherConexion ocn = new OtherConexion();
             // valida si exise el usuario previamente
             OtherFunctions of = new OtherFunctions();
+            OtherInserts oi = new OtherInserts();
             DateFunctions df = new DateFunctions();
             // Crea usuario en tablas de base de datos
             Properties vProp = new Properties();
@@ -214,7 +215,7 @@ public class RegisterAccessServlet extends HttpServlet {
                 corre.setEMAIL_SUBJECT("Email verification account registration");
                 // Busca cuerpo de email confirmacion
                 // corre.setEMAIL_TEXT("Hello Java Mail \n ABC123");
-                corre.setEMAIL_TEXT(of.bodyConfirmRegister(muv,company_name));
+                corre.setEMAIL_TEXT(oi.bodyConfirmRegister(muv,company_name));
                 corre.setEMAIL_RUTARCH("");
                 // Si funciona el envio de adjuntos
                 //corre.setEMAIL_RUTARCH(path + "imagen_perfil.png");

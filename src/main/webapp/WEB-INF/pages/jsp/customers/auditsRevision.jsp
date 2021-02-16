@@ -7,6 +7,7 @@
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO" %>
 <%@ page import="com.psg.objectboard.model.service.Other.OtherFunctions" %>
 <%@ page import="java.io.File" %>
+<%@ page import="com.psg.objectboard.model.service.Other.OtherInserts" %>
 <%--
   Created by IntelliJ IDEA.
   User: pavelaz
@@ -80,31 +81,13 @@
     if(request.getParameter("p_assign")!=null) {
         assign = request.getParameter("p_assign");
     }
-    //condicion = assign.replace("@","_");
-    //condicion = condicion.replace(".","_") + "_" + Integer.parseInt(company_number);
-    OtherFunctions of = new OtherFunctions();
 
-    //String dir_img = "";
-    //String dir_doc = "";
+    OtherFunctions of = new OtherFunctions();
+    OtherInserts oi = new OtherInserts();
+
     String dir_img = of.searchLink("4");
     String dir_doc = of.searchLink("4");
     String directorio_gral = of.searchLink("3") + "/img/";
-
-    //String directorio_user = user_email.replace("@","_");
-    //directorio_user = directorio_user.replace(".","_");
-    /*if (format == 2) {
-        dir_img = of.searchLink("4") + condicion;
-        dir_doc = of.searchLink("4") + condicion;
-        directorio_gral = of.searchLink("3") + "/img/";
-        File diraborrar = new File(dir_img);
-        if (diraborrar.exists()) {
-            Boolean resultado = null;
-            resultado = of.borrarDirectorio(diraborrar);
-        }
-        of.CrearDirectorio(dir_img);
-        dir_img = dir_img + "/";
-        dir_doc = dir_doc + "/";
-    }*/
 
     String conduct_id = null;
     if(request.getParameter("p_conduct_id")!=null) {
@@ -148,7 +131,6 @@
     <link href="<%= request.getContextPath() %>/complements/css/bootstrap-table-filter-control.min.css" rel="stylesheet">
     <script type="text/javascript">
         function document_view(ruta){
-            alert("paso");
             document.forma.target = "_blank";
             document.forma.action = ruta;
             document.forma.submit();
@@ -164,7 +146,6 @@
         }
         <% if (format == 2){ %>
             function auditar(){
-                //alert("paso 0");
                 if(validaItems() && valida_comentarios()) {
                     //alert("paso 1");
                     document.forma.target = "";
@@ -173,14 +154,12 @@
                 }
             }
             function valida_comentarios(){
-                //alert("paso 3");
                 <% for (Integer x=1;x<questions.size()+1;x++){%>
                     if (!valida_textos(document.forma.p_comen_<%=x%>.value,"Comment at the result No. <%=x%>",",.")||
                         !valida_largos(document.forma.p_comen_<%=x%>.value.length,"Comment at the result No. <%=x%>",1)){
                         return false;
                     }
                 <%}%>
-                //alert("paso 3");
                 return true;
             }
             function validaItems() {
@@ -205,15 +184,12 @@
                 return true;
             }
             function mueve_status(){
-                //var ptos_acu = 0;
                 var con = 0;
                 var no_con = 0;
                 <% for (Integer x = 1; x < questions.size()+1;x++){ %>
                     if(document.forma.p_audi_<%=x%>.value === 'T'){
                         con++;
                         document.forma.p_status_<%=x%>.value = 'T';
-                        //ptos_acu = ptos_acu + document.forma.p_ptos_<%=x%>.value;
-                        //alert(ptos_acu);
                     }else{
                         no_con++;
                         document.forma.p_status_<%=x%>.value = 'F';
@@ -221,8 +197,6 @@
                 <%}%>
                 document.forma.p_conform.value = con;
                 document.forma.p_no_conform.value = no_con;
-                //document.forma.p_ptos_acu.value = ptos_acu;
-                //alert(document.forma.p_ptos_acu.value);
             }
         <%}%>
     </script>
@@ -351,7 +325,7 @@ start ############################### Pre-loader ###############################
                                                 ctaLinea =  ctaLinea + 1; %>
                                             <%--<% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
                                                     dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %>--%>
-                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
+                                            <% out.print(oi.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
                                                     ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
                                                     ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
                                             <%}%>
@@ -398,7 +372,7 @@ start ############################### Pre-loader ###############################
                                                 ctaLinea =  ctaLinea + 1; %>
                                             <%--%><% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
                                                     dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
-                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
+                                            <% out.print(oi.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
                                                     ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
                                                     ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
                                             <%}%>
@@ -446,7 +420,7 @@ start ############################### Pre-loader ###############################
                                                 ctaLinea =  ctaLinea + 1; %>
                                             <%-- <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(),ejecuciones.get(x).getBcsNameAnnexFile(),
                                                     dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
-                                            <% out.print(of.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
+                                            <% out.print(oi.valida_tipoArchivo(ctaLinea,questions.get(x).getAnnexType(), directorio_gral,format,company_number,
                                                     ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
                                                     ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
                                             <%}%>
@@ -483,10 +457,10 @@ start ############################### Pre-loader ###############################
                                             <input type="hidden" name="p_question_n<%= ctaPregunta - 1%>" value="<%= questions.get(x).getQuestionCode()%>">
                                         </div>
                                         <div class="col-sm-2">
-                                            <% out.print(of.valida_mensaFiletype(questions.get(x).getAnnexType())); %>
+                                            <% out.print(oi.valida_mensaFiletype(questions.get(x).getAnnexType())); %>
                                         </div>
                                         <div class="col-sm-3">
-                                            <% out.print(of.valida_mensaFile(questions.get(x).getAnnexType(),dir_doc,ejecuciones.get(x).getBcsNameAnnexFile(),directorio_gral,dir_img,format)); %>
+                                            <% out.print(oi.valida_mensaFile(questions.get(x).getAnnexType(),dir_doc,ejecuciones.get(x).getBcsNameAnnexFile(),directorio_gral,dir_img,format)); %>
                                         </div>
                                         <div class="col-sm-1"></div>
                                     </div>
@@ -520,10 +494,10 @@ start ############################### Pre-loader ###############################
                                             <input type="hidden" name="p_question_n<%= ctaPregunta - 1%>" value="<%= questions.get(x).getQuestionCode()%>">
                                         </div>
                                         <div class="col-sm-2">
-                                            <% out.print(of.valida_mensaFiletype(questions.get(x).getAnnexType())); %>
+                                            <% out.print(oi.valida_mensaFiletype(questions.get(x).getAnnexType())); %>
                                         </div>
                                         <div class="col-sm-3">
-                                            <% out.print(of.valida_mensaFile(questions.get(x).getAnnexType(),dir_doc,ejecuciones.get(x).getBcsNameAnnexFile(),directorio_gral,dir_img,format)); %>
+                                            <% out.print(oi.valida_mensaFile(questions.get(x).getAnnexType(),dir_doc,ejecuciones.get(x).getBcsNameAnnexFile(),directorio_gral,dir_img,format)); %>
                                         </div>
                                         <div class="col-sm-1"></div>
                                     </div>
@@ -557,10 +531,10 @@ start ############################### Pre-loader ###############################
                                             <input type="hidden" name="p_question_n<%= ctaPregunta - 1%>" value="<%= questions.get(x).getQuestionCode()%>">
                                         </div>
                                         <div class="col-sm-2">
-                                            <% out.print(of.valida_mensaFiletype(questions.get(x).getAnnexType())); %>
+                                            <% out.print(oi.valida_mensaFiletype(questions.get(x).getAnnexType())); %>
                                         </div>
                                         <div class="col-sm-3">
-                                            <% out.print(of.valida_mensaFile(questions.get(x).getAnnexType(),dir_doc,ejecuciones.get(x).getBcsNameAnnexFile(),directorio_gral,dir_img,format)); %>
+                                            <% out.print(oi.valida_mensaFile(questions.get(x).getAnnexType(),dir_doc,ejecuciones.get(x).getBcsNameAnnexFile(),directorio_gral,dir_img,format)); %>
                                         </div>
                                         <div class="col-sm-1"></div>
                                     </div>
@@ -594,10 +568,10 @@ start ############################### Pre-loader ###############################
                                             <input type="hidden" name="p_question_n<%= ctaPregunta - 1%>" value="<%= questions.get(x).getQuestionCode()%>">
                                         </div>
                                         <div class="col-sm-2">
-                                            <% out.print(of.valida_mensaFiletype(questions.get(x).getAnnexType())); %>
+                                            <% out.print(oi.valida_mensaFiletype(questions.get(x).getAnnexType())); %>
                                         </div>
                                         <div class="col-sm-3">
-                                            <% out.print(of.valida_mensaFile(questions.get(x).getAnnexType(),dir_doc,ejecuciones.get(x).getBcsNameAnnexFile(),directorio_gral,dir_img,format)); %>
+                                            <% out.print(oi.valida_mensaFile(questions.get(x).getAnnexType(),dir_doc,ejecuciones.get(x).getBcsNameAnnexFile(),directorio_gral,dir_img,format)); %>
                                         </div>
                                         <div class="col-sm-1"></div>
                                     </div>
@@ -610,20 +584,9 @@ start ############################### Pre-loader ###############################
                                             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                             <div class="custom-file mb-3">
                                                 Validate document file:
-                                                <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),directorio_gral,format,company_number,
+                                                <% out.print(oi.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),directorio_gral,format,company_number,
                                                         ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
                                                         ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
-                                                <%-- <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),ejecuciones.get(x).getBcsNameAnnexFile(),
-                                                        dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
-                                                <%-- <% if (format==2){%>
-                                                <a href='<%= dir_doc %><%= ejecuciones.get(x).getBcsNameAnnexFile() %>' title="View Document" >
-                                                    <img src="<%= directorio_gral %>document_gral.png" alt="Profile-document" width="100" height="60" border="1">
-                                                </a>
-                                                <%}else{%>
-                                                <a href='#!' title="View Document" >
-                                                    <img src="<%= directorio_gral %>document_gral.png" alt="Profile-document" width="100" height="60" border="1">
-                                                </a>
-                                                <%}%> --%>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -637,20 +600,9 @@ start ############################### Pre-loader ###############################
                                             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                             <div class="custom-file mb-3">
                                                 Validate image file:
-                                                <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),directorio_gral,format,company_number,
+                                                <% out.print(oi.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),directorio_gral,format,company_number,
                                                         ejecuciones.get(x).getHeaderConductSurveyConductId(),ejecuciones.get(x).getBsaBodySurveyQuestionsQuestionCode(),
                                                         ejecuciones.get(x).getBsaBodySurveyQuestionsHeadersSurveySurveyCode(),user_email,questions.get(x).getBodyAnnexPhoto())); %>
-                                                <%-- <% out.print(of.validacionGral_tipoArchivo(questions.get(x).getTypeRequest(),ejecuciones.get(x).getBcsNameAnnexFile(),
-                                                        dir_doc,dir_img,directorio_gral,format,company_number,ejecuciones.get(x).getBcsAnnexFileByte())); %> --%>
-                                                <%-- <%if (format == 2){%>
-                                                    <a href='<%= dir_img %><%= ejecuciones.get(x).getBcsNameAnnexFile() %>' title="View Image" >
-                                                        <img src="<%= directorio_gral %>image_gral.jpg" alt="Profile-image" width="100" height="60" border="1">
-                                                    </a>
-                                                <%}else{%>
-                                                    <a href='#!' title="View Image" >
-                                                        <img src="<%= directorio_gral %>image_gral.jpg" alt="Profile-image" width="100" height="60" border="1">
-                                                    </a>
-                                                <%}%> --%>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -662,9 +614,9 @@ start ############################### Pre-loader ###############################
                                 </div>
                                 <% if (questions.get(x).getComment().equals("T")){ %>
                                 <div class="card-footer">
-                                    <% out.print(of.valida_comentario(format,questions.get(x).getQuestionCode(),ejecuciones.get(x).getBcsComment())); %>
+                                    <% out.print(oi.valida_comentario(format,questions.get(x).getQuestionCode(),ejecuciones.get(x).getBcsComment())); %>
                                     <% if (format==2) {%>
-                                    <% out.print(of.valida_result(questions.get(x).getQuestionCode(),0,questions.get(x).getTypeRequest(),
+                                    <% out.print(oi.valida_result(questions.get(x).getQuestionCode(),0,questions.get(x).getTypeRequest(),
                                             ejecuciones.get(x).getBcsAnswer(),ejecuciones.get(x).getBcsAnswerSolution(),questions.get(x).getAnnexType(),
                                             ejecuciones.get(x).getBcsAnswerOnlyText(),ejecuciones.get(x).getBcsAnswerOnlyNumber(),
                                             ejecuciones.get(x).getBcsAnswerOnlyTime(),ejecuciones.get(x).getBcsAnswerOnlyDate(),ctaPregunta - 1)); %>
@@ -672,7 +624,7 @@ start ############################### Pre-loader ###############################
                                 </div>
                                 <%}else{%>
                                 <% if (format==2) {%>
-                                <% out.print(of.valida_result(questions.get(x).getQuestionCode(),1,questions.get(x).getTypeRequest(),
+                                <% out.print(oi.valida_result(questions.get(x).getQuestionCode(),1,questions.get(x).getTypeRequest(),
                                         ejecuciones.get(x).getBcsAnswer(),ejecuciones.get(x).getBcsAnswerSolution(),questions.get(x).getAnnexType(),
                                         ejecuciones.get(x).getBcsAnswerOnlyText(),ejecuciones.get(x).getBcsAnswerOnlyNumber(),
                                         ejecuciones.get(x).getBcsAnswerOnlyTime(),ejecuciones.get(x).getBcsAnswerOnlyDate(),ctaPregunta - 1)); %>
@@ -693,11 +645,9 @@ start ############################### Pre-loader ###############################
                     <input name='p_pantalla' type='hidden' value='auditsrevision' />
                     <input name='p_conform' type='hidden' value='' />
                     <input name='p_no_conform' type='hidden' value='' />
-                    <%-- <input name='p_ptos_acu' type='hidden' value='' /> --%>
                     <% if (format == 2){%>
                         <% for (Integer x = 1; x < questions.size()+1;x++){ %>
                             <input name='p_status_<%=x%>' type='hidden' value='' />
-                            <%-- <input name='p_ptos_<%=x%>' type='hidden' value='<%= questions.get(x).getQuestionPoints() %>' /> --%>
                         <%}%>
                     <%}%>
                 </form>

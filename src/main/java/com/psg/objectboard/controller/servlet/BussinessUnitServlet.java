@@ -41,7 +41,8 @@ public class BussinessUnitServlet extends HttpServlet {
         ArrayList<BussinessTypeVO> tipos;
         cod.setDataUser(data_user);
         cod.setDataPassword(data_pasword);
-        tipos = cod.getListBussinessType();
+        tipos = cod.getListBussinessTypeDAO("");
+        // tipos = cod.getListBussinessType("");
 
         String unit_name = null,
              fed_number = null,

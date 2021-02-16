@@ -1,21 +1,20 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessTypeDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.ProjectDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessTypeVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.ProjectVO;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet (name="ProyectServlet", urlPatterns = "/project")
-public class ProjectServlet extends HttpServlet {
+@WebServlet(name = "BussinessTypesServlet", value = "/bussinesstypes")
+public class BussinessTypesServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession objSesion = request.getSession();
         String company_name = (String)objSesion.getAttribute("companyName");
@@ -32,8 +31,8 @@ public class ProjectServlet extends HttpServlet {
         if(request.getParameter("p_pantalla")!=null){
             pantalla=request.getParameter("p_pantalla");
         }
-        ProjectDAO prodao= new ProjectDAO();
-        ProjectVO pvo = new ProjectVO();
+        BussinessTypeDAO prodao= new BussinessTypeDAO();
+        BussinessTypeVO pvo = new BussinessTypeVO();
 
         if (acciones.equals("create")){
             String none = null;
@@ -54,7 +53,7 @@ public class ProjectServlet extends HttpServlet {
             }
         }
 
-        ArrayList<ProjectVO> provo = null;
+        ArrayList<BussinessTypeVO> provo = null;
         prodao.setDataUser(data_user);
         prodao.setDataPassword(data_pasword);
         String condicion = "";
@@ -66,13 +65,13 @@ public class ProjectServlet extends HttpServlet {
                 //pvo.setPrIdProject(Long.parseLong(none));
                 request.setAttribute("rq_id", none);
             }
-            condicion = "pr_id_project=" + Long.parseLong(none);
-            provo = prodao.getListProjects(condicion);
-            request.setAttribute("rq_name", provo.get(0).getPrName());
-            request.setAttribute("rq_note", provo.get(0).getPrNote());
-            condicion = "pr_id_project NOT IN (" + Long.parseLong(none) + ")";
+            condicion = "bt_code_type=" + Long.parseLong(none);
+            provo = prodao.getListBussinessTypeDAO(condicion);
+            request.setAttribute("rq_name", provo.get(0).getBtDescription());
+            request.setAttribute("rq_note", provo.get(0).getBtNote());
+            condicion = "bt_code_type NOT IN (" + Long.parseLong(none) + ")";
         }
-        provo = prodao.getListProjects(condicion);
+        provo = prodao.getListBussinessTypeDAO(condicion);
         request.setAttribute("rq_provo", provo);
 
         request.setAttribute("rq_companyName", company_name);
@@ -84,11 +83,11 @@ public class ProjectServlet extends HttpServlet {
         BussinessUnitDAO bud = new BussinessUnitDAO();
         request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
-        request.getRequestDispatcher("/WEB-INF/pages/jsp/master/projects.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/jsp/master/bussinessTypes.jsp").forward(request, response);
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {
@@ -97,16 +96,7 @@ public class ProjectServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {

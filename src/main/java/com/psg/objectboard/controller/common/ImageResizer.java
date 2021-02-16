@@ -9,9 +9,9 @@ import javax.imageio.ImageIO;
 
 public class ImageResizer {
     //Ancho máximo
-    public static int MAX_WIDTH=800;
+    private static int MAX_WIDTH=800;
     //Alto máximo
-    public static int MAX_HEIGHT=800;
+    private static int MAX_HEIGHT=800;
 
     public static void setMaxWidth(int maxWidth) {
         MAX_WIDTH = maxWidth;
@@ -22,9 +22,30 @@ public class ImageResizer {
     }
 
     /*Este método es el de la magia recibe la ruta al archivo original y la ruta donde vamos a guardar la copia
+    con una dimension de 800 x 800 por defecto u otr variable enlarecarga del metodo
     copyImage("C:\\Users\\IngenioDS\\Desktop\\test.png","C:\\Users\\IngenioDS\\Desktop\\Copia\\test2.png");*/
 
     public static void copyImage(String filePath, String copyPath) {
+        setMaxWidth(800);
+        setMaxHeight(800);
+        BufferedImage bimage = loadImage(filePath);
+        if(bimage.getHeight()>bimage.getWidth()){
+            int heigt = (bimage.getHeight() * MAX_WIDTH) / bimage.getWidth();
+            bimage = resize(bimage, MAX_WIDTH, heigt);
+            int width = (bimage.getWidth() * MAX_HEIGHT) / bimage.getHeight();
+            bimage = resize(bimage, width, MAX_HEIGHT);
+        }else{
+            int width = (bimage.getWidth() * MAX_HEIGHT) / bimage.getHeight();
+            bimage = resize(bimage, width, MAX_HEIGHT);
+            int heigt = (bimage.getHeight() * MAX_WIDTH) / bimage.getWidth();
+            bimage = resize(bimage, MAX_WIDTH, heigt);
+        }
+        saveImage(bimage, copyPath);
+    }
+
+    public static void copyImage(String filePath, String copyPath,Integer ancho, Integer alto) {
+        setMaxWidth(ancho);
+        setMaxHeight(alto);
         BufferedImage bimage = loadImage(filePath);
         if(bimage.getHeight()>bimage.getWidth()){
             int heigt = (bimage.getHeight() * MAX_WIDTH) / bimage.getWidth();

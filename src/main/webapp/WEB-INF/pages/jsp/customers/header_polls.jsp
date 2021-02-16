@@ -2,6 +2,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.TypifiedDAO" %>
 <%@ page import="com.psg.objectboard.model.service.Other.OtherFunctions" %>
+<%@ page import="com.psg.objectboard.model.service.Other.OtherInserts" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -108,7 +109,7 @@
         none = "bussinessUnit_bu_bis_code = "+company_number + " AND ctypified_code1 = '" + typif1 + "' AND ctypified_code2 = '" + typif2 + "'";
         typif_3 = typ.getListTypifiedLevels("DISTINCT ctypified_code3",none,"ctypified_code3");
     }
-    OtherFunctions of = new OtherFunctions();
+    OtherInserts oi = new OtherInserts();
     String idselect = "p_select";
     String idcual0 = "cual_0";
     String idcual1= "cual_01";
@@ -859,7 +860,7 @@ start ############################### Pre-loader ###############################
                     >
                         <thead>
                         <tr>
-                            <% out.print(of.pone_encabezadoHeaderPolls(column)); %>
+                            <% out.print(oi.pone_encabezadoHeaderPolls(column)); %>
                         </tr>
                         </thead>
                         <tbody>
@@ -1071,7 +1072,7 @@ start ############################### Pre-loader ###############################
                             </jstl:when>
                             <jstl:otherwise>
                                 <tr>
-                                    <% out.print(of.pone_pieHeaderPolls(column)); %>
+                                    <% out.print(oi.pone_pieHeaderPolls(column)); %>
                                 </tr>
                             </jstl:otherwise>
                         </jstl:choose>
