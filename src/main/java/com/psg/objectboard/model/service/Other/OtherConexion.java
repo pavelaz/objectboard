@@ -10,6 +10,7 @@ public class OtherConexion {
 
     public Connection conectarse(String dataUserLogin, String dataUserPassword){
         Connection con = null;
+        //driver 5. String resto = "useSSL=false&amp;serverTimezone=Europe/Paris";
         String resto = "serverTimezone=UTC";
         OtherFunctions otherFunctions = new OtherFunctions();
 
@@ -20,6 +21,7 @@ public class OtherConexion {
             //String url = "jdbc:mysql://mysqlcloud:3306/objectboard_db"+ "?" + resto;
 
             Class.forName("com.mysql.cj.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver"); driver 5.
             con = DriverManager.getConnection(url,dataUserLogin,dataUserPassword);
             System.out.println("Coneccion en Linea.");
             System.out.println("   Usuario: " + dataUserLogin + " Password: " + dataUserPassword.substring(0,4));
