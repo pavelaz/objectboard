@@ -1,6 +1,7 @@
 package com.psg.objectboard.controller.servlet;
 
 import com.psg.objectboard.controller.common.FilesController;
+import com.psg.objectboard.controller.common.ImageResizer;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessUnitVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
@@ -46,16 +47,9 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
         Part file_imagen = null;
 
         OtherFunctions of = new OtherFunctions();
+        FilesController fc = new FilesController();
         File f = null;
 
-        // String path = of.searchLink("0");
-        //String primaryDirectory = path + "temporaryfiles/";
-        //String secundaryDirectory = path + "img/logos/";
-        //String tempDirectory = of.searchLink("4");
-        //String primaryDirectory = "temporaryfiles/";
-        //String secundaryDirectory = "img/logos/";
-        //String primaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/temporaryfiles/";
-        //String secundaryDirectory = "/IdeaProjects/objectboard/src/main/webapp/complements/img/logos/";
         ArrayList<Integer> cual_unit = new ArrayList<Integer>();
         ArrayList<String> cual_logo = new ArrayList<String>();
         BussinessUnitVO codo = new BussinessUnitVO();
@@ -144,17 +138,6 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                 if(request.getParameter("p_user2code")!=null){
                     codo.setBuUser2Code(request.getParameter("p_user2code"));
                 }
-                /*if(request.getParameter("p_file_ant")!=null){
-                    file_name_ant=(request.getParameter("p_file_ant"));
-                }*/
-
-                /*Start*********************AddPhoto to Object master_user_dto *********/
-                /*if (request.getPart("p_file") != null){
-                    FilesController filesController = new FilesController();
-                    file_dir = filesController.updateFile(request, (1024 * 1024 * 10),"p_file"); // 1024 * 1024 * 1,= 1 MB
-                    file_name = filesController.getNameFile(request.getPart("p_file"));
-                }*/
-                /*End*********************AddPhoto to Object master_user_dto *********/
 
                 if(request.getPart("p_file")!=null){
                     FilesController filesController = new FilesController();
@@ -168,7 +151,12 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                         InputStream is = file_imagen.getInputStream();
                         //File f = new File(path + primaryDirectory + codo.getBuLogoName());
                         f = new File(of.searchLink("4") + codo.getBuLogoName());
-                        OtherFunctions.subirArchivos(is, f);
+                        File ff = new File(of.searchLink("4") + "copia_" + codo.getBuLogoName());
+                        filesController.subirArchivos(is, ff);
+                        ImageResizer imarez = new ImageResizer();
+                        imarez.copyImage(of.searchLink("4") + "copia_" + codo.getBuLogoName(),
+                                of.searchLink("4") + codo.getBuLogoName(),432,432);
+                        filesController.eliminarFichero(ff);
                         codo.setRuta_imagen(of.searchLink("4") + file_name);
                     }
                 }else{
@@ -187,8 +175,6 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
         BussinessUnitDAO.setDataUser(data_user);
         BussinessUnitDAO.setDataPassword(data_pasword);
         con=ocn.conectarse(data_user,data_pasword);
-        //OtherFunctions of = new OtherFunctions();
-        //String directorio = null;
 
         try{
             // iniciar transacion
@@ -197,30 +183,9 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                 cdo.insertBussinessUnitDAO(codo,con);
                 if (codo.getResult()){
                     if (!codo.getBuLogoName().equals(of.searchLink("7") )) {
-                        codo.setResult(of.eliminarFichero(f));
+                        codo.setResult(fc.eliminarFichero(f));
                     }
                 }
-                /*String new_company_number = "0";
-                if (codo.getResult()){
-                    if (!codo.getBuLogoName().equals("favicon2.png")) {
-                        none = "bu_federal_number = '" + codo.getBuFederalNumber() + "' AND bu_provincial_number = '" + codo.getBuProvincialNumber() +
-                                "' AND bu_super_code = '" + codo.getBuSuperCode() + "' AND bu_admin_code = '" + codo.getBuAdminCode() +
-                                "' AND bu_user1_code = '" + codo.getBuUser1Code() + "' AND bu_user2_code = '" + codo.getBuUser2Code() + "'";
-                        new_company_number = cdo.getLastBussinessUnitCreate(none, con);
-                        if (new_company_number.equals("0"))
-                            codo.setResult(false);
-                    }
-                }*/
-               /* if (codo.getResult()){
-                    if (!codo.getBuLogoName().equals("favicon2.png")) {
-                        if (Long.parseLong(new_company_number) < 10)
-                            directorio = "0" + Long.parseLong(new_company_number);
-                        else
-                            directorio = new_company_number;
-                        of.CrearDirectorio(path + secundaryDirectory + directorio);
-                        of.moverArchivos(path + primaryDirectory, path + secundaryDirectory + directorio + "/", file_name);
-                    }
-                }*/
             }else{
                 if (acciones.equals("delete")){
                     codo.setResult(true);
@@ -239,7 +204,7 @@ public class BussinessUnitsProcessServlet extends HttpServlet {
                     }
                     if (codo.getResult()){
                         if (!codo.getBuLogoName().equals(of.searchLink("7") )) {
-                            codo.setResult(of.eliminarFichero(f));
+                            codo.setResult(fc.eliminarFichero(f));
                         }
                     }
                 }

@@ -127,8 +127,9 @@
         }
         function valida_imagen(){
             if(document.forma.p_file_sta.value === "F"){
-                alert("The image exceeds the allowed size parameters.");
-                return false;
+                alert("The image exceeds the allowed size parameters.\n" +
+                    "its dimensions will be changed to a 432 x 432 pixel image ");
+                //return false;
             }
             return true;
         }
@@ -144,16 +145,16 @@
                 document.forma.submit();
             }
         }
-        function filePreview(input) {
-            var oldPhoto = document.getElementById('oldPhoto');
-            //var filePath = input.value;
-            //var allowedExtensions = /(\.jpg|\.png)$/i;
-            /*if (!allowedExtensions.exec(filePath)) {
+        /*function filePreview(input) {
+            var oldPhoto = document.getElementById('oldPhoto');*/
+            /*var filePath = input.value;
+            var allowedExtensions = /(\.jpg|\.png)$/i;
+            if (!allowedExtensions.exec(filePath)) {
                 alert("Please upload file having extensions .jpg/ .png/ only.");
                 input.value = "";
                 return false;
             }else{*/
-                if (input.files[0].size > (1024 * 1024 * 10)){ // 1024 * 1024 * 10,= 10 MB)
+        /*        if (input.files[0].size > (1024 * 1024 * 10)){ // 1024 * 1024 * 10,= 10 MB)
                     alert("Please upload a photo not exceeding 10 Mb.");
                     input.value = "";
                     return false;
@@ -185,7 +186,7 @@
                     }
                 }
             //}
-        }
+        }*/
     </script>
 </head>
 
@@ -224,7 +225,8 @@ start ############################### Pre-loader ###############################
                                     class="img-thumbnail"  alt="Logo Profile" width="120"
                                     height="160" name="oldPhoto" title="preferably 216 x 216 pixels" id="oldPhoto">
                                     <input type="file" name="p_file" id="file" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                           class="image-cropper-container" onchange="filePreview(this)">
+                                           class="image-cropper-container">
+                                    <!--class="image-cropper-container" onchange="filePreview(this)"> -->
                                     <input type="hidden" name="p_file_sta" value="T" disabled>
                                     <input type="hidden" name="p_file_ant" value="${ rq_unitLogoNameAnt }" >
                                 </jstl:when>
@@ -233,7 +235,8 @@ start ############################### Pre-loader ###############################
                                          src="<%= request.getContextPath() %>${ rq_unitLogoDir }/complements/img/no_logos.png"
                                          class="img-thumbnail" alt="Logo Profile" width="120" height="160">
                                     <input type="file" name="p_file" id="file" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                           class="image-cropper-container" onchange="filePreview(this)">
+                                           class="image-cropper-container">
+                                    <!--class="image-cropper-container" onchange="filePreview(this)"> -->
                                     <input type="hidden" name="p_file_sta" value="T" disabled>
                                 </jstl:otherwise>
                             </jstl:choose>

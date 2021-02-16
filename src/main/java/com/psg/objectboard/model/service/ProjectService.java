@@ -4,7 +4,7 @@ import com.psg.objectboard.model.EntityManagerHolder;
 import com.psg.objectboard.model.datatransferobject.ProjectGetDto;
 import com.psg.objectboard.model.datatransferobject.ProjectInsertUpdateDto;
 import com.psg.objectboard.model.entity.ProjectEntity;
-import com.psg.objectboard.model.repository.ProjectRepositoryImpl;
+import com.psg.objectboard.model.own.por_borrar.ProjectRepositoryImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
