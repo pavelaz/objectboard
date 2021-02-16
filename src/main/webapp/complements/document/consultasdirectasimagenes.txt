@@ -2,6 +2,7 @@ Perfil de usuario:
 http://localhost:8084/objectboard/showfile.html?p_forma=png&p_unit=2&p_email=pavelaz1@gmail.com&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@
 http://localhost:8084/objectboard/showfile.html?p_unit=2&p_archivo=2&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@&p_survey=32&p_question=185&p_conduct=74
 
+
 localhost:4300/cardImage/Alex/Ing./summary/
 #objectboard#showfile.html?p_forma=png&p_unit=2&p_email=pavelaz1@gmail.com&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@/
 #objectboard#showfile.html?p_unit=2&p_archivo=2&p_dataUser=EJREYBDH&p_dataPassword=D4S@B4gJrLgjEqL@&p_survey=32&p_question=185&p_conduct=74/
