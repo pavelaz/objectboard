@@ -384,57 +384,64 @@
             var maximo = parseFloat(document.forma.p_max.value);
             var minimo  = parseFloat(document.forma.p_min.value);
 
-            alert("Maximo: " + maximo);
-            alert("Minimo: " + minimo);
+            //alert("Maximo: " + maximo);
+            //alert("Minimo: " + minimo);
 
-            // Ambos igual a cero
-            if (maximo == 0 && minimo == 0){
-                alert("Under this figure, the maximum and minimum range cannot both be equal to zero.");
+            // iguales entre ellos
+            if (maximo == minimo){
+                alert("The positive and negative ranges cannot be the same.");
                 return false;
             }
+            // Ambos positivos, diferentes de cero, minimo mayor que maximo
+            //if (maximo > 0 && minimo > 0 && minimo > maximo){
+            //    alert("In the case of a totally positive range, both values cannot be equal.");
+            //    return false;
+            //}
 
-            // Ambos positivos, diferentes de cero, iguales entre ellos
-            if (maximo > 0 && minimo > 0 &&  maximo == minimo){
-                alert("In the case of a totally positive range, both values cannot be equal.");
-                return false;
+            // maximo o minimo igual a cero
+            if (maximo == 0 || minimo == 0){
+                // maximo igual a cero y minimo mayor que cero
+                if (maximo == 0 && minimo > 0){
+                    alert("If the maximum is equal to zero, the minimum cannot be greater than zero.");
+                    return false;
+                }
+                // minimo igual a cero y maximo menor que cero
+                if (minimo == 0 && maximo < 0){
+                    alert("If the minimum is equal to zero, the maximum cannot be less than zero.");
+                    return false;
+                }
             }
 
-            // Ambos negativos, diferentes de cero, iguales entre ellos
-            if (maximo < 0 && minimo < 0 &&  maximo == minimo){
-                alert("In the case of a totally negative range, both values cannot be equal.");
-                return false;
-            }
-
-            // Ambos positivos, diferentes de cero, diferentes entre ellos
-            if (maximo > 0 && minimo > 0 &&  maximo < minimo){
-                alert("In the case of a totally positive range, the maximum value cannot be less than the minimum.");
-                return false;
-            }
-
-            // Ambos negativos, diferentes de cero, diferentes entre ellos
+            // Ambos negativos, maximo mayor que minimo
             if (maximo < 0 && minimo < 0 &&  maximo > minimo){
-                alert("In the case of a totally negative range, the minimum value cannot be less than the maximum.");
+                alert("In the case of a totally negative range, the maximum cannot be greater than the minimum. ");
                 return false;
             }
 
-            // en caso de un rango mixto, ambos diferentes de cero, maximo < 0
-            if (maximo !=0 && minimo != 0 &&  maximo < 0){
-                alert("In the case of a mixed range, that is (between positive and negative), where both are different\n" +
-                    "from zero, the maximum value cannot be negative. ");
+            // Ambos positivos, maximo menor a minimo
+            if (maximo > 0 && minimo > 0 &&  maximo < minimo){
+                alert("In the case of a totally positive range, the maximun cannot be less than the minimun.");
                 return false;
             }
+
+            // en caso de un rango mixto, ambos diferentes de cero
+            /*if (maximo > 0 && minimo != 0){
+                //alert("In the case of a mixed range, that is (between positive and negative), where both are different\n" +
+                //    "from zero, the maximum value cannot be negative. ");
+                //return false;
+            }*/
 
             // maximo igual a cero y minimo es mayor que cero
-            if (maximo == 0 && minimo > 0){
+            /*if (maximo == 0 && minimo > 0){
                 alert("If the maximum is equal to zero, the minimum cannot be greater than zero.");
                 return false;
-            }
+            }*/
 
             // minimo igual a cero y maximo es menor que cero
-            if (maximo == 0 && minimo > 0){
+            /*if (minimo == 0 && maximo > 0){
                 alert("If the minimum is equal to zero, the maximum cannot be less than zero. ");
                 return false;
-            }
+            }*/
 
             return true;
         }
@@ -981,18 +988,6 @@ start ############################### Pre-loader ###############################
                                             <input type='hidden' value='<jstl:out value="${ rq_answer.get(x).getAnswerSolution() }"/>'
                                                    name='p_cual_1<jstl:out value="${ f }"/>' id="cual_1"/>
                                         </td>
-                                            <%--<td>
-                                                <jstl:choose>
-                                                    <jstl:when test="${ rq_answer.get(x).getAuditableSolution().equals('T') }">
-                                                        True
-                                                    </jstl:when>
-                                                    <jstl:otherwise>
-                                                        false
-                                                    </jstl:otherwise>
-                                                </jstl:choose>
-                                                <input type='hidden' value='<jstl:out value="${ rq_answer.get(x).getAuditableSolution() }"/>'
-                                                       name='p_cual_2<jstl:out value="${ f }"/>' id="cual_2" disabled/>
-                                            </td>--%>
                                         <td>
                                             <a href='#' title="Edit"
                                                onClick=valida('${ rq_answer.get(x).getAnswerCode() }')>

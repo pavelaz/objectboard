@@ -5,9 +5,6 @@ import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 
 import java.io.*;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -347,7 +344,54 @@ public class OtherFunctions {
         return none;
     }
 
+    /**
+     * @param maximun
+     * @param minimun
+     * @param respuesta --> valor a evaluar
+     */
     public Boolean evaluaRank(Double maximun,Double minimun,Double respuesta){
-        return true;
+        Boolean answer = false;
+        // minimun == 0 && maximun > 0
+        if (minimun == 0 && maximun > 0){
+            if (respuesta >= minimun && respuesta <= maximun ){
+                answer = true;
+            }
+        }
+        // maximun == 0 && minimun < 0
+        if (maximun == 0 && minimun < 0){
+           if (respuesta <= maximun && respuesta <= minimun){
+               answer = true;
+           }
+        }
+        // maximun > 0 && minimun > 0
+        if (maximun > 0 && minimun > 0){
+            if (respuesta >= minimun && respuesta <= maximun){
+                answer = true;
+            }
+        }
+        // maximun < 0 && minimun < 0
+        if (maximun < 0 && minimun < 0){
+            if (respuesta <= minimun && respuesta >= maximun){
+                answer = true;
+            }
+        }
+        // minimun < 0 && maximun > 0
+        if (minimun < 0 && maximun > 0){
+            if (respuesta > 0){
+                if (respuesta <= maximun){
+                    answer = true;
+                }
+            }
+            if (respuesta == 0){
+                answer = true;
+            }
+            if (respuesta < 0){
+                if (respuesta <= minimun){
+                    answer = true;
+                }
+            }
+        }
+
+        return answer;
     }
 }

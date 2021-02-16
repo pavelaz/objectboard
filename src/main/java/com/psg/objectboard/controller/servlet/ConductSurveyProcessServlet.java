@@ -315,9 +315,10 @@ public class ConductSurveyProcessServlet extends HttpServlet {
                                     }
                                 }else{
                                     Boolean rank_result = null;
-                                    rank_result = of.evaluaRank(bvo.getRankMax(),bvo.getRankMin(),bvo.getBcsAnswer());
-                                    if (Double.parseDouble(bvo.getBcsAnswer()) >= bvo.getRankMin() &&
-                                        Double.parseDouble(bvo.getBcsAnswer()) <= bvo.getRankMax()){
+                                    rank_result = of.evaluaRank(bvo.getRankMax(),bvo.getRankMin(),Double.parseDouble(bvo.getBcsAnswer()));
+                                    //if (Double.parseDouble(bvo.getBcsAnswer()) >= bvo.getRankMin() &&
+                                    //    Double.parseDouble(bvo.getBcsAnswer()) <= bvo.getRankMax()){
+                                    if (rank_result){
                                             conformidades = conformidades + 1;
                                             ptos_acu = ptos_acu + response_question_ptos[x];
                                             bvo.setStatusAudit("T");

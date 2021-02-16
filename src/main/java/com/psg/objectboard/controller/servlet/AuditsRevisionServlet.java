@@ -21,14 +21,10 @@ public class AuditsRevisionServlet extends HttpServlet {
         String company_number = (String)objSesion.getAttribute("companyNumber");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
-        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_userName", user_name);
         request.setAttribute("rq_userEmail", user_email);
-        //request.setAttribute("rq_companyLogoName", company_logo_name);
-        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
         request.setAttribute("rq_companyNumber", company_number);
         BussinessUnitDAO bud = new BussinessUnitDAO();
         request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));

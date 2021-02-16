@@ -17,8 +17,7 @@
     <!-- Propias -->
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/complements/css/own_style.css">
     <!--end ############################### head_basic_script ###############################-->
-    <!-- Bootstrap CSS
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">-->
+    <!-- Bootstrap CSS -->
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/complements/bootstrap/datatable_custom/main.css">
     <!--datables CSS básico-->
@@ -102,10 +101,10 @@ start ############################### Pre-loader ###############################
                                     <jstl:set var = "f" value = "${f + 1}" />
                                     <tr>
                                         <td>
-                                                <a href='#' title="Audict"
+                                            <a href='#' title="Audict"
                                                    onClick=auditar_registro(${ rq_polls.get(x).getConduct_id() },${ rq_polls.get(x).getHeadersSurvey_survey_code()},'${ rq_polls.get(x).getSurveyName().replace(" ","-")}','${rq_polls.get(x).getMasterUser_mu_email()}')>
                                                     &nbsp;<i class='fa fa-cogs fa-fw' ></i>
-                                        </a>
+                                            </a>
                                         </td>
                                         <td>
                                             <jstl:out value="${ rq_polls.get(x).getUserAssignName() }">Lost Value</jstl:out>
