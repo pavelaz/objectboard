@@ -2,6 +2,7 @@ package com.psg.objectboard.controller.servlet;
 
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.service.Other.DashboardFunctions;
+import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -56,6 +57,9 @@ public class DashMenuSuperServlet extends HttpServlet {
         //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
         //String  none = company_logo_dir + company_logo_name;
         //request.setAttribute("rq_data_logo", none.replace("/","*"));
+        OtherFunctions of = new OtherFunctions();
+        request.setAttribute("rq_server_angular", of.searchLink("8"));
+
         BussinessUnitDAO bud = new BussinessUnitDAO();
         request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
