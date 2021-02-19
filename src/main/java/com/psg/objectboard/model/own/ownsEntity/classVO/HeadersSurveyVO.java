@@ -1,5 +1,8 @@
 package com.psg.objectboard.model.own.ownsEntity.classVO;
 
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class HeadersSurveyVO {
     private Long surveyCode;
     private Long bussinessUnitBuBisCode;
@@ -23,6 +26,51 @@ public class HeadersSurveyVO {
     private String audited;
     private Boolean result;
     private Double totalPoints;
+    private Blob surveyImageFile;
+    private byte[] surveyImageFileByte;
+    private InputStream surveyImageFileInput;
+    private String surveyImageName;
+    private String ruta_image;
+
+    public String getRuta_image() {
+        return ruta_image;
+    }
+
+    public void setRuta_image(String ruta_image) {
+        this.ruta_image = ruta_image;
+    }
+
+    public Blob getSurveyImageFile() {
+        return surveyImageFile;
+    }
+
+    public void setSurveyImageFile(Blob surveyImageFile) {
+        this.surveyImageFile = surveyImageFile;
+    }
+
+    public byte[] getSurveyImageFileByte() {
+        return surveyImageFileByte;
+    }
+
+    public void setSurveyImageFileByte(byte[] surveyImageFileByte) {
+        this.surveyImageFileByte = surveyImageFileByte;
+    }
+
+    public InputStream getSurveyImageFileInput() {
+        return surveyImageFileInput;
+    }
+
+    public void setSurveyImageFileInput(InputStream surveyImageFileInput) {
+        this.surveyImageFileInput = surveyImageFileInput;
+    }
+
+    public String getSurveyImageName() {
+        return surveyImageName;
+    }
+
+    public void setSurveyImageName(String surveyImageName) {
+        this.surveyImageName = surveyImageName;
+    }
 
     public Double getTotalPoints() {
         return totalPoints;

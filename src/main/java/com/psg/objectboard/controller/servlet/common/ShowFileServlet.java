@@ -1,16 +1,13 @@
 package com.psg.objectboard.controller.servlet.common;
 
 import com.psg.objectboard.controller.common.FilesController;
-import com.psg.objectboard.model.own.ownsEntity.classDAO.BodyConductSurveyDAO;
-import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
-import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
-import com.psg.objectboard.model.own.ownsEntity.classVO.BodyConductSurveyVO;
-import com.psg.objectboard.model.own.ownsEntity.classVO.BussinessUnitVO;
-import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.*;
+import com.psg.objectboard.model.own.ownsEntity.classVO.*;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -153,6 +150,58 @@ public class ShowFileServlet extends HttpServlet {
             outputStream = filesController.blobToDifferentFormats(response,photoVO.getBcsAnnexFileByte(),presenta);
 
             System.out.println("Logo puesto en HTML");
+        }
+
+        // archivo = "3"  --> Archivo: headersSurvey
+        if (archivo.equals("3")){
+            String survey = null;
+            if (request.getParameter("p_survey") != null) {
+                survey = request.getParameter("p_survey");
+            }
+
+            HeadersSurveyDAO photoDto = new HeadersSurveyDAO();
+            photoDto.setDataUser(data_user);
+            photoDto.setDataPassword(data_pasword);
+
+            HeadersSurveyVO photoVO = photoDto.serchHeadersSurveyrDAO(unidad,survey);
+
+            FilesController filesController = new FilesController();
+
+            ServletOutputStream outputStream = null;
+            OtherFunctions of = new OtherFunctions();
+            forma = of.buscaExtencionFiles(photoVO.getSurveyImageName(),"2");
+            String presenta = "image/" + forma;
+            outputStream = filesController.blobToDifferentFormats(response,photoVO.getSurveyImageFileByte(),presenta);
+
+            System.out.println("imagen survey puesta en HTML");
+        }
+
+        // archivo = "4"  --> Archivo: bodySurveyQuestions
+        if (archivo.equals("4")){
+            String survey = null;
+            if (request.getParameter("p_survey") != null) {
+                survey = request.getParameter("p_survey");
+            }
+            String question = null;
+            if (request.getParameter("p_question") != null) {
+                question = request.getParameter("p_question");
+            }
+
+            BodySurveyQuestionsDAO photoDto = new BodySurveyQuestionsDAO();
+            photoDto.setDataUser(data_user);
+            photoDto.setDataPassword(data_pasword);
+
+            BodySurveyQuestionsVO photoVO = photoDto.serchBodySurveyQuestionsDAO(unidad,survey,question);
+
+            FilesController filesController = new FilesController();
+
+            ServletOutputStream outputStream = null;
+            OtherFunctions of = new OtherFunctions();
+            forma = of.buscaExtencionFiles(photoVO.getQuestionImageName(),"2");
+            String presenta = "image/" + forma;
+            outputStream = filesController.blobToDifferentFormats(response,photoVO.getQuestionImageFileByte(),presenta);
+
+            System.out.println("imagen question puesta en HTML");
         }
     }
 

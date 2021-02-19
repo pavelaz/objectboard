@@ -5,6 +5,7 @@ import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "BodySurveyQuestionsServlet", urlPatterns = "/bodysurveyquestions")
+@MultipartConfig(
+        fileSizeThreshold   = 1024 * 1024 * 10,  // 10 MB
+        maxFileSize         = 1024 * 1024 * 100, // 100 MB
+        maxRequestSize      = 1024 * 1024 * 150 // 150 MB
+)
 public class BodySurveyQuestionsServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession objSesion = request.getSession();
@@ -23,8 +29,6 @@ public class BodySurveyQuestionsServlet extends HttpServlet {
         String user_name = (String)objSesion.getAttribute("userName");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
-        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         String acciones = "consult";
         if(request.getParameter("p_acciones")!=null) {
@@ -57,12 +61,21 @@ public class BodySurveyQuestionsServlet extends HttpServlet {
         ArrayList<BodySurveyQuestionsVO> recuest = null;
         cod.setDataUser(data_user);
         cod.setDataPassword(data_pasword);
+
         String condicion = null;
+        /*if (acciones.equals("save")){
+            condicion = "headersSurvey_bussinessUnit_bu_bis_code = " +
+                    Integer.parseInt(company_number) +
+                    " AND headersSurvey_survey_code = " +
+                    Integer.parseInt(code_poll) +
+                    " AND question_code = " ;
+            request.setAttribute("rq_iname_an", recuest.get(0).getQuestionImageName());
+        }*/
 
         condicion = "headersSurvey_bussinessUnit_bu_bis_code = " +
-                Integer.parseInt(company_number) +
-                " AND headersSurvey_survey_code = " +
-                Integer.parseInt(code_poll);
+                    Integer.parseInt(company_number) +
+                    " AND headersSurvey_survey_code = " +
+                    Integer.parseInt(code_poll);
 
         recuest = cod.getListBodySurveyQuestions(condicion);
 
@@ -70,9 +83,8 @@ public class BodySurveyQuestionsServlet extends HttpServlet {
         request.setAttribute("rq_userName", user_name);
         request.setAttribute("rq_numFilas", recuest.size());
         request.setAttribute("rq_acciones", acciones);
-        //request.setAttribute("rq_companyLogoName", company_logo_name);
-        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
         request.setAttribute("rq_companyNumber", company_number);
+
         BussinessUnitDAO bud = new BussinessUnitDAO();
         request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
 
@@ -81,7 +93,7 @@ public class BodySurveyQuestionsServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/questions_polls.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {

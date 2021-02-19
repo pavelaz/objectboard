@@ -1,5 +1,8 @@
 package com.psg.objectboard.model.own.ownsEntity.classVO;
 
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class BodySurveyQuestionsVO {
     private Long questionCode;
     private Long headersSurveySurveyCode;
@@ -16,7 +19,28 @@ public class BodySurveyQuestionsVO {
     private String auditableAnswerSolution;
     private Double questionPoints;
     private String statusRank;
+    private Blob questionImageFile;
+    private byte[] questionImageFileByte;
+    private InputStream questionImageFileInput;
+    private String questionImageName;
+    private String ruta_image;
     private Boolean result;
+
+    public String getRuta_image() {
+        return ruta_image;
+    }
+
+    public void setRuta_image(String ruta_image) {
+        this.ruta_image = ruta_image;
+    }
+
+    public String getQuestionImageName() {
+        return questionImageName;
+    }
+
+    public void setQuestionImageName(String questionImageName) {
+        this.questionImageName = questionImageName;
+    }
 
     public Long getQuestionCode() {
         return questionCode;
@@ -136,6 +160,30 @@ public class BodySurveyQuestionsVO {
 
     public void setStatusRank(String statusRank) {
         this.statusRank = statusRank;
+    }
+
+    public Blob getQuestionImageFile() {
+        return questionImageFile;
+    }
+
+    public void setQuestionImageFile(Blob questionImageFile) {
+        this.questionImageFile = questionImageFile;
+    }
+
+    public byte[] getQuestionImageFileByte() {
+        return questionImageFileByte;
+    }
+
+    public void setQuestionImageFileByte(byte[] questionImageFileByte) {
+        this.questionImageFileByte = questionImageFileByte;
+    }
+
+    public InputStream getQuestionImageFileInput() {
+        return questionImageFileInput;
+    }
+
+    public void setQuestionImageFileInput(InputStream questionImageFileInput) {
+        this.questionImageFileInput = questionImageFileInput;
     }
 
     public Boolean getResult() {

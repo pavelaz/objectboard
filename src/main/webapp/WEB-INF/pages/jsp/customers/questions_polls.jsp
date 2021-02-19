@@ -5,6 +5,7 @@
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.OtherVO.AnnexTypeVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyQuestionsDAO" %>
+<%@ page import="com.psg.objectboard.model.service.Other.OtherFunctions" %>
 <%--
   Created by IntelliJ IDEA.
   User: pavelaz
@@ -53,6 +54,7 @@
                 Integer.parseInt(request_code);
         recuest_puntual = cod.getListBodySurveyQuestions(condicion);
     }
+    OtherFunctions of = new OtherFunctions();
     String idselect = "select";
     String idcual = "cual_";
     String idptos = "p_ptos_";
@@ -88,7 +90,8 @@
         <jstl:when test="${ rq_acciones.equals('consult') }">
         function nuevo_registro(){
             document.forma.target = "";
-            document.forma.action = '/objectboard/bodysurveyquestions';
+            document.forma.action = '/objectboard/multipartconfigservlet';
+            document.forma.p_target.value = "bodysurveyquestions";
             document.forma.p_acciones.value = "create";
             document.forma.submit();
         }
@@ -99,14 +102,16 @@
                 valida_annex_type()
             ) {
                 document.forma.target = "";
-                document.forma.action = '/objectboard/bodysurveyquestionsprocess';
+                document.forma.action = '/objectboard/multipartconfigservlet';
+                document.forma.p_target.value = "bodysurveyquestionsprocess";
                 document.forma.p_acciones.value = "create";
                 document.forma.submit();
             }
         }
         function cancelar(){
             document.forma.target = "";
-            document.forma.action = '/objectboard/bodysurveyquestions';
+            document.forma.action = '/objectboard/multipartconfigservlet';
+            document.forma.p_target.value = "bodysurveyquestions";
             document.forma.p_acciones.value = "consult";
             document.forma.submit();
         }
@@ -173,7 +178,8 @@
 
             ) {
                 document.forma.target = "";
-                document.forma.action = '/objectboard/bodysurveyquestionsprocess';
+                document.forma.action = '/objectboard/multipartconfigservlet';
+                document.forma.p_target.value = "bodysurveyquestionsprocess";
                 document.forma.p_acciones.value = "save";
                 document.forma.submit();
             }
@@ -184,7 +190,8 @@
                 document.forma.p_bimg.value === document.forma.p_bimg_old.value &&
                 document.forma.p_main.value === document.forma.p_main_old.value &&
                 document.forma.p_comment.value === document.forma.p_comment_old.value &&
-                document.forma.p_puntos.value === document.forma.p_puntos_old.value
+                document.forma.p_puntos.value === document.forma.p_puntos_old.value &&
+                document.forma.p_iname_ac.value === document.forma.p_iname_an.value
             ){
                 alert("No changes have been made to any of the fields, so there is nothing to save.");
                 return false;
@@ -193,7 +200,8 @@
         }
         function cancelar(){
             document.forma.target = "";
-            document.forma.action = '/objectboard/bodysurveyquestions';
+            document.forma.action = '/objectboard/multipartconfigservlet';
+            document.forma.p_target.value = "bodysurveyquestions";
             document.forma.p_acciones.value = "consult";
             document.forma.submit();
         }
@@ -265,7 +273,8 @@
         function borrar_registro(){
             if(validaItems(this)){
                 if ( confirm("Do You really want to delete the selected Request?")) {
-                    document.forma.action = '/objectboard/bodysurveyquestionsprocess';
+                    document.forma.action = '/objectboard/multipartconfigservlet';
+                    document.forma.p_target.value = "bodysurveyquestionsprocess";
                     document.forma.p_acciones.value = "delete";
                     document.forma.submit();
                 }
@@ -291,7 +300,8 @@
             document.forma.p_request_code.value = valor0;
             document.forma.target = "";
             document.forma.p_acciones.value = "save";
-            document.forma.action = "/objectboard/bodysurveyquestions";
+            document.forma.action = "/objectboard/multipartconfigservlet";
+            document.forma.p_target.value = "bodysurveyquestions";
             document.forma.submit();
         }
         function create_answers(valor0,valor1,valor2) {
@@ -300,11 +310,13 @@
             document.forma.p_request_type.value = valor1;
             document.forma.p_request_main.value = valor2.replace("-"," ");
             document.forma.p_acciones.value = "consult";
-            document.forma.action = "/objectboard/answerssurveyrequests";
+            document.forma.action = "/objectboard/multipartconfigservlet";
+            document.forma.p_target.value = "answerssurveyrequests";
             document.forma.submit();
         }
         function valida_columnas(){
-            document.forma.action = "/objectboard/bodysurveyquestions";
+            document.forma.action = "/objectboard/multipartconfigservlet";
+            document.forma.p_target.value = "bodysurveyquestions";
             document.forma.submit();
         }
     </script>
@@ -334,7 +346,7 @@ start ############################### Pre-loader ###############################
             <!--end ############################### page-header ###############################-->
             <!--<section id="content">-->
             <div class="container mt-2 mb-2">
-                <form class="user" role="form" method="post" action="#!" name="forma" >
+                <form class="user" role="form" method="post" action="#!" name="forma" id="formPhoto" enctype="multipart/form-data" >
                     <jstl:choose>
                         <jstl:when test="${ rq_acciones.equals('create') }">
                             <div class="form-group row">
@@ -396,6 +408,18 @@ start ############################### Pre-loader ###############################
                                 <div class="col-sm-2">
                                     <label for="valor">Assigned value:</label>
                                     <input id="valor" name="p_puntos" placeholder="value" maxlength="5" value="1" width="8" onfocus="selecciona_contenido(this)"/>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <label for="file" class="col-sm-4 col-form-label">Upload Image:</label>
+                                </div>
+                                <div class="col-sm-8" align="right" name="div-photo" id="div-photo">
+                                        <%--<img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">
+                                        <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">--%>
+                                    <img name="oldPhoto" id="oldPhoto" src="/objectboard/<%= of.searchLink("3") %>/img/no_images.jpeg" class="img-thumbnail" alt="Survey image" width="100" height="120">
+                                    <input name="p_file" id="file" type="file" accept="image/png, image/jpeg, image/jpg" class="image-cropper-container" align="center" onchange="filePreview(this)">
                                 </div>
                             </div>
                             <hr>
@@ -479,6 +503,17 @@ start ############################### Pre-loader ###############################
                                 <div class="col-sm-2">
                                     <label for="valor1">Assigned value:</label>
                                     <input id="valor1" name="p_puntos" placeholder="value" maxlength="5" value="<%= recuest_puntual.get(0).getQuestionPoints() %>" width="8" onfocus="selecciona_contenido(this)"/>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <label for="file" class="col-sm-4 col-form-label">Upload Image:</label>
+                                </div>
+                                <div class="col-sm-8" align="right" name="div-photo" id="div-photo1">
+                                        <%--<img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">--%>
+                                    <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_companyNumber }&p_survey=${ recuest_puntual.get(0).getHeadersSurveySurveyCode() }&p_question=${ recuest_puntual.get(0).getQuestionCode() }&p_archivo=4" class="img-thumbnail" alt="Survey image" width="100" height="120">
+                                    <input name="p_file" id="file" type="file" accept="image/png, image/jpeg, image/jpg" class="image-cropper-container" align="center" onchange="filePreview(this)">
                                 </div>
                             </div>
                             <hr>
@@ -999,6 +1034,8 @@ start ############################### Pre-loader ###############################
                     <input name='p_names' type='hidden' value='${ rq_names}' />
                     <input name='p_refes' type='hidden' value='${ rq_refes}' />
                     <input name='p_pantalla' type='hidden' value='questionspolls' />
+                    <input name='p_target' type='hidden' value='' />
+                    <input name='p_iname_ac' type='hidden' value='${ rq_iname_an }' />
                     <input name="p_acciones" type="hidden" value='<jstl:out value="${ rq_acciones }">Lost Value</jstl:out>'/>
                     <jstl:choose>
                         <jstl:when test="${ rq_acciones.equals('consult') }">
@@ -1013,6 +1050,7 @@ start ############################### Pre-loader ###############################
                             <input name='p_bimg_old' type='hidden' value='<%= recuest_puntual.get(0).getBodyAnnexPhoto() %>' />
                             <input name='p_main_old' type='hidden' value='<%= recuest_puntual.get(0).getMainRequest() %>' />
                             <input name='p_puntos_old' type='hidden' value='<%= recuest_puntual.get(0).getQuestionPoints() %>' />
+                            <input name='p_iname_an' type='hidden' value='${ recuest_puntual.get(0).getQuestionImageName() }' />
                         </jstl:when>
                     </jstl:choose>
                 </form>
@@ -1068,6 +1106,50 @@ start ############################### Pre-loader ###############################
             ]
         });
     });
+</script>
+<script type="text/javascript">
+    function filePreview(input) {
+        var oldPhoto = document.getElementById('oldPhoto');
+        var filePath = input.value;
+        var allowedExtensions = /(\.jpg|\.png|\.jpeg)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert("Please upload file having extensions .jpg/ .png/ .jpeg/ only.");
+            input.value = "";
+            return false;
+        }else{
+            if (input.files[0].size > (1024 * 1024 * 1)){ // 1024 * 1024 * 1,= 1 MB)
+                alert("Please upload a photo not exceeding 1 Mb.");
+                input.value = "";
+                return false;
+            }
+            else{
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    var image = new Image();
+                    document.forma.p_iname_ac.value = input.files[0].name;
+                    reader.onload = function (e) {
+                        image.src = e.target.result;
+                        //Validate the File Height and Width.
+                        image.onload = function (){
+                            var height = this.height;
+                            var width = this.width;
+                            //if ( 600 > height && 600 > width){
+                            oldPhoto.remove();
+                            //alert("Height and Width must not exceed a Photo the."+height+" "+width);
+                            $('#file').before('<img id="oldPhoto" name="oldPhoto" class="img-thumbnail" alt="Photo Profile" src="' + e.target.result + '" width="100" height="120" /> &nbsp');
+                            // return false;
+                            //}
+                            alert("The uploaded image has a valid height and width of 500 x 499,\n" +
+                                "and if it exceeds these dimensions, it will be readjusted upon storage. ");
+                            return true;
+                        }
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
+    }
+
 </script>
 </body>
 

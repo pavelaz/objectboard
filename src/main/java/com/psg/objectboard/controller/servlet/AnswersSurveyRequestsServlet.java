@@ -127,7 +127,7 @@ public class AnswersSurveyRequestsServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/pages/jsp/customers/answerQuestions_polls.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {

@@ -33,10 +33,48 @@ public class MultipartConfigServlet extends HttpServlet {
             bussinessUnitsProcessServlet.doPost(request, response);
         }
         if (pantalla.equals("users")){
-            /*BussinessUnitsProcessServlet bussinessUnitsProcessServlet = new BussinessUnitsProcessServlet();
-            bussinessUnitsProcessServlet.doPost(request, response);*/
             UserProfileServlet userProfileServlet = new UserProfileServlet();
             userProfileServlet.doOptions(request, response);
+        }
+        if (pantalla.equals("headerpolls")){
+            String target = " ";
+            if(request.getParameter("p_target")!=null){
+                target=request.getParameter("p_target");
+            }
+            if (target.equals("headerpolls")){
+                HeaderPollsServlet headerPollsServlet = new HeaderPollsServlet();
+                headerPollsServlet.doPost(request, response);
+            }
+            if (target.equals("viewsurvey")){
+                ViewSurveyServlet viewSurveyServlet = new ViewSurveyServlet();
+                viewSurveyServlet.doPost(request, response);
+            }
+            if (target.equals("headerpollsprocess")){
+                HeaderPollsProcessServlet headerPollsProcessServlet = new HeaderPollsProcessServlet();
+                headerPollsProcessServlet.doPost(request, response);
+            }
+            if (target.equals("bodysurveyquestions")){
+                BodySurveyQuestionsServlet bodySurveyQuestionsServlet = new BodySurveyQuestionsServlet();
+                bodySurveyQuestionsServlet.doPost(request, response);
+            }
+        }
+        if (pantalla.equals("questionspolls")){
+            String target = " ";
+            if(request.getParameter("p_target")!=null){
+                target=request.getParameter("p_target");
+            }
+            if (target.equals("bodysurveyquestions")){
+                BodySurveyQuestionsServlet bodySurveyQuestionsServlet = new BodySurveyQuestionsServlet();
+                bodySurveyQuestionsServlet.doPost(request, response);
+            }
+            if (target.equals("bodysurveyquestionsprocess")){
+                BodySurveyQuestionsProcessServlet bodySurveyQuestionsProcessServlet = new BodySurveyQuestionsProcessServlet();
+                bodySurveyQuestionsProcessServlet.doPost(request, response);
+            }
+            if (target.equals("answerssurveyrequests")){
+                AnswersSurveyRequestsServlet answersSurveyRequestsServlet = new AnswersSurveyRequestsServlet();
+                answersSurveyRequestsServlet.doPost(request, response);
+            }
         }
     }
 
@@ -51,6 +89,15 @@ public class MultipartConfigServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {

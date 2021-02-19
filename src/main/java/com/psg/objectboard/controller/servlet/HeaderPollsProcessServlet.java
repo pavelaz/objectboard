@@ -1,5 +1,7 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.controller.common.FilesController;
+import com.psg.objectboard.controller.common.ImageResizer;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyAnswersDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyQuestionsDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
@@ -12,25 +14,28 @@ import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "HeaderPollsProcessServlet", urlPatterns = "/headerpollsprocess")
+@MultipartConfig(
+        fileSizeThreshold   = 1024 * 1024 * 10,  // 10 MB
+        maxFileSize         = 1024 * 1024 * 100, // 100 MB
+        maxRequestSize      = 1024 * 1024 * 150 // 150 MB
+)
 public class HeaderPollsProcessServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession objSesion = request.getSession();
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
         String company_number = (String)objSesion.getAttribute("companyNumber");
-        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         String acciones = " ";
         if(request.getParameter("p_acciones")!=null){
@@ -43,6 +48,7 @@ public class HeaderPollsProcessServlet extends HttpServlet {
 
         String name = null,
                 code = null,
+                iname_an = null,
                reference = null,
                level1 = null,
                level2 = null,
@@ -53,6 +59,9 @@ public class HeaderPollsProcessServlet extends HttpServlet {
                level4 = null;
 
         ArrayList<Integer> cual_0 = new ArrayList<Integer>();
+        HeadersSurveyVO cvo = new HeadersSurveyVO();
+        FilesController fc = new FilesController();
+        OtherFunctions of = new OtherFunctions();
 
         // Recupero los valores necesarios para la accion
         switch(acciones){
@@ -106,6 +115,38 @@ public class HeaderPollsProcessServlet extends HttpServlet {
                 if(request.getParameter("p_typif3")!=null) {
                     typif3 = request.getParameter("p_typif3");
                 }
+                if(request.getParameter("p_iname_an")!=null){
+                    iname_an=request.getParameter("p_iname_an");
+                }
+                Part file_imagen = null;
+                String file_name = "";
+                File f = null;
+                //FilesController filesController = new FilesController();
+
+                if(request.getPart("p_file")!=null){
+                    file_name = fc.getNameFile(request.getPart("p_file"));
+                    if (file_name.equals("")) {
+                        cvo.setSurveyImageName("no_images.jpeg");
+                        cvo.setRuta_image(of.searchLink("0") + "img/" +
+                                cvo.getSurveyImageName());
+                    }else {
+                        cvo.setSurveyImageName(file_name);
+                        file_imagen = request.getPart("p_file");
+                        InputStream is = file_imagen.getInputStream();
+                        f = new File(of.searchLink("4") + cvo.getSurveyImageName());
+                        File ff = new File(of.searchLink("4") + "copia_" + cvo.getSurveyImageName());
+                        fc.subirArchivos(is, ff);
+                        ImageResizer imarez = new ImageResizer();
+                        imarez.copyImage(of.searchLink("4") + "copia_" + cvo.getSurveyImageName(),
+                                of.searchLink("4") + cvo.getSurveyImageName(),500,499);
+                        fc.eliminarFichero(ff);
+                        cvo.setRuta_image(of.searchLink("4") + file_name);
+                    }
+                }else{
+                    cvo.setSurveyImageName("no_images.jpeg");
+                    cvo.setRuta_image(of.searchLink("0") + "img/" +
+                            cvo.getSurveyImageName());
+                }
                 break;
             case "close":
             case "open":
@@ -119,7 +160,7 @@ public class HeaderPollsProcessServlet extends HttpServlet {
                 break;
         }
         // Realizo las acciones solicitadas sobe la base de datos
-        HeadersSurveyVO cvo = new HeadersSurveyVO();
+
         HeadersSurveyDAO cdo = new HeadersSurveyDAO();
         OtherConexion ocn = new OtherConexion();
         Connection con = null;
@@ -168,6 +209,11 @@ public class HeaderPollsProcessServlet extends HttpServlet {
                     cvo.setAudited("F");
                     cvo.setTotalPoints(Double.parseDouble("0"));
                     cdo.insertHeadersSurveyDAO(cvo,con);
+                    if (cvo.getResult()){
+                        if (!cvo.getSurveyImageName().equals("") && !cvo.getSurveyImageName().equals("no_images.jpeg")){
+                            fc.deleteFile(of.searchLink("4") + cvo.getSurveyImageName());
+                        }
+                    }
                     break;
                 case "delete":
                     cvo.setResult(true);
@@ -195,6 +241,16 @@ public class HeaderPollsProcessServlet extends HttpServlet {
                     cvo.setOrganizationLevel4(level4);
                     cvo.setDateLastModification(fecha);
                     cdo.updateHeadersSurveyDAO(cvo,con);
+                    if (cvo.getResult()) {
+                        if (!cvo.getSurveyImageName().equals(iname_an)) {
+                            cdo.updateHeadersSurveyImage(cvo, con);
+                        }
+                    }
+                    if (cvo.getResult()){
+                        if (!cvo.getSurveyImageName().equals("") && !cvo.getSurveyImageName().equals("no_images.jpeg")){
+                            fc.deleteFile(of.searchLink("4") + cvo.getSurveyImageName());
+                        }
+                    }
                     break;
                 case "close":
                     Integer question_ctos = 0;
@@ -328,7 +384,7 @@ public class HeaderPollsProcessServlet extends HttpServlet {
                         new_name = survey.get(0).getName().substring(0,survey.get(0).getName().length()) + " (COPY)";
                     }
                     cvo.setName(new_name);
-                    OtherFunctions of = new OtherFunctions();
+                    //OtherFunctions of = new OtherFunctions();
                     String referencia = of.generateRandomString(8);
                     cvo.setReferences(referencia);
                     cvo.setTotalQuestions(survey.get(0).getTotalQuestions());
@@ -436,8 +492,6 @@ public class HeaderPollsProcessServlet extends HttpServlet {
         request.setAttribute("rq_questionTipo", question_tipo);
         request.setAttribute("rq_result", cvo.getResult());
         request.setAttribute("rq_pantalla", pantalla);
-        //request.setAttribute("rq_companyLogoName", company_logo_name);
-        //request.setAttribute("rq_companyLogoDirection", company_logo_dir);
         request.setAttribute("rq_companyNumber", company_number);
         BussinessUnitDAO bud = new BussinessUnitDAO();
         request.setAttribute("rq_format", bud.searchLogoName(company_number,data_user,data_pasword,1));
@@ -445,7 +499,7 @@ public class HeaderPollsProcessServlet extends HttpServlet {
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
     }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {

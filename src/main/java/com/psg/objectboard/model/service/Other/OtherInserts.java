@@ -88,7 +88,7 @@ public class OtherInserts {
     // Seccion para auditsRevision.jsp
     public String valida_result(Long code,Integer evento,Integer typeRequest,String answer,String answerSolution,
                                 String annexType,String onlyText,Double onlyNumber,String onlyTime,String onlyDate,
-                                Integer question){
+                                Integer question,Double rank_min,Double rank_max){
         String none = "";
         if(evento==1) {
             none = none + "<div class='card-footer'>\n";
@@ -134,10 +134,29 @@ public class OtherInserts {
             }
             if (typeRequest == 7){
                 if (onlyNumber==0){
-                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
-                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
-                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
-                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    if (rank_max == 0 && rank_min ==0) {
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        Boolean resp = null;
+                        OtherFunctions of = new OtherFunctions();
+                        resp = of.evaluaRank(rank_max,rank_min,onlyNumber);
+                        if (resp) {
+                            // por probar todavia
+                            none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                            none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                            none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                            none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                        }else{
+                            // por probar todavia
+                            none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                            none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                            none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                            none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                        }
+                    }
                 }else{
                     if (Double.parseDouble(answer) == onlyNumber){
                         none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked disabled>&nbsp;&nbsp;\n";
@@ -477,6 +496,7 @@ public class OtherInserts {
         if (column.equals("0")) {
             none = none + "<td>&nbsp;</td>";
             none = none + "<td>Not Action</td>";
+            //none = none + "<td>Not data</td>";
             none = none + "<td>Not data</td>";
             none = none + "<td>Not data</td>";
             none = none + "<td>Not data</td>";
@@ -486,6 +506,7 @@ public class OtherInserts {
         } else {
             none = none + "<td>&nbsp;</td>";
             none = none + "<td>Not Action</td>";
+            //none = none + "<td>Not data</td>";
             none = none + "<td>Not data</td>";
             none = none + "<td>Not data</td>";
             none = none + "<td>Not data</td>";
@@ -513,6 +534,7 @@ public class OtherInserts {
             none = none + "<input type='checkbox' onclick='marcar(this);' />\n";
             none = none + "</th>\n";
             none = none + "<th data-field=\"ac\" data-sortable=\"false\" data-valign=\"middle\" data-align=\"center\">ACTION</th>\n";
+            //none = none + "<th data-field=\"I1\" data-sortable=\"true\" data-switchable=\"false\">IMAGE</th>\n";
             none = none + "<th data-field=\"l1\" data-sortable=\"true\" data-switchable=\"false\">DESCRIPTION NAME</th>\n";
             none = none + "<th data-field=\"l3\" data-sortable=\"true\" data-switchable=\"true\">STATUS</th>\n";
             none = none + "<th data-field=\"l6\" data-sortable=\"true\" data-switchable=\"true\">DATE CREATION</th>\n";
@@ -524,6 +546,7 @@ public class OtherInserts {
             none = none + "<input type='checkbox' onclick='marcar(this);' />";
             none = none + "</th>";
             none = none + "<th data-field=\"ac\" data-sortable=\"false\" data-valign=\"middle\" data-align=\"center\">ACTION</th>";
+            //none = none + "<th data-field=\"I1\" data-sortable=\"true\" data-switchable=\"false\">IMAGE</th>\n";
             none = none + "<th data-field=\"l1\" data-sortable=\"true\" data-switchable=\"false\">DESCRIPTION NAME</th>";
             none = none + "<th data-field=\"l2\" data-sortable=\"true\" data-switchable=\"true\">REFERENCE</th>";
             none = none + "<th data-field=\"l3\" data-sortable=\"true\" data-switchable=\"true\">STATUS</th>";

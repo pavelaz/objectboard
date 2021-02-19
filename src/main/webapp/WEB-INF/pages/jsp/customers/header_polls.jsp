@@ -110,6 +110,7 @@
         typif_3 = typ.getListTypifiedLevels("DISTINCT ctypified_code3",none,"ctypified_code3");
     }
     OtherInserts oi = new OtherInserts();
+    OtherFunctions of = new OtherFunctions();
     String idselect = "p_select";
     String idcual0 = "cual_0";
     String idcual1= "cual_01";
@@ -157,7 +158,8 @@
             <jstl:when test="${ rq_acciones.equals('consult') }">
                 function nuevo_registro(){
                     document.forma.target = "";
-                    document.forma.action = '/objectboard/headerpolls';
+                    document.forma.action = '/objectboard/multipartconfigservlet';
+                    document.forma.p_target.value = "headerpolls";
                     document.forma.p_acciones.value = "create";
                     document.forma.submit();
                 }
@@ -165,7 +167,8 @@
             <jstl:when test="${ rq_acciones.equals('create') }">
                 function recarga_registro(){
                     document.forma.target = "";
-                    document.forma.action = '/objectboard/headerpolls';
+                    document.forma.action = '/objectboard/multipartconfigservlet';
+                    document.forma.p_target.value = "headerpolls";
                     document.forma.p_acciones.value = "create";
                     document.forma.submit();
                 }
@@ -175,14 +178,16 @@
                         valida_duplicados_reference(this)
                     ) {
                         document.forma.target = "";
-                        document.forma.action = '/objectboard/headerpollsprocess';
+                        document.forma.action = '/objectboard/multipartconfigservlet';
+                        document.forma.p_target.value = "headerpollsprocess";
                         document.forma.p_acciones.value = "create";
                         document.forma.submit();
                     }
                 }
                 function cancelar(){
                     document.forma.target = "";
-                    document.forma.action = '/objectboard/headerpolls';
+                    document.forma.action = '/objectboard/multipartconfigservlet';
+                    document.forma.p_target.value = "headerpolls";
                     document.forma.p_acciones.value = "consult";
                     document.forma.submit();
                 }
@@ -243,14 +248,16 @@
                         valida_duplicados(this)
                     ) {
                         document.forma.target = "";
-                        document.forma.action = '/objectboard/headerpollsprocess';
+                        document.forma.action = '/objectboard/multipartconfigservlet';
+                        document.forma.p_target.value = "headerpollsprocess";
                         document.forma.p_acciones.value = "save";
                         document.forma.submit();
                     }
                 }
                 function cancelar(){
                     document.forma.target = "";
-                    document.forma.action = '/objectboard/headerpolls';
+                    document.forma.action = '/objectboard/multipartconfigservlet';
+                    document.forma.p_target.value = "headerpolls";
                     document.forma.p_acciones.value = "consult";
                     document.forma.submit();
                 }
@@ -272,6 +279,9 @@
                     return true;
                 }
                 function otras_validaciones() {
+                    //alert("an " + document.forma.p_iname_an.value);
+                    //alert("ac " + document.forma.p_iname_ac.value)
+                    //var iname = file_nombre();
                     if (document.forma.p_name.value == document.forma.p_names.value &&
                         document.forma.p_refe.value == document.forma.p_refes.value &&
                         document.forma.p_level1.value == document.forma.p_levels1.value &&
@@ -280,13 +290,21 @@
                         document.forma.p_level4.value == document.forma.p_levels4.value &&
                         document.forma.p_typif1.value == document.forma.p_typifs1.value &&
                         document.forma.p_typif2.value == document.forma.p_typifs2.value &&
-                        document.forma.p_typif3.value == document.forma.p_typifs3.value
+                        document.forma.p_typif3.value == document.forma.p_typifs3.value &&
+                        document.forma.p_iname_an.value == document.forma.p_iname_ac.value
                     ){
                         alert("No changes have been made to the fields of the selected record, so \nthere is no need to save.");
                         return false;
                     }
                     return true;
                 }
+
+                // saber el nombre del file seleccionado
+                //function file_nombre(){
+                //    let file  = document.getElementById('file');
+                //    return file.files[0].name;
+                //}
+
                 function valida_duplicados(source) {
                     var cta1=0;
                     var cta2=0;
@@ -314,7 +332,8 @@
         function borrar_registro(){
             if(validaItems(this)){
                 if ( confirm("Do You really want to delete the selected Polls?")) {
-                    document.forma.action = '/objectboard/headerpollsprocess';
+                    document.forma.action = '/objectboard/multipartconfigservlet';
+                    document.forma.p_target.value = "headerpollsprocess";
                     document.forma.p_acciones.value = "delete";
                     document.forma.submit();
                 }
@@ -358,7 +377,8 @@
             document.forma.p_refes.value = replaceAllChart(valor9,"-"," ");
             document.forma.target = "";
             document.forma.p_acciones.value = "save";
-            document.forma.action = "/objectboard/headerpolls";
+            document.forma.action = "/objectboard/multipartconfigservlet";
+            document.forma.p_target.value = "headerpolls";
             document.forma.submit();
         }
         function create_request(valor0,valor1,valor2,valor3) {
@@ -368,7 +388,8 @@
                 document.forma.p_names.value = replaceAllChart(valor2,"-"," ");
                 document.forma.p_refes.value = replaceAllChart(valor3,"-"," ");
                 document.forma.p_acciones.value = "consult";
-                document.forma.action = "/objectboard/bodysurveyquestions";
+                document.forma.action = "/objectboard/multipartconfigservlet";
+                document.forma.p_target.value = "bodysurveyquestions";
                 document.forma.submit();
             }else{
                 alert("The process of creating requirements for this survey has been closed, \nwhich is why it is no longer possible to add more.");
@@ -377,21 +398,24 @@
         function close_poll(code){
             if ( confirm("When closing this survey, you will no longer be\nable to add new questions to it, without previously carrying out\nthe process of reopening it, a process that can only be carried out\nif after the survey is closed, it has NOT been executed.\nDo you really want to continue?")) {
                 document.forma.p_code.value = code;
-                document.forma.action = '/objectboard/headerpollsprocess';
+                document.forma.action = '/objectboard/multipartconfigservlet';
+                document.forma.p_target.value = "headerpollsprocess";
                 document.forma.p_acciones.value = "close";
                 document.forma.submit();
             }
         }
         function open_poll(code){
                 document.forma.p_code.value = code;
-                document.forma.action = '/objectboard/headerpollsprocess';
+                document.forma.action = '/objectboard/multipartconfigservlet';
+                document.forma.p_target.value = "headerpollsprocess";
                 document.forma.p_acciones.value = "open";
                 document.forma.submit();
         }
         function copy_poll(code){
             if ( confirm("Please confirm that you want to make a copy of this survey.")) {
                 document.forma.p_code.value = code;
-                document.forma.action = '/objectboard/headerpollsprocess';
+                document.forma.action = '/objectboard/multipartconfigservlet';
+                document.forma.p_target.value = "headerpollsprocess";
                 document.forma.p_acciones.value = "copy";
                 document.forma.submit();
             }
@@ -400,13 +424,15 @@
             if ( confirm("Please confirm that you want to view this survey.")) {
                 document.forma.p_code.value = code;
                 document.forma.p_names.value = replaceAllChart(name,"-"," ");
-                document.forma.action = '/objectboard/viewsurvey';
+                document.forma.action = '/objectboard/multipartconfigservlet';
+                document.forma.p_target.value = "viewsurvey";
                 document.forma.p_acciones.value = "view";
                 document.forma.submit();
             }
         }
         function valida_columnas(){
-            document.forma.action = "/objectboard/headerpolls";
+            document.forma.action = "/objectboard/multipartconfigservlet";
+            document.forma.p_target.value = "headerpolls";
             document.forma.submit();
         }
     </script>
@@ -436,7 +462,7 @@ start ############################### Pre-loader ###############################
             <!--end ############################### page-header ###############################-->
             <!--<section id="content">-->
             <div class="container mt-2 mb-2">
-                <form class="user" role="form" method="post" action="#!" name="forma" >
+                <form class="user" role="form" method="post" action="#!" name="forma" id="formPhoto" enctype="multipart/form-data">
                     <jstl:choose>
                         <jstl:when test="${ rq_acciones.equals('create') }">
                             <div class="form-group row">
@@ -611,6 +637,18 @@ start ############################### Pre-loader ###############################
                                         <% } %>
                                         <%}%>
                                     </select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <label for="file" class="col-sm-4 col-form-label">Upload Image:</label>
+                                </div>
+                                <div class="col-sm-8" align="right" name="div-photo" id="div-photo">
+                                    <%--<img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">
+                                    <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">--%>
+                                        <img name="oldPhoto" id="oldPhoto" src="/objectboard/<%= of.searchLink("3") %>/img/no_images.jpeg" class="img-thumbnail" alt="Survey image" width="100" height="120">
+                                    <input name="p_file" id="file" type="file" accept="image/png, image/jpeg, image/jpg" class="image-cropper-container" align="center" onchange="filePreview(this)">
                                 </div>
                             </div>
                             <hr>
@@ -791,6 +829,17 @@ start ############################### Pre-loader ###############################
                                 </div>
                             </div>
                             <hr>
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <label for="file" class="col-sm-4 col-form-label">Upload Image:</label>
+                                </div>
+                                <div class="col-sm-8" align="right" name="div-photo" id="div-photo1">
+                                        <%--<img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">--%>
+                                        <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_companyNumber }&p_survey=${ rq_code }&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">
+                                    <input name="p_file" id="file" type="file" accept="image/png, image/jpeg, image/jpg" class="image-cropper-container" align="center" onchange="filePreview(this)">
+                                </div>
+                            </div>
+                            <hr>
                         </jstl:when>
                     </jstl:choose>
                     <!-- Rounded switch -->
@@ -916,6 +965,9 @@ start ############################### Pre-loader ###############################
                                                         </jstl:when>
                                                     </jstl:choose>
                                                 </td>
+                                                <%--<td>
+                                                    <img src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" alt="User-Profile-Image" width="50" height="49">
+                                                </td>--%>
                                                 <td>
                                                     <jstl:out value="${ rq_polls.get(x).getName() }">Lost Value</jstl:out>
                                                     <input type='hidden' value='<jstl:out value="${ rq_polls.get(x).getName() }"/>'
@@ -999,6 +1051,9 @@ start ############################### Pre-loader ###############################
                                                         </jstl:when>
                                                     </jstl:choose>
                                                 </td>
+                                                <%--<td>
+                                                    <img src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" alt="User-Profile-Image" width="50" height="49">
+                                                </td>--%>
                                                 <td>
                                                     <jstl:out value="${ rq_polls.get(x).getName() }">Lost Value</jstl:out>
                                                     <input type='hidden' value='<jstl:out value="${ rq_polls.get(x).getName() }"/>'
@@ -1083,6 +1138,8 @@ start ############################### Pre-loader ###############################
                     <input name='p_names' type='hidden' value='${ rq_name}' />
                     <input name='p_refes' type='hidden' value='${ rq_refe}' />
                     <input name='p_pantalla' type='hidden' value='headerpolls' />
+                    <input name='p_target' type='hidden' value='' />
+                    <input name='p_iname_ac' type='hidden' value='${ rq_iname_an }' />
                     <input name="p_acciones" type="hidden" value='<jstl:out value="${ rq_acciones }">Lost Value</jstl:out>'/>
                     <jstl:choose>
                         <jstl:when test="${ rq_acciones.equals('consult') }">
@@ -1102,6 +1159,7 @@ start ############################### Pre-loader ###############################
                             <input name='p_typifs1' type='hidden' value='<%= typif1 %>' />
                             <input name='p_typifs2' type='hidden' value='<%= typif2 %>' />
                             <input name='p_typifs3' type='hidden' value='<%= typif3 %>' />
+                            <input name='p_iname_an' type='hidden' value='${ rq_iname_an }' />
                         </jstl:when>
                     </jstl:choose>
                 </form>
@@ -1137,6 +1195,7 @@ start ############################### Pre-loader ###############################
 <script src="<%= request.getContextPath() %>/complements/bootstrap/datatable_custom/datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
 
 <!-- código JS propìo-->
+<script type=text/javascript src="<%= request.getContextPath() %>/complements/scripts/ImageControls.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/complements/bootstrap/datatable_custom/main.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -1168,6 +1227,50 @@ start ############################### Pre-loader ###############################
             ]
         });
     });
+</script>
+<script type="text/javascript">
+    function filePreview(input) {
+        var oldPhoto = document.getElementById('oldPhoto');
+        var filePath = input.value;
+        var allowedExtensions = /(\.jpg|\.png|\.jpeg)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert("Please upload file having extensions .jpg/ .png/ .jpeg/ only.");
+            input.value = "";
+            return false;
+        }else{
+            if (input.files[0].size > (1024 * 1024 * 1)){ // 1024 * 1024 * 1,= 1 MB)
+                alert("Please upload a photo not exceeding 1 Mb.");
+                input.value = "";
+                return false;
+            }
+            else{
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    var image = new Image();
+                    document.forma.p_iname_ac.value = input.files[0].name;
+                    reader.onload = function (e) {
+                        image.src = e.target.result;
+                        //Validate the File Height and Width.
+                        image.onload = function (){
+                            var height = this.height;
+                            var width = this.width;
+                            //if ( 600 > height && 600 > width){
+                                oldPhoto.remove();
+                                //alert("Height and Width must not exceed a Photo the."+height+" "+width);
+                                $('#file').before('<img id="oldPhoto" name="oldPhoto" class="img-thumbnail" alt="Photo Profile" src="' + e.target.result + '" width="100" height="120" /> &nbsp');
+                                // return false;
+                            //}
+                            alert("The uploaded image has a valid height and width of 500 x 499,\n" +
+                                  "and if it exceeds these dimensions, it will be readjusted upon storage. ");
+                            return true;
+                        }
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
+    }
+
 </script>
 </body>
 

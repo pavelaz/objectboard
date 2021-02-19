@@ -1,5 +1,7 @@
 package com.psg.objectboard.controller.servlet;
 
+import com.psg.objectboard.controller.common.FilesController;
+import com.psg.objectboard.controller.common.ImageResizer;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyAnswersDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyQuestionsDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
@@ -8,15 +10,15 @@ import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyAnswersVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
+import com.psg.objectboard.model.service.Other.OtherFunctions;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class BodySurveyQuestionsProcessServlet extends HttpServlet {
 
         String type = null,
                 bdoc = null,
+                iname_an = null,
                 bimg = null,
                 annex_type = null,
                 comment = null,
@@ -73,6 +76,9 @@ public class BodySurveyQuestionsProcessServlet extends HttpServlet {
         ArrayList<Integer> cual_0 = new ArrayList<Integer>();
         Double total_ptos =null;
         total_ptos = Double.parseDouble("0");
+        BodySurveyQuestionsVO cvo = new BodySurveyQuestionsVO();
+        OtherFunctions of = new OtherFunctions();
+        FilesController fc = new FilesController();
 
         // Recupero los valores necesarios para la accion
         switch(acciones){
@@ -128,13 +134,46 @@ public class BodySurveyQuestionsProcessServlet extends HttpServlet {
                 if(request.getParameter("p_status_rank")!=null){
                     rank =request.getParameter("p_status_rank");
                 }
+
+                if(request.getParameter("p_iname_an")!=null){
+                    iname_an=request.getParameter("p_iname_an");
+                }
+                Part file_imagen = null;
+                String file_name = "";
+                File f = null;
+                //FilesController filesController = new FilesController();
+
+                if(request.getPart("p_file")!=null){
+                    file_name = fc.getNameFile(request.getPart("p_file"));
+                    if (file_name.equals("")) {
+                        cvo.setQuestionImageName("no_images.jpeg");
+                        cvo.setRuta_image(of.searchLink("0") + "img/" +
+                                cvo.getQuestionImageName());
+                    }else {
+                        cvo.setQuestionImageName(file_name);
+                        file_imagen = request.getPart("p_file");
+                        InputStream is = file_imagen.getInputStream();
+                        f = new File(of.searchLink("4") + cvo.getQuestionImageName());
+                        File ff = new File(of.searchLink("4") + "copia_" + cvo.getQuestionImageName());
+                        fc.subirArchivos(is, ff);
+                        ImageResizer imarez = new ImageResizer();
+                        imarez.copyImage(of.searchLink("4") + "copia_" + cvo.getQuestionImageName(),
+                                of.searchLink("4") + cvo.getQuestionImageName(),500,499);
+                        fc.eliminarFichero(ff);
+                        cvo.setRuta_image(of.searchLink("4") + file_name);
+                    }
+                }else{
+                    cvo.setQuestionImageName("no_images.jpeg");
+                    cvo.setRuta_image(of.searchLink("0") + "img/" +
+                            cvo.getQuestionImageName());
+                }
                 break;
             default :
                 System.out.println("Accion solicitada no Existe");
                 break;
         }
         // Realizo las acciones solicitadas sobe la base de datos
-        BodySurveyQuestionsVO cvo = new BodySurveyQuestionsVO();
+
         BodySurveyQuestionsDAO cdo = new BodySurveyQuestionsDAO();
         OtherConexion ocn = new OtherConexion();
         Connection con = null;
@@ -164,6 +203,12 @@ public class BodySurveyQuestionsProcessServlet extends HttpServlet {
                 cvo.setStatusRank(rank);
 
                 cdo.insertBodySurveyQuestionsDAO(cvo,con);
+
+                if (cvo.getResult()){
+                    if (!cvo.getQuestionImageName().equals("") && !cvo.getQuestionImageName().equals("no_images.jpeg")){
+                        fc.deleteFile(of.searchLink("4") + cvo.getQuestionImageName());
+                    }
+                }
 
                 if (cvo.getResult()){ // suma nuevos puntos
                     HeadersSurveyVO hvo = new HeadersSurveyVO();
@@ -256,6 +301,16 @@ public class BodySurveyQuestionsProcessServlet extends HttpServlet {
                     cvo.setStatusRank(rank);
                     // cvo.setAuditableSolution("T"); se define en el DAO
                     cdo.updateBodySurveyQuestionsDAO(cvo,con);
+                    if (cvo.getResult()) {
+                        if (!cvo.getQuestionImageName().equals(iname_an)) {
+                            cdo.updateBodySurveyQuestionsImage(cvo, con);
+                        }
+                    }
+                    if (cvo.getResult()){
+                        if (!cvo.getQuestionImageName().equals("") && !cvo.getQuestionImageName().equals("no_images.jpeg")){
+                            fc.deleteFile(of.searchLink("4") + cvo.getQuestionImageName());
+                        }
+                    }
                     HeadersSurveyVO hvo = new HeadersSurveyVO();
                     HeadersSurveyDAO hdo = new HeadersSurveyDAO();
                     if (cvo.getResult()){
@@ -299,7 +354,7 @@ public class BodySurveyQuestionsProcessServlet extends HttpServlet {
 
         request.getRequestDispatcher("/WEB-INF/pages/jsp/process/general_process.jsp").forward(request, response);
     }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException e) {

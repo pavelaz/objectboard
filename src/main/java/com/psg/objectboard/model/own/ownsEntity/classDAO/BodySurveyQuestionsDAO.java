@@ -1,9 +1,13 @@
 package com.psg.objectboard.model.own.ownsEntity.classDAO;
 
+import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.SqlFunctions;
 import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -57,6 +61,20 @@ public class BodySurveyQuestionsDAO {
                 covo.setAuditableAnswerSolution(rs.getString(13));
                 covo.setQuestionPoints(rs.getDouble(14));
                 covo.setStatusRank(rs.getString(15));
+
+                covo.setQuestionImageName(rs.getString(16));
+                covo.setQuestionImageFile(rs.getBlob(17));
+
+                /*int blobLength = (int) covo.getQuestionImageFile().length();
+                byte[] blobAsBytes = rs.getBlob(17).getBytes(1, blobLength);
+                covo.setQuestionImageFileByte(blobAsBytes);*/
+
+                /*covo.setQuestionImageName(rs.getString(16));
+                covo.setQuestionImageFile(rs.getBlob(17));
+                int blobLength = (int) rs.getBlob(17).length();
+                byte[] blobAsBytes = rs.getBlob(17).getBytes(1, blobLength);
+                covo.setQuestionImageFileByte(blobAsBytes);*/
+
                 if (arrcom.isEmpty()){
                     arrcom.add(0,covo);
                 }else{
@@ -111,6 +129,13 @@ public class BodySurveyQuestionsDAO {
                 covo.setAuditableAnswerSolution(rs.getString(13));
                 covo.setQuestionPoints(rs.getDouble(14));
                 covo.setStatusRank(rs.getString(15));
+
+                covo.setQuestionImageName(rs.getString(16));
+                covo.setQuestionImageFile(rs.getBlob(17));
+                int blobLength = (int) rs.getBlob(17).length();
+                byte[] blobAsBytes = rs.getBlob(17).getBytes(1, blobLength);
+                covo.setQuestionImageFileByte(blobAsBytes);
+
                 if (arrcom.isEmpty()){
                     arrcom.add(0,covo);
                 }else{
@@ -135,7 +160,8 @@ public class BodySurveyQuestionsDAO {
     }
 
     public static void insertBodySurveyQuestionsDAO(BodySurveyQuestionsVO covo, Connection cone){
-        String sql = "INSERT INTO bodySurveyQuestions values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        FileInputStream fi = null;
+        String sql = "INSERT INTO bodySurveyQuestions values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         covo.setResult(false);
         try{
             pst = cone.prepareStatement(sql);
@@ -153,10 +179,16 @@ public class BodySurveyQuestionsDAO {
             pst.setString(12,"F");
             pst.setDouble(13,covo.getQuestionPoints());
             pst.setString(14,covo.getStatusRank());
+
+            File file = new File(covo.getRuta_image());
+            fi= new FileInputStream(file);
+            pst.setString(15,covo.getQuestionImageName());
+            pst.setBinaryStream(16,fi, (int) file.length());
+
             pst.executeUpdate();
             System.out.println("Operacion de Insert BodySurveyQuestions Exitosa.");
             covo.setResult(true);
-        }catch (SQLException ex){
+        }catch (SQLException | FileNotFoundException ex){
             covo.setResult(false);
             System.out.println("sql:"+sql);
             System.out.println("Error en la consulta de insert BodySurveyQuestions: "+ex.getMessage());
@@ -164,7 +196,7 @@ public class BodySurveyQuestionsDAO {
     }
 
     public static void insertBodySurveyQuestionsCopyDAO(BodySurveyQuestionsVO covo, Connection cone){
-        String sql = "INSERT INTO bodySurveyQuestions values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO bodySurveyQuestions values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         covo.setResult(false);
         try{
             pst = cone.prepareStatement(sql);
@@ -184,6 +216,10 @@ public class BodySurveyQuestionsDAO {
             pst.setString(13,covo.getAuditableAnswerSolution());
             pst.setDouble(14,covo.getQuestionPoints());
             pst.setString(15,covo.getStatusRank());
+
+            pst.setString(16, covo.getQuestionImageName());
+            pst.setBlob(17,covo.getQuestionImageFile());
+
             pst.executeUpdate();
             System.out.println("Operacion de Insert BodySurveyQuestions Exitosa.");
             covo.setResult(true);
@@ -292,6 +328,32 @@ public class BodySurveyQuestionsDAO {
         }
     }
 
+    public static void updateBodySurveyQuestionsImage(BodySurveyQuestionsVO muv, Connection cone) {
+        FileInputStream fi = null;
+        String sql = "UPDATE bodySurveyQuestions SET " +
+                "question_image_file=?, " +
+                "question_image_name=?" +
+                " WHERE (question_code=? AND headersSurvey_survey_code=? AND headersSurvey_bussinessUnit_bu_bis_code=?)";
+        try{
+            File file = new File(muv.getRuta_image());
+            fi = new FileInputStream(file);
+            pst = cone.prepareStatement(sql);
+            pst.setBinaryStream(1,fi, (int) file.length());
+            pst.setString(2,muv.getQuestionImageName());
+            pst.setLong(3,muv.getQuestionCode());
+            pst.setLong(4, muv.getHeadersSurveySurveyCode());
+            pst.setLong(5, muv.getHeadersSurveyBussinessUnitBuBisCode());
+            pst.execute();
+            System.out.println("Image Question actualizada con exito, ID: "+muv.getQuestionCode()+
+                    " , "+muv.getHeadersSurveySurveyCode() +
+                    " , "+muv.getHeadersSurveyBussinessUnitBuBisCode());
+            muv.setResult(true);
+        }catch (SQLException | FileNotFoundException ex){
+            System.out.println("Error en la actualizacion Imagen: "+ex.getMessage());
+            muv.setResult(false);
+        }
+    }
+
     public static String searchAuditableSolution(Integer tipo,String annex){
         String as = null;
         Integer anexo = Integer.parseInt(annex);
@@ -323,5 +385,87 @@ public class BodySurveyQuestionsDAO {
         }
         return count_id;
     }
+
+    public BodySurveyQuestionsVO serchBodySurveyQuestionsDAO(String unidad, String survey, String question){
+        BodySurveyQuestionsVO arrcom = new BodySurveyQuestionsVO();
+        cc = new OtherConexion();
+        cn = cc.conectarse(dataUser,dataPassword);
+        sqls = new SqlFunctions();
+        String sql = null,
+                condi = "headersSurvey_survey_code =" + survey +
+                        " AND headersSurvey_bussinessUnit_bu_bis_code = " + unidad +
+                        " AND question_code = " + question;
+        if(!condi.equals("")){
+            sql = sqls.get_select("bodySurveyQuestions", "*",condi,"","","");
+        }else{
+            sql = sqls.get_select("bodySurveyQuestions", "*","","","","");
+        }
+        try{
+            pst = cn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()){
+                arrcom.setQuestionCode(rs.getLong(1));
+                arrcom.setHeadersSurveySurveyCode(rs.getLong(2));
+                arrcom.setHeadersSurveyBussinessUnitBuBisCode(rs.getLong(3));
+                arrcom.setTypeRequest(rs.getInt(4));
+                arrcom.setMainRequest(rs.getString(5));
+                arrcom.setAnnexType(rs.getString(6));
+                arrcom.setBodyAnnexDoc(rs.getString(7));
+                arrcom.setBodyAnnexPhoto(rs.getString(8));
+                arrcom.setComment(rs.getString(9));
+                arrcom.setAnswerNumber(rs.getInt(10));
+                arrcom.setSolutionNumber(rs.getInt(11));
+                arrcom.setAuditableSolution(rs.getString(12));
+                arrcom.setAuditableAnswerSolution(rs.getString(13));
+                arrcom.setQuestionPoints(rs.getDouble(14));
+                arrcom.setStatusRank(rs.getString(15));
+
+                arrcom.setQuestionImageName(rs.getString(16));
+                arrcom.setQuestionImageFile(rs.getBlob(17));
+                int blobLength = (int) rs.getBlob(17).length();
+                byte[] blobAsBytes = rs.getBlob(17).getBytes(1, blobLength);
+                arrcom.setQuestionImageFileByte(blobAsBytes);
+
+            }
+            System.out.println("Consulta array exitosa: ");
+        }catch (SQLException ex){
+            System.out.println("Error en la consulta array: "+ex.getMessage());
+        }finally {
+            try{
+                if (cn != null){
+                    cn.close();
+                    pst.close();
+                    System.out.println("Conexion cerrada");
+                }
+            }catch (Exception e){
+                System.out.println("Error "+e);
+            }
+        }
+        return arrcom;
+    }
+
+    /*public static void updateHeadersSurveyImage(HeadersSurveyVO muv, Connection cone) {
+        FileInputStream fi = null;
+        String sql = "UPDATE masterUser SET " +
+                "mu_photo=?, " +
+                "mu_photo_name=?" +
+                " WHERE (mu_email=? AND bussinessUnit_bu_bis_code=?)";
+        try{
+            File file = new File(muv.getRuta_imagen());
+            fi = new FileInputStream(file);
+            pst = cone.prepareStatement(sql);
+            pst.setBinaryStream(1,fi, (int) file.length());
+            pst.setString(2,muv.getMuPhotoName());
+            pst.setString(3,muv.getMuEmail());
+            pst.setLong(4, muv.getBussinessUnitBuBisCode());
+            pst.execute();
+            System.out.println("Image Master User actualizada con exito, ID: "+muv.getMuEmail()+
+                    " , "+muv.getBussinessUnitBuBisCode());
+            muv.setResult(true);
+        }catch (SQLException | FileNotFoundException ex){
+            System.out.println("Error en la actualizacion Imagen: "+ex.getMessage());
+            muv.setResult(false);
+        }
+    }*/
 
 }

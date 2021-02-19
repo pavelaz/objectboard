@@ -1,10 +1,14 @@
 package com.psg.objectboard.model.own.ownsEntity.classDAO;
 
+import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
 import com.psg.objectboard.model.service.Other.DateFunctions;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.SqlFunctions;
 import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -64,6 +68,12 @@ public class HeadersSurveyDAO {
                 covo.setDateLastModification(rs.getString(19));
                 covo.setAudited(rs.getString(20));
                 covo.setTotalPoints(rs.getDouble(21));
+
+                covo.setSurveyImageName(rs.getString(22));
+                covo.setSurveyImageFile(rs.getBlob(23));
+                int blobLength = (int) rs.getBlob(23).length();
+                byte[] blobAsBytes = rs.getBlob(23).getBytes(1, blobLength);
+                covo.setSurveyImageFileByte(blobAsBytes);
 
                 if (arrcom.isEmpty()){
                     arrcom.add(0,covo);
@@ -126,6 +136,12 @@ public class HeadersSurveyDAO {
                 covo.setAudited(rs.getString(20));
                 covo.setTotalPoints(rs.getDouble(21));
 
+                covo.setSurveyImageName(rs.getString(22));
+                covo.setSurveyImageFile(rs.getBlob(23));
+                int blobLength = (int) rs.getBlob(23).length();
+                byte[] blobAsBytes = rs.getBlob(23).getBytes(1, blobLength);
+                covo.setSurveyImageFileByte(blobAsBytes);
+
                 if (arrcom.isEmpty()){
                     arrcom.add(0,covo);
                 }else{
@@ -150,7 +166,8 @@ public class HeadersSurveyDAO {
     }
 
     public static void insertHeadersSurveyDAO(HeadersSurveyVO covo, Connection cone){
-        String sql = "INSERT INTO headersSurvey values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        FileInputStream fi = null;
+        String sql = "INSERT INTO headersSurvey values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         covo.setResult(false);
         try{
             pst = cone.prepareStatement(sql);
@@ -174,17 +191,24 @@ public class HeadersSurveyDAO {
             pst.setString(18,covo.getDateLastModification());
             pst.setString(19,covo.getAudited());
             pst.setDouble(20,covo.getTotalPoints());
+
+            File file = new File(covo.getRuta_image());
+            fi= new FileInputStream(file);
+            pst.setString(21,covo.getSurveyImageName());
+            pst.setBinaryStream(22,fi, (int) file.length());
+
             pst.executeUpdate();
             System.out.println("Operacion de Insert headersSurvey Exitosa.");
             covo.setResult(true);
-        }catch (SQLException ex){
+        }catch (SQLException | FileNotFoundException ex){
             covo.setResult(false);
             System.out.println("Error en la consulta de insert headersSurvey: "+ex.getMessage());
         }
     }
 
     public static void insertHeadersSurveyCopyDAO(HeadersSurveyVO covo, Connection cone){
-        String sql = "INSERT INTO headersSurvey values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        //FileInputStream fi = null;
+        String sql = "INSERT INTO headersSurvey values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         covo.setResult(false);
         try{
             pst = cone.prepareStatement(sql);
@@ -209,6 +233,13 @@ public class HeadersSurveyDAO {
             pst.setString(19,covo.getDateLastModification());
             pst.setString(20,covo.getAudited());
             pst.setDouble(21,covo.getTotalPoints());
+
+            //File file = new File(covo.getRuta_image());
+            //fi= new FileInputStream(file);
+            pst.setString(22,covo.getSurveyImageName());
+            pst.setBlob(23,covo.getSurveyImageFile());
+            //pst.setBinaryStream(23,fi, (int) file.length());
+
             pst.executeUpdate();
             System.out.println("Operacion de Insert headersSurvey Exitosa.");
             covo.setResult(true);
@@ -258,6 +289,30 @@ public class HeadersSurveyDAO {
             System.out.println("Error en la actualizacion: "+ex.getMessage());
             System.out.println("sentencia: "+sql);
             cov.setResult(false);
+        }
+    }
+
+    public static void updateHeadersSurveyImage(HeadersSurveyVO muv, Connection cone) {
+        FileInputStream fi = null;
+        String sql = "UPDATE headersSurvey SET " +
+                "survey_image_file=?, " +
+                "survey_image_name=?" +
+                " WHERE (survey_code=? AND bussinessUnit_bu_bis_code=?)";
+        try{
+            File file = new File(muv.getRuta_image());
+            fi = new FileInputStream(file);
+            pst = cone.prepareStatement(sql);
+            pst.setBinaryStream(1,fi, (int) file.length());
+            pst.setString(2,muv.getSurveyImageName());
+            pst.setLong(3,muv.getSurveyCode());
+            pst.setLong(4, muv.getBussinessUnitBuBisCode());
+            pst.execute();
+            System.out.println("Image Survey actualizada con exito, ID: "+muv.getSurveyCode()+
+                    " , "+muv.getBussinessUnitBuBisCode());
+            muv.setResult(true);
+        }catch (SQLException | FileNotFoundException ex){
+            System.out.println("Error en la actualizacion Imagen: "+ex.getMessage());
+            muv.setResult(false);
         }
     }
 
@@ -365,6 +420,69 @@ public class HeadersSurveyDAO {
             System.out.println("sentencia: "+sql);
             cov.setResult(false);
         }
+    }
+
+    public HeadersSurveyVO serchHeadersSurveyrDAO(String unidad, String survey){
+        HeadersSurveyVO arrcom = new HeadersSurveyVO();
+        cc = new OtherConexion();
+        cn = cc.conectarse(dataUser,dataPassword);
+        sqls = new SqlFunctions();
+        String sql = null,
+               condi = "survey_code =" + survey + " AND bussinessUnit_bu_bis_code =" + unidad;
+        if(!condi.equals("")){
+            sql = sqls.get_select("headersSurvey", "*",condi,"","","");
+        }else{
+            sql = sqls.get_select("headersSurvey", "*","","","","");
+        }
+        try{
+            pst = cn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()){
+                //covo = new HeadersSurveyVO();
+                arrcom.setSurveyCode(rs.getLong(1));
+                arrcom.setBussinessUnitBuBisCode(rs.getLong(2));
+                arrcom.setName(rs.getString(3));
+                arrcom.setReferences(rs.getString(4));
+                arrcom.setTotalQuestions(rs.getInt(5));
+                arrcom.setSurveyStatus(rs.getString(6));
+                arrcom.setExecutionStatus(rs.getString(7));
+                arrcom.setVersion(rs.getInt(8));
+                arrcom.setDateCreation(rs.getString(9));
+                arrcom.setTypifiedBussinessUnitBuBisCode(rs.getLong(10));
+                arrcom.setTypifiedCtypifiedCode1(rs.getString(11));
+                arrcom.setTypifiedCtypifiedCode2(rs.getString(12));
+                arrcom.setTypifiedCtypifiedCode3(rs.getString(13));
+                arrcom.setOrganizationBussinessUnitBuBisCode(rs.getLong(14));
+                arrcom.setOrganizationLevel1(rs.getString(15));
+                arrcom.setOrganizationLevel2(rs.getString(16));
+                arrcom.setOrganizationLevel3(rs.getString(17));
+                arrcom.setOrganizationLevel4(rs.getString(18));
+                arrcom.setDateLastModification(rs.getString(19));
+                arrcom.setAudited(rs.getString(20));
+                arrcom.setTotalPoints(rs.getDouble(21));
+
+                arrcom.setSurveyImageName(rs.getString(22));
+                arrcom.setSurveyImageFile(rs.getBlob(23));
+                int blobLength = (int) rs.getBlob(23).length();
+                byte[] blobAsBytes = rs.getBlob(23).getBytes(1, blobLength);
+                arrcom.setSurveyImageFileByte(blobAsBytes);
+
+            }
+            System.out.println("Consulta array exitosa: ");
+        }catch (SQLException ex){
+            System.out.println("Error en la consulta array: "+ex.getMessage());
+        }finally {
+            try{
+                if (cn != null){
+                    cn.close();
+                    pst.close();
+                    System.out.println("Conexion cerrada");
+                }
+            }catch (Exception e){
+                System.out.println("Error "+e);
+            }
+        }
+        return arrcom;
     }
 
 }
