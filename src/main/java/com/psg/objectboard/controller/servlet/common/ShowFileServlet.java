@@ -52,6 +52,24 @@ public class ShowFileServlet extends HttpServlet {
             archivo = request.getParameter("p_archivo");
         }
 
+        // numero de encuesta
+        String survey = null;
+        if (request.getParameter("p_survey") != null) {
+            survey = request.getParameter("p_survey");
+        }
+
+        // numero de pregunta de la encuesta
+        String question = null;
+        if (request.getParameter("p_question") != null) {
+            question = request.getParameter("p_question");
+        }
+
+        // numero de ejecucion de la encuesta
+        String conduct = null;
+        if (request.getParameter("p_conduct") != null) {
+            conduct = request.getParameter("p_conduct");
+        }
+
         // archivo = null  --> Archivo: MasterUser no dirigido
         if (unidad == null && correo == null && archivo == null){
             String bub = null;
@@ -122,18 +140,6 @@ public class ShowFileServlet extends HttpServlet {
 
         // archivo = "2"  --> Archivo: bodyConductSurvey
         if (archivo.equals("2")){
-            String conduct = null;
-            if (request.getParameter("p_conduct") != null) {
-                conduct = request.getParameter("p_conduct");
-            }
-            String question = null;
-            if (request.getParameter("p_question") != null) {
-                question = request.getParameter("p_question");
-            }
-            String survey = null;
-            if (request.getParameter("p_survey") != null) {
-                survey = request.getParameter("p_survey");
-            }
 
             BodyConductSurveyDAO photoDto = new BodyConductSurveyDAO();
             photoDto.setDataUser(data_user);
@@ -154,10 +160,6 @@ public class ShowFileServlet extends HttpServlet {
 
         // archivo = "3"  --> Archivo: headersSurvey
         if (archivo.equals("3")){
-            String survey = null;
-            if (request.getParameter("p_survey") != null) {
-                survey = request.getParameter("p_survey");
-            }
 
             HeadersSurveyDAO photoDto = new HeadersSurveyDAO();
             photoDto.setDataUser(data_user);
@@ -178,14 +180,6 @@ public class ShowFileServlet extends HttpServlet {
 
         // archivo = "4"  --> Archivo: bodySurveyQuestions
         if (archivo.equals("4")){
-            String survey = null;
-            if (request.getParameter("p_survey") != null) {
-                survey = request.getParameter("p_survey");
-            }
-            String question = null;
-            if (request.getParameter("p_question") != null) {
-                question = request.getParameter("p_question");
-            }
 
             BodySurveyQuestionsDAO photoDto = new BodySurveyQuestionsDAO();
             photoDto.setDataUser(data_user);

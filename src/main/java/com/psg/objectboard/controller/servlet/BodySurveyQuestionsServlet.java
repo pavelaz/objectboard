@@ -51,11 +51,18 @@ public class BodySurveyQuestionsServlet extends HttpServlet {
             refe_poll = request.getParameter("p_refes");
         }
         request.setAttribute("rq_refes", refe_poll);
+
         String column = "0";
         if(request.getParameter("p_column")!=null) {
             column = request.getParameter("p_column");
         }
         request.setAttribute("rq_column", column);
+
+        String request_code = null;
+        if(request.getParameter("p_request_code")!=null) {
+            request_code = request.getParameter("p_request_code");
+        }
+        request.setAttribute("rq_request_code", column);
 
         BodySurveyQuestionsDAO cod= new BodySurveyQuestionsDAO();
         ArrayList<BodySurveyQuestionsVO> recuest = null;
@@ -63,14 +70,17 @@ public class BodySurveyQuestionsServlet extends HttpServlet {
         cod.setDataPassword(data_pasword);
 
         String condicion = null;
-        /*if (acciones.equals("save")){
+        if (acciones.equals("save")){
             condicion = "headersSurvey_bussinessUnit_bu_bis_code = " +
                     Integer.parseInt(company_number) +
                     " AND headersSurvey_survey_code = " +
                     Integer.parseInt(code_poll) +
-                    " AND question_code = " ;
+                    " AND question_code = " + request_code ;
+
+            recuest = cod.getListBodySurveyQuestions(condicion);
+
             request.setAttribute("rq_iname_an", recuest.get(0).getQuestionImageName());
-        }*/
+        }
 
         condicion = "headersSurvey_bussinessUnit_bu_bis_code = " +
                     Integer.parseInt(company_number) +

@@ -404,6 +404,8 @@ public class HeaderPollsProcessServlet extends HttpServlet {
                     cvo.setDateLastModification(fecha);
                     cvo.setAudited("F");
                     cvo.setTotalPoints(survey.get(0).getTotalPoints());
+                    cvo.setSurveyImageName(survey.get(0).getSurveyImageName());
+                    cvo.setSurveyImageFile(survey.get(0).getSurveyImageFile());
                     cdo.insertHeadersSurveyCopyDAO(cvo,con);
 
                     // crear copia de preguntas de encuesta
@@ -434,6 +436,8 @@ public class HeaderPollsProcessServlet extends HttpServlet {
                                 bsqvo.setAuditableAnswerSolution(questions.get(x).getAuditableAnswerSolution());
                                 bsqvo.setQuestionPoints(questions.get(x).getQuestionPoints());
                                 bsqvo.setStatusRank(questions.get(x).getStatusRank());
+                                bsqvo.setQuestionImageName(questions.get(x).getQuestionImageName());
+                                bsqvo.setQuestionImageFile(questions.get(x).getQuestionImageFile());
                                 bsqdo.insertBodySurveyQuestionsCopyDAO(bsqvo, con);
 
                                 if (bsqvo.getResult()){

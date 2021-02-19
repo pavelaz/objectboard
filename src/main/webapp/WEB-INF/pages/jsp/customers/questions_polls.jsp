@@ -512,7 +512,7 @@ start ############################### Pre-loader ###############################
                                 </div>
                                 <div class="col-sm-8" align="right" name="div-photo" id="div-photo1">
                                         <%--<img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_polls.get(x).getBussinessUnitBuBisCode() }&p_survey=${ rq_polls.get(x).getSurveyCode() }&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">--%>
-                                    <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_companyNumber }&p_survey=${ recuest_puntual.get(0).getHeadersSurveySurveyCode() }&p_question=${ recuest_puntual.get(0).getQuestionCode() }&p_archivo=4" class="img-thumbnail" alt="Survey image" width="100" height="120">
+                                    <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=${ rq_companyNumber }&p_survey=${ rq_code }&p_question=<%= request_code %>&p_archivo=4" class="img-thumbnail" alt="Survey image" width="100" height="120">
                                     <input name="p_file" id="file" type="file" accept="image/png, image/jpeg, image/jpg" class="image-cropper-container" align="center" onchange="filePreview(this)">
                                 </div>
                             </div>
@@ -1050,7 +1050,7 @@ start ############################### Pre-loader ###############################
                             <input name='p_bimg_old' type='hidden' value='<%= recuest_puntual.get(0).getBodyAnnexPhoto() %>' />
                             <input name='p_main_old' type='hidden' value='<%= recuest_puntual.get(0).getMainRequest() %>' />
                             <input name='p_puntos_old' type='hidden' value='<%= recuest_puntual.get(0).getQuestionPoints() %>' />
-                            <input name='p_iname_an' type='hidden' value='${ recuest_puntual.get(0).getQuestionImageName() }' />
+                            <input name='p_iname_an' type='hidden' value='${ rq_iname_an }' />
                         </jstl:when>
                     </jstl:choose>
                 </form>
