@@ -566,4 +566,26 @@ public class OtherInserts {
         }
         return none;
     }
+
+    // seccion view
+    public String incluye_PreguntaPorTipo(Integer ctaPregunta, String company_number, String code, Long questionCode,
+                                          Integer rType, Integer linea_b_image ){
+        String none = "";
+        if (rType == 1) {
+            if (linea_b_image == 0) {
+                none = none + "<div class=\"col-sm-2\">\n";
+                none = none + "<img name=\"oldPhoto_" + (ctaPregunta - 1) + "\" src='/objectboard/showfile.html?p_unit=" + company_number + "&p_survey=" + code +
+                        "&p_question=" + questionCode + "&p_archivo=4'" + " class='img-thumbnail' alt='Question image' width=\"100\" height=\"120\">\n";
+                none = none + "</div>\n";
+                linea_b_image = linea_b_image + 1;
+            }else{
+                none = none + "<div class=\"col-sm-2\">\n";
+                none = none + "<img name=\"oldPhoto_" + (ctaPregunta - 1) + "\" src='/objectboard/showfile.html?p_unit=" + company_number + "&p_survey=" + code +
+                        "&p_question=" + questionCode + "&p_archivo=4'" + " class='img-thumbnail' alt='Question image' width=\"100\" height=\"120\">\n";
+                none = none + "</div>\n";
+                linea_b_image = 0;
+            }
+        }
+        return none;
+    }
 }

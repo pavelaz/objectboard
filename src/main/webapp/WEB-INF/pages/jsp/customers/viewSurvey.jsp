@@ -3,6 +3,9 @@
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyAnswersVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyAnswersDAO" %>
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.HeadersSurveyDAO" %>
+<%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO" %>
+<%@ page import="com.psg.objectboard.model.service.Other.OtherInserts" %>
 <%--
   Created by IntelliJ IDEA.
   User: pavelaz
@@ -31,6 +34,10 @@
     if(request.getParameter("p_format")!=null) {
         format = Integer.parseInt(request.getParameter("p_format"));
     }
+
+    HeadersSurveyDAO hsd = new HeadersSurveyDAO();
+    HeadersSurveyVO hsv = null;
+    hsv = hsd.serchHeadersSurveyrDAO(company_number,code);
 
     BodySurveyQuestionsDAO sdo = new BodySurveyQuestionsDAO();
     sdo.setDataPassword(data_pasword);
@@ -70,6 +77,9 @@
             }
         }
     }
+
+    OtherInserts oi = new OtherInserts();
+    Integer linea_b_image = 0;
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -134,11 +144,24 @@ start ############################### Pre-loader ###############################
             <div class="container mt-2 mb-2">
                 <form class="user" role="form" method="post" action="#!" name="forma">
                     <div class="form-group row">
-                        <div class="col-sm-12" align="center">
-                            <label class="propia_r">
-                                <%= nombre %>
-                            </label>
-                        </div>
+                        <% if (hsv.getSurveyImageName().equals("no_images.jpeg")){ %>
+                            <div class="col-sm-12" align="center">
+                                <label class="propia_r">
+                                    <%= nombre %>
+                                </label>
+                            </div>
+                        <% }else {%>
+                            <div class="col-sm-6" align="center">
+                                <label class="propia_r">
+                                    <%= nombre %>
+                                </label>
+                            </div>
+                            <div class="col-sm-6" align="right">
+                                <label class="propia_r">
+                                    <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=<%= company_number %>&p_survey=<%= code %>&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">
+                                </label>
+                            </div>
+                        <% } %>
                     </div>
                     <hr>
                     <% if (format == 0){ %>
@@ -173,7 +196,19 @@ start ############################### Pre-loader ###############################
                                                 <% for(Integer y=0; y < answers.size();y++){ %>
                                                     <% if (questions.get(x).getTypeRequest() == 1){ %>
                                                         <div class="form-group row">
+                                                            <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")){ %>
+                                                               <% out.print(oi.incluye_PreguntaPorTipo(ctaPregunta, company_number, code, questions.get(x).getQuestionCode(), questions.get(x).getTypeRequest(),linea_b_image)); %>
+                                                                <%--<div class="col-sm-2">
+                                                                    <img name="oldPhoto_<%= ctaPregunta - 1 %>"
+                                                                         src="/objectboard/showfile.html?p_unit=<%= company_number %>&p_survey=<%= code %>&p_question=${questions.get(x).getQuestionCode()}&p_archivo=4"
+                                                                         class="img-thumbnail" alt="Question image" width="100" height="120">
+                                                                </div>--%>
+                                                            <%}%>
+                                                            <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")){ %>
+                                                            <div class="col-sm-5">
+                                                            <%}else{%>
                                                             <div class="col-sm-6">
+                                                            <%}%>
                                                                 <p>
                                                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                                                     <input type="radio" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
@@ -218,7 +253,9 @@ start ############################### Pre-loader ###############################
                                                                      <%}%>
                                                                 <%}%>
                                                             </div>
-                                                            <div class="col-sm-1"></div>
+                                                            <% if (questions.get(x).getQuestionImageName().equals("no_images.jpeg")){ %>
+                                                                <div class="col-sm-1"></div>
+                                                            <%}%>
                                                         </div>
                                                     <%}%>
                                                     <% if (questions.get(x).getTypeRequest() == 2){ %>
