@@ -3,8 +3,6 @@
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyAnswersVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyAnswersDAO" %>
-<%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.HeadersSurveyDAO" %>
-<%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO" %>
 <%@ page import="com.psg.objectboard.model.service.Other.OtherInserts" %>
 <%--
   Created by IntelliJ IDEA.
@@ -34,10 +32,6 @@
     if(request.getParameter("p_format")!=null) {
         format = Integer.parseInt(request.getParameter("p_format"));
     }
-
-    HeadersSurveyDAO hsd = new HeadersSurveyDAO();
-    HeadersSurveyVO hsv = null;
-    hsv = hsd.serchHeadersSurveyrDAO(company_number,code);
 
     BodySurveyQuestionsDAO sdo = new BodySurveyQuestionsDAO();
     sdo.setDataPassword(data_pasword);
@@ -79,7 +73,8 @@
     }
 
     OtherInserts oi = new OtherInserts();
-    Integer linea_b_image = 0;
+    //oi.setCta_imagen(0);
+    //oi.setCtaLinea(0);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -144,462 +139,497 @@ start ############################### Pre-loader ###############################
             <div class="container mt-2 mb-2">
                 <form class="user" role="form" method="post" action="#!" name="forma">
                     <div class="form-group row">
-                        <% if (hsv.getSurveyImageName().equals("no_images.jpeg")){ %>
-                            <div class="col-sm-12" align="center">
-                                <label class="propia_r">
-                                    <%= nombre %>
-                                </label>
-                            </div>
-                        <% }else {%>
-                            <div class="col-sm-6" align="center">
-                                <label class="propia_r">
-                                    <%= nombre %>
-                                </label>
-                            </div>
-                            <div class="col-sm-6" align="right">
-                                <label class="propia_r">
-                                    <img name="oldPhoto" id="oldPhoto" src="/objectboard/showfile.html?p_unit=<%= company_number %>&p_survey=<%= code %>&p_archivo=3" class="img-thumbnail" alt="Survey image" width="100" height="120">
-                                </label>
-                            </div>
-                        <% } %>
+                        <div class="col-sm-12" align="center">
+                            <label class="propia_r">
+                                <%= nombre %>
+                            </label>
+                        </div>
                     </div>
                     <hr>
                     <% if (format == 0){ %>
-                        <button type= "button" id="add1" title="View Survey Solution" class= "btn btn-outline-success" onClick=view_format(1) >
+                    <button type= "button" id="add1" title="View Survey Solution" class= "btn btn-outline-success" onClick=view_format(1) >
                         <i class='fa fa-file-o fa-fw'></i> Solutions</button>
                     <%}%>
                     <% if (format == 1){ %>
-                        <button type= "button" id="add1" title="View Survey Only" class= "btn btn-outline-success" onClick=view_format(0) >
+                    <button type= "button" id="add1" title="View Survey Only" class= "btn btn-outline-success" onClick=view_format(0) >
                         <i class='fa fa-file-o fa-fw'></i> Survey Only</button>
                     <%}%>
                     <hr>
                     <% for(Integer x=0; x < questions.size();x++){ %>
-                        <% ctaLinea = 0; %>
-                        <% if (pregunta != questions.get(x).getQuestionCode()){ %>
-                           <% pregunta = questions.get(x).getQuestionCode(); %>
-                           <div class="form-group row">
-                                <div class="col-sm-12">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <%= ctaPregunta %> - <%= questions.get(x).getMainRequest() %>
-                                            <%  ctaPregunta = ctaPregunta + 1; %>
+                    <% ctaLinea = 0; %>
+                    <% if (pregunta != questions.get(x).getQuestionCode()){ %>
+                    <% pregunta = questions.get(x).getQuestionCode(); %>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <%= ctaPregunta %> - <%= questions.get(x).getMainRequest() %>
+                                    <%  ctaPregunta = ctaPregunta + 1; %>
+                                </div>
+                                <div class="card-body">
+                                    <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")) {%>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12" align="right">
+                                                <img name="oldPhoto_<%= (ctaPregunta - 1) %>"
+                                                src='/objectboard/showfile.html?p_unit=<%= questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() %>&p_survey=<%=
+                                                questions.get(x).getHeadersSurveySurveyCode() %>&p_question=<%= questions.get(x).getQuestionCode() %>&p_archivo=4'
+                                                class='img-thumbnail' alt='Question image' width="200" height="240">
+                                            </div>
                                         </div>
-                                        <div class="card-body">
-                                            <% condicion = "bodySurveyQuestions_question_code = " + questions.get(x).getQuestionCode() +
-                                                           " AND bodySurveyQuestions_headersSurvey_survey_code = " + questions.get(x).getHeadersSurveySurveyCode() +
-                                                           " AND bodySurveyQuestions_headersSurvey_bussinessUnit_bu_bis_code = " + Long.parseLong(company_number);
-                                               answers = ado.getListBodySurveyAnswers(condicion);
-                                            %>
-                                            <% if(answers.size() != 0 &&
-                                                  questions.get(x).getTypeRequest() != 4 &&
-                                                  questions.get(x).getTypeRequest() != 5){ %>
-                                                <% for(Integer y=0; y < answers.size();y++){ %>
-                                                    <% if (questions.get(x).getTypeRequest() == 1){ %>
-                                                        <div class="form-group row">
-                                                            <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")){ %>
-                                                               <% out.print(oi.incluye_PreguntaPorTipo(ctaPregunta, company_number, code, questions.get(x).getQuestionCode(), questions.get(x).getTypeRequest(),linea_b_image)); %>
-                                                                <%--<div class="col-sm-2">
-                                                                    <img name="oldPhoto_<%= ctaPregunta - 1 %>"
-                                                                         src="/objectboard/showfile.html?p_unit=<%= company_number %>&p_survey=<%= code %>&p_question=${questions.get(x).getQuestionCode()}&p_archivo=4"
-                                                                         class="img-thumbnail" alt="Question image" width="100" height="120">
-                                                                </div>--%>
-                                                            <%}%>
-                                                            <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")){ %>
-                                                            <div class="col-sm-5">
-                                                            <%}else{%>
-                                                            <div class="col-sm-6">
-                                                            <%}%>
-                                                                <p>
-                                                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                    <input type="radio" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
-                                                                           name="p_<%= questions.get(x).getQuestionCode()%>"
-                                                                           value="<%= answers.get(y).getAnswerCode() %>"
-                                                                           <% if (format == 1 && answers.get(y).getAnswerSolution().equals("T")){ %>
-                                                                            checked >
-                                                                           <%}else{%>
-                                                                                >
-                                                                           <%}%>
-                                                                    <label for="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>">&nbsp; &nbsp;<%= answers.get(y).getAnswer() %></label>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-sm-5">
-                                                                <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
-                                                                <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerCode() %>">
-                                                                <%}%>
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                     ctaLinea =  ctaLinea + 1;
-                                                                     if (ctaLinea == 1){
-                                                                         if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                            <%= questions.get(x).getBodyAnnexDoc() %>
-                                                                         <%}else{%>
-                                                                            <%= questions.get(x).getBodyAnnexPhoto() %>
-                                                                         <%}%>
-                                                                         <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                     <%}%>
-                                                                     <% if (ctaLinea == 2){ %>
-                                                                         <%if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" id="dn_<%= questions.get(x).getQuestionCode()%>" value="">
-                                                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
-                                                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                                         <%}else{%>
-                                                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                                         <%}%>
-                                                                     <%}%>
-                                                                <%}%>
-                                                            </div>
-                                                            <% if (questions.get(x).getQuestionImageName().equals("no_images.jpeg")){ %>
-                                                                <div class="col-sm-1"></div>
-                                                            <%}%>
-                                                        </div>
-                                                    <%}%>
-                                                    <% if (questions.get(x).getTypeRequest() == 2){ %>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-6">
-                                                                <p>
-                                                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                    <input type="radio" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
-                                                                           name="p_<%= questions.get(x).getQuestionCode()%>"
-                                                                           value="<%= answers.get(y).getAnswerCode() %>"
-                                                                        <% if (format == 1 && answers.get(y).getAnswerSolution().equals("T")){ %>
-                                                                           checked >
-                                                                        <%}else{%>
-                                                                           >
-                                                                        <%}%>
-                                                                    <label for="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>">&nbsp; &nbsp;<%= answers.get(y).getAnswer() %></label>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-sm-5">
-                                                                <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
-                                                                    <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerCode() %>">
-                                                                <%}%>
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    ctaLinea =  ctaLinea + 1;
-                                                                    if (ctaLinea == 1){
-                                                                        if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                            <%= questions.get(x).getBodyAnnexDoc() %>
-                                                                        <%}else{%>
-                                                                            <%= questions.get(x).getBodyAnnexPhoto() %>
-                                                                        <%}%>
-                                                                        <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                    <%}%>
-                                                                    <% if (ctaLinea == 2){ %>
-                                                                <%if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" id="dn_<%= questions.get(x).getQuestionCode()%>" value="">
-                                                                <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
-                                                                       onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                                <%}else{%>
-                                                                <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                       onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                                <%}%>
-                                                                <%}%>
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
-                                                        </div>
-                                                    <%}%>
-                                                    <% if (questions.get(x).getTypeRequest() == 3){ %>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-6">
-                                                                <p>
-                                                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                    <input type="checkbox" class="form-check-input"
-                                                                           name="p_<%= questions.get(x).getQuestionCode()%>"
-                                                                           value="<%= answers.get(y).getAnswerCode() %>"
-                                                                        <% if (format == 1 && answers.get(y).getAnswerSolution().equals("T")){ %>
-                                                                           checked >
-                                                                        <%}else{%>
-                                                                           >
-                                                                        <%}%>
-                                                                    &nbsp; &nbsp;<%= answers.get(y).getAnswer() %>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-sm-5">
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    ctaLinea =  ctaLinea + 1;
-                                                                    if (ctaLinea == 1){
-                                                                        if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                            <%= questions.get(x).getBodyAnnexDoc() %>
-                                                                        <%}else{%>
-                                                                            <%= questions.get(x).getBodyAnnexPhoto() %>
-                                                                        <%}%>
-                                                                        <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                    <%}%>
-                                                                    <% if (ctaLinea == 2){ %>
-                                                                <% if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" id="dn_<%= questions.get(x).getQuestionCode()%>" value="">
-                                                                <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
-                                                                       onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                                <%}else{%>
-                                                                <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                       onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                                <%}%>
-                                                                <%}%>
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
-                                                        </div>
-                                                    <%}%>
-                                                    <% if (questions.get(x).getTypeRequest() == 6){ %>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-6">
-                                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                <p>Custom Text:</p>
-                                                                <input type="text" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
-                                                                       name="p_<%= questions.get(x).getQuestionCode() %>" onfocus="selecciona_contenido(this)"
-                                                                       maxlength="45" placeholder="Put text" class="form-control"
-                                                                    <% if (format == 1 && answers.get(y).getAuditableSolution().equals("F")){ %>
-                                                                       value="<%= answers.get(y).getAnswerOnlyText() %>" >
-                                                                    <%}else{%>
-                                                                        >
-                                                                    <%}%>
-                                                            </div>
-                                                            <div class="col-sm-2">
-                                                                <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
-                                                                <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerOnlyText() %>">
-                                                                <%}%>
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                        <%= questions.get(x).getBodyAnnexDoc() %>
-                                                                    <%}else{%>
-                                                                         <%= questions.get(x).getBodyAnnexPhoto() %>
-                                                                    <%}%>
-                                                                    <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                        <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>" >
-                                                                        <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                               name="p_d_<%= questions.get(x).getQuestionCode()%>"  accept=".pdf,.doc,.txt,.docx"
-                                                                               onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                        <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                                    <%}else{%>
-                                                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                                        <%}%>
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
-                                                        </div>
-                                                    <%}%>
-                                                    <% if (questions.get(x).getTypeRequest() == 7){ %>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-6">
-                                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                <p>Custom Number:</p>
-                                                                <input type="text" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
-                                                                       name="p_<%= questions.get(x).getQuestionCode()%>" onfocus="selecciona_contenido(this)"
-                                                                       maxlength="10" placeholder="Put number" class="form-control"
-                                                                    <% if (format == 1 && answers.get(y).getAuditableSolution().equals("F")){ %>
-                                                                       value="<%= answers.get(y).getAnswerOnlyNumber() %>" >
-                                                                    <%}else{%>
-                                                                        >
-                                                                    <%}%>
-                                                            </div>
-                                                            <div class="col-sm-2">
-                                                                <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
-                                                                <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerOnlyNumber() %>">
-                                                                <%}%>
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                        <%= questions.get(x).getBodyAnnexDoc() %>
-                                                                    <%}else{%>
-                                                                        <%= questions.get(x).getBodyAnnexPhoto() %>
-                                                                    <%}%>
-                                                                    <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
-                                                                       onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                                <%}else{%>
-                                                                <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                       onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                                <%}%>
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
-                                                        </div>
-                                                    <%}%>
-                                                    <% if (questions.get(x).getTypeRequest() == 8){ %>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-6">
-                                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                <p>Custom Time:</p>
-                                                                <input type="text" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
-                                                                       name="p_<%= questions.get(x).getQuestionCode()%>" onfocus="selecciona_contenido(this)"
-                                                                       maxlength="10" placeholder="Put time HH:mm:ss" class="form-control"
-                                                                    <% if (format == 1 && answers.get(y).getAuditableSolution().equals("F")){ %>
-                                                                       value="<%= answers.get(y).getAnswerOnlyTime() %>" >
-                                                                    <%}else{%>
-                                                                        >
-                                                                    <%}%>
-                                                            </div>
-                                                            <div class="col-sm-2">
-                                                                <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
-                                                                <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerOnlyTime() %>">
-                                                                <%}%>
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                        <%= questions.get(x).getBodyAnnexDoc() %>
-                                                                    <%}else{%>
-                                                                        <%= questions.get(x).getBodyAnnexPhoto() %>
-                                                                    <%}%>
-                                                                    <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
-                                                                       onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                                <%}else{%>
-                                                                <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                       onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                                <%}%>
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
-                                                        </div>
-                                                    <%}%>
-                                                    <% if (questions.get(x).getTypeRequest() == 9){ %>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-6">
-                                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                <p>Custom Date:</p>
-                                                                <input type="text" id="<%= questions.get(x).getQuestionCode()%> %>"
-                                                                       name="p_<%= questions.get(x).getQuestionCode()%>"
-                                                                       maxlength="10" class="form-control"  width="276"
-                                                                    <% if (format == 1 && answers.get(y).getAuditableSolution().equals("F")){ %>
-                                                                        value="<%= answers.get(y).getAnswerOnlyDate() %>" readonly/>
-                                                                    <%}else{%>
-                                                                        readonly/>
-                                                                    <%}%>
-                                                            </div>
-                                                            <div class="col-sm-2">
-                                                                <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
-                                                                <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerOnlyDate() %>">
-                                                                <%}%>
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                        <%= questions.get(x).getBodyAnnexDoc() %>
-                                                                    <%}else{%>
-                                                                        <%= questions.get(x).getBodyAnnexPhoto() %>
-                                                                    <%}%>
-                                                                    <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
-                                                                       onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                                <%}else{%>
-                                                                <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                       onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                                <%}%>
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
-                                                        </div>
-                                                    <%}%>
+                                    <%}%>
+                                    <% condicion = "bodySurveyQuestions_question_code = " + questions.get(x).getQuestionCode() +
+                                            " AND bodySurveyQuestions_headersSurvey_survey_code = " + questions.get(x).getHeadersSurveySurveyCode() +
+                                            " AND bodySurveyQuestions_headersSurvey_bussinessUnit_bu_bis_code = " + Long.parseLong(company_number);
+                                        answers = ado.getListBodySurveyAnswers(condicion);
+                                    %>
+                                    <% if(answers.size() != 0 &&
+                                            questions.get(x).getTypeRequest() != 4 &&
+                                            questions.get(x).getTypeRequest() != 5){ %>
+                                    <% for(Integer y=0; y < answers.size();y++){ %>
+                                    <% if (questions.get(x).getTypeRequest() == 1){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <p>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <input type="radio" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
+                                                       name="p_<%= questions.get(x).getQuestionCode()%>"
+                                                       value="<%= answers.get(y).getAnswerCode() %>"
+                                                    <% if (format == 1 && answers.get(y).getAnswerSolution().equals("T")){ %>
+                                                       checked >
+                                                <%}else{%>
+                                                >
                                                 <%}%>
+                                                <label for="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>">&nbsp; &nbsp;<%= answers.get(y).getAnswer() %></label>
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
+                                            <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerCode() %>">
+                                            <%}%>
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                ctaLinea =  ctaLinea + 1;
+                                                if (ctaLinea == 1){
+                                                    if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <%= questions.get(x).getBodyAnnexDoc() %>
                                             <%}else{%>
-                                                <% if (questions.get(x).getTypeRequest() == 4){ %>
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-6">
-                                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                            <p><%= questions.get(x).getBodyAnnexDoc()%> :</p>
-                                                            <div class="custom-file mb-3">
-                                                                <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
-                                                                       onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                        </div>
-                                                    </div>
-                                                <%}%>
-                                                <% if (questions.get(x).getTypeRequest() == 5){ %>
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-6">
-                                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                            <p><%= questions.get(x).getBodyAnnexPhoto()%> :</p>
-                                                            <div class="custom-file mb-3">
-                                                                <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                       name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                       onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                        </div>
-                                                    </div>
-                                                <%}%>
+                                            <%= questions.get(x).getBodyAnnexPhoto() %>
+                                            <%}%>
+                                            <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                            <%}%>
+                                            <% if (ctaLinea == 2){ %>
+                                            <%if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" id="dn_<%= questions.get(x).getQuestionCode()%>" value="">
+                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
+                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
+                                            <%}else{%>
+                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            <%}%>
+                                            <%}%>
                                             <%}%>
                                         </div>
-                                        <% if (questions.get(x).getComment().equals("T")){ %>
-                                            <div class="card-footer">
-                                                <div class="form-group row">
-                                                    <div class="col-sm-2">
-                                                        <label for="co" class="col-form-label">Comment :</label>
-                                                    </div>
-                                                    <div class="col-sm-10" >
-                                                        <textarea id="co" name="p_co_<%= questions.get(x).getQuestionCode()%>" rows="1" maxlength="145"
-                                                        cols="80" class="form-control" placeholder="Write here the comment." onfocus="selecciona_contenido(this)"></textarea>
-                                                    </div>
-                                                </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <%--<div class="form-group row">
+                                        <% out.print(oi.seccionViewPorTipo(x,y,questions,format,answers,ctaPregunta,ctaLinea)); %>
+                                        <% ctaLinea = ctaLinea + 1; %>
+                                        <%--
+                                        <div class="col-sm-6">
+                                            <p>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <input type="radio" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
+                                                       name="p_<%= questions.get(x).getQuestionCode()%>"
+                                                       value="<%= answers.get(y).getAnswerCode() %>"
+                                                    <% if (format == 1 && answers.get(y).getAnswerSolution().equals("T")){ %>
+                                                       checked >
+                                                <%}else{%>
+                                                >
+                                                <%}%>
+                                                <label for="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>">&nbsp; &nbsp;<%= answers.get(y).getAnswer() %></label>
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
+                                            <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerCode() %>">
+                                            <%}%>
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                ctaLinea =  ctaLinea + 1;
+                                                if (ctaLinea == 1){
+                                                    if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <%= questions.get(x).getBodyAnnexDoc() %>
+                                            <%}else{%>
+                                            <%= questions.get(x).getBodyAnnexPhoto() %>
+                                            <%}%>
+                                            <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                            <%}%>
+                                            <% if (ctaLinea == 2){ %>
+                                            <%if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" id="dn_<%= questions.get(x).getQuestionCode()%>" value="">
+                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
+                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
+                                            <%}else{%>
+                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            <%}%>
+                                            <%}%>
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                        --%>
+                                    <%--</div> --%>
+                                    <%}%>
+                                    <% if (questions.get(x).getTypeRequest() == 2){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <p>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <input type="radio" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
+                                                       name="p_<%= questions.get(x).getQuestionCode()%>"
+                                                       value="<%= answers.get(y).getAnswerCode() %>"
+                                                    <% if (format == 1 && answers.get(y).getAnswerSolution().equals("T")){ %>
+                                                       checked >
+                                                <%}else{%>
+                                                >
+                                                <%}%>
+                                                <label for="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>">&nbsp; &nbsp;<%= answers.get(y).getAnswer() %></label>
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
+                                            <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerCode() %>">
+                                            <%}%>
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                ctaLinea =  ctaLinea + 1;
+                                                if (ctaLinea == 1){
+                                                    if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <%= questions.get(x).getBodyAnnexDoc() %>
+                                            <%}else{%>
+                                            <%= questions.get(x).getBodyAnnexPhoto() %>
+                                            <%}%>
+                                            <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                            <%}%>
+                                            <% if (ctaLinea == 2){ %>
+                                            <%if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" id="dn_<%= questions.get(x).getQuestionCode()%>" value="">
+                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
+                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
+                                            <%}else{%>
+                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            <%}%>
+                                            <%}%>
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <%}%>
+                                    <% if (questions.get(x).getTypeRequest() == 3){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <p>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <input type="checkbox" class="form-check-input"
+                                                       name="p_<%= questions.get(x).getQuestionCode()%>"
+                                                       value="<%= answers.get(y).getAnswerCode() %>"
+                                                    <% if (format == 1 && answers.get(y).getAnswerSolution().equals("T")){ %>
+                                                       checked >
+                                                <%}else{%>
+                                                >
+                                                <%}%>
+                                                &nbsp; &nbsp;<%= answers.get(y).getAnswer() %>
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                ctaLinea =  ctaLinea + 1;
+                                                if (ctaLinea == 1){
+                                                    if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <%= questions.get(x).getBodyAnnexDoc() %>
+                                            <%}else{%>
+                                            <%= questions.get(x).getBodyAnnexPhoto() %>
+                                            <%}%>
+                                            <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                            <%}%>
+                                            <% if (ctaLinea == 2){ %>
+                                            <% if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" id="dn_<%= questions.get(x).getQuestionCode()%>" value="">
+                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
+                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
+                                            <%}else{%>
+                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            <%}%>
+                                            <%}%>
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <%}%>
+                                    <% if (questions.get(x).getTypeRequest() == 6){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <p>Custom Text:</p>
+                                            <input type="text" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
+                                                   name="p_<%= questions.get(x).getQuestionCode() %>" onfocus="selecciona_contenido(this)"
+                                                   maxlength="45" placeholder="Put text" class="form-control"
+                                                <% if (format == 1 && answers.get(y).getAuditableSolution().equals("F")){ %>
+                                                   value="<%= answers.get(y).getAnswerOnlyText() %>" >
+                                            <%}else{%>
+                                            >
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
+                                            <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerOnlyText() %>">
+                                            <%}%>
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <%= questions.get(x).getBodyAnnexDoc() %>
+                                            <%}else{%>
+                                            <%= questions.get(x).getBodyAnnexPhoto() %>
+                                            <%}%>
+                                            <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>" >
+                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>"  accept=".pdf,.doc,.txt,.docx"
+                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
+                                            <%}else{%>
+                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            <%}%>
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <%}%>
+                                    <% if (questions.get(x).getTypeRequest() == 7){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <p>Custom Number:</p>
+                                            <input type="text" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
+                                                   name="p_<%= questions.get(x).getQuestionCode()%>" onfocus="selecciona_contenido(this)"
+                                                   maxlength="10" placeholder="Put number" class="form-control"
+                                                <% if (format == 1 && answers.get(y).getAuditableSolution().equals("F")){ %>
+                                                   value="<%= answers.get(y).getAnswerOnlyNumber() %>" >
+                                            <%}else{%>
+                                            >
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
+                                            <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerOnlyNumber() %>">
+                                            <%}%>
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <%= questions.get(x).getBodyAnnexDoc() %>
+                                            <%}else{%>
+                                            <%= questions.get(x).getBodyAnnexPhoto() %>
+                                            <%}%>
+                                            <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
+                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
+                                            <%}else{%>
+                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            <%}%>
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <%}%>
+                                    <% if (questions.get(x).getTypeRequest() == 8){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <p>Custom Time:</p>
+                                            <input type="text" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
+                                                   name="p_<%= questions.get(x).getQuestionCode()%>" onfocus="selecciona_contenido(this)"
+                                                   maxlength="10" placeholder="Put time HH:mm:ss" class="form-control"
+                                                <% if (format == 1 && answers.get(y).getAuditableSolution().equals("F")){ %>
+                                                   value="<%= answers.get(y).getAnswerOnlyTime() %>" >
+                                            <%}else{%>
+                                            >
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
+                                            <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerOnlyTime() %>">
+                                            <%}%>
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <%= questions.get(x).getBodyAnnexDoc() %>
+                                            <%}else{%>
+                                            <%= questions.get(x).getBodyAnnexPhoto() %>
+                                            <%}%>
+                                            <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
+                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
+                                            <%}else{%>
+                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            <%}%>
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <%}%>
+                                    <% if (questions.get(x).getTypeRequest() == 9){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <p>Custom Date:</p>
+                                            <input type="text" id="<%= questions.get(x).getQuestionCode()%> %>"
+                                                   name="p_<%= questions.get(x).getQuestionCode()%>"
+                                                   maxlength="10" class="form-control"  width="276"
+                                                    <% if (format == 1 && answers.get(y).getAuditableSolution().equals("F")){ %>
+                                                   value="<%= answers.get(y).getAnswerOnlyDate() %>" readonly/>
+                                            <%}else{%>
+                                            readonly/>
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
+                                            <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerOnlyDate() %>">
+                                            <%}%>
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <%= questions.get(x).getBodyAnnexDoc() %>
+                                            <%}else{%>
+                                            <%= questions.get(x).getBodyAnnexPhoto() %>
+                                            <%}%>
+                                            <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <%if (!questions.get(x).getAnnexType().equals("0")){
+                                                if (questions.get(x).getAnnexType().equals("1")){%>
+                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
+                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
+                                            <%}else{%>
+                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            <%}%>
+                                            <%}%>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <%}%>
+                                    <%}%>
+                                    <%}else{%>
+                                    <% if (questions.get(x).getTypeRequest() == 4){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <p><%= questions.get(x).getBodyAnnexDoc()%> :</p>
+                                            <div class="custom-file mb-3">
+                                                <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                                <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" value="" id="dn_<%= questions.get(x).getQuestionCode()%>">
+                                                <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
+                                                       name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
+                                                       onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
+                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
                                             </div>
-                                        <%}%>
+                                        </div>
+                                        <div class="col-sm-6">
+                                        </div>
+                                    </div>
+                                    <%}%>
+                                    <% if (questions.get(x).getTypeRequest() == 5){ %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <p><%= questions.get(x).getBodyAnnexPhoto()%> :</p>
+                                            <div class="custom-file mb-3">
+                                                <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
+                                                <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
+                                                <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
+                                                       name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
+                                                       onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
+                                                <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                        </div>
+                                    </div>
+                                    <%}%>
+                                    <%}%>
+                                </div>
+                                <% if (questions.get(x).getComment().equals("T")){ %>
+                                <div class="card-footer">
+                                    <div class="form-group row">
+                                        <div class="col-sm-2">
+                                            <label for="co" class="col-form-label">Comment :</label>
+                                        </div>
+                                        <div class="col-sm-10" >
+                                                        <textarea id="co" name="p_co_<%= questions.get(x).getQuestionCode()%>" rows="1" maxlength="145"
+                                                                  cols="80" class="form-control" placeholder="Write here the comment." onfocus="selecciona_contenido(this)"></textarea>
+                                        </div>
                                     </div>
                                 </div>
-                           </div>
-                        <%}%>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
                     <%}%>
                     <hr>
                     <input name='p_code' type='hidden' value='<%= code %>' />
@@ -632,9 +662,9 @@ start ############################### Pre-loader ###############################
 <script type="text/javascript">
     $(document).ready(function() {
         <% for(Integer x=0; x < questions.size();x++){ %>
-            <% if (questions.get(x).getTypeRequest() == 9){ %>
-                var date_input=$('input[name="p_<%= questions.get(x).getQuestionCode()%>"]'); //our date input has the name "p_datexpires"
-            <%}%>
+        <% if (questions.get(x).getTypeRequest() == 9){ %>
+        var date_input=$('input[name="p_<%= questions.get(x).getQuestionCode()%>"]'); //our date input has the name "p_datexpires"
+        <%}%>
         <%}%>
         // var date_input=$('input[name="p_datepicker"]'); //our date input has the name "p_datexpires"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
