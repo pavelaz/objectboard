@@ -187,12 +187,12 @@
                 var con = 0;
                 var no_con = 0;
                 <% for (Integer x = 1; x < questions.size()+1;x++){ %>
-                    if(document.forma.p_audi_<%=x%>.value === 'T'){
+                    if(document.forma.p_audi_<%= x %>.value === 'T'){
                         con++;
-                        document.forma.p_status_<%=x%>.value = 'T';
+                        document.forma.p_status_<%= x %>.value = 'T';
                     }else{
                         no_con++;
-                        document.forma.p_status_<%=x%>.value = 'F';
+                        document.forma.p_status_<%= x %>.value = 'F';
                     }
                 <%}%>
                 document.forma.p_conform.value = con;
@@ -619,7 +619,8 @@ start ############################### Pre-loader ###############################
                                     <% out.print(oi.valida_result(questions.get(x).getQuestionCode(),0,questions.get(x).getTypeRequest(),
                                             ejecuciones.get(x).getBcsAnswer(),ejecuciones.get(x).getBcsAnswerSolution(),questions.get(x).getAnnexType(),
                                             ejecuciones.get(x).getBcsAnswerOnlyText(),ejecuciones.get(x).getBcsAnswerOnlyNumber(),
-                                            ejecuciones.get(x).getBcsAnswerOnlyTime(),ejecuciones.get(x).getBcsAnswerOnlyDate(),ctaPregunta - 1)); %>
+                                            ejecuciones.get(x).getBcsAnswerOnlyTime(),ejecuciones.get(x).getBcsAnswerOnlyDate(),ctaPregunta - 1,
+                                            ejecuciones.get(x).getRankMin(),ejecuciones.get(x).getRankMax())); %>
                                     <%}%>
                                 </div>
                                 <%}else{%>
@@ -627,7 +628,8 @@ start ############################### Pre-loader ###############################
                                 <% out.print(oi.valida_result(questions.get(x).getQuestionCode(),1,questions.get(x).getTypeRequest(),
                                         ejecuciones.get(x).getBcsAnswer(),ejecuciones.get(x).getBcsAnswerSolution(),questions.get(x).getAnnexType(),
                                         ejecuciones.get(x).getBcsAnswerOnlyText(),ejecuciones.get(x).getBcsAnswerOnlyNumber(),
-                                        ejecuciones.get(x).getBcsAnswerOnlyTime(),ejecuciones.get(x).getBcsAnswerOnlyDate(),ctaPregunta - 1)); %>
+                                        ejecuciones.get(x).getBcsAnswerOnlyTime(),ejecuciones.get(x).getBcsAnswerOnlyDate(),ctaPregunta - 1,
+                                        ejecuciones.get(x).getRankMin(),ejecuciones.get(x).getRankMax())); %>
                                 <%}%>
                                 <%}%>
                             </div>
@@ -647,7 +649,7 @@ start ############################### Pre-loader ###############################
                     <input name='p_no_conform' type='hidden' value='' />
                     <% if (format == 2){%>
                         <% for (Integer x = 1; x < questions.size()+1;x++){ %>
-                            <input name='p_status_<%=x%>' type='hidden' value='' />
+                            <input name='p_status_<%= x %>' type='hidden' value='' />
                         <%}%>
                     <%}%>
                 </form>

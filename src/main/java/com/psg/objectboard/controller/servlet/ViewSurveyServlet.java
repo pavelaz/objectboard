@@ -1,6 +1,8 @@
 package com.psg.objectboard.controller.servlet;
 
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.HeadersSurveyDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,16 @@ public class ViewSurveyServlet extends HttpServlet {
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
         //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
         //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
+        String code = null;
+        if(request.getParameter("p_code")!=null) {
+            code = request.getParameter("p_code");
+        }
+        HeadersSurveyDAO hsd = new HeadersSurveyDAO();
+        HeadersSurveyVO hsv = hsd.serchHeadersSurveyrDAO(company_number,code);
+        if (!hsv.getSurveyImageName().equals("no_images.jpeg"))
+            request.setAttribute("rq_imagen", true);
+        else
+            request.setAttribute("rq_imagen", false);
 
         request.setAttribute("rq_companyName", company_name);
         request.setAttribute("rq_userName", user_name);

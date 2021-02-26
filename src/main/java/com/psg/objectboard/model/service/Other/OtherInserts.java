@@ -351,6 +351,231 @@ public class OtherInserts {
         return none;
     }
 
+    /*public String valida_result(Long code,Integer evento,Integer typeRequest,String answer,String answerSolution,
+                                String annexType,String onlyText,Double onlyNumber,String onlyTime,String onlyDate,
+                                Integer question){
+        String none = "";
+        if(evento==1) {
+            none = none + "<div class='card-footer'>\n";
+        }
+        none = none + "<hr>\n";
+        none = none + "<div class=\"form-group row\">\n";
+        if (annexType.equals("0")){
+            none = none + "<div class=\"col-md-12\" align=\"right\">\n";
+            none = none + "<input type=\"hidden\" id=\"comen\" name=\"p_comen_" + question + "\"  value=\" \">\n";
+            none = none + "<label for=\"co\" class=\"col-form-label\">Result of the audit:</label>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;\n";
+            if (typeRequest == 1 || typeRequest==2 || typeRequest==3){
+                if (answer.equals(answerSolution)){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked disabled>&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" disabled>&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" disabled>&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked disabled>&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }
+            }
+            if (typeRequest == 6){
+                if (onlyText.trim().length()==0){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    if (answer.equals(onlyText)){
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }
+                }
+            }
+            if (typeRequest == 7){
+                if (onlyNumber==0){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    if (Double.parseDouble(answer) == onlyNumber){
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }
+                }
+            }
+            if (typeRequest==8){
+                if (onlyTime.trim().length()==0){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    if (answer.equals(onlyTime)){
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }
+                }
+            }
+            if (typeRequest==9){
+                if (onlyDate.trim().length()==0){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    if (answer.equals(onlyDate)){
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked disabled>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }
+                }
+            }
+        }else{
+            none = none + "<div class=\"col-md-2\" align=\"left\">\n";
+            none = none + "<label for=\"co\" class=\"col-form-label\">Audit Comment:</label>\n";
+            none = none + "</div>\n";
+            none = none + "<div class=\"col-md-4\" align=\"left\">\n";
+            none = none + "<input type=\"text\" id=\"comen\" name=\"p_comen_" + question + "\" class=\"form-control\" maxlength=\"145\" placeholder=\"Comment the result\">\n";
+            none = none + "</div>\n";
+            none = none + "<div class=\"col-md-6\" align=\"right\">\n";
+            none = none + "<label for=\"co\" class=\"col-form-label\">Result of the audit:</label>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;\n";
+            if (typeRequest == 1 || typeRequest==2 || typeRequest==3){
+                if (answer.equals(answerSolution)){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked>&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" >&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" >&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked>&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }
+            }
+            if (typeRequest == 4 || typeRequest == 5){
+                none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+            }
+            if (typeRequest == 6){
+                if (onlyText.trim().length()==0){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    if (answer.equals(onlyText)){
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }
+                }
+            }
+            if (typeRequest == 7){
+                if (onlyNumber==0){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    if (Double.parseDouble(answer) == onlyNumber){
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }
+                }
+            }
+            if (typeRequest==8){
+                if (onlyTime.trim().length()==0){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    if (answer.equals(onlyTime)){
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }
+                }
+            }
+            if (typeRequest==9){
+                if (onlyDate.trim().length()==0){
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                    none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\">&nbsp;&nbsp;\n";
+                    none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                }else{
+                    if (answer.equals(onlyDate)){
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" checked>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }else{
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_1\" name=\"p_audi_" + question + "\" value=\"T\" >&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class= \"col-form-label\" >Correct</label>&nbsp;&nbsp; &nbsp; &nbsp;\n";
+                        none = none + "<input type=\"radio\" id=\"codep_" + question + "_2\" name=\"p_audi_" + question + "\" value=\"F\" checked>&nbsp;&nbsp;\n";
+                        none = none + "<label for=\"co\" class=\"col-form-label\" >Incorrect</label>\n";
+                    }
+                }
+            }
+        }
+
+        none = none + "</div>\n";
+        none = none + "</div>\n";
+        if(evento==1) {
+            none = none + "</div>\n";
+        }
+        return none;
+    } */
+
+
     public String valida_comentario(Integer format,Long code,String coment){
         String none = "";
         none = none + "<div class=\"form-group row\">\n";
@@ -751,7 +976,7 @@ public class OtherInserts {
                         }
                     }
                 }*/
-            /*}
+    /*}
         }
         return none;
     }*/

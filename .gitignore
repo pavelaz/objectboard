@@ -1,14 +1,8 @@
 /src/main/java/com/psg/objectboard/model/own/por_borrar/
 
 /target
-/*-*/target
 
 /.idea
 /.settings
 /.project
 *.iml
-/*-*/.project
-/*-*/.settings
-/*-*/.classpath
-/*-*/.checkstyle
-/*-*/.springBeans

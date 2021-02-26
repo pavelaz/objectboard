@@ -144,6 +144,16 @@ start ############################### Pre-loader ###############################
                                 <%= nombre %>
                             </label>
                         </div>
+                        <jstl:if test="${ rq_imagen }">
+                            <div class="form-group row">
+                                <div class="col-sm-12" align="right">
+                                    <img name="oldPhoto_<%= (ctaPregunta - 1) %>"
+                                         src='/objectboard/showfile.html?p_unit=<%= company_number %>&p_survey=<%=
+                                                code %>&p_archivo=3'
+                                         class='img-thumbnail' alt='Question image' width="200" height="240">
+                                </div>
+                            </div>
+                        </jstl:if>
                     </div>
                     <hr>
                     <% if (format == 0){ %>

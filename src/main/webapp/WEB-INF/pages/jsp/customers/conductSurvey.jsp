@@ -299,6 +299,15 @@ start ############################### Pre-loader ###############################
             <!--<section id="content">-->
             <div class="container mt-2 mb-2">
                 <form class="user" role="form" method="post" action="#!" name="forma" enctype="multipart/form-data">
+                    <jstl:if test="${ rq_imagen }">
+                        <div class="form-group row">
+                            <div class="col-sm-12" align="left">
+                                <img name="oldPhoto_t"
+                                     src='/objectboard/showfile.html?p_unit=<%= company_number %>&p_survey=<%= code %>&p_archivo=3'
+                                     class='img-thumbnail' alt='Question image' width="100" height="120">
+                            </div>
+                        </div>
+                    </jstl:if>
                     <div class="form-group row">
                         <div class="col-sm-12" align="center">
                             <label class="propia_r">
@@ -427,6 +436,16 @@ start ############################### Pre-loader ###############################
                                             <%  ctaPregunta = ctaPregunta + 1; %>
                                         </div>
                                         <div class="card-body">
+                                            <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")) {%>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12" align="right">
+                                                    <img name="oldPhoto_<%= (ctaPregunta - 1) %>"
+                                                         src='/objectboard/showfile.html?p_unit=<%= questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() %>&p_survey=<%=
+                                                questions.get(x).getHeadersSurveySurveyCode() %>&p_question=<%= questions.get(x).getQuestionCode() %>&p_archivo=4'
+                                                         class='img-thumbnail' alt='Question image' width="200" height="240">
+                                                </div>
+                                            </div>
+                                            <%}%>
                                             <% condicion = "bodySurveyQuestions_question_code = " + questions.get(x).getQuestionCode() +
                                                            " AND bodySurveyQuestions_headersSurvey_survey_code = " + questions.get(x).getHeadersSurveySurveyCode() +
                                                            " AND bodySurveyQuestions_headersSurvey_bussinessUnit_bu_bis_code = " + Long.parseLong(company_number);
