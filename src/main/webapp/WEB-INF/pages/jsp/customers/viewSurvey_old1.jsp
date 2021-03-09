@@ -73,8 +73,8 @@
         }
     }
 
-    //OtherInserts oi = null;
-    //ViewVO vivo = null;
+    OtherInserts oi = null;
+    ViewVO vivo = null;
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -176,96 +176,50 @@ start ############################### Pre-loader ###############################
                                             <strong><%= ctaPregunta %> - <%= questions.get(x).getMainRequest() %></strong>
                                             <% ctaPregunta = ctaPregunta + 1; %>
                                             <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")) { %>
-                                            <!-- Boton Modal -->
-                                                <button type="button" title="Show Supporting Image" class="btn btn-circle btn-sm" data-toggle="modal" data-target="#ModalCenter<%= ctaPregunta %>">
+                                                <button type="button" class="btn btn-circle btn-sm" data-toggle="modal" data-target="#ModalCenter<%= ctaPregunta %>">
                                                     <img src="<%= request.getContextPath() %>/complements/img/info.gif" alt="x" width="20" height="20"/>
                                                 </button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="ModalCenter<%= ctaPregunta %>" tabindex="-1" role="dialog"
-                                                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title text-info" id="ModalLongTitle">Important supporting Image</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
+                                            <%}%>
+                                        </div>
+                                        <div class="card-body">
+                                            <%-- <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")) { %>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2" align="right">
+                                                        <div class="card">
+                                                            <div class="card-body">
                                                                 <img name="oldPhoto_<%= (ctaPregunta - 1) %>"
                                                                      src='/objectboard/showfile.html?p_unit=<%= questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() %>&p_survey=<%=
                                                         questions.get(x).getHeadersSurveySurveyCode() %>&p_question=<%= questions.get(x).getQuestionCode() %>&p_archivo=4'
-                                                                     class='img-thumbnail' alt='Question image' width="499" height="500">
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                     class='img-thumbnail' alt='Question image' width="200" height="240">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             <%}%>
-                                        </div>
-                                        <div class="card-body">
+                                            <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")) {%>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-12" align="right">
+                                                        <img name="oldPhoto_<%= (ctaPregunta - 1) %>"
+                                                        src='/objectboard/showfile.html?p_unit=<%= questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() %>&p_survey=<%=
+                                                        questions.get(x).getHeadersSurveySurveyCode() %>&p_question=<%= questions.get(x).getQuestionCode() %>&p_archivo=4'
+                                                        class='img-thumbnail' alt='Question image' width="200" height="240">
+                                                    </div>
+                                                </div>
+                                            <%}%> --%>
                                             <% condicion = "bodySurveyQuestions_question_code = " + questions.get(x).getQuestionCode() +
                                                     " AND bodySurveyQuestions_headersSurvey_survey_code = " + questions.get(x).getHeadersSurveySurveyCode() +
                                                     " AND bodySurveyQuestions_headersSurvey_bussinessUnit_bu_bis_code = " + Long.parseLong(company_number);
                                                 answers = ado.getListBodySurveyAnswers(condicion);
+                                                oi = new OtherInserts();
+                                                vivo = new ViewVO(0,0,0,1);
+                                                vivo.setFormat(format);
+                                                vivo.setCtaLinea(ctaLinea);
+                                                vivo.setCtaPregunta(ctaPregunta);
                                             %>
                                             <% if(answers.size() != 0 && questions.get(x).getTypeRequest() != 4 && questions.get(x).getTypeRequest() != 5){ %>
-                                                <% for(int y = 0; y < answers.size(); y++){ %>
+                                                <% for(Integer y=0; y < answers.size();y++){ %>
                                                     <% if (questions.get(x).getTypeRequest() == 1){ %>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-6">
-                                                                <%-- out.print(oi.pone_viewPartOne(questions,answers,x,y,format)); --%>
-                                                                <p>
-                                                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                    <input type="radio" id="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>"
-                                                                           name="p_<%= questions.get(x).getQuestionCode()%>"
-                                                                           value="<%= answers.get(y).getAnswerCode() %>"
-                                                                        <% if (format == 1 && answers.get(y).getAnswerSolution().equals("T")){ %>
-                                                                           checked >
-                                                                    <%}else{%>
-                                                                    >
-                                                                    <%}%>
-                                                                    <label for="<%= questions.get(x).getQuestionCode()%>_<%= answers.get(y).getAnswerCode() %>">&nbsp; &nbsp;<%= answers.get(y).getAnswer() %></label>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-sm-5">
-                                                                <% if (answers.get(y).getAnswerSolution().equals("T")) {%>
-                                                                    <input type="hidden" name="p_as_<%= questions.get(x).getQuestionCode()%>" value="<%= answers.get(y).getAnswerCode() %>">
-                                                                <%}%>
-                                                                <%if (!questions.get(x).getAnnexType().equals("0")){
-                                                                    ctaLinea =  ctaLinea + 1;
-                                                                    if (ctaLinea == 1){ %>
-                                                                        <%-- out.print(oi.pone_viewAnnexTypeTitle(questions,ctaLinea,x)); --%>
-                                                                        <%if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                            <%= questions.get(x).getBodyAnnexDoc() %>
-                                                                        <%}else{%>
-                                                                            <%= questions.get(x).getBodyAnnexPhoto() %>
-                                                                        <%}%>
-                                                                        <input type="hidden" name="p_ant_<%= questions.get(x).getQuestionCode()%>" value="<%= questions.get(x).getAnnexType() %>">
-                                                                    <%}%>
-                                                                    <% if (ctaLinea == 2){ %>
-                                                                        <% if (questions.get(x).getAnnexType().equals("1")){%>
-                                                                            <%-- out.print(oi.pone_viewAnnexTypeDoc(questions,x)); --%>
-                                                                            <input type="hidden" name="p_dn_<%= questions.get(x).getQuestionCode()%>" id="dn_<%= questions.get(x).getQuestionCode()%>" value="">
-                                                                            <input type="file" class="custom-file-input" id="d_<%= questions.get(x).getQuestionCode()%>"
-                                                                                   name="p_d_<%= questions.get(x).getQuestionCode()%>" accept=".pdf,.doc,.txt,.docx"
-                                                                                   onchange=validar_files('d_<%= questions.get(x).getQuestionCode()%>','dn_<%= questions.get(x).getQuestionCode()%>')>
-                                                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose document file</label>
-                                                                        <%}else{%>
-                                                                            <%-- out.print(oi.pone_viewAnnexTypeImg(questions,x)); --%>
-                                                                            <input type="hidden" name="p_in_<%= questions.get(x).getQuestionCode()%>" value="" id="in_<%= questions.get(x).getQuestionCode()%>">
-                                                                            <input type="file" class="custom-file-input" id="i_<%= questions.get(x).getQuestionCode()%>"
-                                                                                   name="p_i_<%= questions.get(x).getQuestionCode()%>" accept=".png,.jpeg,.jpg,.bmp,.gif"
-                                                                                   onchange=validar_files('i_<%= questions.get(x).getQuestionCode()%>','in_<%= questions.get(x).getQuestionCode()%>')>
-                                                                            <label class="custom-file-label" for="<%= questions.get(x).getQuestionCode()%>">Choose image file</label>
-                                                                        <%}%>
-                                                                    <%}%>
-                                                                <%}%>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
-                                                        </div>
+                                                        <% out.print(oi.seccionViewPorTipo(x,y,questions,answers,vivo)); %>
                                                     <%}%>
                                                     <% if (questions.get(x).getTypeRequest() == 2){ %>
                                                         <%-- out.print(oi.seccionViewPorTipo(x,y,questions,answers,vivo)); --%>
@@ -554,11 +508,11 @@ start ############################### Pre-loader ###############################
                                                     </div>
                                                     <%}%>
 
-                                                    <%--
+                                                    <%
                                                         format = vivo.getFormat();
                                                         ctaLinea = vivo.getCtaLinea();
                                                         ctaPregunta = vivo.getCtaPregunta();
-                                                    --%>
+                                                    %>
 
                                                 <%}%>
                                             <%}else{%>
@@ -599,11 +553,11 @@ start ############################### Pre-loader ###############################
                                                 </div>
                                                 <%}%>
 
-                                                <%--
+                                                <%
                                                     format = vivo.getFormat();
                                                     ctaLinea = vivo.getCtaLinea();
                                                     ctaPregunta = vivo.getCtaPregunta();
-                                                --%>
+                                                %>
 
                                             <%}%>
                                         </div>

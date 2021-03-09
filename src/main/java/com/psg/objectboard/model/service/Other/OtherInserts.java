@@ -349,7 +349,6 @@ public class OtherInserts {
         }
         return none;
     }
-
     /*public String valida_result(Long code,Integer evento,Integer typeRequest,String answer,String answerSolution,
                                 String annexType,String onlyText,Double onlyNumber,String onlyTime,String onlyDate,
                                 Integer question){
@@ -573,7 +572,6 @@ public class OtherInserts {
         }
         return none;
     } */
-
 
     public String valida_comentario(Integer format,Long code,String coment){
         String none = "";
@@ -814,79 +812,93 @@ public class OtherInserts {
     }
 
     // seccion view
-    public String seccionViewPorTipo(Integer x, Integer y, ArrayList<BodySurveyQuestionsVO> questions,
+    /*public String pone_viewAnnexTypeImg(ArrayList<BodySurveyQuestionsVO> questions,Integer x){
+        String none = "";
+        none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">" + "\n";
+        none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\" " +
+                "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\" " +
+                "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>" + "\n";
+        none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>" + "\n";
+
+        return none;
+    }
+
+    public String pone_viewAnnexTypeDoc(ArrayList<BodySurveyQuestionsVO> questions,Integer x){
+        String none = "";
+        none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">" + "\n";
+        none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() +
+                "\" name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" onchange=validar_files('d_" +
+                questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>";
+        none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>" + "\n";
+
+        return none;
+    }*/
+
+    /*public String pone_viewPartOne(ArrayList<BodySurveyQuestionsVO> questions,ArrayList<BodySurveyAnswersVO> answers,Integer x,Integer y,Integer format){
+        String none = "";
+        none = none + "<p>" + "\n";
+        none = none + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;" + "\n";
+        none = none + "<input type=\"radio\" id=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() + "\" ";
+        none = none + "name=\"p_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\" ";
+        if ( format == 1 && answers.get(y).getAnswerSolution().equals("T"))
+            none = none + "checked >" + "\n";
+        else
+            none = none + ">" + "\n";
+        none = none + "<label for=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() +
+                "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>" + "\n";
+        none = none + "</p>" + "\n";
+
+       return none;
+    }*/
+
+    /*public String pone_viewAnnexTypeTitle(ArrayList<BodySurveyQuestionsVO> questions,Integer ctaLinea,Integer x){
+        String none = "";
+        if (ctaLinea == 1){
+            if (questions.get(x).getAnnexType().equals("1"))
+                questions.get(x).getBodyAnnexDoc();
+            else
+                questions.get(x).getBodyAnnexPhoto();
+            none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" +
+                    questions.get(x).getAnnexType() + "\">" + "\n";
+        }
+        return none;
+    }*/
+    /*private String pone_viewAnnexTypeImg(String none,ArrayList<BodySurveyQuestionsVO> questions,Integer x){
+        none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">" + "\n";
+        none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\" " +
+                "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\" " +
+                "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>" + "\n";
+        none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>" + "\n";
+
+        return none;
+    }*/
+
+    /*private String pone_viewAnnexTypeDoc(String none,ArrayList<BodySurveyQuestionsVO> questions,Integer x){
+        none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">" + "\n";
+        none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() +
+                "\" name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" onchange=validar_files('d_" +
+                questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>";
+        none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>" + "\n";
+
+        return none;
+    }*/
+
+    /*private String pone_viewAnnexTypeTitle(String none,ViewVO vivo,ArrayList<BodySurveyQuestionsVO> questions,Integer x){
+        if (vivo.getCtaLinea() == 1){
+            if (questions.get(x).getAnnexType().equals("1"))
+                questions.get(x).getBodyAnnexDoc();
+            else
+                questions.get(x).getBodyAnnexPhoto();
+            none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">" + "\n";
+        }
+        return none;
+    }*/
+
+    /*public String seccionViewPorTipo(Integer x, Integer y, ArrayList<BodySurveyQuestionsVO> questions,
                                      ArrayList<BodySurveyAnswersVO> answers, ViewVO vivo){
         String none= "";
 
         if (questions.get(x).getTypeRequest() == 1){
-            if (questions.get(x).getQuestionImageName().equals("no_images.jpeg")) {
-                // sin imagen
-                none = none + "<div class=\"form-group row\">" + "\n";
-                none = none + "<div class=\"col-sm-6\">" + "\n";
-                none = none + "<p>" + "\n";
-                none = none + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;" + "\n";
-                none = none + "<input type=\"radio\" id=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() + "\" ";
-                none = none + "name=\"p_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\" ";
-                if ( vivo.getFormat() == 1 && answers.get(y).getAnswerSolution().equals("T"))
-                    none = none + "checked >" + "\n";
-                else
-                    none = none + ">" + "\n";
-                none = none + "<label for=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() +
-                              "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>" + "\n";
-                none = none + "</p>" + "\n";
-                none = none + "</div>" + "\n";
-                none = none + "<div class=\"col-sm-5\">" + "\n";
-                if (answers.get(y).getAnswerSolution().equals("T")) {
-                    none = none + "<input type=\"hidden\" name=\"p_as_" + questions.get(x).getQuestionCode() +
-                                  "\" value=\"" + answers.get(y).getAnswerCode() + "\">" + "\n";
-                }
-                // resuelve el anexo
-                if (!questions.get(x).getAnnexType().equals("0")){
-                    vivo.setCtaLinea(vivo.getCtaLinea() + 1);
-                    if (vivo.getCtaLinea() == 1){
-                        if (questions.get(x).getAnnexType().equals("1"))
-                            questions.get(x).getBodyAnnexDoc();
-                        else
-                            questions.get(x).getBodyAnnexPhoto();
-                        none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">" + "\n";
-                    }
-                    if (vivo.getCtaLinea() == 2){
-                        if (questions.get(x).getAnnexType().equals("1")){
-                            none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">" + "\n";
-                            none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() +
-                                          "\" name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" onchange=validar_files('d_" +
-                                          questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>";
-                            none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>" + "\n";
-                        }else{
-                            none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">" + "\n";
-                            none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\" " +
-                                          "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\" " +
-                                          "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>" + "\n";
-                            none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>" + "\n";
-                        }
-                    }
-                }
-                none = none + "</div>" + "\n";
-                none = none + "<div class=\"col-sm-1\"></div>" + "\n";
-                none = none + "</div>" + "\n";
-            }else{
-                // con imagen
-                /*if (vivo.getCtaImagen() == 1) {
-                    none = none + "<div class=\"form-group row\">" + "\n";
-                        none = none + "<div class=\"col-sm-2\">\n";
-                            none = none + "<div class=\"card\">" + "\n";
-                                none = none + "<div class=\"card-body\">" + "\n";
-                                    none = none + "<img name=\"oldPhoto_" + (vivo.getCtaPregunta() - 1) + "\" src='/objectboard/showfile.html?p_unit=" +
-                                            questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() + "&p_survey=" +
-                                            questions.get(x).getHeadersSurveySurveyCode() + "&p_question=" +
-                                            questions.get(x).getQuestionCode() + "&p_archivo=4'" +
-                                            " class='img-thumbnail' alt='Question image' width=\"200\" height=\"240\">\n";
-                                none = none + "</div>" + "\n";
-                            none = none + "</div>" + "\n";
-                        none = none + "</div>" + "\n";
-                    none = none + "</div>" + "\n";
-                }
-                vivo.setCtaImagen(vivo.getCtaImagen() + 1);*/
                 none = none + "<div class=\"form-group row\">" + "\n";
                     none = none + "<div class=\"col-sm-6\">" + "\n";
                         none = none + "<p>" + "\n";
@@ -898,70 +910,61 @@ public class OtherInserts {
                             else
                                 none = none + ">" + "\n";
                             none = none + "<label for=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() +
-                                    "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>" + "\n";
+                                          "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>" + "\n";
                         none = none + "</p>" + "\n";
                     none = none + "</div>" + "\n";
                     none = none + "<div class=\"col-sm-5\">" + "\n";
-                        if (answers.get(y).getAnswerSolution().equals("T")) {
-                            none = none + "<input type=\"hidden\" name=\"p_as_" + questions.get(x).getQuestionCode() +
-                                    "\" value=\"" + answers.get(y).getAnswerCode() + "\">" + "\n";
+                    if (answers.get(y).getAnswerSolution().equals("T")) {
+                        none = none + "<input type=\"hidden\" name=\"p_as_" + questions.get(x).getQuestionCode() +
+                                      "\" value=\"" + answers.get(y).getAnswerCode() + "\">" + "\n";
+                    }
+                    // resuelve el anexo
+                    if (!questions.get(x).getAnnexType().equals("0")){
+                        vivo.setCtaLinea(vivo.getCtaLinea() + 1);
+                        pone_viewAnnexTypeTitle(none,vivo,questions,x);
+                        /*if (vivo.getCtaLinea() == 1){
+                            if (questions.get(x).getAnnexType().equals("1"))
+                                questions.get(x).getBodyAnnexDoc();
+                            else
+                                questions.get(x).getBodyAnnexPhoto();
+                            none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">" + "\n";
+                        }*/
+                       /* if (vivo.getCtaLinea() == 2){
+                            if (questions.get(x).getAnnexType().equals("1")){
+                                pone_viewAnnexTypeDoc(none,questions,x);
+                                /*none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">" + "\n";
+                                none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() +
+                                              "\" name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" onchange=validar_files('d_" +
+                                              questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>";
+                                none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>" + "\n";*/
+                            /*}else{
+                                pone_viewAnnexTypeImg(none,questions,x);
+                                /*none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">" + "\n";
+                                none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\" " +
+                                              "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\" " +
+                                              "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>" + "\n";
+                                none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>" + "\n";*/
+                            /*}
                         }
-                        // resuelve el anexo
-                        if (!questions.get(x).getAnnexType().equals("0")){
-                            vivo.setCtaLinea(vivo.getCtaLinea() + 1);
-                            if (vivo.getCtaLinea() == 1){
-                                if (questions.get(x).getAnnexType().equals("1"))
-                                    questions.get(x).getBodyAnnexDoc();
-                                else
-                                    questions.get(x).getBodyAnnexPhoto();
-                                none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">" + "\n";
-                            }
-                            if (vivo.getCtaLinea() == 2){
-                                if (questions.get(x).getAnnexType().equals("1")){
-                                    none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">" + "\n";
-                                    none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() +
-                                            "\" name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" onchange=validar_files('d_" +
-                                            questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>";
-                                    none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>" + "\n";
-                                }else{
-                                    none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">" + "\n";
-                                    none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\" " +
-                                            "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\" " +
-                                            "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>" + "\n";
-                                    none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>" + "\n";
-                                }
-                            }
-                        }
+                    }
                     none = none + "</div>" + "\n";
                     none = none + "<div class=\"col-sm-1\"></div>" + "\n";
                 none = none + "</div>" + "\n";
-                /*none = none + "<div class=\"form-group row\">" + "\n";
-                if (vivo.getCtaImagen() == 1) {
-                    none = none + "<div class=\"col-sm-2\">\n";
-                    //none = none + "<div class=\"card\">" + "\n";
-                    //none = none + "<div class=\"card-body\">" + "\n";
-                    none = none + "<img name=\"oldPhoto_" + (vivo.getCtaPregunta() - 1) + "\" src='/objectboard/showfile.html?p_unit=" +
-                            questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() + "&p_survey=" +
-                            questions.get(x).getHeadersSurveySurveyCode() + "&p_question=" +
-                            questions.get(x).getQuestionCode() + "&p_archivo=4'" +
-                            " class='img-thumbnail' alt='Question image' width=\"200\" height=\"240\">\n";
-                    //none = none + "</div>" + "\n";
-                    // none = none + "</div>" + "\n";
-                }else{
-
-                none = none + "</div>" + "\n";
-                none = none + "<div class=\"col-sm-5\">" + "\n";
-                none = none + "<p>" + "\n";
-                none = none + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;" + "\n";
-                none = none + "<input type=\"radio\" id=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() + "\" ";
-                none = none + "name=\"p_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\" ";
-                if ( vivo.getFormat() == 1 && answers.get(y).getAnswerSolution().equals("T"))
-                    none = none + "checked >" + "\n";
-                else
-                    none = none + ">" + "\n";
-                none = none + "<label for=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() +
-                        "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>" + "\n";
-                none = none + "</p>" + "\n";
+        }
+        if (questions.get(x).getTypeRequest() == 2){
+            none = none + "<div class=\"form-group row\">" + "\n";
+                none = none + "<div class=\"col-sm-6\">" + "\n";
+                    none = none + "<p>" + "\n";
+                        none = none + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;" + "\n";
+                        none = none + "<input type=\"radio\" id=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() + "\" ";
+                        none = none + "name=\"p_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\" ";
+                        if ( vivo.getFormat() == 1 && answers.get(y).getAnswerSolution().equals("T"))
+                            none = none + "checked >" + "\n";
+                        else
+                            none = none + ">" + "\n";
+                        none = none + "<label for=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() +
+                                      "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>" + "\n";
+                    none = none + "</p>" + "\n";
                 none = none + "</div>" + "\n";
                 none = none + "<div class=\"col-sm-5\">" + "\n";
                 if (answers.get(y).getAnswerSolution().equals("T")) {
@@ -971,241 +974,37 @@ public class OtherInserts {
                 // resuelve el anexo
                 if (!questions.get(x).getAnnexType().equals("0")){
                     vivo.setCtaLinea(vivo.getCtaLinea() + 1);
-                    if (vivo.getCtaLinea() == 1){
-                        if (questions.get(x).getAnnexType().equals("1"))
-                            questions.get(x).getBodyAnnexDoc();
-                        else
-                            questions.get(x).getBodyAnnexPhoto();
-                        none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">" + "\n";
-                    }
-                    if (vivo.getCtaLinea() == 2){
+                    pone_viewAnnexTypeTitle(none,vivo,questions,x);
+                            /*if (vivo.getCtaLinea() == 1){
+                                if (questions.get(x).getAnnexType().equals("1"))
+                                    questions.get(x).getBodyAnnexDoc();
+                                else
+                                    questions.get(x).getBodyAnnexPhoto();
+                                none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">" + "\n";
+                            }*/
+                    /*if (vivo.getCtaLinea() == 2){
                         if (questions.get(x).getAnnexType().equals("1")){
-                            none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">" + "\n";
-                            none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() +
-                                    "\" name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" onchange=validar_files('d_" +
-                                    questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>";
-                            none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>" + "\n";
-                        }else{
-                            none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">" + "\n";
-                            none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\" " +
-                                    "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\" " +
-                                    "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>" + "\n";
-                            none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>" + "\n";
-                        }
+                            pone_viewAnnexTypeDoc(none,questions,x);
+                                    /*none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">" + "\n";
+                                    none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() +
+                                                  "\" name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" onchange=validar_files('d_" +
+                                                  questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>";
+                                    none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>" + "\n";*/
+                        /*}else{
+                            pone_viewAnnexTypeImg(none,questions,x);
+                                    /*none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">" + "\n";
+                                    none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\" " +
+                                                  "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\" " +
+                                                  "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>" + "\n";
+                                    none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>" + "\n";*/
+                        /*}
                     }
                 }
                 none = none + "</div>" + "\n";
-                none = none + "</div>" + "\n";*/
-            }
+                none = none + "<div class=\"col-sm-1\"></div>" + "\n";
+            none = none + "</div>" + "\n";
         }
-        //none = none + "" + "\n";
-        //none = none + "" + "\n";
 
-        return none;
-    }
-
-    /*public String seccionViewPorTipo(Integer x, Integer y, ArrayList<BodySurveyQuestionsVO> questions, Integer format,
-                                     ArrayList<BodySurveyAnswersVO> answers, Integer ctaPregunta,Integer ctaLinea){
-        String none= "";
-        this.setCtaLinea(ctaLinea);
-
-        if (questions.get(x).getTypeRequest() == 1) {
-            if (questions.get(x).getQuestionImageName().equals("no_images.jpeg")) {
-                none = none + "<div class=\"col-sm-6\">\n";
-                none = none + "<p>\n";
-                none = none + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\n";
-                none = none + "<input type=\"radio\" id=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() +
-                        "\" name=\"p_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\"";
-                if (format == 1 && answers.get(y).getAnswerSolution().equals("T"))
-                    none = none + " checked >\n";
-                else
-                    none = none + " >\n";
-                none = none + "<label for=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() + "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>\n";
-                none = none + "</p>\n";
-                none = none + "</div>\n";
-                none = none + "<div class=\"col-sm-5\">\n";
-                if (answers.get(y).getAnswerSolution().equals("T")) {
-                    none = none + "<input type=\"hidden\" name=\"p_as_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\">\n";
-                }
-                if (!questions.get(x).getAnnexType().equals("0")){
-                    //this.setCtaLinea(this.getCtaLinea() + 1);
-                    if (this.getCtaLinea() == 1){
-                        if (questions.get(x).getAnnexType().equals("1")){
-                            none = none + questions.get(x).getBodyAnnexDoc() + "\n";
-                        }else{
-                            none = none + questions.get(x).getBodyAnnexPhoto() + "\n";
-                        }
-                        none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">\n";
-                    }
-                    if (this.getCtaLinea() == 2){
-                       if (questions.get(x).getAnnexType().equals("1")){
-                           none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">\n";
-                           none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() + "\" ";
-                           none = none + "name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" ";
-                           none = none + "onchange=validar_files('d_" + questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>\n";
-                           none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>\n";
-                       }else{
-                           none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">\n";
-                           none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\"";
-                           none = none + "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\"";
-                           none = none + "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>\n";
-                           none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>\n";
-                       }
-                    }
-                }
-                none = none + "</div>\n";
-                none = none + "<div class=\"col-sm-1\"></div>\n";
-            }else{
-                if (this.getCtaLinea() == 1) {
-                    none = none + "<img name=\"oldPhoto_" + (ctaPregunta - 1) + "\" src='/objectboard/showfile.html?p_unit=" +
-                            questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() + "&p_survey=" +
-                            questions.get(x).getHeadersSurveySurveyCode() + "&p_question=" +
-                            questions.get(x).getQuestionCode() + "&p_archivo=4'" +
-                            " class='img-thumbnail' alt='Question image' width=\"200\" height=\"240\">\n";
-                }else{
-                    none = none + "<div class=\"col-sm-2\"> &nbsp;</div>\n";
-                }
-                none = none + "<div class=\"col-sm-5\">\n";
-                none = none + "<p>\n";
-                none = none + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\n";
-                none = none + "<input type=\"radio\" id=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() +
-                        "\" name=\"p_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\"";
-                if (format == 1 && answers.get(y).getAnswerSolution().equals("T"))
-                    none = none + " checked >\n";
-                else
-                    none = none + " >\n";
-                none = none + "<label for=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() + "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>\n";
-                none = none + "</p>\n";
-                none = none + "</div>\n";
-                none = none + "<div class=\"col-sm-5\">\n";
-                if (answers.get(y).getAnswerSolution().equals("T")) {
-                    none = none + "<input type=\"hidden\" name=\"p_as_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\">\n";
-                }
-                if (!questions.get(x).getAnnexType().equals("0")){
-                    //this.setCtaLinea(this.getCtaLinea() + 1);
-                    if (this.getCtaLinea() == 1){
-                        if (questions.get(x).getAnnexType().equals("1")){
-                            none = none + questions.get(x).getBodyAnnexDoc() + "\n";
-                        }else{
-                            none = none + questions.get(x).getBodyAnnexPhoto() + "\n";
-                        }
-                        none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">\n";
-                    }
-                    if (this.getCtaLinea() == 2){
-                        if (questions.get(x).getAnnexType().equals("1")){
-                            none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">\n";
-                            none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() + "\" ";
-                            none = none + "name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" ";
-                            none = none + "onchange=validar_files('d_" + questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>\n";
-                            none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>\n";
-                        }else{
-                            none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">\n";
-                            none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\"";
-                            none = none + "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\"";
-                            none = none + "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>\n";
-                            none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>\n";
-                        }
-                    }
-                }
-                none = none + "</div>\n";
-
-                /*if (this.getCta_imagen() == 0) {
-                    none = none + "<div class=\"col-sm-2\">\n";
-                    none = none + "<img name=\"oldPhoto_" + (ctaPregunta - 1) + "\" src='/objectboard/showfile.html?p_unit=" +
-                            questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() + "&p_survey=" + questions.get(x).getHeadersSurveySurveyCode() +
-                            "&p_question=" + questions.get(x).getQuestionCode() + "&p_archivo=4'" +
-                            " class='img-thumbnail' alt='Question image' width=\"200\" height=\"240\">\n";
-                    none = none + "</div>\n";
-                    this.setCta_imagen(1);
-                } else {
-                    none = none + "<div class=\"col-sm-2\">\n";
-                    none = none + "&nbsp;\n";
-                    none = none + "</div>\n";
-                    this.setCta_imagen(0);
-                }
-                none = none + "<div class=\"col-sm-5\">\n";
-                none = none + "<p>\n";
-                none = none + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\n";
-                none = none + "<input type=\"radio\" id=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() +
-                        "\" name=\"p_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\"";
-                if (format == 1 && answers.get(y).getAnswerSolution().equals("T"))
-                    none = none + " checked >\n";
-                else
-                    none = none + " >\n";
-                none = none + "<label for=\"" + questions.get(x).getQuestionCode() + "_" + answers.get(y).getAnswerCode() + "\">&nbsp; &nbsp;" + answers.get(y).getAnswer() + "</label>\n";
-                none = none + "</p>\n";
-                none = none + "</div>\n";
-                none = none + "<div class=\"col-sm-5\">\n";
-                if (answers.get(y).getAnswerSolution().equals("T")) {
-                    none = none + "<input type=\"hidden\" name=\"p_as_" + questions.get(x).getQuestionCode() + "\" value=\"" + answers.get(y).getAnswerCode() + "\">\n";
-                }
-                if (!questions.get(x).getAnnexType().equals("0")){
-                    this.setCtaLinea(this.getCtaLinea() + 1);
-                    if (this.getCtaLinea() == 1){
-                        if (questions.get(x).getAnnexType().equals("1")){
-                            none = none + questions.get(x).getBodyAnnexDoc() + "\n";
-                        }else{
-                            none = none + questions.get(x).getBodyAnnexPhoto() + "\n";
-                        }
-                        none = none + "<input type=\"hidden\" name=\"p_ant_" + questions.get(x).getQuestionCode() + "\" value=\"" + questions.get(x).getAnnexType() + "\">\n";
-                    }
-                    if (this.getCtaLinea() == 2){
-                        if (questions.get(x).getAnnexType().equals("1")){
-                            none = none + "<input type=\"hidden\" name=\"p_dn_" + questions.get(x).getQuestionCode() + "\" id=\"dn_" + questions.get(x).getQuestionCode() + "\" value=\"\">\n";
-                            none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"d_" + questions.get(x).getQuestionCode() + "\" ";
-                            none = none + "name=\"p_d_" + questions.get(x).getQuestionCode() + "\" accept=\".pdf,.doc,.txt,.docx\" ";
-                            none = none + "onchange=validar_files('d_" + questions.get(x).getQuestionCode() + "','dn_" + questions.get(x).getQuestionCode() + "')>\n";
-                            none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose document file</label>\n";
-                        }else{
-                            none = none + "<input type=\"hidden\" name=\"p_in_" + questions.get(x).getQuestionCode() + "\" value=\"\" id=\"in_" + questions.get(x).getQuestionCode() + "\">\n";
-                            none = none + "<input type=\"file\" class=\"custom-file-input\" id=\"i_" + questions.get(x).getQuestionCode() + "\"";
-                            none = none + "name=\"p_i_" + questions.get(x).getQuestionCode() + "\" accept=\".png,.jpeg,.jpg,.bmp,.gif\"";
-                            none = none + "onchange=validar_files('i_" + questions.get(x).getQuestionCode() + "','in_" + questions.get(x).getQuestionCode() + "')>\n";
-                            none = none + "<label class=\"custom-file-label\" for=\"" + questions.get(x).getQuestionCode() + "\">Choose image file</label>\n";
-                        }
-                    }
-                }*/
-    /*}
-        }
-        return none;
-    }*/
-
-    /*public String incluye_PreguntaPorTipo(Integer ctaPregunta, String company_number, String code, Long questionCode, Integer rType,
-                                          String imageName, Long aCode,Integer format, String asolution, String answer){
-        String none = "";
-        if (rType == 1) {
-            if (!imageName.equals("no_images.jpeg")) {
-                if (this.getCta_imagen() == 0) {
-                    none = none + "<div class=\"col-sm-2\">\n";
-                    none = none + "<img name=\"oldPhoto_" + (ctaPregunta - 1) + "\" src='/objectboard/showfile.html?p_unit=" + company_number +
-                            "&p_survey=" + code + "&p_question=" + questionCode + "&p_archivo=4'" +
-                            " class='img-thumbnail' alt='Question image' width=\"200\" height=\"240\">\n";
-                    none = none + "</div>\n";
-                    this.setCta_imagen(1);
-                    none = none + "<div class=\"col-sm-5\">\n";
-                } else {
-                    none = none + "<div class=\"col-sm-2\">\n";
-                    none = none + "&nbsp;\n";
-                    none = none + "</div>\n";
-                    this.setCta_imagen(0);
-                    none = none + "<div class=\"col-sm-6\">\n";
-                }
-            }else{
-                none = none + "<div class=\"col-sm-6\">\n";
-            }
-            none = none + "<p>\n";
-            none = none + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\n";
-            none = none + "<input type=\"radio\" id=\"" + questionCode + "_" + aCode + "\" name=\"p_" + questionCode + "\"";
-            none = none + " value=\"" + aCode + "\"";
-            if (format == 1 &&  asolution.equals("T")){
-                none = none + "checked >\n";
-            }else{
-                none = none + ">\n";
-            }
-            none = none + "<label for=\"" + questionCode + "_" + aCode + "\">&nbsp; &nbsp;" + answer + "</label>\n";
-            none = none + "</p>\n";
-            none = none + "</div>\n";
-        }
         return none;
     }*/
 }
