@@ -1,14 +1,10 @@
 package com.psg.objectboard.model.service.Other;
 
 import com.psg.objectboard.model.own.ownsEntity.classDAO.MasterUserDAO;
-import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyAnswersVO;
-import com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.MasterUserVO;
-import com.psg.objectboard.model.own.ownsEntity.classVO.OtherVO.ViewVO;
 
 import java.io.*;
 import java.time.*;
-import java.util.ArrayList;
 
 public class OtherInserts {
     private String answer="";

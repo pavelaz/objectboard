@@ -272,7 +272,36 @@ start ############################### Pre-loader ###############################
                                 <div class="card-header">
                                     <%= ctaPregunta %> - <%= questions.get(x).getMainRequest() %>
                                     <% if (format == 2){%>
-                                          <input name='p_ptos_<%=x+1%>' type='hidden' value='<%= questions.get(x).getQuestionPoints() %>' />
+                                        <input name='p_ptos_<%=x+1%>' type='hidden' value='<%= questions.get(x).getQuestionPoints() %>' />
+                                        <% if (!questions.get(x).getQuestionImageName().equals("no_images.jpeg")) { %>
+                                            <!-- Boton Modal -->
+                                            <button type="button" title="Show Supporting Image" class="btn btn-circle btn-sm" data-toggle="modal" data-target="#ModalCenter<%= ctaPregunta %>">
+                                                <img src="<%= request.getContextPath() %>/complements/img/info.gif" alt="x" width="20" height="20"/>
+                                            </button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="ModalCenter<%= ctaPregunta %>" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title text-info" id="ModalLongTitle">Important supporting Image</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img name="oldPhoto_<%= (ctaPregunta - 1) %>"
+                                                                 src='/objectboard/showfile.html?p_unit=<%= questions.get(x).getHeadersSurveyBussinessUnitBuBisCode() %>&p_survey=<%=
+                                                                        questions.get(x).getHeadersSurveySurveyCode() %>&p_question=<%= questions.get(x).getQuestionCode() %>&p_archivo=4'
+                                                                 class='img-thumbnail' alt='Question image' width="499" height="500">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <%}%>
                                     <%}%>
                                     <%  ctaPregunta = ctaPregunta + 1; %>
                                 </div>

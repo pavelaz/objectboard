@@ -3,8 +3,6 @@
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyQuestionsVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.BodySurveyAnswersVO" %>
 <%@ page import="com.psg.objectboard.model.own.ownsEntity.classDAO.BodySurveyAnswersDAO" %>
-<%@ page import="com.psg.objectboard.model.service.Other.OtherInserts" %>
-<%@ page import="com.psg.objectboard.model.own.ownsEntity.classVO.OtherVO.ViewVO" %>
 <%--
   Created by IntelliJ IDEA.
   User: pavelaz
