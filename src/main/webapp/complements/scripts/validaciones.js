@@ -86,6 +86,52 @@ function valida_email(valor,nombre){
 	return (allValid); 
 }
 
+// Validacion de telefono
+// XXX-XXX-XXXX
+// 1 valor a validar
+// 2 nombre del campo
+function valida_telefono(valor,nombre){
+	var allValid = true;
+	var parte1 = valor.substring(0,3);
+	//alert("Parte 1: " + parte1);
+	var parte2 = valor.substring(4,7);
+	//alert("Parte 2: " + parte2);
+	var parte3 = valor.substring(8,12);
+	//alert("Parte 3: " + parte3);
+	var guion1 = valor.substring(3,4);
+	//alert("Guion 1: " + guion1);
+	var guion2 = valor.substring(7,8);
+	//alert("Guion 2: " + guion2);
+
+	if (!valida_numeros(parte1, "the first part of " + nombre, 1)) {
+		allValid = false;
+	}
+	if(allValid) {
+		if (!valida_numeros(parte2, "the second part of " + nombre, 1)) {
+			allValid = false;
+		}
+	}
+	if(allValid) {
+		if (!valida_numeros(parte3, "the third part of " + nombre, 1)) {
+			allValid = false;
+		}
+	}
+	if(allValid) {
+		if (guion1 !== "-" || guion2 !== "-"){
+			alert("The fourth and seventh characters of " + nombre +
+				  " must be \"-\", according to the accepted format: XXX-XXX-XXXX.");
+			allValid = false;
+		}
+	}
+	if(allValid) {
+		if (valor.length < 12) {
+			alert("Enter a value in " + nombre + ", with the following length and format: XXX-XXX-XXXX.");
+			allValid = false;
+		}
+	}
+	return (allValid);
+}
+
 //validacion de campos tipo selects
 // 1 valor del campo a validar
 // 2 nombre del campo

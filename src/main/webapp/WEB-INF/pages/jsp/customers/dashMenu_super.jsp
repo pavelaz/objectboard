@@ -154,13 +154,14 @@
     <!--  No repetir la opcion del menu si hay submenu 5-1.2.3.4-2.2.3.4.5.-->
     <jstl:choose>
          <jstl:when test="${rq_userBoardRole == 1}">
-                <jstl:set var="jsp_navBarOption" scope="page" value="${ '1,2.1.3.4.5.6,3.1.2.4.5,5.1.2' }"/>
+                <jstl:set var="jsp_navBarOption" scope="page"
+                          value="${ '1,2.1.3.4.5.6.7,3.1.2.4.5.6.7,5.1.2' }"/>
                 <jstl:set var="jsp_reposrt1Option" scope="page" value="${ '1.2.3' }"/>
                 <jstl:set var="jsp_reposrt2Option" scope="page" value="${ '1.2.3.4' }"/>
             </jstl:when>
          <jstl:when test="${rq_userBoardRole == 2}">
                 <jstl:set var="jsp_navBarOption" scope="page"
-                          value="${ '1,2.1.3.4.5.6,3.1.2.5' }"/>
+                          value="${ '1,2.1.3.4.5.6.7,3.1.2.5.6.7' }"/>
             </jstl:when>
          <jstl:when test="${rq_userBoardRole == 3}">
                 <jstl:set var="jsp_navBarOption" scope="page" value="${ '1,3.2.4.5' }"/>

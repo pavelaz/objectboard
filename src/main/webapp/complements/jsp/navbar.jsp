@@ -71,7 +71,16 @@
                                             <span class="pcoded-mcaret"></span>
                                         </a>
                                     </li><%--<Miscellaneous main files 2.6--%>
-                                </jstl:if>
+                            </jstl:if>
+                            <jstl:if test="${ x.equals('7') }">
+                                    <li class=" ">
+                                        <a href="/objectboard/contacts" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                            <span class="pcoded-mtext">Contacts</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li><%--<Miscellaneous main files 2.7--%>
+                            </jstl:if>
                         </ul>
                         </jstl:forTokens>
                     </li>
@@ -123,6 +132,24 @@
                                     <span class="pcoded-mcaret"></span>
                                 </a>
                             </li><%--<General main files 3.5--%>
+                            </jstl:if>
+                            <jstl:if test="${ x.equals('6') }">
+                                    <li class=" ">
+                                        <a href="/objectboard/contactslist" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                            <span class="pcoded-mtext">Contacts List</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li><%--<General main files 3.6--%>
+                            </jstl:if>
+                            <jstl:if test="${ x.equals('7') }">
+                                 <li class=" ">
+                                        <a href="/objectboard/message" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                            <span class="pcoded-mtext">Messages</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                 </li><%--<General main files 3.7--%>
                             </jstl:if>
                         </ul>
                         </jstl:forTokens>

@@ -14,6 +14,8 @@ import java.sql.SQLException;
 public class DashMenuSuperServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession objSesion = request.getSession();
+        // identifica en la variable de seccion el modulo al que accesara
+        objSesion.setAttribute("companyProject", "1" );
 
         String company_number = (String)objSesion.getAttribute("companyNumber");
         String company_name = (String)objSesion.getAttribute("companyName");
@@ -22,8 +24,6 @@ public class DashMenuSuperServlet extends HttpServlet {
         String user_boardrole = (String) objSesion.getAttribute("userBoardRole");
         String data_user = (String)objSesion.getAttribute("dataUser");
         String data_pasword = (String)objSesion.getAttribute("dataPassword");
-        //String company_logo_name = (String)objSesion.getAttribute("companyLogoName");
-        //String company_logo_dir = (String)objSesion.getAttribute("companyLogoDirection");
 
         System.out.println("DashMenuSuperServlet Usuario en sesion: " + user_email);
 
