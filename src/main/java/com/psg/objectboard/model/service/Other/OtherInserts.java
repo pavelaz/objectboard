@@ -692,29 +692,50 @@ public class OtherInserts {
             none = none + "}" + "\n";
             none = none + "}" + "\n";
 
-            none = none + "function cancelar(){" + "\n";
-            none = none + "document.forma.target = \"\";" + "\n";
-            none = none + "document.forma.action = '/objectboard/contacts';" + "\n";
-            none = none + "document.forma.p_acciones.value = \"consult\";" + "\n";
-            none = none + "document.forma.submit();" + "\n";
+            none = none + "function varias_validaciones() {" + "\n";
+            none = none + "if (!valida_textos(document.forma.p_name.value,\"User Name\",\"\") || " + "\n";
+            none = none + "!valida_largos(document.forma.p_name.value.length,\"User Name\",2) || " + "\n";
+            none = none + "!valida_textos(document.forma.p_bname.value,\"Bussiness Name\",\"0123456789.\") || " + "\n";
+            none = none + "!valida_textos(document.forma.p_ad1.value,\"Address Line 1\",\",.0123456789\") || " + "\n";
+            none = none + "!valida_largos(document.forma.p_ad1.value.length,\"Address Line 1\",2) || " + "\n";
+            none = none + "!valida_textos(document.forma.p_ad2.value,\"Address Line 2\",\",.0123456789\") || " + "\n";
+            none = none + "!valida_telefono(document.forma.p_cell.value,\"Cell Phone\") || " + "\n";
+            none = none + "!valida_telefono(document.forma.p_land.value,\"Landline\") || " + "\n";
+            none = none + "!valida_selects(document.forma.p_type.value,\"Type\",\"\")" + "\n";
+            none = none + "){" + "\n";
+            none = none + "return false;" + "\n";
+            none = none + "}" + "\n";
+            none = none + " return true;" + "\n";
             none = none + "}" + "\n";
 
             none = none + "function valida_cambios(){" + "\n";
-            none = none + "if(document.forma.p_name.value === document.forma.p_name_old.value &&" + "\n";
-            none = none + "document.forma.p_bname.value === document.forma.p_bname_old.value &&" + "\n";
-            none = none + "document.forma.p_ad1.value === document.forma.p_ad1_old.value &&" + "\n";
-            none = none + "document.forma.p_ad2.value === document.forma.p_ad2_old.value &&" + "\n";
-            none = none + "document.forma.p_cell.value === document.forma.p_cell_old.value &&" + "\n";
-            none = none + "document.forma.p_land.value === document.forma.p_land_old.value &&" + "\n";
-            none = none + "document.forma.p_type.value === document.forma.p_type_old.value &&" + "\n";
+            /*if (project.equals("2")) {
+                none = none + "if (document.forma.p_email.checked)" + "\n";
+                none = none + "var envio_email = \"T\";" + "\n";
+                none = none + "else" + "\n";
+                none = none + "var envio_email = \"F\";" + "\n";
+                none = none + "if (document.forma.p_sms.checked)" + "\n";
+                none = none + "var envio_sms = \"T\";" + "\n";
+                none = none + "else" + "\n";
+                none = none + "var envio_sms = \"F\";" + "\n";
+
+
+            }*/
+            none = none + "if(document.forma.p_name.value === document.forma.p_name_old.value && " + "\n";
+            none = none + "document.forma.p_bname.value === document.forma.p_bname_old.value && " + "\n";
+            none = none + "document.forma.p_ad1.value === document.forma.p_ad1_old.value && " + "\n";
+            none = none + "document.forma.p_ad2.value === document.forma.p_ad2_old.value && " + "\n";
+            none = none + "document.forma.p_cell.value === document.forma.p_cell_old.value && " + "\n";
+            none = none + "document.forma.p_land.value === document.forma.p_land_old.value && " + "\n";
+            none = none + "document.forma.p_type.value === document.forma.p_type_old.value && " + "\n";
             if (project.equals("2")){
-                none = none + "document.forma.p_email.value === document.forma.p_email_msg_old.value &&" + "\n";
-                none = none + "document.forma.p_email.value === document.forma.p_sms_msg_old.value &&" + "\n";
-                none = none + "document.forma.p_from.value === document.forma.p_form_old.value &&" + "\n";
-                none = none + "document.forma.p_back.value === document.forma.p_back_old.value" + "\n";
+                none = none + "document.forma.p_email_envio_act.value === document.forma.p_email_msg_old.value && " + "\n";
+                none = none + "document.forma.p_sms_envio_act.value === document.forma.p_sms_msg_old.value && " + "\n";
+                none = none + "document.forma.p_from_act.value === document.forma.p_from_old.value && " + "\n";
+                none = none + "document.forma.p_back_act.value === document.forma.p_back_old.value" + "\n";
             }else{
-                none = none + "document.forma.p_email.value === document.forma.p_email_msg_old.value &&" + "\n";
-                none = none + "document.forma.p_email.value === document.forma.p_sms_msg_old.value" + "\n";
+                none = none + "document.forma.p_email_envio_act.value === document.forma.p_email_msg_old.value && " + "\n";
+                none = none + "document.forma.p_sms_envio_act.value === document.forma.p_sms_msg_old.value" + "\n";
             }
             none = none + "){" + "\n";
             none = none + "alert(\"No changes have been made to the registry, so there is nothing to save.\");" + "\n";
@@ -723,60 +744,60 @@ public class OtherInserts {
             none = none + "return true;" + "\n";
             none = none + "}" + "\n";
 
-            none = none + "function varias_validaciones() {" + "\n";
-            none = none + "if (!valida_textos(document.forma.p_name.value,\"User Name\",\"\")||" + "\n";
-            none = none + "!valida_largos(document.forma.p_name.value.length,\"User Name\",2)||" + "\n";
-            none = none + "!valida_textos(document.forma.p_bname.value,\"Bussiness Name\",\"0123456789.\")||" + "\n";
-            none = none + "!valida_textos(document.forma.p_ad1.value,\"Address Line 1\",\",.0123456789\")||" + "\n";
-            none = none + "!valida_largos(document.forma.p_ad1.value.length,\"Address Line 1\",2)||" + "\n";
-            none = none + "!valida_textos(document.forma.p_ad2.value,\"Address Line 2\",\",.0123456789\")||" + "\n";
-            none = none + "!valida_telefono(document.forma.p_cell.value,\"Cell Phone\")||" + "\n";
-            none = none + "!valida_telefono(document.forma.p_land.value,\"Landline\")||" + "\n";
-            none = none + "!valida_selects(document.forma.p_type.value,\"Type\",\"\")" + "\n";
-            none = none + "){" + "\n";
-            none = none + "return false;" + "\n";
-            none = none + "}" + "\n";
-            none = none + " return true;" + "\n";
+            none = none + "function cancelar(){" + "\n";
+            none = none + "document.forma.target = \"\";" + "\n";
+            none = none + "document.forma.action = '/objectboard/contacts';" + "\n";
+            none = none + "document.forma.p_acciones.value = \"consult\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
             none = none + "}" + "\n";
 
             none = none + "function valida_check_envios(){" + "\n";
-            none = none + "if (!document.getElementById('sms_envios').checked && !document.getElementById('email_envios').checked){" + "\n";
+            //none = none + "alert('Paul_03');" + "\n";
+            none = none + "if (document.forma.p_sms_envio_act.value == \"F\" && document.forma.p_email_envio_act.value == \"F\"){" + "\n";
             none = none + "alert(\"You cannot create a contact without at least selecting one of the message delivery boxes.\");" + "\n";
             none = none + "return false;" + "\n";
             none = none + "}" + "\n";
             none = none + "return true;" + "\n";
             none = none + "}" + "\n";
 
+            none = none + "function cambia_email(){" + "\n";
+            none = none + "if (document.forma.p_email_envio_act.value == \"F\" )" + "\n";
+            none = none + "document.forma.p_email_envio_act.value = \"T\";" + "\n";
+            none = none + "else" + "\n";
+            none = none + "document.forma.p_email_envio_act.value = \"F\";" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function cambia_sms(){" + "\n";
+            none = none + "if (document.forma.p_sms_envio_act.value == \"F\" )" + "\n";
+            none = none + "document.forma.p_sms_envio_act.value = \"T\";" + "\n";
+            none = none + "else" + "\n";
+            none = none + "document.forma.p_sms_envio_act.value = \"F\";" + "\n";
+            none = none + "}" + "\n";
+
             if (project.equals("2")) {
                 none = none + "function valida_check_yard(){" + "\n";
-                none = none + "if (!document.getElementById('from').checked && !document.getElementById('back').checked){" + "\n";
+                none = none + "if (document.forma.p_from_act.value == \"F\" && document.forma.p_back_act.value == \"F\" ){" + "\n";
                 none = none + "alert(\"You cannot create a contact for this module without at least selecting one of the boxes\n" +
                         "that indicates the types or the type of patio of the property.\");" + "\n";
                 none = none + "return false;" + "\n";
                 none = none + "}" + "\n";
                 none = none + "return true;" + "\n";
                 none = none + "}" + "\n";
+
+                none = none + "function cambia_back(){" + "\n";
+                none = none + "if (document.forma.p_back_act.value == \"F\" )" + "\n";
+                none = none + "document.forma.p_back_act.value = \"T\";" + "\n";
+                none = none + "else" + "\n";
+                none = none + "document.forma.p_back_act.value = \"F\";" + "\n";
+                none = none + "}" + "\n";
+
+                none = none + "function cambia_from(){" + "\n";
+                none = none + "if (document.forma.p_from_act.value == \"F\" )" + "\n";
+                none = none + "document.forma.p_from_act.value = \"T\";" + "\n";
+                none = none + "else" + "\n";
+                none = none + "document.forma.p_from_act.value = \"F\";" + "\n";
+                none = none + "}" + "\n";
             }
-
-            /*none = none + "function valida_duplicados(source) {" + "\n";
-            none = none + "var cta0 = 0;" + "\n";
-            none = none + "var cta1 = 0;" + "\n";
-            none = none + "var checkboxes=document.getElementsByTagName('input'); //obtenemos todos los controles del tipo Input los llamamboxesos check" + "\n";
-            none = none + "for(i=0;i<checkboxes.length;i++) {//recoremos todos los controles" + "\n";
-            none = none + "if(checkboxes[i].id === \"cual_0\") {" + "\n";
-            none = none + "if (checkboxes[i].value === document.forma.p_user_email.value) {" + "\n";
-            none = none + "cta1 = cta1 + 1;" + "\n";
-            none = none + "cta0 = cta0 + 1;" + "\n";
-            none = none + "}" + "\n";
-            none = none + "}" + "\n";
-            none = none + "}" + "\n";
-
-            none = none + "if(cta0 !==0){" + "\n";
-            none = none + "alert(\"The contacts that you want to create or modify \\nalready exists previously, so the requested changes will NOT be made.\");" + "\n";
-            none = none + "return false;" + "\n";
-            none = none + "}" + "\n";
-            none = none + "return true;" + "\n";
-            none = none + "}" + "\n";*/
         }
         if (accion.equals("comun")) {
             if (project.equals("0")) { // en este caso project es solo una bandera
@@ -784,7 +805,7 @@ public class OtherInserts {
                 none = none + "checkboxes=document.getElementsByTagName('input'); //obtenemos todos los controles del tipo Input" + "\n";
                 none = none + "for(i=0;i<checkboxes.length;i++) //recoremos todos los controles" + "\n";
                 none = none + "{" + "\n";
-                none = none + "if(checkboxes[i].type === \"checkbox\") //solo si es un checkbox entramos" + "\n";
+                none = none + "if(checkboxes[i].type === \"checkbox\" && checkboxes[i].id === \"p_select\" ) //solo si es un checkbox entramos" + "\n";
                 none = none + "{" + "\n";
                 none = none + "checkboxes[i].checked=source.checked; //si es un checkbox le damos el valor del checkbox que lo llamó (Marcar/Desmarcar Todos)" + "\n";
                 none = none + "}" + "\n";
@@ -820,7 +841,6 @@ public class OtherInserts {
             none = none + "}" + "\n";
 
             none = none + "function valida(email){" + "\n";
-            none = none + "alert(\"There\");" + "\n";
             none = none + "document.forma.p_email_selec.value = email;" + "\n";
             none = none + "document.forma.target = \"\";" + "\n";
             none = none + "document.forma.p_acciones.value = \"save\";" + "\n";
@@ -974,6 +994,266 @@ public class OtherInserts {
             none = none + "<td>" + "\n";
             none = none + "Not Data" + "\n";
             none = none + "</td>" + "\n";
+        }
+
+        return none;
+    }
+
+    //seccion contacts list
+    public String pone_encabezadoContactsList() {
+        String none = "";
+
+        none = none + "<th data-field=\"state\" data-valign=\"middle\" data-align=\"center\" data-sortable=\"false\" >" + "\n";
+        none = none + "<input type='checkbox' onclick='marcar(this);' />" + "\n";
+        none = none + "</th>" + "\n";
+        none = none + "<th data-field=\"ac\" data-sortable=\"false\" data-valign=\"middle\" data-align=\"center\">ACTION</th>" + "\n";
+        none = none + "<th data-field=\"l2\" data-sortable=\"true\" data-switchable=\"true\">LIST NAME</th>" + "\n";
+        none = none + "<th data-field=\"l2\" data-sortable=\"true\" data-switchable=\"true\">COUNT DIRECTIONS</th>" + "\n";
+
+        return none;
+    }
+
+    public String pone_pieContactsList(){
+        String none = "";
+
+        none = none + "<td>" + "\n";
+        none = none + "&nbsp;" + "\n";
+        none = none + "</td>" + "\n";
+        none = none + "<td>" + "\n";
+        none = none + "Not Action" + "\n";
+        none = none + "</td>" + "\n";
+        none = none + "<td>" + "\n";
+        none = none + "Not Data" + "\n";
+        none = none + "</td>" + "\n";
+        none = none + "<td>" + "\n";
+        none = none + "Not Data" + "\n";
+        none = none + "</td>" + "\n";
+
+        return none;
+    }
+
+    public String pone_funcionesContactsList(String accion) {
+        String none = "";
+
+        if (accion.equals("consult")) {
+            none = none + "function nuevo_registro(){" + "\n";
+            none = none + "document.forma.target = \"\";" + "\n";
+            none = none + "document.forma.action = '/objectboard/contactslist';" + "\n";
+            none = none + "document.forma.p_acciones.value = \"create\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
+            none = none + "}" + "\n";
+        }
+        if (accion.equals("create")) {
+            none = none + "function nuevo_registro(){" + "\n";
+            none = none + "if (varias_validaciones() && valida_duplicados() ) {" + "\n";
+            //none = none + "if (varias_validaciones()) {" + "\n";
+            none = none + "document.forma.target = \"\";" + "\n";
+            none = none + "document.forma.action = '/objectboard/contactslistprocess';" + "\n";
+            none = none + "document.forma.p_acciones.value = \"create\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
+            none = none + " }" + "\n";
+            none = none + " }" + "\n";
+
+            none = none + "function cancelar(){" + "\n";
+            none = none + "document.forma.target = \"\";" + "\n";
+            none = none + "document.forma.action = '/objectboard/contactslist';" + "\n";
+            none = none + "document.forma.p_acciones.value = \"consult\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function varias_validaciones() {" + "\n";
+            none = none + "if (!valida_textos(document.forma.p_name.value,\"Contacts List Name\",\"\") || " + "\n";
+            none = none + "!valida_largos(document.forma.p_name.value.length,\"Contacts List Name\",2)" + "\n";
+            none = none + "){" + "\n";
+            none = none + "return false;" + "\n";
+            none = none + "}" + "\n";
+            none = none + " return true;" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function valida_duplicados() {" + "\n";
+                //none = none + "alert('Paso 0');" + "\n";
+                none = none + "var cta0 = 0;" + "\n";
+                none = none + "var cta1 = 0;" + "\n";
+                none = none + "var checkboxes=document.getElementsByTagName('input'); // obtenemos todos los controles del tipo Input los llamamboxesos check" + "\n";
+                none = none + "for(i=0;i<checkboxes.length;i++) { // recoremos todos los controles" + "\n";
+                    none = none + "if(checkboxes[i].id === \"cual_0\") {" + "\n";
+                        //none = none + "alert('checkboxes ' + checkboxes[i].value );" + "\n";
+                        //none = none + "alert('p_name ' + document.forma.p_name.value );" + "\n";
+                        none = none + "if(checkboxes[i].value.trim() === document.forma.p_name.value.trim()) {" + "\n";
+                            none = none + "cta1 = cta1 + 1;" + "\n";
+                            none = none + "cta0 = cta0 + 1;" + "\n";
+                            //none = none + "alert('SI');" + "\n";
+                        none = none + "}" + "\n";
+                        /*none = none + "if(checkboxes[i].value === document.forma.p_name.value) {" + "\n";
+                            none = none + "cta1 = cta1 + 1;" + "\n";
+                            none = none + "cta0 = cta0 + 1;" + "\n";
+                        none = none + "}" + "\n";*/
+                    none = none + "}" + "\n";
+                none = none + "}" + "\n";
+                //none = none + "alert('Paso');" + "\n";
+                none = none + "if(cta0 !==0){" + "\n";
+                    none = none + "alert(\"The contacts list that you want to create or modify \\nalready exists previously, so the requested changes will NOT be made.\");" + "\n";
+                    none = none + "return false;" + "\n";
+                none = none + "}" + "\n";
+                none = none + "return true;" + "\n";
+            //none = none + "return false;" + "\n";
+            none = none + "}" + "\n";
+        }
+        if (accion.equals("save")) {
+            none = none + "function update_registro(){" + "\n";
+            none = none + "if (varias_validaciones() && valida_cambios() && valida_duplicados()";
+            none = none + ") {" + "\n";
+            none = none + "document.forma.target = \"\";" + "\n";
+            none = none + "document.forma.action = '/objectboard/contactslistprocess';" + "\n";
+            none = none + "document.forma.p_acciones.value = \"save\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
+            none = none + "}" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function varias_validaciones() {" + "\n";
+            none = none + "if (!valida_textos(document.forma.p_name.value,\"Contacts List Name\",\"\") || " + "\n";
+            none = none + "!valida_largos(document.forma.p_name.value.length,\"Contacts List Name\",2)" + "\n";
+            none = none + "){" + "\n";
+            none = none + "return false;" + "\n";
+            none = none + "}" + "\n";
+            none = none + " return true;" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function valida_cambios(){" + "\n";
+            none = none + "if(document.forma.p_name.value.trim() === document.forma.p_name_old.value.trim()){" + "\n";
+            none = none + "alert(\"No changes have been made to the registry, so there is nothing to save.\");" + "\n";
+            none = none + "return false;" + "\n";
+            none = none + "}" + "\n";
+            none = none + "return true;" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function valida_duplicados() {" + "\n";
+            none = none + "var cta0 = 0;" + "\n";
+            none = none + "var cta1 = 0;" + "\n";
+            none = none + "var checkboxes=document.getElementsByTagName('input'); // obtenemos todos los controles del tipo Input los llamamboxesos check" + "\n";
+            none = none + "for(i=0;i<checkboxes.length;i++) { // recoremos todos los controles" + "\n";
+            none = none + "if(checkboxes[i].id === \"cual_0\") {" + "\n";
+            none = none + "if(checkboxes[i].value.trim() === document.forma.p_name.value.trim()) {" + "\n";
+            none = none + "cta1 = cta1 + 1;" + "\n";
+            none = none + "cta0 = cta0 + 1;" + "\n";
+            none = none + "}" + "\n";
+            none = none + "}" + "\n";
+            none = none + "}" + "\n";
+            none = none + "if(cta0 !==0){" + "\n";
+            none = none + "alert(\"The contacts list that you want to create or modify \\nalready exists previously, so the requested changes will NOT be made.\");" + "\n";
+            none = none + "return false;" + "\n";
+            none = none + "}" + "\n";
+            none = none + "return true;" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function cancelar(){" + "\n";
+            none = none + "document.forma.target = \"\";" + "\n";
+            none = none + "document.forma.action = '/objectboard/contactslist';" + "\n";
+            none = none + "document.forma.p_acciones.value = \"consult\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
+            none = none + "}" + "\n";
+            /*none = none + "function valida_check_envios(){" + "\n";
+            //none = none + "alert('Paul_03');" + "\n";
+            none = none + "if (document.forma.p_sms_envio_act.value == \"F\" && document.forma.p_email_envio_act.value == \"F\"){" + "\n";
+            none = none + "alert(\"You cannot create a contact without at least selecting one of the message delivery boxes.\");" + "\n";
+            none = none + "return false;" + "\n";
+            none = none + "}" + "\n";
+            none = none + "return true;" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function cambia_email(){" + "\n";
+            none = none + "if (document.forma.p_email_envio_act.value == \"F\" )" + "\n";
+            none = none + "document.forma.p_email_envio_act.value = \"T\";" + "\n";
+            none = none + "else" + "\n";
+            none = none + "document.forma.p_email_envio_act.value = \"F\";" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function cambia_sms(){" + "\n";
+            none = none + "if (document.forma.p_sms_envio_act.value == \"F\" )" + "\n";
+            none = none + "document.forma.p_sms_envio_act.value = \"T\";" + "\n";
+            none = none + "else" + "\n";
+            none = none + "document.forma.p_sms_envio_act.value = \"F\";" + "\n";
+            none = none + "}" + "\n";
+
+            if (project.equals("2")) {
+                none = none + "function valida_check_yard(){" + "\n";
+                none = none + "if (document.forma.p_from_act.value == \"F\" && document.forma.p_back_act.value == \"F\" ){" + "\n";
+                none = none + "alert(\"You cannot create a contact for this module without at least selecting one of the boxes\n" +
+                        "that indicates the types or the type of patio of the property.\");" + "\n";
+                none = none + "return false;" + "\n";
+                none = none + "}" + "\n";
+                none = none + "return true;" + "\n";
+                none = none + "}" + "\n";
+
+                none = none + "function cambia_back(){" + "\n";
+                none = none + "if (document.forma.p_back_act.value == \"F\" )" + "\n";
+                none = none + "document.forma.p_back_act.value = \"T\";" + "\n";
+                none = none + "else" + "\n";
+                none = none + "document.forma.p_back_act.value = \"F\";" + "\n";
+                none = none + "}" + "\n";
+
+                none = none + "function cambia_from(){" + "\n";
+                none = none + "if (document.forma.p_from_act.value == \"F\" )" + "\n";
+                none = none + "document.forma.p_from_act.value = \"T\";" + "\n";
+                none = none + "else" + "\n";
+                none = none + "document.forma.p_from_act.value = \"F\";" + "\n";
+                none = none + "}" + "\n";
+            }*/
+        }
+        if (accion.equals("comun")) {
+            //if (project.equals("0")) { // en este caso project es solo una bandera
+                none = none + "function marcar(source) {" + "\n";
+                none = none + "checkboxes=document.getElementsByTagName('input'); //obtenemos todos los controles del tipo Input" + "\n";
+                none = none + "for(i=0;i<checkboxes.length;i++) //recoremos todos los controles" + "\n";
+                none = none + "{" + "\n";
+                none = none + "if(checkboxes[i].type === \"checkbox\" && checkboxes[i].id === \"p_select\" ) //solo si es un checkbox entramos" + "\n";
+                none = none + "{" + "\n";
+                none = none + "checkboxes[i].checked=source.checked; //si es un checkbox le damos el valor del checkbox que lo llamó (Marcar/Desmarcar Todos)" + "\n";
+                none = none + "}" + "\n";
+                none = none + "}" + "\n";
+                none = none + "}" + "\n";
+            //}
+
+            none = none + "function borrar_registro(){" + "\n";
+            none = none + "if(validaItems(this)){" + "\n";
+            none = none + "if ( confirm(\"Do You really want to delete the selected contacts list?\")) {" + "\n";
+            none = none + "document.forma.action = '/objectboard/contactslistprocess';" + "\n";
+            none = none + "document.forma.p_acciones.value = \"delete\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
+            none = none + "}" + "\n";
+            none = none + "}" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function validaItems(source) {" + "\n";
+            none = none + "var cta=0;" + "\n";
+            none = none + "var checkboxes=document.getElementsByTagName('input'); //obtenemos todos los controles del tipo Input" + "\n";
+            none = none + "for(i=0;i<checkboxes.length;i++) {//recoremos todos los controles" + "\n";
+            none = none + "if(checkboxes[i].id === \"p_select\") {" + "\n";
+            none = none + "if (checkboxes[i].checked) {//solo si es un checkbox entramos y validamos si esta chequeado" + "\n";
+            none = none + "cta = cta + 1; //llevamos control de cuantos de ellos estan chequeados" + "\n";
+            none = none + "}" + "\n";
+            none = none + "}" + "\n";
+            none = none + "}" + "\n";
+            none = none + "if(cta===0){" + "\n";
+            none = none + "alert(\"There are no contacts list selected to remove.\");" + "\n";
+            none = none + "return false;" + "\n";
+            none = none + "}" + "\n";
+            none = none + "return true;" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function valida(id,name){" + "\n";
+            none = none + "document.forma.p_id_selec.value = id;" + "\n";
+            none = none + "document.forma.p_name_old.value = replaceAllChart(name,\"-\",\" \");" + "\n";
+            none = none + "document.forma.target = \"\";" + "\n";
+            none = none + "document.forma.p_acciones.value = \"save\";" + "\n";
+            none = none + "document.forma.action = \"/objectboard/contactslist\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
+            none = none + "}" + "\n";
+
+            none = none + "function valida_columnas(){" + "\n";
+            none = none + "document.forma.action = \"/objectboard/contactslist\";" + "\n";
+            none = none + "document.forma.submit();" + "\n";
+            none = none + "}" + "\n";
         }
 
         return none;

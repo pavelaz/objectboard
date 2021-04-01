@@ -2,9 +2,13 @@ package com.psg.objectboard.model.own.ownsEntity.classDAO;
 
 import com.psg.objectboard.model.own.ownsEntity.classVO.CommentsVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.ContactsVO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.HeadersSurveyVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 import com.psg.objectboard.model.service.Other.SqlFunctions;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -108,5 +112,65 @@ public class ContactsDAO {
             covo.setResult(false);
             System.out.println("Error en la consulta de insert Contacts: "+ex.getMessage());
         }
+    }
+
+    public static void updateContactsDAO(ContactsVO muv, Connection cone) {
+        String sql = "UPDATE contacts SET " +
+                "cto_name=?, " +
+                "cto_business_name=?, " +
+                "cto_address_1=?, " +
+                "cto_address_2=?, " +
+                "cto_phone_cell=?, " +
+                "cto_landline=?, " +
+                "cto_email_message=?, " +
+                "cto_sms_message=?, " +
+                "cto_front_yard=?, " +
+                "cto_back_yard=?, " +
+                "cto_type=?" +
+                " WHERE (masterUser_bussinessUnit_bu_bis_code=? AND masterUser_mu_email=? AND cto_project=? AND cto_email_direction=?)";
+        try{
+            pst = cone.prepareStatement(sql);
+            pst.setString(1,muv.getCto_name());
+            pst.setString(2,muv.getCto_business_name());
+            pst.setString(3,muv.getCto_address_1());
+            pst.setString(4, muv.getCto_address_2());
+            pst.setString(5,muv.getCto_phone_cell());
+            pst.setString(6, muv.getCto_landline());
+            pst.setString(7,muv.getCto_email_message());
+            pst.setString(8,muv.getCto_sms_message());
+            pst.setString(9, muv.getCto_front_yard());
+            pst.setString(10,muv.getCto_back_yard());
+            pst.setString(11, muv.getCto_type());
+            pst.setLong(12, muv.getMasterUser_bussinessUnit_bu_bis_code());
+            pst.setString(13, muv.getMasterUser_mu_email());
+            pst.setInt(14, muv.getCto_project());
+            pst.setString(15, muv.getCto_email_direction());
+            pst.execute();
+            System.out.println("contacts actualizada con exito, ID: "+muv.getCto_email_direction());
+            muv.setResult(true);
+        }catch (SQLException ex){
+            System.out.println("Error en la actualizacion contacts: "+ex.getMessage());
+            muv.setResult(false);
+        }
+    }
+
+    public static Boolean deleteContactsDAO(ContactsVO muv,Connection cone){
+        Boolean result = null;
+        String sql = "DELETE FROM contacts" +
+                " WHERE (masterUser_bussinessUnit_bu_bis_code=? AND masterUser_mu_email=? AND cto_project=? AND cto_email_direction=?)";
+        try{
+            pst = cone.prepareStatement(sql);
+            pst.setLong(1, muv.getMasterUser_bussinessUnit_bu_bis_code());
+            pst.setString(2, muv.getMasterUser_mu_email());
+            pst.setInt(3, muv.getCto_project());
+            pst.setString(4, muv.getCto_email_direction());
+            pst.executeUpdate();
+            System.out.println("contacts "+ muv.getCto_email_direction()+" eliminado con exito");
+            result = true;
+        }catch (SQLException ex){
+            result = false;
+            System.out.println("Error en la eliminacion: "+ex.getMessage());
+        }
+        return result;
     }
 }

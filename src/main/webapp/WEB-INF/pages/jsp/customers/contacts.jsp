@@ -193,8 +193,9 @@ start ############################### Pre-loader ###############################
                                 </div>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control form-control-user" id="email1"
-                                           placeholder="Email direction" name="p_user_email" maxlength="45"
+                                           placeholder="Email direction" name="p_user_email_mod" maxlength="45"
                                            value="${ rq_contacOld.get(0).getCto_email_direction() }" disabled>
+                                    <input type="hidden" name="p_user_email" value="${ rq_contacOld.get(0).getCto_email_direction() }">
                                 </div>
                                 <div class="col-sm-1">
                                     <label for="name1" class="col-form-label">User Name :</label>
@@ -251,10 +252,12 @@ start ############################### Pre-loader ###############################
                                 <div class="col-sm-4">
                                     <jstl:choose>
                                         <jstl:when test="${ rq_contacOld.get(0).getCto_sms_message().equals('T') }">
-                                            <input type="checkbox" id="sms_envios1" name="p_sms" value="T" checked>
+                                            <input type="checkbox" id="sms_envios1" name="p_sms" value="T" checked onchange="cambia_sms()">
+                                            <input type="hidden" name="p_sms_envio_act" value="T">
                                         </jstl:when>
                                         <jstl:otherwise>
-                                            <input type="checkbox" id="sms_envios1" name="p_sms" value="F" >
+                                            <input type="checkbox" id="sms_envios1" name="p_sms" value="F" onchange="cambia_sms()">
+                                            <input type="hidden" name="p_sms_envio_act" value="F">
                                         </jstl:otherwise>
                                     </jstl:choose>
                                     <label for="sms_envios">&nbsp;&nbsp;&nbsp;&nbsp;SMS Accept:</label><br>
@@ -262,10 +265,12 @@ start ############################### Pre-loader ###############################
                                 <div class="col-sm-4">
                                     <jstl:choose>
                                         <jstl:when test="${ rq_contacOld.get(0).getCto_email_message().equals('T') }">
-                                            <input type="checkbox" id="email_envios1" name="p_email" value="T" checked>
+                                            <input type="checkbox" id="email_envios1" name="p_email" value="T" checked onchange="cambia_email()">
+                                            <input type="hidden" name="p_email_envio_act" value="T">
                                         </jstl:when>
                                         <jstl:otherwise>
-                                            <input type="checkbox" id="email_envios1" name="p_email" value="F" >
+                                            <input type="checkbox" id="email_envios1" name="p_email" value="F" onchange="cambia_email()">
+                                            <input type="hidden" name="p_email_envio_act" value="F">
                                         </jstl:otherwise>
                                     </jstl:choose>
                                     <label for="email_envios1">&nbsp;&nbsp;&nbsp;&nbsp;Email Accept:</label><br>
@@ -297,10 +302,12 @@ start ############################### Pre-loader ###############################
                                     <div class="col-sm-4">
                                         <jstl:choose>
                                             <jstl:when test="${ rq_contacOld.get(0).getCto_front_yard().equals('T') }">
-                                                <input type="checkbox" id="from1" name="p_from" value="T" checked>
+                                                <input type="checkbox" id="from1" name="p_from" value="T" checked onchange="cambia_from()">
+                                                <input type="hidden" name="p_from_act" value="T">
                                             </jstl:when>
                                             <jstl:otherwise>
-                                                <input type="checkbox" id="from1" name="p_from" value="F" >
+                                                <input type="checkbox" id="from1" name="p_from" value="F" onchange="cambia_from()">
+                                                <input type="hidden" name="p_from_act" value="F">
                                             </jstl:otherwise>
                                         </jstl:choose>
                                         <label for="from1">&nbsp;&nbsp;&nbsp;&nbsp;From Yard:</label><br>
@@ -308,10 +315,12 @@ start ############################### Pre-loader ###############################
                                     <div class="col-sm-4">
                                         <jstl:choose>
                                             <jstl:when test="${ rq_contacOld.get(0).getCto_back_yard().equals('T') }">
-                                                <input type="checkbox" id="back1" name="p_back" value="T" checked>
+                                                <input type="checkbox" id="back1" name="p_back" value="T" checked onchange="cambia_back()">
+                                                <input type="hidden" name="p_back_act" value="T">
                                             </jstl:when>
                                             <jstl:otherwise>
-                                                <input type="checkbox" id="back1" name="p_back" value="F" >
+                                                <input type="checkbox" id="back1" name="p_back" value="F" onchange="cambia_back()">
+                                                <input type="hidden" name="p_back_act" value="F">
                                             </jstl:otherwise>
                                         </jstl:choose>
                                         <label for="back">&nbsp;&nbsp;&nbsp;&nbsp;Back Yard:</label><br>
@@ -510,17 +519,17 @@ start ############################### Pre-loader ###############################
                     <input name="p_acciones" type="hidden" value='<jstl:out value="${ rq_acciones }">Lost Value</jstl:out>'/>
                     <jstl:choose>
                         <jstl:when test="${ rq_acciones.equals('save') }">
-                            <input name='p_name_old' type='hidden' value='${ contac_old.get(0).getCto_name() }' />
-                            <input name='p_bname_old' type='hidden' value='${ contac_old.get(0).getCto_business_name() }' />
-                            <input name='p_ad1_old' type='hidden' value='${ contac_old.get(0).getCto_address_1() }' />
-                            <input name='p_ad2_old' type='hidden' value='${ contac_old.get(0).getCto_address_2() }' />
-                            <input name='p_cell_old' type='hidden' value='${ contac_old.get(0).getCto_phone_cell() }' />
-                            <input name='p_land_old' type='hidden' value='${ contac_old.get(0).getCto_landline() }' />
-                            <input name='p_type_old' type='hidden' value='${ contac_old.get(0).getCto_type() }' />
-                            <input name='p_email_msg_old' type='hidden' value='${ contac_old.get(0).getCto_email_message() }' />
-                            <input name='p_sms_msg_old' type='hidden' value='${ contac_old.get(0).getCto_sms_message() }' />
-                            <input name='p_from_old' type='hidden' value='${ contac_old.get(0).getCto_front_yard() }' />
-                            <input name='p_back_old' type='hidden' value='${ contac_old.get(0).getCto_back_yard() }' />
+                            <input name='p_name_old' type='hidden' value='${ rq_contacOld.get(0).getCto_name() }' />
+                            <input name='p_bname_old' type='hidden' value='${ rq_contacOld.get(0).getCto_business_name() }' />
+                            <input name='p_ad1_old' type='hidden' value='${ rq_contacOld.get(0).getCto_address_1() }' />
+                            <input name='p_ad2_old' type='hidden' value='${ rq_contacOld.get(0).getCto_address_2() }' />
+                            <input name='p_cell_old' type='hidden' value='${ rq_contacOld.get(0).getCto_phone_cell() }' />
+                            <input name='p_land_old' type='hidden' value='${ rq_contacOld.get(0).getCto_landline() }' />
+                            <input name='p_type_old' type='hidden' value='${ rq_contacOld.get(0).getCto_type() }' />
+                            <input name='p_email_msg_old' type='hidden' value='${ rq_contacOld.get(0).getCto_email_message() }' />
+                            <input name='p_sms_msg_old' type='hidden' value='${ rq_contacOld.get(0).getCto_sms_message() }' />
+                            <input name='p_from_old' type='hidden' value='${ rq_contacOld.get(0).getCto_front_yard() }' />
+                            <input name='p_back_old' type='hidden' value='${ rq_contacOld.get(0).getCto_back_yard() }' />
                         </jstl:when>
                     </jstl:choose>
                 </form>

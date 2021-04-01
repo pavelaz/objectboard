@@ -2,6 +2,8 @@
 <html lang="en">
 <!--start ############################### header ###############################-->
 <head>
+    <title>Dash Menu</title>
+    <meta name="author" content="Paul Velazquez" />
     <%@include file="../../../../complements/jsp/head_menBasic_script.jsp"%>
     <script language="JavaScript" type="text/javascript">
         function Salir(){

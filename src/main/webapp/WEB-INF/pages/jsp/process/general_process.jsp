@@ -39,6 +39,7 @@ l<%--
         <jstl:when test="${ rq_pantalla == 'projects' }"><title>Projects Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'bussinestypes' }"><title>Bussiness Types Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'contacts' }"><title>Contacts Process</title></jstl:when>
+        <jstl:when test="${ rq_pantalla == 'contactsListHeader' }"><title>Contacts List Process</title></jstl:when>
     </jstl:choose>
 
     <jstl:choose>
@@ -104,6 +105,7 @@ l<%--
                             <jstl:when test="${ rq_pantalla == 'projects' }">document.forma.action="/objectboard/project";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'bussinestypes' }">document.forma.action="/objectboard/bussinesstypes";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'contacts' }">document.forma.action="/objectboard/contacts";</jstl:when>
+                            <jstl:when test="${ rq_pantalla == 'contactsListHeader' }">document.forma.action="/objectboard/contactslist";</jstl:when>
                         </jstl:choose>
                     document.forma.submit();
                 }

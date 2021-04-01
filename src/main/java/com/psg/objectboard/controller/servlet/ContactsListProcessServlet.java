@@ -1,22 +1,25 @@
 package com.psg.objectboard.controller.servlet;
 
 import com.psg.objectboard.model.own.ownsEntity.classDAO.BussinessUnitDAO;
-import com.psg.objectboard.model.own.ownsEntity.classDAO.CertificationsDAO;
 import com.psg.objectboard.model.own.ownsEntity.classDAO.ContactsDAO;
-import com.psg.objectboard.model.own.ownsEntity.classVO.CertificationsVO;
+import com.psg.objectboard.model.own.ownsEntity.classDAO.ContactsListHeaderDAO;
+import com.psg.objectboard.model.own.ownsEntity.classVO.ContactsListHeaderVO;
 import com.psg.objectboard.model.own.ownsEntity.classVO.ContactsVO;
 import com.psg.objectboard.model.service.Other.OtherConexion;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet(name = "ContactsProcessServlet", urlPatterns = "/contactsprocess")
-public class ContactsProcessServlet extends HttpServlet {
+@WebServlet(name = "ContactsProcessServlet", urlPatterns = "/contactslistprocess")
+public class ContactsListProcessServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession objSesion = request.getSession();
         String user_email = (String)objSesion.getAttribute("userEmail");
@@ -35,8 +38,8 @@ public class ContactsProcessServlet extends HttpServlet {
             acciones = request.getParameter("p_acciones");
         }
 
-        ArrayList<String> cual_0 = new ArrayList<String>();
-        ContactsVO cvo = new ContactsVO();
+        ArrayList<Integer> cual_0 = new ArrayList<Integer>();
+        ContactsListHeaderVO cvo = new ContactsListHeaderVO();
         String none = null;
 
         // Recupero los valores necesarios para la accion
@@ -49,22 +52,26 @@ public class ContactsProcessServlet extends HttpServlet {
                 }
                 for(int f=1 ; f < (num_filas + 1);f++){
                     if(request.getParameter("p_selec_"+f)!=null) {
-                        none = request.getParameter("p_cual_0"+f);
+                        none = request.getParameter("p_cual_1"+f);
                         if (cual_0.isEmpty()){
-                            cual_0.add(0,none);
+                            cual_0.add(0,Integer.parseInt(none));
                         }else{
-                            cual_0.add(none);
+                            cual_0.add(Integer.parseInt(none));
                         }
                     }
                 }
                 break; // break es opcional
             case "create":
             case "save":
-                if(request.getParameter("p_user_email")!=null) {
-                    none = request.getParameter("p_user_email");
-                    cvo.setCto_email_direction(none.trim());
-                }
                 if(request.getParameter("p_name")!=null) {
+                    none = request.getParameter("p_name");
+                    cvo.setList_name(none.trim());
+                }
+                if(request.getParameter("p_id_selec")!=null) {
+                    none = request.getParameter("p_id_selec");
+                    cvo.setList_id(Integer.parseInt(none));
+                }
+                /*if(request.getParameter("p_name")!=null) {
                     none = request.getParameter("p_name");
                     cvo.setCto_name(none);
                 }
@@ -114,7 +121,7 @@ public class ContactsProcessServlet extends HttpServlet {
                 if(request.getParameter("p_back")!=null) {
                     none = request.getParameter("p_back");
                     cvo.setCto_back_yard(none);
-                }
+                }*/
                 break;
             default :
                 System.out.println("Accion solicitada no Existe");
@@ -122,7 +129,7 @@ public class ContactsProcessServlet extends HttpServlet {
         }
         // Realizo las acciones solicitadas sobe la base de datos
 
-        ContactsDAO cdo = new ContactsDAO();
+        ContactsListHeaderDAO cdo = new ContactsListHeaderDAO();
         OtherConexion ocn = new OtherConexion();
         Connection con = null;
         con=ocn.conectarse(data_user,data_pasword);
@@ -130,28 +137,23 @@ public class ContactsProcessServlet extends HttpServlet {
         try{
             // iniciar transacion
             ocn.init_trans(con);
-            cvo.setMasterUser_bussinessUnit_bu_bis_code(Long.parseLong(company_number));
-            cvo.setMasterUser_mu_email(user_email);
-            cvo.setCto_project(Integer.parseInt(user_project));
+            cvo.setContacts_masterUser_bussinessUnit_bu_bis_code(Long.parseLong(company_number));
+            cvo.setContacts_masterUser_mu_email(user_email);
+            cvo.setList_project(Long.parseLong(user_project));
             if (acciones.equals("create")){
-                cdo.insertContactsDAO(cvo,con);
+                cvo.setList_count_directions(0);
+                cdo.insertContactsListHeaderDAO(cvo,con);
             }else{
                 if (acciones.equals("delete")){
                     cvo.setResult(true);
-                    /*cvo.setMasterUser_bussinessUnit_bu_bis_code(Long.parseLong(company_number));
-                    cvo.setMasterUser_mu_email(user_email);
-                    cvo.setCto_project(Integer.parseInt(user_project));*/
                     for(int x=0 ; x < cual_0.size();x++){
                         if (cvo.getResult()){
-                            cvo.setCto_email_direction(cual_0.get(x));
-                            cvo.setResult(cdo.deleteContactsDAO(cvo,con));
+                            cvo.setList_id(cual_0.get(x));
+                            cvo.setResult(cdo.deleteContactsListHeaderDAO(cvo,con));
                         }
                     }
                 }else{
-                    /*cvo.setMasterUser_bussinessUnit_bu_bis_code(Long.parseLong(company_number));
-                    cvo.setMasterUser_mu_email(user_email);
-                    cvo.setCto_project(Integer.parseInt(user_project));*/
-                    cdo.updateContactsDAO(cvo,con);
+                    cdo.updateContactsListHeaderDAO(cvo,con);
                 }
             }
             // valida status de la transacion

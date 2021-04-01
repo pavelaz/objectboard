@@ -1,12 +1,29 @@
 package com.psg.objectboard.model.own.ownsEntity.classVO;
 
-public class Contacts_listVO {
+public class ContactsListHeaderVO {
     private Integer list_id;
     private Long contacts_masterUser_bussinessUnit_bu_bis_code;
     private String contacts_masterUser_mu_email;
-    private String contacts_cto_email_direction;
     private Long list_project;
+    private String list_name;
+    private Integer list_count_directions;
     private Boolean result;
+
+    public Integer getList_count_directions() {
+        return list_count_directions;
+    }
+
+    public void setList_count_directions(Integer list_count_directions) {
+        this.list_count_directions = list_count_directions;
+    }
+
+    public String getList_name() {
+        return list_name;
+    }
+
+    public void setList_name(String list_name) {
+        this.list_name = list_name;
+    }
 
     public Integer getList_id() {
         return list_id;
@@ -30,14 +47,6 @@ public class Contacts_listVO {
 
     public void setContacts_masterUser_mu_email(String contacts_masterUser_mu_email) {
         this.contacts_masterUser_mu_email = contacts_masterUser_mu_email;
-    }
-
-    public String getContacts_cto_email_direction() {
-        return contacts_cto_email_direction;
-    }
-
-    public void setContacts_cto_email_direction(String contacts_cto_email_direction) {
-        this.contacts_cto_email_direction = contacts_cto_email_direction;
     }
 
     public Long getList_project() {
