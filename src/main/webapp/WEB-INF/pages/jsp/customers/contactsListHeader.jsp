@@ -157,7 +157,7 @@ start ############################### Pre-loader ###############################
                                             </a>
                                             <jstl:if test="${ rq_acciones.equals('consult') }">
                                                 <a href='#' title="Add Contacts"
-                                                   onClick=add_contact(${ rq_lista.get(x).getList_id() })>
+                                                   onClick=add_contacts(${ rq_lista.get(x).getList_id() },'${ rq_lista.get(x).getList_name().replace(" ","-") }')>
                                                     &nbsp;<i class='fa fa-cogs fa-fw' ></i>
                                                 </a>
                                             </jstl:if>
@@ -184,12 +184,6 @@ start ############################### Pre-loader ###############################
                     <input name="p_acciones" type="hidden" value='<jstl:out value="${ rq_acciones }">Lost Value</jstl:out>'/>
                     <input name='p_id_selec' type='hidden' value='${ rq_idSelec }' />
                     <input name='p_name_old' type='hidden' value='${ rq_nameOld }' />
-                    <%--<jstl:choose>
-                        <jstl:when test="${ rq_acciones.equals('save') }">
-                            <input name='p_id_selec' type='hidden' value='${ rq_idSelec }' />
-                            <input name='p_name_old' type='hidden' value='${ rq_nameOld }' />
-                        </jstl:when>
-                    </jstl:choose>--%>
                 </form>
             </div>
             <!--</section>-->

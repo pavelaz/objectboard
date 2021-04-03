@@ -40,6 +40,7 @@ l<%--
         <jstl:when test="${ rq_pantalla == 'bussinestypes' }"><title>Bussiness Types Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'contacts' }"><title>Contacts Process</title></jstl:when>
         <jstl:when test="${ rq_pantalla == 'contactsListHeader' }"><title>Contacts List Process</title></jstl:when>
+        <jstl:when test="${ rq_pantalla == 'contactsListFooter' }"><title>Include Contacts List Process</title></jstl:when>
     </jstl:choose>
 
     <jstl:choose>
@@ -106,6 +107,7 @@ l<%--
                             <jstl:when test="${ rq_pantalla == 'bussinestypes' }">document.forma.action="/objectboard/bussinesstypes";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'contacts' }">document.forma.action="/objectboard/contacts";</jstl:when>
                             <jstl:when test="${ rq_pantalla == 'contactsListHeader' }">document.forma.action="/objectboard/contactslist";</jstl:when>
+                            <jstl:when test="${ rq_pantalla == 'contactsListFooter' }">document.forma.action="/objectboard/contactlistfooter";</jstl:when>
                         </jstl:choose>
                     document.forma.submit();
                 }
@@ -219,6 +221,10 @@ l<%--
                     <input name="p_request_type" value="${ rq_requestType }" type="hidden">
                     <input name="p_request_code" value="${ rq_requestCode }" type="hidden">
                     <input name="p_request_main" value="${ rq_requestMain }" type="hidden">
+                </jstl:when>
+                <jstl:when test="${ rq_pantalla == 'contactsListFooter' }">
+                    <input name='p_lista_name' type='hidden' value='${ rq_listaName }' />
+                    <input name='p_lista_id' type='hidden' value='${ rq_listaId}' />
                 </jstl:when>
             </jstl:choose>
             <SCRIPT LANGUAGE='JavaScript' type='text/javascript'>Salir(1);</SCRIPT>;

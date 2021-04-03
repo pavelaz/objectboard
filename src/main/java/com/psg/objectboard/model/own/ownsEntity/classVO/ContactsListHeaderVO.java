@@ -7,7 +7,12 @@ public class ContactsListHeaderVO {
     private Long list_project;
     private String list_name;
     private Integer list_count_directions;
+    private Integer masMenos;
     private Boolean result;
+
+    public void setMasMenos(Integer masMenos) {
+        this.masMenos = masMenos;
+    }
 
     public Integer getList_count_directions() {
         return list_count_directions;
